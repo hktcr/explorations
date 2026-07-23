@@ -1,0 +1,4 @@
+# Explorations — github-pages deploy target
+# This directory is synced from ../Utforskningar/ via deploy.sh
+# Do NOT edit files here directly — edit in the source directory.
+.DS_Store
