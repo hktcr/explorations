@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ägget: Evolutionens Överlevnadspiller och Vetenskapens Största Missförstånd — Explorations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fcfcfc;
+      --text-color: #1a1a1a;
+      --heading-color: #c0392b;
+      --subheading-color: #1a1a1a;
+      --accent-color: #c0392b;
+      --meta-color: #888888;
+      --blockquote-bg: #fafafa;
+      --toc-bg: #f8f8f8;
+      --source-bg: #f5f5f5;
+      --font-body: 'Merriweather', serif;
+      --font-ui: 'Inter', sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --heading-color: #e74c3c;
+        --subheading-color: #e0e0e0;
+        --accent-color: #e74c3c;
+        --meta-color: #999999;
+        --blockquote-bg: #1e1e1e;
+        --toc-bg: #1a1a1a;
+        --source-bg: #1a1a1a;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.8;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    ::selection {
+      background: rgba(192, 57, 43, 0.2);
+    }
+
+    /* Toolbar */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      background: rgba(var(--bg-color), 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .toolbar {
+        background: rgba(18, 18, 18, 0.85);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+
+    .toolbar a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .toolbar a:hover {
+      color: var(--accent-color);
+    }
+
+    .font-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .font-controls button {
+      background: none;
+      border: 1px solid var(--meta-color);
+      color: var(--text-color);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .font-controls button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    /* Audio Player */
+    .audio-player {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: 1rem;
+      padding-left: 1rem;
+      border-left: 1px solid rgba(128,128,128,0.2);
+    }
+
+    .audio-player.visible {
+      display: flex;
+    }
+
+    .audio-player button {
+      background: none;
+      border: 1px solid var(--meta-color);
+      color: var(--text-color);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .audio-player button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .audio-player button.playing {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    #audioToggle {
+      width: 32px;
+      height: 28px;
+      padding: 0;
+    }
+
+    #audioToggle svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .audio-time {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--meta-color);
+      min-width: 3.5rem;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #audioSeek {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100px;
+      height: 4px;
+      background: rgba(128,128,128,0.3);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    #audioSeek::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      cursor: pointer;
+    }
+
+    #audioSpeed {
+      font-variant-numeric: tabular-nums;
+      min-width: 2.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .audio-player {
+        margin-left: 0.5rem;
+        padding-left: 0.5rem;
+      }
+      #audioSeek { width: 50px; }
+      .audio-time { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      #audioSeek { display: none; }
+      #audioSpeed { display: none; }
+    }
+
+    main {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .subject-badge {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--accent-color);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      color: var(--heading-color);
+      font-family: var(--font-body);
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    h2 {
+      color: var(--heading-color);
+      font-family: var(--font-body);
+      font-size: 1.6rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    h3 {
+      color: var(--subheading-color);
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.3rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .meta {
+      font-family: var(--font-ui);
+      color: var(--meta-color);
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    
+    .meta time::after {
+      content: " • ";
+      margin-left: 1rem;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--toc-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+      font-family: var(--font-ui);
+    }
+
+    .toc-title {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--meta-color);
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc ul ul {
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .toc li {
+      margin-bottom: 0.75rem;
+    }
+
+    .toc a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .toc a:hover, .toc a.active {
+      color: var(--accent-color);
+    }
+
+    /* Content */
+    .content a {
+      color: var(--accent-color);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom-color 0.2s ease;
+    }
+
+    .content a:hover {
+      border-bottom-color: var(--accent-color);
+    }
+
+    .content p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Drop cap */
+    .content > p:first-of-type::first-letter {
+      float: left;
+      font-size: 4em;
+      line-height: 0.8;
+      color: var(--accent-color);
+      font-family: var(--font-body);
+      margin: 0 0.1em 0 0;
+      font-weight: 700;
+    }
+
+    /* Blockquotes */
+    blockquote {
+      border-left: 4px solid var(--accent-color);
+      font-style: italic;
+      padding: 1rem 1.5rem;
+      background: var(--blockquote-bg);
+      border-radius: 0 8px 8px 0;
+      margin: 2rem 0;
+      color: var(--subheading-color);
+    }
+    
+    blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Figures */
+    figure {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    figcaption {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      color: var(--meta-color);
+      font-style: italic;
+      margin-top: 0.75rem;
+    }
+
+    /* Sources */
+    .sources {
+      background: var(--source-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 4rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+    }
+
+    .sources h2 {
+      font-family: var(--font-ui);
+      font-size: 1.1rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sources ol {
+      padding-left: 1.2rem;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    .sources li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sources a {
+      color: var(--text-color);
+      text-decoration: underline;
+    }
+
+    .source-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #27ae60;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px solid rgba(39, 174, 96, 0.25);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+    
+    .sources a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      color: var(--meta-color);
+      margin-top: 2rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      footer {
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+
+    footer a {
+      color: var(--meta-color);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text-color);
+    }
+
+    /* Print styles */
+    @media print {
+      .toolbar, .font-controls, .toc {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt;
+      }
+      a {
+        text-decoration: none !important;
+        color: black !important;
+      }
+      .content a::after {
+        content: " (" attr(href) ")";
+        font-size: 0.85em;
+      }
+      @page {
+        margin: 2cm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky toolbar -->
+  <nav class="toolbar">
+    <a href="../index.html">← Library</a>
+    <div class="font-controls">
+      <button id="fontDecrease" aria-label="Decrease font size">A-</button>
+      <button id="fontReset" aria-label="Reset font size">Reset</button>
+      <button id="fontIncrease" aria-label="Increase font size">A+</button>
+    </div>
+    <div class="audio-player" id="audioPlayer">
+      <button id="audioToggle" aria-label="Listen to article">
+        <svg viewBox="0 0 24 24" id="playIcon"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg viewBox="0 0 24 24" id="pauseIcon" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+      </button>
+      <span class="audio-time" id="audioCurrentTime">0:00</span>
+      <input type="range" id="audioSeek" min="0" max="100" value="0" step="0.1">
+      <span class="audio-time" id="audioDuration">0:00</span>
+      <button id="audioSpeed" aria-label="Playback speed">1×</button>
+    </div>
+  </nav>
+
+  <main>
+    <header>
+      <span class="subject-badge">Näringslära & Myter</span>
+      <h1>Ägget: Evolutionens Överlevnadspiller och Vetenskapens Största Missförstånd</h1>
+      <div class="meta">
+        <time>Juli 2026</time>
+        <span class="reading-time">6 min</span>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <nav class="toc">
+      <h2 class="toc-title">Contents</h2>
+      
+<ul>
+  <li><a href="#kosmisk-ursprung">En Kosmisk Ursprungshistoria</a></li>
+  <li><a href="#kolesterollarm">Det Stora Kolesterollarmet</a></li>
+  <li><a href="#proteinkvalitet">Proteinkvalitet och Tillagningens Hake</a></li>
+  <li><a href="#hjarnan-mikrobiomet">Den Dubbla Naturen: Hjärnan och Mikrobiomet</a></li>
+  <li><a href="#lipidmatrixen">Lipidmatrixen och Faran i Stekpannan</a></li>
+  <li><a href="#genetiska-lotteriet">Det Genetiska Lotteriet och Alternativkostnaden</a></li>
+  <li><a href="#avslutande-reflektion">Avslutande Reflektion</a></li>
+</ul>
+
+    </nav>
+
+    <!-- Article content -->
+    <article class="content">
+      
+<p>Föreställ dig en tidig hominid som vandrar över den afrikanska savannen. Landskapet är kargt, jakt är energikrävande och växtfödan svårsmält. Plötsligt, i ett övergivet fågelbo, hittar hon något som från utsidan ser ut som en slät sten. Men inuti döljer sig ett slutet, sterilt ekosystem — en högkoncentrerad näringsbomb färdig att konsumeras. För våra tidiga förfäder var ägget inte ett frukostalternativ; det var ett opportunistiskt överlevnadspiller som levererade de byggstenar en snabbt växande primathjärna krävde, helt utan behov av vapen eller eld.</p>
+
+<h2 id="kosmisk-ursprung">En Kosmisk Ursprungshistoria</h2>
+<p>Forskare använder ofta "fylogenetisk bracketing" – där man jämför med schimpansers beteende – för att dra slutsatsen att människor ätit vilda ägg i miljontals år. Men hönans väg in i våra samhällen skedde långt senare. En banbrytande studie i <em>PNAS</em> år 2022 visade att tamhönan (med ursprung i den röda djungelhönan, <em>Gallus gallus spadiceus</em>) inte tämjdes förrän runt 1650–1250 f.Kr. i det som idag är Thailand. Det var övergången till risodling som skapade "Rice Magnet"-effekten; djungelhönsen lockades ur skogen av det rikliga spannmålet.</p>
+<p>I de antika högkulturerna var ägget inte mat, utan en vördad symbol för skapelse och fruktsamhet. Det skulle dröja fram till Romarriket innan äggkonsumtion systematiserades som vardagsmat för massorna. Hos romarna blev ägget så fundamentalt att uttrycket "ab ovo usque ad mala" — från ägget till äpplena — kom att betyda "från början till slut".</p>
+
+<h2 id="kolesterollarm">Det Stora Kolesterollarmet</h2>
+<p>Spola fram till år 1968. American Heart Association utfärdar en stark varning som kommer att eka i decennier. Ett enda ägg innehåller nästan 200 milligram kolesterol, och gränsen för vad en människa säkert kan konsumera sätts plötsligt till 300 milligram per dag. Över en natt förvandlas ägget till ett metaboliskt gift i allmänhetens ögon.</p>
+<blockquote>
+  <p>Myten om att dietary kolesterol oundvikligen höjer blodets kolesterol byggdes delvis på forskning utförd på djur som aldrig var menade att äta det.</p>
+</blockquote>
+<p>Historien bakom detta larm bottnar delvis i tidiga experiment där forskare försökte förstå åderförkalkning genom att mata kaniner med enorma doser kolesterol. Problemet var att kaniner är herbivorer. De saknar de metabola skyddsmekanismer och den effektiva utsöndringsförmåga (via gallsyror) som omnivorer har utvecklat för att hantera djuriskt kolesterol. När sedan fysiologen Ancel Keys "Seven Countries Study" på 1950-talet visade samband mellan animaliskt fett och hjärtsjukdom, stämplades ägget definitivt som farligt.</p>
+<p>Det dröjde till nutid innan biokemin kunde förklara mekanismerna. Tänk dig kolesterolnivån i blodet som vattennivån i ett badkar. Kolesterolet du äter (ägget) motsvarar ett litet glas vatten som du häller i. Kroppens egen lever är vattenkranen, som ständigt fyller på för att kroppen ska kunna bygga celler. När du häller i glaset med vatten vrider leverns feedbackmekanism automatiskt ned kranen motsvarande mängd. Nettoeffekten blir hos den absoluta majoriteten minimal.</p>
+<p>År 2015 tog de amerikanska kostråden (Dietary Guidelines for Americans) äntligen bort den numeriska 300 mg-gränsen. Men det var inget reservationslöst frikännande. Man lade till att individer fortfarande bör äta så lite kolesterol som möjligt, som ett erkännande av att kolesterol och mättat fett i nästan alla andra livsmedel existerar tätt sammanflätade.</p>
+
+<h2 id="proteinkvalitet">Proteinkvalitet och Tillagningens Hake</h2>
+<p>Idag betraktas ägget som en av näringslärans absoluta guldstandarder. I det moderna utvärderingssystemet för proteinkvalitet (DIAAS), rekommenderat av FAO, är måttstocken människans fysiologiska aminosyrabehov. I detta krävande system presterar ägget makalöst bra och landar på över 110%. Det innehåller alla essentiella aminosyror i perfekt proportion.</p>
+<p>Men popkulturens drickande av råa ägg är ett fysiologiskt misstag. Kroppen kan bara ta upp omkring 50 procent av aminosyrorna ur ett rått ägg, då magens enzymer har svårt att tränga igenom proteinets struktur. När ägget värms upp denatureras proteinet; det vecklar ut sig. Då ökar upptagsförmågan till över 90 procent. Rå äggvita innehåller dessutom ett protein (avidin) som låser fast B-vitaminet biotin i tarmen. Värme bryter ned avidinet helt.</p>
+
+<h2 id="hjarnan-mikrobiomet">Den Dubbla Naturen: Hjärnan och Mikrobiomet</h2>
+<p>Äggulan är en av våra absolut rikaste källor till kolin. Länge har detta hyllats som en neurologisk triumf, då kolin acetyleras till acetylkolin, en kritisk signalsubstans för inlärning och minne, och dessutom fungerar som en strukturell byggsten i cellmembranen.</p>
+<p>Men kolin bär på en biokemisk dualitet som illustrerar hur sårbar vetenskapens syn på näring är. Medvetenheten ökar nu kring mag-tarmflorans mörka sida i äggets metabolism. Vissa stammar av tarmbakterier bryter ned kolinet och bildar TMA, vilket levern oxiderar till TMAO (Trimetylamin-N-oxid). Flera studier vid The Cleveland Clinic visar starka korrelationer mellan höga halter TMAO och uppkomsten av åderförkalkning och stroke. Kolinet är alltså samtidigt hjärnans nödvändiga bränsle och potentiellt blodkärlens fiende, beroende på din mikrobioms unika signatur.</p>
+
+<h2 id="lipidmatrixen">Lipidmatrixen och Faran i Stekpannan</h2>
+<p>Äggets fettstruktur spelar också avgörande roller. Pigmenten lutein och zeaxantin (som skyddar ögats gula fläck) finns i högre absoluta tal i spenat än i ägg. Men växtens hårda cellväggar gör dem svåra att absorbera. I äggulan ligger de inbäddade i en lipidmatrix — en naturlig fet miljö som fungerar som en biologisk transportör och gör att kroppen suger upp luteinet upp till tre gånger mer effektivt.</p>
+<p>Denna fettrika matrix har dock en skuggsida vid tillagning. Det är sällan ägget isolerat som driver hjärt-kärlsjukdom, utan "The Food Matrix" runtomkring det. Att skylla en infarkt på ägget är som att anklaga paraplyet för regnet, när den verkliga faran är ovädret i form av smörstekt bacon och vitt bröd. Dessutom kan hur vi tillagar ägget förvandla dess innehåll: extrem upphettning (hårdstekning) skapar oxiderat kolesterol, så kallade oxysteroler, vilka är bevisat kärlskadande.</p>
+<p>Till detta kommer den stora debatten om mättat fett. Rådande medicinska riktlinjer pekar fortfarande ut mättat fett som drivande för LDL ("det onda kolesterolet"), men forskningsfronten är just nu under intensiv omprövning kring hur specifika fettsyror egentligen agerar.</p>
+
+<h2 id="genetiska-lotteriet">Det Genetiska Lotteriet och Alternativkostnaden</h2>
+<p>Det är riskabelt att använda ordet "superfood". Hos omkring 25 procent av befolkningen — så kallade <em>hyper-responders</em> — fungerar inte leverns feedback-mekanism optimalt, vilket leder till att deras LDL-kolesterol faktiskt höjs märkbart när de äter kolesterolrik mat.</p>
+<p>Vi måste också ifrågasätta bias. Industrifinansierade studier om ägg ökade till över 60 procent under 2010-talet, och granskningar har visat att de är exceptionellt skickliga på att använda "statistisk spin" för att tona ner obekväma fynd om förhöjt LDL.</p>
+<p>Och vad äter vi egentligen istället? Om du äter ägg istället för en sötad frukostflinga är det en stor hälsovinst. Byter du däremot ut kolesterolsänkande havregryn mot ägg, går du miste om livsviktiga fibrer. Miljömässigt gömmer sig äggets gigantiska avtryck i foderproduktionen, där monokulturer av soja och majs breder ut sig för att mata fåglar som avlats för att lägga över 300 ägg per år.</p>
+
+<h2 id="avslutande-reflektion">Avslutande Reflektion</h2>
+<p>Äggets evolutionära perfektion och dess stormiga 1900-talshistoria speglar mer vår egen mänskliga strävan efter enkla svar än något inneboende hos själva ägget. Vi vill att mat ska vara antingen frälsning eller gift. Men biologin böjer sig sällan för sådana binära krav. Ett ägg är ett av evolutionens mest storslagna kemiska ekosystem, fyllt av nyanser, fysiologiska paradoxer och djupa samspel med vår egen kropp. Att äta det är att ta del av den komplexiteten.</p>
+
+    </article>
+
+    <!-- Sources -->
+    <section class="sources">
+      <h2>Sources & Further Reading</h2>
+      
+<ol>
+  <li>PNAS (2022) — <em>The biocultural origins and dispersal of domestic chickens</em> <span class="source-verified">✓ Verifierad</span></li>
+  <li>Harvard T.H. Chan School of Public Health — <em>Eggs and Heart Disease</em> <span class="source-verified">✓ Verifierad</span></li>
+  <li>Cleveland Clinic — <em>TMAO and Heart Disease</em> <span class="source-verified">✓ Verifierad</span></li>
+  <li>FAO — <em>Dietary protein quality evaluation in human nutrition (DIAAS)</em> <span class="source-verified">✓ Verifierad</span></li>
+</ol>
+
+    </section>
+
+    <!-- Related explorations (optional) -->
+    
+  </main>
+
+  <footer>
+    <p>An <em>Exploration</em> by gAIa · Part of the <a href="../index.html">Explorations Library</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const content = document.querySelector('.content');
+      const btnDec = document.getElementById('fontDecrease');
+      const btnInc = document.getElementById('fontIncrease');
+      const btnReset = document.getElementById('fontReset');
+      const defaultSize = 18;
+      
+      function setFontSize(size) {
+        content.style.fontSize = size + 'px';
+        localStorage.setItem('explorationsFontSize', size);
+      }
+      
+      let currentSize = localStorage.getItem('explorationsFontSize');
+      if (currentSize) {
+        currentSize = parseInt(currentSize, 10);
+        setFontSize(currentSize);
+      } else {
+        currentSize = defaultSize;
+      }
+
+      btnDec.addEventListener('click', () => {
+        currentSize = Math.max(12, currentSize - 1);
+        setFontSize(currentSize);
+      });
+
+      btnInc.addEventListener('click', () => {
+        currentSize = Math.min(32, currentSize + 1);
+        setFontSize(currentSize);
+      });
+
+      btnReset.addEventListener('click', () => {
+        currentSize = defaultSize;
+        setFontSize(currentSize);
+      });
+
+      // Active section highlighting
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const id = entry.target.getAttribute('id');
+          if (entry.intersectionRatio > 0) {
+            document.querySelectorAll(`.toc a`).forEach(link => {
+              link.classList.remove('active');
+            });
+            const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+            if (activeLink) {
+              activeLink.classList.add('active');
+            }
+          }
+        });
+      }, { rootMargin: "0px 0px -80% 0px" });
+
+      document.querySelectorAll('.content h2, .content h3').forEach(section => {
+        if(section.id) observer.observe(section);
+      });
+
+      // ── Audio Player ──────────────────────────────────
+      const audioPlayer = document.getElementById('audioPlayer');
+      const audioToggle = document.getElementById('audioToggle');
+      const playIcon = document.getElementById('playIcon');
+      const pauseIcon = document.getElementById('pauseIcon');
+      const seekBar = document.getElementById('audioSeek');
+      const currentTimeEl = document.getElementById('audioCurrentTime');
+      const durationEl = document.getElementById('audioDuration');
+      const speedBtn = document.getElementById('audioSpeed');
+      const speeds = [1, 1.25, 1.5, 2];
+      let speedIndex = 0;
+      let audio = null;
+      const storageKey = 'explorations-audio-' + window.location.pathname;
+
+      function formatTime(s) {
+        if (isNaN(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+
+      // Check if narration is available (set via data-has-narration on body)
+      const hasNarration = document.body.getAttribute('data-has-narration') === 'true';
+      if (hasNarration) {
+            audioPlayer.classList.add('visible');
+            audio = new Audio('narration.mp3');
+            audio.preload = 'metadata';
+
+            // Restore position
+            const saved = localStorage.getItem(storageKey);
+            if (saved) audio.currentTime = parseFloat(saved);
+
+            audio.addEventListener('loadedmetadata', () => {
+              durationEl.textContent = formatTime(audio.duration);
+              seekBar.max = audio.duration;
+              if (saved) seekBar.value = parseFloat(saved);
+            });
+
+            audio.addEventListener('timeupdate', () => {
+              currentTimeEl.textContent = formatTime(audio.currentTime);
+              seekBar.value = audio.currentTime;
+              // Save position every 5 seconds
+              if (Math.floor(audio.currentTime) % 5 === 0) {
+                localStorage.setItem(storageKey, audio.currentTime);
+              }
+            });
+
+            audio.addEventListener('ended', () => {
+              playIcon.style.display = '';
+              pauseIcon.style.display = 'none';
+              audioToggle.classList.remove('playing');
+              localStorage.removeItem(storageKey);
+            });
+
+            audioToggle.addEventListener('click', () => {
+              if (audio.paused) {
+                audio.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = '';
+                audioToggle.classList.add('playing');
+              } else {
+                audio.pause();
+                playIcon.style.display = '';
+                pauseIcon.style.display = 'none';
+                audioToggle.classList.remove('playing');
+              }
+            });
+
+            seekBar.addEventListener('input', () => {
+              audio.currentTime = seekBar.value;
+            });
+
+            speedBtn.addEventListener('click', () => {
+              speedIndex = (speedIndex + 1) % speeds.length;
+              audio.playbackRate = speeds[speedIndex];
+              speedBtn.textContent = speeds[speedIndex] + '×';
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+              if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+              if (e.code === 'Space' && audio) {
+                e.preventDefault();
+                audioToggle.click();
+              }
+              if (e.code === 'ArrowLeft' && audio) {
+                audio.currentTime = Math.max(0, audio.currentTime - 15);
+              }
+              if (e.code === 'ArrowRight' && audio) {
+                audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+              }
+            });
+      }
+    });
+  </script>
+</body>
+</html>
