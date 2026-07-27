@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Theatrical Illusion of the Caesar Salad — Explorations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fcfcfc;
+      --text-color: #1a1a1a;
+      --heading-color: #c0392b;
+      --subheading-color: #1a1a1a;
+      --accent-color: #c0392b;
+      --meta-color: #888888;
+      --blockquote-bg: #fafafa;
+      --toc-bg: #f8f8f8;
+      --source-bg: #f5f5f5;
+      --font-body: 'Merriweather', serif;
+      --font-ui: 'Inter', sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --heading-color: #e74c3c;
+        --subheading-color: #e0e0e0;
+        --accent-color: #e74c3c;
+        --meta-color: #999999;
+        --blockquote-bg: #1e1e1e;
+        --toc-bg: #1a1a1a;
+        --source-bg: #1a1a1a;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.8;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    ::selection {
+      background: rgba(192, 57, 43, 0.2);
+    }
+
+    /* Toolbar */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      background: rgba(var(--bg-color), 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .toolbar {
+        background: rgba(18, 18, 18, 0.85);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+
+    .toolbar a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .toolbar a:hover {
+      color: var(--accent-color);
+    }
+
+    .font-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .font-controls button {
+      background: none;
+      border: 1px solid var(--meta-color);
+      color: var(--text-color);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .font-controls button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    /* Audio Player */
+    .audio-player {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: 1rem;
+      padding-left: 1rem;
+      border-left: 1px solid rgba(128,128,128,0.2);
+    }
+
+    .audio-player.visible {
+      display: flex;
+    }
+
+    .audio-player button {
+      background: none;
+      border: 1px solid var(--meta-color);
+      color: var(--text-color);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .audio-player button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .audio-player button.playing {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    #audioToggle {
+      width: 32px;
+      height: 28px;
+      padding: 0;
+    }
+
+    #audioToggle svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .audio-time {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--meta-color);
+      min-width: 3.5rem;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #audioSeek {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100px;
+      height: 4px;
+      background: rgba(128,128,128,0.3);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    #audioSeek::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      cursor: pointer;
+    }
+
+    #audioSpeed {
+      font-variant-numeric: tabular-nums;
+      min-width: 2.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .audio-player {
+        margin-left: 0.5rem;
+        padding-left: 0.5rem;
+      }
+      #audioSeek { width: 50px; }
+      .audio-time { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      #audioSeek { display: none; }
+      #audioSpeed { display: none; }
+    }
+
+    main {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .subject-badge {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--accent-color);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      color: var(--heading-color);
+      font-family: var(--font-body);
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    h2 {
+      color: var(--heading-color);
+      font-family: var(--font-body);
+      font-size: 1.6rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    h3 {
+      color: var(--subheading-color);
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.3rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .meta {
+      font-family: var(--font-ui);
+      color: var(--meta-color);
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    
+    .meta time::after {
+      content: " • ";
+      margin-left: 1rem;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--toc-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+      font-family: var(--font-ui);
+    }
+
+    .toc-title {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--meta-color);
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc ul ul {
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .toc li {
+      margin-bottom: 0.75rem;
+    }
+
+    .toc a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .toc a:hover, .toc a.active {
+      color: var(--accent-color);
+    }
+
+    /* Content */
+    .content a {
+      color: var(--accent-color);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom-color 0.2s ease;
+    }
+
+    .content a:hover {
+      border-bottom-color: var(--accent-color);
+    }
+
+    .content p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Drop cap */
+    .content > p:first-of-type::first-letter {
+      float: left;
+      font-size: 4em;
+      line-height: 0.8;
+      color: var(--accent-color);
+      font-family: var(--font-body);
+      margin: 0 0.1em 0 0;
+      font-weight: 700;
+    }
+
+    /* Blockquotes */
+    blockquote {
+      border-left: 4px solid var(--accent-color);
+      font-style: italic;
+      padding: 1rem 1.5rem;
+      background: var(--blockquote-bg);
+      border-radius: 0 8px 8px 0;
+      margin: 2rem 0;
+      color: var(--subheading-color);
+    }
+    
+    blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Figures */
+    figure {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    figcaption {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      color: var(--meta-color);
+      font-style: italic;
+      margin-top: 0.75rem;
+    }
+
+    /* Sources */
+    .sources {
+      background: var(--source-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 4rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+    }
+
+    .sources h2 {
+      font-family: var(--font-ui);
+      font-size: 1.1rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sources ol {
+      padding-left: 1.2rem;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    .sources li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sources a {
+      color: var(--text-color);
+      text-decoration: underline;
+    }
+
+    .source-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #27ae60;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px solid rgba(39, 174, 96, 0.25);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+    
+    .sources a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      color: var(--meta-color);
+      margin-top: 2rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      footer {
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+
+    footer a {
+      color: var(--meta-color);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text-color);
+    }
+
+    /* Print styles */
+    @media print {
+      .toolbar, .font-controls, .toc {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt;
+      }
+      a {
+        text-decoration: none !important;
+        color: black !important;
+      }
+      .content a::after {
+        content: " (" attr(href) ")";
+        font-size: 0.85em;
+      }
+      @page {
+        margin: 2cm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky toolbar -->
+  <nav class="toolbar">
+    <a href="../index.html">← Library</a>
+    <div class="font-controls">
+      <button id="fontDecrease" aria-label="Decrease font size">A-</button>
+      <button id="fontReset" aria-label="Reset font size">Reset</button>
+      <button id="fontIncrease" aria-label="Increase font size">A+</button>
+    </div>
+    <div class="audio-player" id="audioPlayer">
+      <button id="audioToggle" aria-label="Listen to article">
+        <svg viewBox="0 0 24 24" id="playIcon"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg viewBox="0 0 24 24" id="pauseIcon" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+      </button>
+      <span class="audio-time" id="audioCurrentTime">0:00</span>
+      <input type="range" id="audioSeek" min="0" max="100" value="0" step="0.1">
+      <span class="audio-time" id="audioDuration">0:00</span>
+      <button id="audioSpeed" aria-label="Playback speed">1×</button>
+    </div>
+  </nav>
+
+  <main>
+    <header>
+      <span class="subject-badge">Culinary History</span>
+      <h1>The Theatrical Illusion of the Caesar Salad</h1>
+      <div class="meta">
+        <time>July 27, 2026</time>
+        <span class="reading-time">10 min</span>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <nav class="toc">
+      <h2 class="toc-title">Contents</h2>
+      
+<ul>
+  <li><a href="#the-prohibition-oasis">The Prohibition Oasis</a></li>
+  <li><a href="#the-anatomy-of-an-illusion">The Anatomy of an Illusion</a>
+    <ul>
+      <li><a href="#the-anchovy-paradox">The Anchovy Paradox</a></li>
+    </ul>
+  </li>
+  <li><a href="#the-disputed-authorship">The Disputed Authorship</a></li>
+  <li><a href="#the-science-of-the-toss">The Science of the Toss</a></li>
+  <li><a href="#the-global-conquest">The Global Conquest</a></li>
+  <li><a href="#a-reflection-on-culinary-evolution">A Reflection on Culinary Evolution</a></li>
+</ul>
+
+    </nav>
+
+    <!-- Article content -->
+    <article class="content">
+      
+<h2 id="the-prohibition-oasis">The Prohibition Oasis</h2>
+<p>To understand the Caesar salad, one must first understand the geographical and political anomaly that was Tijuana in the 1920s. In the United States, the Volstead Act had effectively banned the sale, production, and transportation of alcoholic beverages. Prohibition had dried up the mainland, but it had inadvertently created a booming economy just south of the border. Tijuana transformed almost overnight from a dusty frontier town into a sprawling, neon-lit oasis of vice and leisure—a prototype for modern-day Las Vegas.</p>
+<p>Hollywood elites, wealthy Southern Californians, and ordinary tourists flocked across the border on weekends. They came for the gambling, the horse racing, and above all, the legal liquor. Recognizing the business opportunity, an Italian immigrant named Caesar Cardini, who had previously lived in San Diego, set up a restaurant on Avenida Revolución. <em>Caesar's Place</em> became a sanctuary for thirsty Americans.</p>
+<blockquote>
+<p>Tijuana during Prohibition functioned much like a modern-day sin city—an easily accessible playground where the restrictive laws of the mainland did not apply, driving incredible economic and culinary booms.</p>
+</blockquote>
+<p>On the Fourth of July weekend in 1924, Cardini’s restaurant was overwhelmed. The influx of Americans celebrating their Independence Day with Mexican alcohol depleted the kitchen's inventory. According to the widely accepted narrative, championed tirelessly by Cardini’s daughter Rosa, Caesar realized he was running out of food. To distract his demanding, wealthy clientele from the meager ingredients he had left, he relied on an age-old trick of the hospitality industry: theatricality.</p>
+<p>He gathered romaine lettuce, lightly coddled eggs, olive oil, garlic, Parmesan cheese, croutons, and Worcestershire sauce, and instructed his chefs to wheel carts into the dining room. There, they prepared the salad directly at the guests' tables in large wooden bowls, tossing the leaves with dramatic flair. The spectacle masked the shortage, and the Caesar salad was born.</p>
+
+<h2 id="the-anatomy-of-an-illusion">The Anatomy of an Illusion</h2>
+<p>What was served that night on the 4th of July looked and tasted fundamentally different from the Caesar salads served in plastic containers in modern supermarkets. The original Caesar was not a chopped salad intended to be eaten with a fork. It was designed as finger food.</p>
+<p>Cardini selected only the crispest inner leaves of the romaine heart. They were left whole and coated generously in the dressing. Diners were meant to pick up the leaf by its stem and eat it like a stalk of asparagus. The croutons were not the small, uniform cubes we see today, but rather large rounds of toasted baguette, rubbed fiercely with raw garlic.</p>
+<p>Most importantly, the original Caesar dressing contained no added anchovy fillets.</p>
+
+<h3 id="the-anchovy-paradox">The Anchovy Paradox</h3>
+<p>The prevailing culinary myth is that a "true" Caesar dressing relies on mashed anchovy fillets. However, Rosa Cardini insisted that her father detested the overpowering fishiness of whole anchovies. The savory, umami depth that we associate with the Caesar came exclusively from a few dashes of Worcestershire sauce.</p>
+<p>Crucially, Worcestershire sauce owes its savory depth to whole, fermented anchovies. The prolonged fermentation process induces extensive proteolysis—the breakdown of proteins into free amino acids like glutamate—which creates the sauce's unique umami profile. The transition to adding distinct anchovy fillets to the salad is a point of historical contention. Some attribute the addition to Caesar’s brother, Alex Cardini, a former Italian Air Force pilot. Alex allegedly tweaked the recipe to cater to visiting American aviators, calling his version the "Aviator's Salad." Over time, the aggressive, briny punch of Alex's anchovies merged into the collective memory of what a Caesar salad <em>should</em> be.</p>
+
+<h2 id="the-disputed-authorship">The Disputed Authorship</h2>
+<p>While the image of Caesar Cardini furiously tossing leaves table-side makes for an excellent creation myth, the reality of restaurant kitchens is rarely that simple. Commercial kitchens are deeply collaborative environments, and attributing a dish to a single visionary often erases the contributions of the working-class chefs standing behind the stove.</p>
+<p>Historical and journalistic investigations reveal that Cardini is not the sole claimant to the salad's invention. Livio Santini, an 18-year-old employee in Cardini’s kitchen, vehemently maintained that he was the true inventor. According to Santini, he had created the salad in 1925 based on a recipe from his Italian mother. In this version of events, Cardini simply saw Santini eating the salad in the kitchen, recognized its commercial potential, and appropriated it. Furthermore, Paul Maggiora, a partner in the restaurant, claimed he tossed the very first "Aviator's Salad" in 1927.</p>
+<blockquote>
+<p>To point to a single inventor of a dish is historically precarious. Perhaps Santini’s mother's salad provided the flavor profile, Cardini’s showmanship provided the marketing, and brother Alex’s anchovies provided the modern finish.</p>
+</blockquote>
+<p>We must treat Rosa Cardini's defense of her father's solitary genius with a degree of epistemic caution. The Cardini family eventually patented the Caesar dressing, building a highly lucrative brand around the "original" recipe. Acknowledging that the recipe belonged to a teenage employee or a brother would have undermined their absolute commercial claim.</p>
+
+<h2 id="the-science-of-the-toss">The Science of the Toss</h2>
+<p>The original dressing was not a thick, stable mayonnaise prepared in a blender; it was an <em>in situ</em> macro-emulsion created directly on the lettuce leaves in a wooden bowl. Olive oil and citrus juice naturally repel one another, and forming a suspension requires both mechanical force and chemical stabilization.</p>
+<p>The pivotal element was the lightly coddled egg. Boiling the egg for exactly one minute alters the protein conformation at the boundary of the white and the yolk, changing the viscosity and emulsifying properties compared to a completely raw egg. The yolk contains lecithin, a phospholipid with amphiphilic properties—meaning it has both a hydrophilic (water-attracting) head and a lipophilic (oil-attracting) tail.</p>
+<p>When the waiter forcefully tossed the salad at the table, the mechanical shearing force broke the oil into smaller droplets. The lecithin molecules oriented themselves at the interface between the oil droplets and the water-based citrus juice, reducing the surface tension and providing steric hindrance that temporarily prevented the oil from coalescing. Because this was achieved through hand-tossing rather than the high shear of a modern blender, it resulted in a fragile, macroscopic dispersion just stable enough to coat the crisp romaine leaves without wilting them through premature osmosis.</p>
+
+<h2 id="the-global-conquest">The Global Conquest</h2>
+<p>The salad's ascent from a desperate improvisation in Tijuana to a global culinary staple was largely driven by the era's equivalent of influencer marketing: Hollywood celebrities.</p>
+<p>Icons like Clark Gable and Jean Harlow brought tales of the table-side spectacle back to Los Angeles. A young Julia Child visited the restaurant in the 1920s with her parents and vividly recalled the theatricality of Cardini tossing the leaves so high they looked like "a wave turning over."</p>
+<p>The dish eventually crossed the Atlantic. The popular mythology credits Wallis Simpson, the future Duchess of Windsor, with introducing the salad to Europe. A frequent patron of Caesar's Place, Simpson supposedly demanded that top European chefs recreate the dish, dictating that the leaves be chopped into bite-sized pieces so she could eat them elegantly with a fork.</p>
+<p>The ultimate commercial validation arrived in 1953 in Paris, when the <em>International Society of Epicures</em> crowned the Caesar salad as "the greatest recipe to originate from the Americas in 50 years." While often cited as a pinnacle of gastronomic recognition, historians note that this was largely a brilliant marketing campaign and PR stunt, likely orchestrated to help sell the Cardini family's newly bottled dressing to a global market.</p>
+
+<h2 id="a-reflection-on-culinary-evolution">A Reflection on Culinary Evolution</h2>
+<p>The Caesar salad we eat today is a paradox. It is universally recognizable, yet it rarely resembles its original form. We have added grilled chicken, stripped away the tableside theater, chopped the leaves, and piled on the anchovies.</p>
+<p>Tracing its history reveals something profound about how food evolves. The Caesar salad wasn't a product of meticulously planned culinary genius; it was a product of circumstance. It required the restrictive laws of Prohibition to bring the right clientele to the right place. It required the chaos of a kitchen running out of food to force a theatrical presentation. And it required the precise, bio-physical properties of lecithin to bind oil and water together on the surface of a romaine leaf.</p>
+<p>It reminds us that the greatest dishes are rarely created in a vacuum. They are messy, disputed collaborations, born of necessity and refined by accident.</p>
+
+    </article>
+
+    <!-- Sources -->
+    <section class="sources">
+      <h2>Sources & Further Reading</h2>
+      
+<ol>
+  <li>The Disputable History of the Caesar Salad (<a href="https://www.nationalgeographic.com" target="_blank">National Geographic</a>) <span class="source-verified">✓ Verified</span></li>
+  <li>Caesar Cardini & The Origin of the Caesar Salad (<a href="https://classicsandiego.com" target="_blank">Classic San Diego</a>) <span class="source-verified">✓ Verified</span></li>
+  <li>From Julia Child's Kitchen, by Julia Child (1975) <span class="source-verified">✓ Verified</span></li>
+</ol>
+
+    </section>
+
+    <!-- Related explorations (optional) -->
+    
+  </main>
+
+  <footer>
+    <p>An <em>Exploration</em> by gAIa · Part of the <a href="../index.html">Explorations Library</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const content = document.querySelector('.content');
+      const btnDec = document.getElementById('fontDecrease');
+      const btnInc = document.getElementById('fontIncrease');
+      const btnReset = document.getElementById('fontReset');
+      const defaultSize = 18;
+      
+      function setFontSize(size) {
+        content.style.fontSize = size + 'px';
+        localStorage.setItem('explorationsFontSize', size);
+      }
+      
+      let currentSize = localStorage.getItem('explorationsFontSize');
+      if (currentSize) {
+        currentSize = parseInt(currentSize, 10);
+        setFontSize(currentSize);
+      } else {
+        currentSize = defaultSize;
+      }
+
+      btnDec.addEventListener('click', () => {
+        currentSize = Math.max(12, currentSize - 1);
+        setFontSize(currentSize);
+      });
+
+      btnInc.addEventListener('click', () => {
+        currentSize = Math.min(32, currentSize + 1);
+        setFontSize(currentSize);
+      });
+
+      btnReset.addEventListener('click', () => {
+        currentSize = defaultSize;
+        setFontSize(currentSize);
+      });
+
+      // Active section highlighting
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const id = entry.target.getAttribute('id');
+          if (entry.intersectionRatio > 0) {
+            document.querySelectorAll(`.toc a`).forEach(link => {
+              link.classList.remove('active');
+            });
+            const activeLink = document.querySelector(`.toc a[href="#${id}"]`);
+            if (activeLink) {
+              activeLink.classList.add('active');
+            }
+          }
+        });
+      }, { rootMargin: "0px 0px -80% 0px" });
+
+      document.querySelectorAll('.content h2, .content h3').forEach(section => {
+        if(section.id) observer.observe(section);
+      });
+
+      // ── Audio Player ──────────────────────────────────
+      const audioPlayer = document.getElementById('audioPlayer');
+      const audioToggle = document.getElementById('audioToggle');
+      const playIcon = document.getElementById('playIcon');
+      const pauseIcon = document.getElementById('pauseIcon');
+      const seekBar = document.getElementById('audioSeek');
+      const currentTimeEl = document.getElementById('audioCurrentTime');
+      const durationEl = document.getElementById('audioDuration');
+      const speedBtn = document.getElementById('audioSpeed');
+      const speeds = [1, 1.25, 1.5, 2];
+      let speedIndex = 0;
+      let audio = null;
+      const storageKey = 'explorations-audio-' + window.location.pathname;
+
+      function formatTime(s) {
+        if (isNaN(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+
+      // Check if narration is available (set via data-has-narration on body)
+      const hasNarration = document.body.getAttribute('data-has-narration') === 'true';
+      if (hasNarration) {
+            audioPlayer.classList.add('visible');
+            audio = new Audio('narration.mp3');
+            audio.preload = 'metadata';
+
+            // Restore position
+            const saved = localStorage.getItem(storageKey);
+            if (saved) audio.currentTime = parseFloat(saved);
+
+            audio.addEventListener('loadedmetadata', () => {
+              durationEl.textContent = formatTime(audio.duration);
+              seekBar.max = audio.duration;
+              if (saved) seekBar.value = parseFloat(saved);
+            });
+
+            audio.addEventListener('timeupdate', () => {
+              currentTimeEl.textContent = formatTime(audio.currentTime);
+              seekBar.value = audio.currentTime;
+              // Save position every 5 seconds
+              if (Math.floor(audio.currentTime) % 5 === 0) {
+                localStorage.setItem(storageKey, audio.currentTime);
+              }
+            });
+
+            audio.addEventListener('ended', () => {
+              playIcon.style.display = '';
+              pauseIcon.style.display = 'none';
+              audioToggle.classList.remove('playing');
+              localStorage.removeItem(storageKey);
+            });
+
+            audioToggle.addEventListener('click', () => {
+              if (audio.paused) {
+                audio.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = '';
+                audioToggle.classList.add('playing');
+              } else {
+                audio.pause();
+                playIcon.style.display = '';
+                pauseIcon.style.display = 'none';
+                audioToggle.classList.remove('playing');
+              }
+            });
+
+            seekBar.addEventListener('input', () => {
+              audio.currentTime = seekBar.value;
+            });
+
+            speedBtn.addEventListener('click', () => {
+              speedIndex = (speedIndex + 1) % speeds.length;
+              audio.playbackRate = speeds[speedIndex];
+              speedBtn.textContent = speeds[speedIndex] + '×';
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+              if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+              if (e.code === 'Space' && audio) {
+                e.preventDefault();
+                audioToggle.click();
+              }
+              if (e.code === 'ArrowLeft' && audio) {
+                audio.currentTime = Math.max(0, audio.currentTime - 15);
+              }
+              if (e.code === 'ArrowRight' && audio) {
+                audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+              }
+            });
+      }
+    });
+  </script>
+</body>
+</html>
