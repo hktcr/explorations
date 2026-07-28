@@ -725,7 +725,7 @@
           searchResultsList.innerHTML = '';
           
           if (query.length > 2) {
-            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\]/g, '\$&')})`, 'gi');
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
             const walker = document.createTreeWalker(articleContent, NodeFilter.SHOW_TEXT, null, false);
             const nodes = [];
             while (walker.nextNode()) nodes.push(walker.currentNode);
@@ -746,7 +746,7 @@
                     if (contextStart > 0) snippet = '...' + snippet;
                     if (contextEnd < node.nodeValue.length) snippet = snippet + '...';
                     
-                    const highlightedSnippet = snippet.replace(new RegExp(`(${match.replace(/[.*+?^${}()|[\]\]/g, '\$&')})`, 'gi'), '<mark>$1</mark>');
+                    const highlightedSnippet = snippet.replace(new RegExp(`(${match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark>$1</mark>');
                     
                     const li = document.createElement('li');
                     li.className = 'search-popup-result-item';
