@@ -89,9 +89,9 @@
     .search-input {
       width: 100%;
       padding: 1rem 1.5rem;
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(0,0,0,0.1);
       border-radius: 12px;
-      background: var(--search-bg);
+      background: rgba(0,0,0,0.02);
       color: var(--text-color);
       font-family: var(--font-ui);
       font-size: 1rem;
@@ -122,10 +122,10 @@
     /* Article Card */
     .article-card {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(0,0,0,0.1);
       border-radius: 12px;
       padding: 2rem;
-      box-shadow: var(--card-shadow);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: flex;
       flex-direction: column;
@@ -237,9 +237,9 @@
       max-height: 400px;
       overflow-y: auto;
       background: var(--bg-color);
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(0,0,0,0.1);
       border-radius: 8px;
-      box-shadow: var(--card-shadow);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       z-index: 1001;
       display: none;
       flex-direction: column;
@@ -257,7 +257,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--search-bg);
+      background: rgba(0,0,0,0.02);
       border-radius: 8px 8px 0 0;
     }
     .search-popup-results {
@@ -289,6 +289,20 @@
       padding: 0 2px;
     }
 
+
+    @media (prefers-color-scheme: dark) {
+      .search-popup {
+        border-color: rgba(255,255,255,0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      }
+      .search-popup-header {
+        background: rgba(255,255,255,0.05);
+        border-bottom-color: rgba(255,255,255,0.05);
+      }
+      .search-popup-result-item {
+        border-bottom-color: rgba(255,255,255,0.05);
+      }
+    }
   </style>
 </head>
 <body>
