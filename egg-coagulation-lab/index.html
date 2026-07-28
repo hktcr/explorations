@@ -369,11 +369,22 @@
       color: var(--meta-color);
       margin-top: 2rem;
     }
+
+    /* Search highlight */
+    mark.search-highlight {
+      background-color: rgba(192, 57, 43, 0.15);
+      color: inherit;
+      border-radius: 2px;
+    }
   </style>
 </head>
 <body>
   <nav class="toolbar">
     <a href="../index.html">← Library</a>
+    <div class="search-box" style="margin-left: auto; margin-right: 1rem;">
+      <input type="text" id="articleSearch" placeholder="Search in article..." style="padding: 0.3rem 0.6rem; border: 1px solid var(--meta-color); border-radius: 4px; background: transparent; color: var(--text-color); font-family: var(--font-ui); font-size: 0.8rem; width: 140px; outline: none;">
+    </div>
+
     <div class="font-controls">
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
@@ -383,7 +394,7 @@
 
   <main>
     <header>
-      <span class="subject-badge">Biochemistry & Science Education</span>
+      <span class="subject-badge"><span class="exp-id">EXP#8</span> • Biochemistry & Science Education</span>
       <h1>The Thermal Ballet of Egg Proteins: Molecular Kinetics, Culinary Physics, and Pedagogical Inquiry</h1>
       <div class="meta">
         <time>July 27, 2026</time>
@@ -400,7 +411,7 @@
         <li><a href="#test-tube-trap">The "Test-Tube Trap": Didactic Pitfalls and Experimental Thermodynamics</a></li>
         <li><a href="#pedagogical-design">Pedagogical Design: Bridging the Macroscopic and Submicroscopic</a></li>
         <li><a href="#concluding-reflections">Concluding Reflections: The Egg as a Microcosm of Life Science</a></li>
-      </ul>
+      <li><a href="#sources">Källförteckning</a></li></ul>
     </nav>
 
     <article class="content">
@@ -484,7 +495,7 @@
       <p>When students learn that an egg white does not have a single "coagulation point," but rather a spectrum of thermal transitions driven by distinct proteins working in harmony, they gain far more than a fact about cooking. They learn to view the physical world through the lens of complexity. They discover that macroscopic properties are the emergent results of submicroscopic interactions, and that scientific inquiry requires looking past easy simplifications to embrace the beautiful, subtle, and precise kinetics of life.</p>
     </article>
 
-    <section class="sources">
+    <section class="sources" id="sources">
       <h2>Sources & Further Reading</h2>
       <ol>
         <li id="src-1" class="source-item"><a href="https://doi.org/10.1002/jsfa.2740261107" target="_blank" rel="noopener">Donovan, J. W., Mapes, C. J., Davis, J. G., & Garibaldi, J. A. (1975). A differential scanning calorimetric study of the heat denaturation of egg white proteins. <em>Journal of the Science of Food and Agriculture</em>, 26(11), 1661–1683.</a>
@@ -601,6 +612,44 @@
       document.querySelectorAll('.content h2, .content h3').forEach(section => {
         if(section.id) observer.observe(section);
       });
+
+      // Search highlight
+      const articleSearch = document.getElementById('articleSearch');
+      if (articleSearch) {
+        const articleContent = document.querySelector('.content');
+        articleSearch.addEventListener('input', (e) => {
+          const query = e.target.value.trim();
+          document.querySelectorAll('mark.search-highlight').forEach(mark => {
+            const parent = mark.parentNode;
+            parent.replaceChild(document.createTextNode(mark.textContent), mark);
+            parent.normalize();
+          });
+          if (query.length > 2) {
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            const walker = document.createTreeWalker(articleContent, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+            nodes.forEach(node => {
+              if (node.nodeValue.trim() !== '' && node.parentNode.tagName !== 'MARK' && node.parentNode.tagName !== 'SCRIPT' && node.parentNode.tagName !== 'STYLE') {
+                if (regex.test(node.nodeValue)) {
+                  const fragment = document.createDocumentFragment();
+                  let lastIdx = 0;
+                  node.nodeValue.replace(regex, (match, p1, offset) => {
+                    fragment.appendChild(document.createTextNode(node.nodeValue.slice(lastIdx, offset)));
+                    const mark = document.createElement('mark');
+                    mark.className = 'search-highlight';
+                    mark.textContent = match;
+                    fragment.appendChild(mark);
+                    lastIdx = offset + match.length;
+                  });
+                  fragment.appendChild(document.createTextNode(node.nodeValue.slice(lastIdx)));
+                  node.parentNode.replaceChild(fragment, node);
+                }
+              }
+            });
+          }
+        });
+      }
     });
   </script>
 </body>

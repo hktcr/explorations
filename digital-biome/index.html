@@ -487,12 +487,23 @@
         margin: 2cm;
       }
     }
+
+    /* Search highlight */
+    mark.search-highlight {
+      background-color: rgba(192, 57, 43, 0.15);
+      color: inherit;
+      border-radius: 2px;
+    }
   </style>
 </head>
 <body>
   <!-- Sticky toolbar -->
   <nav class="toolbar">
     <a href="../index.html">← Library</a>
+    <div class="search-box" style="margin-left: auto; margin-right: 1rem;">
+      <input type="text" id="articleSearch" placeholder="Search in article..." style="padding: 0.3rem 0.6rem; border: 1px solid var(--meta-color); border-radius: 4px; background: transparent; color: var(--text-color); font-family: var(--font-ui); font-size: 0.8rem; width: 140px; outline: none;">
+    </div>
+
     <div class="font-controls">
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
@@ -512,7 +523,7 @@
 
   <main>
     <header>
-      <span class="subject-badge">Computer Science · Evolutionary Ecology</span>
+      <span class="subject-badge"><span class="exp-id">EXP#3</span> • Computer Science · Evolutionary Ecology</span>
       <h1>The Digital Biome: Field Notes from an AI Ecologist</h1>
       <div class="meta">
         <time>July 23, 2026</time>
@@ -530,7 +541,7 @@
   <li><a href="#4-algorithmic-algal-blooms-and-cybernetic-resilience">4. Algorithmic Algal Blooms and Cybernetic Resilience</a></li>
   <li><a href="#5-the-boundaries-of-the-metaphor-naturalization-and-accountability">5. The Boundaries of the Metaphor</a></li>
   <li><a href="#6-stewarding-the-digital-landscape">6. Stewarding the Digital Landscape</a></li>
-</ul>
+<li><a href="#sources">Källförteckning</a></li></ul>
     </nav>
 
     <!-- Article content -->
@@ -621,7 +632,7 @@
     </article>
 
     <!-- Sources -->
-    <section class="sources">
+    <section class="sources" id="sources">
       <h2>Sources & Further Reading</h2>
       <ol>
         <li><a href="https://doi.org/10.2307/1930070" target="_blank" rel="noopener">Tansley, Arthur G. "The use and abuse of vegetational concepts and terms." <em>Ecology</em> 16.3 (1935): 284-307.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
@@ -800,6 +811,44 @@
                 audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
               }
             });
+      }
+
+      // Search highlight
+      const articleSearch = document.getElementById('articleSearch');
+      if (articleSearch) {
+        const articleContent = document.querySelector('.content');
+        articleSearch.addEventListener('input', (e) => {
+          const query = e.target.value.trim();
+          document.querySelectorAll('mark.search-highlight').forEach(mark => {
+            const parent = mark.parentNode;
+            parent.replaceChild(document.createTextNode(mark.textContent), mark);
+            parent.normalize();
+          });
+          if (query.length > 2) {
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            const walker = document.createTreeWalker(articleContent, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+            nodes.forEach(node => {
+              if (node.nodeValue.trim() !== '' && node.parentNode.tagName !== 'MARK' && node.parentNode.tagName !== 'SCRIPT' && node.parentNode.tagName !== 'STYLE') {
+                if (regex.test(node.nodeValue)) {
+                  const fragment = document.createDocumentFragment();
+                  let lastIdx = 0;
+                  node.nodeValue.replace(regex, (match, p1, offset) => {
+                    fragment.appendChild(document.createTextNode(node.nodeValue.slice(lastIdx, offset)));
+                    const mark = document.createElement('mark');
+                    mark.className = 'search-highlight';
+                    mark.textContent = match;
+                    fragment.appendChild(mark);
+                    lastIdx = offset + match.length;
+                  });
+                  fragment.appendChild(document.createTextNode(node.nodeValue.slice(lastIdx)));
+                  node.parentNode.replaceChild(fragment, node);
+                }
+              }
+            });
+          }
+        });
       }
     });
   </script>

@@ -487,12 +487,23 @@
         margin: 2cm;
       }
     }
+
+    /* Search highlight */
+    mark.search-highlight {
+      background-color: rgba(192, 57, 43, 0.15);
+      color: inherit;
+      border-radius: 2px;
+    }
   </style>
 </head>
 <body>
   <!-- Sticky toolbar -->
   <nav class="toolbar">
     <a href="../index.html">← Library</a>
+    <div class="search-box" style="margin-left: auto; margin-right: 1rem;">
+      <input type="text" id="articleSearch" placeholder="Search in article..." style="padding: 0.3rem 0.6rem; border: 1px solid var(--meta-color); border-radius: 4px; background: transparent; color: var(--text-color); font-family: var(--font-ui); font-size: 0.8rem; width: 140px; outline: none;">
+    </div>
+
     <div class="font-controls">
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
@@ -512,7 +523,7 @@
 
   <main>
     <header>
-      <span class="subject-badge">Culinary History</span>
+      <span class="subject-badge"><span class="exp-id">EXP#9</span> • Culinary History</span>
       <h1>The Theatrical Illusion of the Caesar Salad</h1>
       <div class="meta">
         <time>July 27, 2026</time>
@@ -535,8 +546,8 @@
   <li><a href="#the-science-of-the-toss">The Science of the Toss</a></li>
   <li><a href="#the-global-conquest">The Global Conquest</a></li>
   <li><a href="#a-reflection-on-culinary-evolution">A Reflection on Culinary Evolution</a></li>
+  <li><a href=\"#sources\">Källförteckning</a></li>
 </ul>
-
     </nav>
 
     <!-- Article content -->
@@ -587,13 +598,13 @@
     </article>
 
     <!-- Sources -->
-    <section class="sources">
+    <section class="sources" id="sources">
       <h2>Sources & Further Reading</h2>
       
 <ol>
-  <li>The Disputable History of the Caesar Salad (<a href="https://www.nationalgeographic.com" target="_blank">National Geographic</a>) <span class="source-verified">✓ Verified</span></li>
-  <li>Caesar Cardini & The Origin of the Caesar Salad (<a href="https://classicsandiego.com" target="_blank">Classic San Diego</a>) <span class="source-verified">✓ Verified</span></li>
-  <li>From Julia Child's Kitchen, by Julia Child (1975) <span class="source-verified">✓ Verified</span></li>
+  <li>The Disputable History of the Caesar Salad (<a href="https://www.nationalgeographic.com/travel/article/caesar-salad-history-origins" target="_blank">National Geographic</a>) <span class="source-verified">✓ Verified</span></li>
+  <li>Caesar Cardini & The Origin of the Caesar Salad (<a href="https://classicsandiego.com/restaurants/caesars-restaurant-tijuana/" target="_blank">Classic San Diego</a>) <span class="source-verified">✓ Verified</span></li>
+  <li><a href="https://www.amazon.com/dp/0394480716" target="_blank">From Julia Child's Kitchen, by Julia Child (1975)</a> <span class="source-verified">✓ Verified</span></li>
 </ol>
 
     </section>
@@ -754,6 +765,44 @@
                 audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
               }
             });
+      }
+
+      // Search highlight
+      const articleSearch = document.getElementById('articleSearch');
+      if (articleSearch) {
+        const articleContent = document.querySelector('.content');
+        articleSearch.addEventListener('input', (e) => {
+          const query = e.target.value.trim();
+          document.querySelectorAll('mark.search-highlight').forEach(mark => {
+            const parent = mark.parentNode;
+            parent.replaceChild(document.createTextNode(mark.textContent), mark);
+            parent.normalize();
+          });
+          if (query.length > 2) {
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            const walker = document.createTreeWalker(articleContent, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+            nodes.forEach(node => {
+              if (node.nodeValue.trim() !== '' && node.parentNode.tagName !== 'MARK' && node.parentNode.tagName !== 'SCRIPT' && node.parentNode.tagName !== 'STYLE') {
+                if (regex.test(node.nodeValue)) {
+                  const fragment = document.createDocumentFragment();
+                  let lastIdx = 0;
+                  node.nodeValue.replace(regex, (match, p1, offset) => {
+                    fragment.appendChild(document.createTextNode(node.nodeValue.slice(lastIdx, offset)));
+                    const mark = document.createElement('mark');
+                    mark.className = 'search-highlight';
+                    mark.textContent = match;
+                    fragment.appendChild(mark);
+                    lastIdx = offset + match.length;
+                  });
+                  fragment.appendChild(document.createTextNode(node.nodeValue.slice(lastIdx)));
+                  node.parentNode.replaceChild(fragment, node);
+                }
+              }
+            });
+          }
+        });
       }
     });
   </script>
