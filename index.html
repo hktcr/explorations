@@ -216,6 +216,79 @@
       .library-header h1 { font-size: 2rem; }
       .articles-grid { grid-template-columns: 1fr; }
     }
+  
+    /* Search highlight & popup */
+    mark.search-highlight {
+      background-color: rgba(192, 57, 43, 0.15);
+      color: inherit;
+      border-radius: 2px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    mark.search-highlight.active-highlight {
+      background-color: rgba(192, 57, 43, 0.6);
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(192,57,43,0.4);
+    }
+    .search-popup {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      width: 320px;
+      max-height: 400px;
+      overflow-y: auto;
+      background: var(--bg-color);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      z-index: 1001;
+      display: none;
+      flex-direction: column;
+      font-family: var(--font-ui);
+    }
+    .search-popup.visible {
+      display: flex;
+    }
+    .search-popup-header {
+      padding: 10px 15px;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--meta-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--search-bg);
+      border-radius: 8px 8px 0 0;
+    }
+    .search-popup-results {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .search-popup-result-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      cursor: pointer;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: var(--text-color);
+      transition: background 0.2s;
+    }
+    .search-popup-result-item:hover {
+      background: rgba(192, 57, 43, 0.05);
+    }
+    .search-popup-result-item .match-context {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+    .search-popup-result-item mark {
+      background-color: rgba(192, 57, 43, 0.3);
+      color: inherit;
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+
   </style>
 </head>
 <body>
@@ -230,6 +303,14 @@
   </div>
 
   <div class="articles-grid" id="articlesGrid">
+
+    <a href="muskoxen-norway/index.html" class="article-card" data-subject="Ecology & Wildlife Management" data-title="The Exile and the Emperor: How the Ice Age Muskox Returned to Norway" data-excerpt="In 1967, an express train emerged from a tunnel on the Dovrebanen railway and was immediately faced with an impossible obstacle: a living relic from the Pleistocene epoch.">
+      <div class="card-subject"><span class="exp-id">EXP#11</span> • Ecology & Wildlife Management</div>
+      <h2 class="card-title">The Exile and the Emperor: How the Ice Age Muskox Returned to Norway</h2>
+      <div class="card-meta">July 28, 2026 · ≈ 8 min read</div>
+      <p class="card-excerpt">In 1967, an express train emerged from a tunnel on the Dovrebanen railway and was immediately faced with an impossible obstacle: a living relic from the Pleistocene epoch.</p>
+      <span class="card-link">Read →</span>
+    </a>
 
     <a href="assessment-validity-reliability/index.html" class="article-card" data-subject="Education & Psychometrics" data-title="The Architecture of Judgment: Why Perfect Fairness in Testing is a Mathematical Utopia" data-excerpt="Every year, millions of futures are shaped by the stroke of a pen, the click of a mouse, or the rigid grid of a scantron sheet. A single exam score can dictate university admissions, professional licensure, or the funding of an entire school district.">
       <div class="card-subject"><span class="exp-id">EXP#10</span> • Education & Psychometrics</div>
