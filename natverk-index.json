@@ -1,1 +1,638 @@
-{"version":1,"byggd":"2026-07-29T14:51:08Z","artiklar":[{"slug":"adhd-explained","titel":"The Hunter’s Radar in a Factory World: What ADHD Really Is","amne":"EXP#7 • Neuroscience & Psychology","datum":"July 27, 2026","lastid":"≈ 16 min read","ord":3637,"avsnitt":13,"kallor":{"totalt":12,"verifierade":12},"nyckelord":["attention","children","regulation","moral","external","person"]},{"slug":"agg-naring-och-myter","titel":"The Egg: Evolution's Survival Pill and Science's Greatest Misunderstanding","amne":"EXP#6 • Nutrition & Evolution","datum":"July 2026","lastid":"22 min","ord":4540,"avsnitt":7,"kallor":{"totalt":4,"verifierade":4},"nyckelord":["cholesterol","dietary","liver","digestive","pill","nutrient"]},{"slug":"assessment-validity-reliability","titel":"The Architecture of Judgment: Why Perfect Fairness in Testing is a Mathematical Utopia","amne":"EXP#10 • Psychometrics & Education","datum":"July 27, 2026","lastid":"15 min read","ord":2499,"avsnitt":14,"kallor":{"totalt":9,"verifierade":9},"nyckelord":["validity","measuring","valid","score","argument","objective"]},{"slug":"caesar-sallad","titel":"The Theatrical Illusion of the Caesar Salad","amne":"EXP#9 • Culinary History","datum":"July 27, 2026","lastid":"10 min","ord":1376,"avsnitt":7,"kallor":{"totalt":3,"verifierade":3},"nyckelord":["leaves","kitchen","culinary","italian","table","marketing"]},{"slug":"cellular-respiration-demystified","titel":"The Engine of Life: Demystifying Cellular Respiration","amne":"Cellular Biology","datum":"July 29, 2026","lastid":"≈ 18 min read","ord":3313,"avsnitt":14,"kallor":{"totalt":12,"verifierade":12},"nyckelord":["electrons","nadh","electron","pyruvate","respiration","krebs"]},{"slug":"dark-matter-dark-energy","titel":"The Unseen Architecture: Dark Matter, Dark Energy, and the Deepening Questions of Modern Cosmology","amne":"Cosmology & Astrophysics","datum":"July 29, 2026","lastid":"≈ 30 min read","ord":2633,"avsnitt":22,"kallor":{"totalt":16,"verifierade":16},"nyckelord":["text","cosmological","gravity","cosmic","cluster","stars"]},{"slug":"digital-biome","titel":"The Digital Biome: Field Notes from an AI Ecologist","amne":"EXP#3 • Computer Science · Evolutionary Ecology","datum":"July 23, 2026","lastid":"35 min read","ord":3246,"avsnitt":10,"kallor":{"totalt":11,"verifierade":11},"nyckelord":["artificial","digital","code","text","algorithmic","systemic"]},{"slug":"djur-kloning","titel":"The Mother Without a Mate","amne":"Biology","datum":"","lastid":"","ord":3068,"avsnitt":7,"kallor":{"totalt":16,"verifierade":9},"nyckelord":["reproduction","genome","flora","female","somatic","cell"]},{"slug":"egg-coagulation-lab","titel":"The Thermal Ballet of Egg Proteins: Molecular Kinetics, Culinary Physics, and Pedagogical Inquiry","amne":"EXP#8 • Biochemistry & Science Education","datum":"July 27, 2026","lastid":"≈ 18 min read","ord":2423,"avsnitt":11,"kallor":{"totalt":13,"verifierade":13},"nyckelord":["yolk","match","supports","firm","thermal","liquid"]},{"slug":"krebs-cycle","titel":"The Invisible Engine: How Life Catches Fire","amne":"EXP#2 • Biochemistry · Evolutionary Biology","datum":"July 23, 2026","lastid":"≈ 28 min read","ord":2943,"avsnitt":12,"kallor":{"totalt":7,"verifierade":7},"nyckelord":["electrons","mitochondrial","acetyl","citric","electron","nadh"]},{"slug":"muskoxen-norway","titel":"The Exile and the Emperor: How the Ice Age Muskox Returned to Norway","amne":"Ecology & Wildlife Management","datum":"July 28, 2026","lastid":"≈ 8 min","ord":1188,"avsnitt":1,"kallor":{"totalt":21,"verifierade":21},"nyckelord":["norwegian","sheep","snow","climate","norway","area"]},{"slug":"nordkalotten-flyttfaglar-radar","titel":"The Invisible River: How Radar Revealed the High-Flying Nomads of the Arctic","amne":"EXP#4 • Biology","datum":"July 24, 2026","lastid":"≈ 8 min read","ord":2408,"avsnitt":9,"kallor":{"totalt":7,"verifierade":7},"nyckelord":["radar","birds","altitudes","arctic","circle","compass"]},{"slug":"octopus-intelligence","titel":"Nine Brains and a Dream","amne":"EXP#1 • Cognitive Science · Marine Biology","datum":"July 23, 2026","lastid":"≈ 32 min read","ord":2174,"avsnitt":11,"kallor":{"totalt":7,"verifierade":7},"nyckelord":["neurons","marine","skin","cognition","otto","centralized"]},{"slug":"utomjordisk-kunskap","titel":"The Anatomy of a Cosmic Secret: Why Hiding Extraterrestrial Contact is Mathematically Impossible","amne":"EXP#5 • SOCIOLOGY & EXTRATERRESTRIAL COVER-UPS","datum":"25 July 2026","lastid":"15 min read","ord":1902,"avsnitt":11,"kallor":{"totalt":4,"verifierade":4},"nyckelord":["cover","government","hiding","aliens","probability","protocols"]}],"kanter":[{"a":"cellular-respiration-demystified","b":"krebs-cycle","vikt":0.6513,"termer":["electrons","nadh","electron","acetyl","mitochondrial"]},{"a":"adhd-explained","b":"digital-biome","vikt":0.2287,"termer":["digital","neural","resource","mode","network"]},{"a":"agg-naring-och-myter","b":"digital-biome","vikt":0.2259,"termer":["forest","ecosystems","ecosystem","ecological","feedback"]},{"a":"agg-naring-och-myter","b":"krebs-cycle","vikt":0.2138,"termer":["dietary","enzyme","molecule","matrix","acid"]},{"a":"adhd-explained","b":"octopus-intelligence","vikt":0.2028,"termer":["nervous","brain","neural","lived","network"]},{"a":"adhd-explained","b":"agg-naring-och-myter","vikt":0.2013,"termer":["brain","regulation","reward","profile","foraging"]},{"a":"digital-biome","b":"djur-kloning","vikt":0.201,"termer":["artificial","code","population","flora","mutations"]},{"a":"djur-kloning","b":"octopus-intelligence","vikt":0.197,"termer":["reproduction","biologists","skin","somatic","animal"]},{"a":"assessment-validity-reliability","b":"digital-biome","vikt":0.1885,"termer":["algorithm","digital","systemic","algorithmic","intelligence"]},{"a":"adhd-explained","b":"assessment-validity-reliability","vikt":0.1866,"termer":["clinical","verbal","person","task","social"]},{"a":"agg-naring-och-myter","b":"djur-kloning","vikt":0.1824,"termer":["liver","population","disease","cell","eggs"]},{"a":"agg-naring-och-myter","b":"caesar-sallad","vikt":0.1819,"termer":["culinary","yolk","prepared","staple","bowl"]},{"a":"agg-naring-och-myter","b":"octopus-intelligence","vikt":0.1797,"termer":["pill","humans","digestive","brain","nutrient"]},{"a":"cellular-respiration-demystified","b":"egg-coagulation-lab","vikt":0.1787,"termer":["verified","journal","bonds","thermodynamic","temperature"]},{"a":"agg-naring-och-myter","b":"egg-coagulation-lab","vikt":0.1736,"termer":["yolk","culinary","native","proteins","eggs"]},{"a":"assessment-validity-reliability","b":"dark-matter-dark-energy","vikt":0.1715,"termer":["measurement","validity","cluster","measuring","curves"]},{"a":"agg-naring-och-myter","b":"cellular-respiration-demystified","vikt":0.1693,"termer":["matrix","molecule","metabolic","acid","cholesterol"]},{"a":"dark-matter-dark-energy","b":"utomjordisk-kunskap","vikt":0.1665,"termer":["astronomers","detection","cosmic","quantum","david"]},{"a":"dark-matter-dark-energy","b":"digital-biome","vikt":0.1582,"termer":["text","parameter","expansion","applying","theoretical"]},{"a":"nordkalotten-flyttfaglar-radar","b":"utomjordisk-kunskap","vikt":0.1542,"termer":["radar","altitudes","altitude","cameras","flying"]},{"a":"caesar-sallad","b":"egg-coagulation-lab","vikt":0.1517,"termer":["kitchen","culinary","properties","yolk","adding"]},{"a":"assessment-validity-reliability","b":"utomjordisk-kunskap","vikt":0.1507,"termer":["argument","probability","hiding","intelligence","government"]},{"a":"adhd-explained","b":"nordkalotten-flyttfaglar-radar","vikt":0.1482,"termer":["radar","rhythm","important","task","focus"]},{"a":"muskoxen-norway","b":"nordkalotten-flyttfaglar-radar","vikt":0.1479,"termer":["norway","circle","arctic","norwegian","rain"]},{"a":"egg-coagulation-lab","b":"krebs-cycle","vikt":0.1459,"termer":["acid","complexes","bonds","molecular","hydrogen"]},{"a":"djur-kloning","b":"muskoxen-norway","vikt":0.1436,"termer":["sheep","population","extinct","survived","park"]},{"a":"agg-naring-och-myter","b":"muskoxen-norway","vikt":0.1405,"termer":["population","climate","pleistocene","native","animal"]},{"a":"caesar-sallad","b":"djur-kloning","vikt":0.1025,"termer":["mother","looked","father","parents","horse"]}]}
+{
+  "version": 1,
+  "byggd": "2026-07-29T14:51:08Z",
+  "artiklar": [
+    {
+      "slug": "adhd-explained",
+      "titel": "The Hunter’s Radar in a Factory World: What ADHD Really Is",
+      "amne": "EXP#7 • Neuroscience & Psychology",
+      "datum": "July 27, 2026",
+      "lastid": "≈ 16 min read",
+      "ord": 3637,
+      "avsnitt": 13,
+      "kallor": {
+        "totalt": 12,
+        "verifierade": 12
+      },
+      "nyckelord": [
+        "attention",
+        "children",
+        "regulation",
+        "moral",
+        "external",
+        "person"
+      ]
+    },
+    {
+      "slug": "agg-naring-och-myter",
+      "titel": "The Egg: Evolution's Survival Pill and Science's Greatest Misunderstanding",
+      "amne": "EXP#6 • Nutrition & Evolution",
+      "datum": "July 2026",
+      "lastid": "22 min",
+      "ord": 4540,
+      "avsnitt": 7,
+      "kallor": {
+        "totalt": 4,
+        "verifierade": 4
+      },
+      "nyckelord": [
+        "cholesterol",
+        "dietary",
+        "liver",
+        "digestive",
+        "pill",
+        "nutrient"
+      ]
+    },
+    {
+      "slug": "assessment-validity-reliability",
+      "titel": "The Architecture of Judgment: Why Perfect Fairness in Testing is a Mathematical Utopia",
+      "amne": "EXP#10 • Psychometrics & Education",
+      "datum": "July 27, 2026",
+      "lastid": "15 min read",
+      "ord": 2499,
+      "avsnitt": 14,
+      "kallor": {
+        "totalt": 9,
+        "verifierade": 9
+      },
+      "nyckelord": [
+        "validity",
+        "measuring",
+        "valid",
+        "score",
+        "argument",
+        "objective"
+      ]
+    },
+    {
+      "slug": "caesar-sallad",
+      "titel": "The Theatrical Illusion of the Caesar Salad",
+      "amne": "EXP#9 • Culinary History",
+      "datum": "July 27, 2026",
+      "lastid": "10 min",
+      "ord": 1376,
+      "avsnitt": 7,
+      "kallor": {
+        "totalt": 3,
+        "verifierade": 3
+      },
+      "nyckelord": [
+        "leaves",
+        "kitchen",
+        "culinary",
+        "italian",
+        "table",
+        "marketing"
+      ]
+    },
+    {
+      "slug": "cellular-respiration-demystified",
+      "titel": "The Engine of Life: Demystifying Cellular Respiration",
+      "amne": "Cellular Biology",
+      "datum": "July 29, 2026",
+      "lastid": "≈ 18 min read",
+      "ord": 3313,
+      "avsnitt": 14,
+      "kallor": {
+        "totalt": 12,
+        "verifierade": 12
+      },
+      "nyckelord": [
+        "electrons",
+        "nadh",
+        "electron",
+        "pyruvate",
+        "respiration",
+        "krebs"
+      ]
+    },
+    {
+      "slug": "dark-matter-dark-energy",
+      "titel": "The Unseen Architecture: Dark Matter, Dark Energy, and the Deepening Questions of Modern Cosmology",
+      "amne": "Cosmology & Astrophysics",
+      "datum": "July 29, 2026",
+      "lastid": "≈ 30 min read",
+      "ord": 2633,
+      "avsnitt": 22,
+      "kallor": {
+        "totalt": 16,
+        "verifierade": 16
+      },
+      "nyckelord": [
+        "text",
+        "cosmological",
+        "gravity",
+        "cosmic",
+        "cluster",
+        "stars"
+      ]
+    },
+    {
+      "slug": "digital-biome",
+      "titel": "The Digital Biome: Field Notes from an AI Ecologist",
+      "amne": "EXP#3 • Computer Science · Evolutionary Ecology",
+      "datum": "July 23, 2026",
+      "lastid": "35 min read",
+      "ord": 3246,
+      "avsnitt": 10,
+      "kallor": {
+        "totalt": 11,
+        "verifierade": 11
+      },
+      "nyckelord": [
+        "artificial",
+        "digital",
+        "code",
+        "text",
+        "algorithmic",
+        "systemic"
+      ]
+    },
+    {
+      "slug": "djur-kloning",
+      "titel": "The Mother Without a Mate",
+      "amne": "Biology",
+      "datum": "",
+      "lastid": "",
+      "ord": 3068,
+      "avsnitt": 7,
+      "kallor": {
+        "totalt": 16,
+        "verifierade": 16
+      },
+      "nyckelord": [
+        "reproduction",
+        "genome",
+        "flora",
+        "female",
+        "somatic",
+        "cell"
+      ]
+    },
+    {
+      "slug": "egg-coagulation-lab",
+      "titel": "The Thermal Ballet of Egg Proteins: Molecular Kinetics, Culinary Physics, and Pedagogical Inquiry",
+      "amne": "EXP#8 • Biochemistry & Science Education",
+      "datum": "July 27, 2026",
+      "lastid": "≈ 18 min read",
+      "ord": 2423,
+      "avsnitt": 11,
+      "kallor": {
+        "totalt": 13,
+        "verifierade": 13
+      },
+      "nyckelord": [
+        "yolk",
+        "match",
+        "supports",
+        "firm",
+        "thermal",
+        "liquid"
+      ]
+    },
+    {
+      "slug": "krebs-cycle",
+      "titel": "The Invisible Engine: How Life Catches Fire",
+      "amne": "EXP#2 • Biochemistry · Evolutionary Biology",
+      "datum": "July 23, 2026",
+      "lastid": "≈ 28 min read",
+      "ord": 2943,
+      "avsnitt": 12,
+      "kallor": {
+        "totalt": 7,
+        "verifierade": 7
+      },
+      "nyckelord": [
+        "electrons",
+        "mitochondrial",
+        "acetyl",
+        "citric",
+        "electron",
+        "nadh"
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "titel": "The Exile and the Emperor: How the Ice Age Muskox Returned to Norway",
+      "amne": "Ecology & Wildlife Management",
+      "datum": "July 28, 2026",
+      "lastid": "≈ 8 min",
+      "ord": 1188,
+      "avsnitt": 1,
+      "kallor": {
+        "totalt": 21,
+        "verifierade": 21
+      },
+      "nyckelord": [
+        "norwegian",
+        "sheep",
+        "snow",
+        "climate",
+        "norway",
+        "area"
+      ]
+    },
+    {
+      "slug": "nordkalotten-flyttfaglar-radar",
+      "titel": "The Invisible River: How Radar Revealed the High-Flying Nomads of the Arctic",
+      "amne": "EXP#4 • Biology",
+      "datum": "July 24, 2026",
+      "lastid": "≈ 8 min read",
+      "ord": 2408,
+      "avsnitt": 9,
+      "kallor": {
+        "totalt": 7,
+        "verifierade": 7
+      },
+      "nyckelord": [
+        "radar",
+        "birds",
+        "altitudes",
+        "arctic",
+        "circle",
+        "compass"
+      ]
+    },
+    {
+      "slug": "octopus-intelligence",
+      "titel": "Nine Brains and a Dream",
+      "amne": "EXP#1 • Cognitive Science · Marine Biology",
+      "datum": "July 23, 2026",
+      "lastid": "≈ 32 min read",
+      "ord": 2174,
+      "avsnitt": 11,
+      "kallor": {
+        "totalt": 7,
+        "verifierade": 7
+      },
+      "nyckelord": [
+        "neurons",
+        "marine",
+        "skin",
+        "cognition",
+        "otto",
+        "centralized"
+      ]
+    },
+    {
+      "slug": "utomjordisk-kunskap",
+      "titel": "The Anatomy of a Cosmic Secret: Why Hiding Extraterrestrial Contact is Mathematically Impossible",
+      "amne": "EXP#5 • SOCIOLOGY & EXTRATERRESTRIAL COVER-UPS",
+      "datum": "25 July 2026",
+      "lastid": "15 min read",
+      "ord": 1902,
+      "avsnitt": 11,
+      "kallor": {
+        "totalt": 4,
+        "verifierade": 4
+      },
+      "nyckelord": [
+        "cover",
+        "government",
+        "hiding",
+        "aliens",
+        "probability",
+        "protocols"
+      ]
+    }
+  ],
+  "kanter": [
+    {
+      "a": "cellular-respiration-demystified",
+      "b": "krebs-cycle",
+      "vikt": 0.6513,
+      "termer": [
+        "electrons",
+        "nadh",
+        "electron",
+        "acetyl",
+        "mitochondrial"
+      ]
+    },
+    {
+      "a": "adhd-explained",
+      "b": "digital-biome",
+      "vikt": 0.2287,
+      "termer": [
+        "digital",
+        "neural",
+        "resource",
+        "mode",
+        "network"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "digital-biome",
+      "vikt": 0.2259,
+      "termer": [
+        "forest",
+        "ecosystems",
+        "ecosystem",
+        "ecological",
+        "feedback"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "krebs-cycle",
+      "vikt": 0.2138,
+      "termer": [
+        "dietary",
+        "enzyme",
+        "molecule",
+        "matrix",
+        "acid"
+      ]
+    },
+    {
+      "a": "adhd-explained",
+      "b": "octopus-intelligence",
+      "vikt": 0.2028,
+      "termer": [
+        "nervous",
+        "brain",
+        "neural",
+        "lived",
+        "network"
+      ]
+    },
+    {
+      "a": "adhd-explained",
+      "b": "agg-naring-och-myter",
+      "vikt": 0.2013,
+      "termer": [
+        "brain",
+        "regulation",
+        "reward",
+        "profile",
+        "foraging"
+      ]
+    },
+    {
+      "a": "digital-biome",
+      "b": "djur-kloning",
+      "vikt": 0.201,
+      "termer": [
+        "artificial",
+        "code",
+        "population",
+        "flora",
+        "mutations"
+      ]
+    },
+    {
+      "a": "djur-kloning",
+      "b": "octopus-intelligence",
+      "vikt": 0.197,
+      "termer": [
+        "reproduction",
+        "biologists",
+        "skin",
+        "somatic",
+        "animal"
+      ]
+    },
+    {
+      "a": "assessment-validity-reliability",
+      "b": "digital-biome",
+      "vikt": 0.1885,
+      "termer": [
+        "algorithm",
+        "digital",
+        "systemic",
+        "algorithmic",
+        "intelligence"
+      ]
+    },
+    {
+      "a": "adhd-explained",
+      "b": "assessment-validity-reliability",
+      "vikt": 0.1866,
+      "termer": [
+        "clinical",
+        "verbal",
+        "person",
+        "task",
+        "social"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "djur-kloning",
+      "vikt": 0.1824,
+      "termer": [
+        "liver",
+        "population",
+        "disease",
+        "cell",
+        "eggs"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "caesar-sallad",
+      "vikt": 0.1819,
+      "termer": [
+        "culinary",
+        "yolk",
+        "prepared",
+        "staple",
+        "bowl"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "octopus-intelligence",
+      "vikt": 0.1797,
+      "termer": [
+        "pill",
+        "humans",
+        "digestive",
+        "brain",
+        "nutrient"
+      ]
+    },
+    {
+      "a": "cellular-respiration-demystified",
+      "b": "egg-coagulation-lab",
+      "vikt": 0.1787,
+      "termer": [
+        "verified",
+        "journal",
+        "bonds",
+        "thermodynamic",
+        "temperature"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "egg-coagulation-lab",
+      "vikt": 0.1736,
+      "termer": [
+        "yolk",
+        "culinary",
+        "native",
+        "proteins",
+        "eggs"
+      ]
+    },
+    {
+      "a": "assessment-validity-reliability",
+      "b": "dark-matter-dark-energy",
+      "vikt": 0.1715,
+      "termer": [
+        "measurement",
+        "validity",
+        "cluster",
+        "measuring",
+        "curves"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "cellular-respiration-demystified",
+      "vikt": 0.1693,
+      "termer": [
+        "matrix",
+        "molecule",
+        "metabolic",
+        "acid",
+        "cholesterol"
+      ]
+    },
+    {
+      "a": "dark-matter-dark-energy",
+      "b": "utomjordisk-kunskap",
+      "vikt": 0.1665,
+      "termer": [
+        "astronomers",
+        "detection",
+        "cosmic",
+        "quantum",
+        "david"
+      ]
+    },
+    {
+      "a": "dark-matter-dark-energy",
+      "b": "digital-biome",
+      "vikt": 0.1582,
+      "termer": [
+        "text",
+        "parameter",
+        "expansion",
+        "applying",
+        "theoretical"
+      ]
+    },
+    {
+      "a": "nordkalotten-flyttfaglar-radar",
+      "b": "utomjordisk-kunskap",
+      "vikt": 0.1542,
+      "termer": [
+        "radar",
+        "altitudes",
+        "altitude",
+        "cameras",
+        "flying"
+      ]
+    },
+    {
+      "a": "caesar-sallad",
+      "b": "egg-coagulation-lab",
+      "vikt": 0.1517,
+      "termer": [
+        "kitchen",
+        "culinary",
+        "properties",
+        "yolk",
+        "adding"
+      ]
+    },
+    {
+      "a": "assessment-validity-reliability",
+      "b": "utomjordisk-kunskap",
+      "vikt": 0.1507,
+      "termer": [
+        "argument",
+        "probability",
+        "hiding",
+        "intelligence",
+        "government"
+      ]
+    },
+    {
+      "a": "adhd-explained",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "vikt": 0.1482,
+      "termer": [
+        "radar",
+        "rhythm",
+        "important",
+        "task",
+        "focus"
+      ]
+    },
+    {
+      "a": "muskoxen-norway",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "vikt": 0.1479,
+      "termer": [
+        "norway",
+        "circle",
+        "arctic",
+        "norwegian",
+        "rain"
+      ]
+    },
+    {
+      "a": "egg-coagulation-lab",
+      "b": "krebs-cycle",
+      "vikt": 0.1459,
+      "termer": [
+        "acid",
+        "complexes",
+        "bonds",
+        "molecular",
+        "hydrogen"
+      ]
+    },
+    {
+      "a": "djur-kloning",
+      "b": "muskoxen-norway",
+      "vikt": 0.1436,
+      "termer": [
+        "sheep",
+        "population",
+        "extinct",
+        "survived",
+        "park"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "muskoxen-norway",
+      "vikt": 0.1405,
+      "termer": [
+        "population",
+        "climate",
+        "pleistocene",
+        "native",
+        "animal"
+      ]
+    },
+    {
+      "a": "caesar-sallad",
+      "b": "djur-kloning",
+      "vikt": 0.1025,
+      "termer": [
+        "mother",
+        "looked",
+        "father",
+        "parents",
+        "horse"
+      ]
+    }
+  ]
+}
