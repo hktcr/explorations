@@ -51,6 +51,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection {
       background: rgba(192, 57, 43, 0.2);
     }
@@ -586,6 +590,7 @@
     </div>
 
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
       <button id="fontIncrease" aria-label="Increase font size">A+</button>
@@ -718,16 +723,16 @@
       <h2>Sources & Further Reading</h2>
       
 <ol>
-  <li><a href="https://doi.org/10.1126/science.291.5502.300" target="_blank" rel="noopener">Alerstam, T., Gudmundsson, G. A., Green, M., &amp; Hedenström, A. (2001). <em>Migration Along Orthodromic Sun Compass Routes by Arctic Birds</em>. Science, 291(5502), 300-303.</a> <span class="source-verified" title="Verified via DOI/Crossref">✓ Verified</span></li>
-  <li><a href="https://doi.org/10.1016/j.cub.2021.05.047" target="_blank" rel="noopener">Lindström, Å., Alerstam, T., Bahlenko, P., et al. (2021). <em>Extreme altitude changes between night and day during marathon flights of great snipes</em>. Current Biology, 31(15), 3412-3421.e4.</a> <span class="source-verified" title="Verified via DOI/Crossref">✓ Verified</span></li>
-  <li><a href="https://doi.org/10.1016/j.anbehav.2011.10.009" target="_blank" rel="noopener">Karlsson, H., Nilsson, C., Bäckman, J., &amp; Alerstam, T. (2012). <em>Nocturnal passerine migrants fly faster in spring than in autumn: a test of the time minimization hypothesis</em>. Animal Behaviour, 83(1), 87-93.</a> <span class="source-verified" title="Verified via DOI/Crossref">✓ Verified</span></li>
+  <li><a href="https://doi.org/10.1126/science.291.5502.300" target="_blank" rel="noopener">Alerstam, T., Gudmundsson, G. A., Green, M., &amp; Hedenström, A. (2001). <em>Migration Along Orthodromic Sun Compass Routes by Arctic Birds</em>. Science, 291(5502), 300-303.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+  <li><a href="https://doi.org/10.1016/j.cub.2021.05.047" target="_blank" rel="noopener">Lindström, Å., Alerstam, T., Bahlenko, P., et al. (2021). <em>Extreme altitude changes between night and day during marathon flights of great snipes</em>. Current Biology, 31(15), 3412-3421.e4.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+  <li><a href="https://doi.org/10.1016/j.anbehav.2011.10.009" target="_blank" rel="noopener">Karlsson, H., Nilsson, C., Bäckman, J., &amp; Alerstam, T. (2012). <em>Nocturnal passerine migrants fly faster in spring than in autumn: a test of the time minimization hypothesis</em>. Animal Behaviour, 83(1), 87-93.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
 </ol>
 <h3 style="font-family: var(--font-ui); font-size: 1.0rem; margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--heading-color);">Reports &amp; Theses</h3>
 <div style="padding-left: 1.2rem; color: var(--text-color);">
   <div style="display: list-item; margin-bottom: 0.5rem;"><a href="https://www.northwindresearch.no/research/visavis/" target="_blank" rel="noopener">Norwegian Institute for Nature Research (NINA). (2024). VisAviS project: Sensor fusion and bird radar.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></div>
   <div style="display: list-item; margin-bottom: 0.5rem;"><a href="https://www.sintef.no/prosjekter/2024/skarv/" target="_blank" rel="noopener">SINTEF &amp; NINA. (2024). SKARV project: Slippe fugleKollisjoner med Aktiv Regulering av Vindturbiner.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></div>
   <div style="display: list-item; margin-bottom: 0.5rem;"><a href="https://portal.research.lu.se/en/publications/there-and-back-again-nocturnal-migratory-behaviour-of-birds-durin" target="_blank" rel="noopener">Karlsson, H. (2010). <em>Avhandling om nattflyttande fåglars beteende: jämförelser mellan vår- och höstflyttningen</em>. (Lund University PhD Thesis).</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></div>
-  <div style="display: list-item; margin-bottom: 0.5rem;"><a href="https://portal.research.lu.se/en/persons/cecilia-nilsson" target="_blank" rel="noopener">Nilsson, C. (2008). <em>Speeds, Altitudes and Directions of Avian Migration Flight</em>. Supervisors: T. Alerstam &amp; H. Karlsson. (Lund University MSc Thesis).</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></div>
+  <div style="display: list-item; margin-bottom: 0.5rem;">Nilsson, C. (2008). <em>Speeds, Altitudes and Directions of Avian Migration Flight</em>. Supervisors: T. Alerstam &amp; H. Karlsson. (Lund University MSc Thesis). <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></div>
 </div>
 
     </section>
@@ -746,6 +751,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -759,6 +765,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {

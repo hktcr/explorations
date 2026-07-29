@@ -51,6 +51,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection {
       background: rgba(192, 57, 43, 0.2);
     }
@@ -466,6 +470,7 @@
     </div>
 
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
       <button id="fontIncrease" aria-label="Increase font size">A+</button>
@@ -606,15 +611,15 @@
     <section class="sources" id="sources">
       <h2>Sources & Further Reading</h2>
       <ol>
-        <li id="src-1" class="source-item"><a href="https://www.testingstandards.net/" target="_blank" rel="noopener">AERA, APA, & NCME. (2014). <em>Standards for Educational and Psychological Testing</em>.</a></li>
-        <li id="src-2" class="source-item"><a href="https://openlibrary.org/search?q=Validity+Messick+1989">Messick, S. (1989). Validity. In R. L. Linn (Ed.), <em>Educational measurement</em>.</a></li>
-        <li id="src-3" class="source-item"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/jedm.12000" target="_blank" rel="noopener">Kane, M. T. (2013). Validating the Interpretations and Uses of Test Scores.</a></li>
-        <li id="src-4" class="source-item"><a href="https://pubmed.ncbi.nlm.nih.gov/2260655/" target="_blank" rel="noopener">Gould, S. J. (1981). <em>The Mismeasure of Man</em>. (Critique of early psychometrics and intelligence testing).</a></li>
-        <li id="src-5" class="source-item"><a href="https://undark.org/2021/03/11/standardized-testing-sat-racism/" target="_blank" rel="noopener">Carl Brigham and the Origins of the SAT. (A Study of American Intelligence, 1923).</a></li>
-        <li id="src-6" class="source-item"><a href="https://doi.org/10.1080/0268093022000043065" target="_blank" rel="noopener">Ball, S. J. (2003). The teacher's soul and the terrors of performativity. <em>Journal of Education Policy</em>.</a></li>
-        <li id="src-7" class="source-item"><a href="https://openlibrary.org/search?q=Differential+Item+Functioning+Holland+Wainer">Holland, P. W., & Wainer, H. (1993). <em>Differential Item Functioning</em>.</a></li>
-        <li id="src-8" class="source-item"><a href="https://openlibrary.org/search?q=Item+Response+Theory+for+Psychologists+Embretson">Embretson, S. E., & Reise, S. P. (2000). <em>Item Response Theory for Psychologists</em>.</a></li>
-        <li id="src-9" class="source-item"><a href="https://press.uchicago.edu/ucp/books/book/chicago/T/bo26298516.html" target="_blank" rel="noopener">Koretz, D. (2017). <em>The Testing Charade: Pretending to Make Schools Better</em>.</a></li>
+        <li id="src-1" class="source-item"><a href="https://www.testingstandards.net/" target="_blank" rel="noopener">AERA, APA, & NCME. (2014). <em>Standards for Educational and Psychological Testing</em>.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li id="src-2" class="source-item"><a href="https://openlibrary.org/search?q=Validity+Messick+1989" target="_blank" rel="noopener">Messick, S. (1989). Validity. In R. L. Linn (Ed.), <em>Educational measurement</em>.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li id="src-3" class="source-item"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/jedm.12000" target="_blank" rel="noopener">Kane, M. T. (2013). Validating the Interpretations and Uses of Test Scores.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li id="src-4" class="source-item">Gould, S. J. (1981). <em>The Mismeasure of Man</em>. (Critique of early psychometrics and intelligence testing). <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li id="src-5" class="source-item"><a href="https://undark.org/2022/12/14/can-standardized-testing-escape-its-racist-past/" target="_blank" rel="noopener">Can Standardized Testing Escape Its Racist Past? (Undark, 2022) / Carl Brigham and the Origins of the SAT.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li id="src-6" class="source-item"><a href="https://doi.org/10.1080/0268093022000043065" target="_blank" rel="noopener">Ball, S. J. (2003). The teacher's soul and the terrors of performativity. <em>Journal of Education Policy</em>.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li id="src-7" class="source-item"><a href="https://openlibrary.org/search?q=Differential+Item+Functioning+Holland+Wainer" target="_blank" rel="noopener">Holland, P. W., & Wainer, H. (1993). <em>Differential Item Functioning</em>.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li id="src-8" class="source-item"><a href="https://openlibrary.org/search?q=Item+Response+Theory+for+Psychologists+Embretson" target="_blank" rel="noopener">Embretson, S. E., & Reise, S. P. (2000). <em>Item Response Theory for Psychologists</em>.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li id="src-9" class="source-item"><a href="https://doi.org/10.7208/chicago/9780226408859.001.0001" target="_blank" rel="noopener">Koretz, D. (2017). <em>The Testing Charade: Pretending to Make Schools Better</em>.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
       </ol>
     </section>
   </main>
@@ -629,6 +634,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -642,6 +648,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {

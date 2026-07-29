@@ -49,6 +49,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection { background: rgba(192, 57, 43, 0.2); }
 
     .toolbar {
@@ -467,6 +471,7 @@
     </div>
 
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
       <button id="fontIncrease" aria-label="Increase font size">A+</button>
@@ -579,7 +584,7 @@
     <section class="sources" id="sources">
       <h2>Sources & Further Reading</h2>
       <ol>
-        <li id="src-1" class="source-item"><a href="https://doi.org/10.1002/jsfa.2740261107" target="_blank" rel="noopener">Donovan, J. W., Mapes, C. J., Davis, J. G., & Garibaldi, J. A. (1975). A differential scanning calorimetric study of the heat denaturation of egg white proteins. <em>Journal of the Science of Food and Agriculture</em>, 26(11), 1661–1683.</a>
+        <li id="src-1" class="source-item"><a href="https://doi.org/10.1002/jsfa.2740260109" target="_blank" rel="noopener">Donovan, J. W., Mapes, C. J., Davis, J. G., & Garibaldi, J. A. (1975). A differential scanning calorimetric study of the heat denaturation of egg white proteins. <em>Journal of the Science of Food and Agriculture</em>, 26(1), 73–83.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: "Ovotransferrin DSC peak at 61.5°C makes it the most heat-labile major albumen protein."</span> <span class="source-verified" title="Strictly verified via DOI Handle API">✓ Verified</span></li>
@@ -607,7 +612,7 @@
           <span class="source-tier source-tier-2">⭐⭐ Authoritative</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: "Sugars increase water surface tension, elevating the denaturation temperature of egg proteins."</span> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
-        <li id="src-8" class="source-item"><a href="https://doi.org/10.1080/00021369.1982.10865297" target="_blank" rel="noopener">Matsuda, T., Watanabe, K., & Sato, Y. (1982). Thermal denaturation of ovotransferrin and ovalbumin. <em>Agricultural and Biological Chemistry</em>, 46(6), 1629–1635.</a>
+        <li id="src-8" class="source-item"><a href="https://doi.org/10.1111/j.1365-2621.1981.tb04498.x" target="_blank" rel="noopener">Matsuda, T., Watanabe, K., & Sato, Y. (1981). Heat-Induced Aggregation of Egg White Proteins as Studied by Vertical Flat-Sheet Polyacrylamide Gel Electrophoresis. <em>Journal of Food Science</em>, 46(6), 1829–1834.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: "Ionic strength from NaCl screens net charges, modulating hydrophobic aggregation barriers."</span> <span class="source-verified" title="Strictly verified via DOI Handle API">✓ Verified</span></li>
@@ -619,7 +624,7 @@
           <span class="source-tier source-tier-2">⭐⭐ Authoritative</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: "Slow thermal diffusion in Onsen Tamago sets yolk at 65-68°C while white remains soft below 80°C."</span> <span class="source-verified" title="Strictly verified via DOI Handle API">✓ Verified</span></li>
-        <li id="src-11" class="source-item"><a href="https://doi.org/10.1111/j.1750-3841.2011.02074.x" target="_blank" rel="noopener">Singh, A., Korasapati, N. R., Juneja, V. K., Subbiah, J., Froning, G., & Thippareddi, H. (2011). Dynamic predictive model for the growth of Salmonella spp. in liquid whole egg. <em>Journal of Food Science</em>, 76(4), M271–M278.</a>
+        <li id="src-11" class="source-item"><a href="https://doi.org/10.1111/j.1750-3841.2011.02074.x" target="_blank" rel="noopener">Singh, A., Korasapati, N. R., Juneja, V. K., Subbiah, J., Froning, G., & Thippareddi, H. (2011). Dynamic predictive model for the growth of Salmonella spp. in liquid whole egg. <em>Journal of Food Science</em>, 76(3), M225–M232.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: "Liquid egg pasteurization must achieve pathogen reduction below 60°C to prevent equipment fouling."</span> <span class="source-verified" title="Strictly verified via DOI Handle API">✓ Verified</span></li>
@@ -645,6 +650,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -658,6 +664,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {

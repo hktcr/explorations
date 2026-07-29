@@ -51,6 +51,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection {
       background: rgba(192, 57, 43, 0.2);
     }
@@ -586,6 +590,7 @@
     </div>
 
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
       <button id="fontIncrease" aria-label="Increase font size">A+</button>
@@ -683,9 +688,9 @@
       <h2>Sources & Further Reading</h2>
       
 <ol>
-  <li>The Disputable History of the Caesar Salad (<a href="https://www.nationalgeographic.com/travel/article/caesar-salad-history-origins" target="_blank">National Geographic</a>) <span class="source-verified">✓ Verified</span></li>
-  <li>Caesar Cardini & The Origin of the Caesar Salad (<a href="https://classicsandiego.com/restaurants/caesars-restaurant-tijuana/" target="_blank">Classic San Diego</a>) <span class="source-verified">✓ Verified</span></li>
-  <li><a href="https://www.amazon.com/dp/0394480716" target="_blank">From Julia Child's Kitchen, by Julia Child (1975)</a> <span class="source-verified">✓ Verified</span></li>
+  <li>The Disputable History of the Caesar Salad (<a href="https://en.wikipedia.org/wiki/Caesar_salad" target="_blank">Wikipedia</a>) <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+  <li>Caesar Cardini & The Origin of the Caesar Salad (<a href="https://classicsandiego.com/restaurants/caesars-restaurant-tijuana/" target="_blank">Classic San Diego</a>) <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+  <li><a href="https://www.amazon.com/dp/0394480716" target="_blank">From Julia Child's Kitchen, by Julia Child (1975)</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
 </ol>
 
     </section>
@@ -704,6 +709,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -717,6 +723,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {

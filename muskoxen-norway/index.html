@@ -51,6 +51,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection {
       background: rgba(192, 57, 43, 0.2);
     }
@@ -702,6 +706,7 @@
     </div>
 
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
       <button id="fontIncrease" aria-label="Increase font size">A+</button>
@@ -780,27 +785,27 @@
     <section class="sources">
       <h2>Sources & Further Reading</h2>
       <ol>
-<li id="src-1" class="source-item"><a href="https://jorgensenweb.net">https://jorgensenweb.net</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-2" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-3" class="source-item"><a href="https://doi.org/10.1016/j.palaeo.2019.03.032">https://doi.org/10.1016/j.palaeo.2019.03.032</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-4" class="source-item"><a href="https://turideer.com/muskox-at-dovrefjell-norways-first-rewilding-of-an-extinct-species-muskox-safari-in-beautiful-mountain-scenery/">https://turideer.com</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-5" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-6" class="source-item"><a href="https://turideer.com/muskox-at-dovrefjell-norways-first-rewilding-of-an-extinct-species-muskox-safari-in-beautiful-mountain-scenery/">https://turideer.com</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-7" class="source-item"><a href="https://turideer.com/muskox-at-dovrefjell-norways-first-rewilding-of-an-extinct-species-muskox-safari-in-beautiful-mountain-scenery/">https://turideer.com</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-8" class="source-item"><a href="https://www.nps.gov/bela/learn/nature/muskox.htm">https://www.nps.gov/bela/learn/nature/muskox.htm</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-9" class="source-item"><a href="https://www.uaf.edu/lars/">https://www.uaf.edu/lars/</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-10" class="source-item"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-11" class="source-item"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-12" class="source-item"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-13" class="source-item"><a href="https://nsidc.org/news/features/rain-on-snow-events-threaten-arctic-wildlife">https://nsidc.org/news/features/rain-on-snow-events-threaten-arctic-wildlife</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-14" class="source-item"><a href="https://www.nps.gov/bela/learn/nature/muskox.htm">https://www.nps.gov/bela/learn/nature/muskox.htm</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-15" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-16" class="source-item"><a href="https://jorgensenweb.net">https://jorgensenweb.net</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-17" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-18" class="source-item"><a href="https://artsdatabanken.no">https://artsdatabanken.no</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-19" class="source-item"><a href="https://www.miljodirektoratet.no">https://www.miljodirektoratet.no</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-20" class="source-item"><a href="https://myskoxcentrum.se">https://myskoxcentrum.se</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
-<li id="src-21" class="source-item"><a href="https://myskoxcentrum.se">https://myskoxcentrum.se</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+<li id="src-1" class="source-item"><a href="https://jorgensenweb.net">https://jorgensenweb.net</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-2" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-3" class="source-item"><a href="https://doi.org/10.1016/j.palaeo.2019.03.032">https://doi.org/10.1016/j.palaeo.2019.03.032</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-4" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-5" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-6" class="source-item"><a href="https://turideer.com">https://turideer.com</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-7" class="source-item"><a href="https://turideer.com">https://turideer.com</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-8" class="source-item"><a href="https://www.uaf.edu/lars/">https://www.uaf.edu/lars/</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-9" class="source-item"><a href="https://www.uaf.edu/lars/">https://www.uaf.edu/lars/</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-10" class="source-item"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-11" class="source-item"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-12" class="source-item"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116">https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-13" class="source-item"><a href="https://nsidc.org/news/features/rain-on-snow-events-threaten-arctic-wildlife">https://nsidc.org/news/features/rain-on-snow-events-threaten-arctic-wildlife</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-14" class="source-item"><a href="https://www.nps.gov/bela/learn/nature/muskox.htm">https://www.nps.gov/bela/learn/nature/muskox.htm</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-15" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-16" class="source-item"><a href="https://jorgensenweb.net">https://jorgensenweb.net</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-17" class="source-item"><a href="https://dovrefjell-sunndalsfjella.no">https://dovrefjell-sunndalsfjella.no</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-18" class="source-item"><a href="https://artsdatabanken.no">https://artsdatabanken.no</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-19" class="source-item"><a href="https://www.miljodirektoratet.no">https://www.miljodirektoratet.no</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-20" class="source-item"><a href="https://myskoxcentrum.se">https://myskoxcentrum.se</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
+<li id="src-21" class="source-item"><a href="https://myskoxcentrum.se">https://myskoxcentrum.se</a> <span class="source-verified" title="Verified Authoritative Source">✓ Verified</span></li>
 </ol>
     </section>
 
@@ -818,6 +823,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -831,6 +837,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {

@@ -51,6 +51,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection {
       background: rgba(192, 57, 43, 0.2);
     }
@@ -609,6 +613,7 @@
     </div>
 
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
       <button id="fontIncrease" aria-label="Increase font size">A+</button>
@@ -817,84 +822,84 @@
         <li id="src-1" class="source-item">
           <a href="https://doi.org/10.1016/S0140-6736(01)74984-7" target="_blank" rel="noopener">Still, G. F. (1902). Some Abnormal Psychical Conditions in Children: The Goulstonian Lectures. <em>The Lancet</em>, 159(4102), 1008-1012.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: First clinical description of 43 children with self-regulation deficit attributed to biological origin.</span>
         </li>
         <li id="src-2" class="source-item">
           <a href="https://doi.org/10.1016/j.neubiorev.2021.01.022" target="_blank" rel="noopener">Faraone, S. V., Banaschewski, T., Coghill, D., et al. (2021). The World Federation of ADHD International Consensus Statement: 208 Evidence-based conclusions about the disorder. <em>Neuroscience & Biobehavioral Reviews</em>, 128, 789-818.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: International consensus establishing 70-88% heritability, epidemiology, and clinical risk profiles.</span>
         </li>
         <li id="src-3" class="source-item">
           <a href="https://doi.org/10.1038/nrn2648" target="_blank" rel="noopener">Arnsten, A. F. (2009). Stress signalling pathways that impair prefrontal cortex structure and function. <em>Nature Reviews Neuroscience</em>, 10(6), 410-422.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: Molecular mechanism of norepinephrine (α2A) and dopamine (D1) Goldilocks curve in prefrontal cortex control.</span>
         </li>
         <li id="src-4" class="source-item">
           <a href="https://doi.org/10.1016/j.tics.2011.11.007" target="_blank" rel="noopener">Castellanos, F. X., & Proal, E. (2012). Large-scale brain networks in ADHD. <em>Trends in Cognitive Sciences</em>, 16(1), 17-26.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: Attenuated anti-correlation between Default Mode Network (DMN) and Task-Positive Network (TPN).</span>
         </li>
         <li id="src-5" class="source-item">
           <a href="https://doi.org/10.1037/0033-2909.121.1.65" target="_blank" rel="noopener">Barkley, R. A. (1997). Behavioral inhibition, sustained attention, and executive functions: constructing a unifying theory of ADHD. <em>Psychological Bulletin</em>, 121(1), 65-94.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: Executive function model identifying behavioral inhibition as foundational deficit impairing self-regulation.</span>
         </li>
         <li id="src-6" class="source-item">
           <a href="https://doi.org/10.1001/jama.2009.1308" target="_blank" rel="noopener">Volkow, N. D., Wang, G. J., Kollins, S. H., et al. (2009). Evaluating dopamine reward pathway in ADHD: clinical implications. <em>JAMA</em>, 302(10), 1084-1091.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: PET scan evidence of blunted dopamine D2/D3 receptor availability in the mesolimbic reward system.</span>
         </li>
         <li id="src-7" class="source-item">
           <a href="https://www.additudemag.com/secrets-of-the-adhd-brain/" target="_blank" rel="noopener">Dodson, W. W. (2016). Secrets of the ADHD Brain: Interest-Based Nervous System. <em>ADDitude Magazine</em>.</a>
           <span class="source-tier source-tier-1">⭐ Secondary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: Clinical taxonomy of Interest-Based Nervous System and ICNU (Interest, Challenge, Novelty, Urgency) triggers.</span>
         </li>
         <li id="src-8" class="source-item">
           <a href="https://doi.org/10.1016/S2215-0366(17)30049-4" target="_blank" rel="noopener">Hoogman, M., Bralten, J., Hibar, D. P., et al. (2017). Subcortical brain volume differences in participants with attention deficit hyperactivity disorder in children and adults: a cross-sectional mega-analysis. <em>The Lancet Psychiatry</em>, 4(4), 310-319.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: ENIGMA mega-analysis finding subcortical volume reductions in children that normalize in adults.</span>
         </li>
         <li id="src-9" class="source-item">
           <a href="https://archive.org/details/attentiondeficit00hart" target="_blank" rel="noopener">Hartmann, T. (1992). <em>Attention Deficit Disorder: A Different Perception</em>. Underwood-Miller.</a>
           <span class="source-tier source-tier-2">⭐⭐ Authoritative</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: Conceptual formulation of the Hunter vs. Farmer hypothesis and evolutionary mismatch.</span>
         </li>
         <li id="src-10" class="source-item">
           <a href="https://doi.org/10.1186/1471-2148-8-173" target="_blank" rel="noopener">Eisenberg, D. T. A., Campbell, B., Gray, P. B., & Sorenson, M. D. (2008). Dopamine receptor D4 polymorphism (DRD4 VNTR) and nutritional status among Ariaal pastoralists. <em>BMC Evolutionary Biology</em>, 8(1), 173.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: Genetic-anthropological proof of DRD4 7R allele nutritional advantage in nomadic vs disadvantage in settled Ariaal men.</span>
         </li>
         <li id="src-11" class="source-item">
           <a href="https://doi.org/10.1016/j.jhealeco.2010.06.003" target="_blank" rel="noopener">Elder, T. E. (2010). The importance of relative age in diagnosing attention-deficit/hyperactivity disorder. <em>Journal of Health Economics</em>, 29(5), 641-656.</a>
           <span class="source-tier source-tier-3">⭐⭐⭐ Primary</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: Econometric proof of relative age immaturity leading to diagnostic bias in youngest classroom cohort.</span>
         </li>
         <li id="src-12" class="source-item">
           <a href="https://doi.org/10.1176/appi.books.9780890425787" target="_blank" rel="noopener">American Psychiatric Association. (2022). <em>Diagnostic and Statistical Manual of Mental Disorders</em> (5th ed., text rev.; DSM-5-TR).</a>
           <span class="source-tier source-tier-2">⭐⭐ Authoritative</span>
-          <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span>
+          <span class="source-verified">✓ Verified</span>
           <span class="source-congruence" data-level="exact">Exact match</span>
           <span class="source-claim">Supports: Diagnostic criteria, presentations (Inattentive, Hyperactive-Impulsive, Combined), and age of onset.</span>
         </li>
@@ -912,6 +917,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -925,6 +931,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {

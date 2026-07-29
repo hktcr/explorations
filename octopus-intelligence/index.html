@@ -51,6 +51,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection {
       background: rgba(192, 57, 43, 0.2);
     }
@@ -511,6 +515,7 @@
       <button id="audioSpeed" title="Change speed">1×</button>
     </div>
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease">A-</button>
       <button id="fontReset">Reset</button>
       <button id="fontIncrease">A+</button>
@@ -644,13 +649,13 @@
     <section class="sources" id="sources">
       <h2>Sources & Further Reading</h2>
       <ol>
-        <li><a href="https://doi.org/10.1007/s10539-018-9650-2" target="_blank" rel="noopener">Godfrey-Smith, Peter. <em>Other Minds: The Octopus, the Sea, and the Deep Origins of Consciousness.</em> Farrar, Straus and Giroux, 2016.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
-        <li><a href="https://doi.org/10.1037/0735-7036.113.3.333" target="_blank" rel="noopener">Mather, Jennifer A., and Roland C. Anderson. "Exploration, play, and habituation in octopuses (Octopus dofleini)." <em>Journal of Comparative Psychology</em> 113.3 (1999): 333-338.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
-        <li><a href="https://doi.org/10.1016/j.cub.2009.10.052" target="_blank" rel="noopener">Finn, Julian K., Tom Tregenza, and Mark D. Norman. "Defensive tool use in a coconut-carrying octopus." <em>Current Biology</em> 19.23 (2009): R1069-R1070.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
-        <li><a href="https://doi.org/10.1017/9780511843600" target="_blank" rel="noopener">Hanlon, Roger T., and John B. Messenger. <em>Cephalopod Behaviour.</em> Cambridge University Press, 2018.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
-        <li><a href="https://doi.org/10.1016/j.isci.2021.102223" target="_blank" rel="noopener">Medeiros, Sylvia Lima de Siqueira, et al. "Cyclic alternation of quiet and active sleep states in the octopus." <em>iScience</em> 24.4 (2021): 102223.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
-        <li><a href="https://doi.org/10.1017/s0962728600009866" target="_blank" rel="noopener">Birch, Jonathan, et al. <em>Review of the Evidence of Sentience in Cephalopod Molluscs and Decapod Crustaceans.</em> LSE Consulting, 2021.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
-        <li><a href="https://doi.org/10.2307/4134567" target="_blank" rel="noopener">Hochner, Binyamin, Tal Shomrat, and Graziano Fiorito. "The Octopus: A Model for a Comparative Analysis of the Evolution of Learning and Memory Mechanisms." <em>The Biological Bulletin</em> 210.3 (2006): 308-317.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
+        <li><a href="https://www.goodreads.com/book/show/28116739-other-minds" target="_blank" rel="noopener">Godfrey-Smith, Peter. <em>Other Minds: The Octopus, the Sea, and the Deep Origins of Consciousness.</em> Farrar, Straus and Giroux, 2016.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li><a href="https://doi.org/10.1037/0735-7036.113.3.333" target="_blank" rel="noopener">Mather, Jennifer A., and Roland C. Anderson. "Exploration, play, and habituation in octopuses (Octopus dofleini)." <em>Journal of Comparative Psychology</em> 113.3 (1999): 333-338.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li><a href="https://doi.org/10.1016/j.cub.2009.10.052" target="_blank" rel="noopener">Finn, Julian K., Tom Tregenza, and Mark D. Norman. "Defensive tool use in a coconut-carrying octopus." <em>Current Biology</em> 19.23 (2009): R1069-R1070.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li><a href="https://doi.org/10.1017/9780511843600" target="_blank" rel="noopener">Hanlon, Roger T., and John B. Messenger. <em>Cephalopod Behaviour.</em> Cambridge University Press, 2018.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li><a href="https://doi.org/10.1016/j.isci.2021.102223" target="_blank" rel="noopener">Medeiros, Sylvia Lima de Siqueira, et al. "Cyclic alternation of quiet and active sleep states in the octopus." <em>iScience</em> 24.4 (2021): 102223.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li><a href="https://www.lse.ac.uk/business/consulting/assets/documents/Sentience-in-Cephalopod-Molluscs-and-Decapod-Crustaceans-Final-Report-November-2021.pdf" target="_blank" rel="noopener">Birch, Jonathan, et al. <em>Review of the Evidence of Sentience in Cephalopod Molluscs and Decapod Crustaceans.</em> LSE Consulting, 2021.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+        <li><a href="https://doi.org/10.2307/4134567" target="_blank" rel="noopener">Hochner, Binyamin, Tal Shomrat, and Graziano Fiorito. "The Octopus: A Model for a Comparative Analysis of the Evolution of Learning and Memory Mechanisms." <em>The Biological Bulletin</em> 210.3 (2006): 308-317.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
       </ol>
     </section>
 
@@ -673,6 +678,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -686,6 +692,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {

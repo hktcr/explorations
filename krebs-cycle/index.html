@@ -51,6 +51,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection {
       background: rgba(192, 57, 43, 0.2);
     }
@@ -511,6 +515,7 @@
       <button id="audioSpeed" title="Change speed">1×</button>
     </div>
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease">A-</button>
       <button id="fontReset">Reset</button>
       <button id="fontIncrease">A+</button>
@@ -676,7 +681,7 @@
     <section class="sources" id="sources">
       <h2>Sources & Further Reading</h2>
       <ol>
-        <li><a href="https://doi.org/10.1136/bmj.331.7520.851-a" target="_blank" rel="noopener" target="_blank" rel="noopener" target="_blank" rel="noopener">Lane, Nick. <em>Power, Sex, Suicide: Mitochondria and the Meaning of Life.</em> Oxford University Press, 2005.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
+        <li>Lane, Nick. <em>Power, Sex, Suicide: Mitochondria and the Meaning of Life.</em> Oxford University Press, 2005. <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
         <li><a href="https://doi.org/10.1016/0014-5793(80)80564-3" target="_blank" rel="noopener" target="_blank" rel="noopener" target="_blank" rel="noopener">Krebs, Hans A., and W. A. Johnson. "The role of citric acid in intermediate metabolism in animal tissues." <em>Enzymologia</em> 4 (1937): 148-156.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
         <li><a href="https://doi.org/10.1038/191144a0" target="_blank" rel="noopener" target="_blank" rel="noopener" target="_blank" rel="noopener">Mitchell, Peter. "Coupling of phosphorylation to electron and hydrogen transfer by a chemi-osmotic type of mechanism." <em>Nature</em> 191.4784 (1961): 144-148.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
         <li><a href="https://doi.org/10.1146/annurev.biochem.66.1.717" target="_blank" rel="noopener" target="_blank" rel="noopener" target="_blank" rel="noopener">Boyer, Paul D. "The ATP synthase—a splendid molecular machine." <em>Annual Review of Biochemistry</em> 66.1 (1997): 717-749.</a> <span class="source-verified" title="Strictly verified via Crossref (Strict Match)">✓ Verified</span></li>
@@ -705,6 +710,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -718,6 +724,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {

@@ -51,6 +51,10 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
     ::selection {
       background: rgba(192, 57, 43, 0.2);
     }
@@ -586,6 +590,7 @@
     </div>
 
     <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family" style="min-width: 4.5rem;">Sans</button>
       <button id="fontDecrease" aria-label="Decrease font size">A-</button>
       <button id="fontReset" aria-label="Reset font size">Reset</button>
       <button id="fontIncrease" aria-label="Increase font size">A+</button>
@@ -749,10 +754,10 @@
     <section class="sources" id="sources">
       <h2>Sources & Further Reading</h2>
       <ol>
-  <li><a href="https://doi.org/10.1371/journal.pone.0147905" target="_blank" rel="noopener">Grimes, David Robert. "On the Viability of Conspiratorial Beliefs." PLOS ONE (2016).</a> <span class="source-verified" title="Verified via DOI/Crossref">✓ Verified</span></li>
-  <li><a href="https://www.aaro.mil/Portals/136/PDFs/AARO_Historical_Record_Report_Volume_1_2024.pdf" target="_blank" rel="noopener">All-domain Anomaly Resolution Office (AARO) Historical Record Report, Vol. 1 (2024).</a> <span class="source-verified" title="Verified via official government report">✓ Verified</span></li>
-  <li><a href="https://projects.iq.harvard.edu/galileo" target="_blank" rel="noopener">The Galileo Project, Harvard University.</a> <span class="source-verified" title="Verified via institutional URL">✓ Verified</span></li>
-  <li><a href="https://iaaspace.org/wp-content/uploads/iaa/Scientific%20Activity/iaasetideclaration.pdf" target="_blank" rel="noopener">IAA SETI Permanent Committee, Post-Detection Protocols (2026 update).</a> <span class="source-verified" title="Verified via IAA official document">✓ Verified</span></li>
+  <li><a href="https://doi.org/10.1371/journal.pone.0147905" target="_blank" rel="noopener">Grimes, David Robert. "On the Viability of Conspiratorial Beliefs." PLOS ONE (2016).</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+  <li><a href="https://www.aaro.mil/Portals/136/PDFs/AARO_Historical_Record_Report_Volume_1_2024.pdf" target="_blank" rel="noopener">All-domain Anomaly Resolution Office (AARO) Historical Record Report, Vol. 1 (2024).</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+  <li><a href="https://projects.iq.harvard.edu/galileo" target="_blank" rel="noopener">The Galileo Project, Harvard University.</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
+  <li><a href="https://iaaseti.org/en/protocols/" target="_blank" rel="noopener">IAA SETI Permanent Committee, Post-Detection Protocols (2026 update).</a> <span class="source-verified" title="Strictly verified via Svärm">✓ Verified</span></li>
 </ol>
     </section>
 
@@ -770,6 +775,7 @@
       const btnDec = document.getElementById('fontDecrease');
       const btnInc = document.getElementById('fontIncrease');
       const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
       const defaultSize = 18;
       
       function setFontSize(size) {
@@ -783,6 +789,21 @@
         setFontSize(currentSize);
       } else {
         currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
       }
 
       btnDec.addEventListener('click', () => {
