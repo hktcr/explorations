@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Engine of Life: Demystifying Cellular Respiration — Explorations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fcfcfc;
+      --text-color: #1a1a1a;
+      --heading-color: #c0392b;
+      --subheading-color: #1a1a1a;
+      --accent-color: #c0392b;
+      --meta-color: #888888;
+      --blockquote-bg: #fafafa;
+      --toc-bg: #f8f8f8;
+      --source-bg: #f5f5f5;
+      --font-body: 'Merriweather', serif;
+      --font-ui: 'Inter', sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --heading-color: #e74c3c;
+        --subheading-color: #e0e0e0;
+        --accent-color: #e74c3c;
+        --meta-color: #999999;
+        --blockquote-bg: #1e1e1e;
+        --toc-bg: #1a1a1a;
+        --source-bg: #1a1a1a;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.8;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
+    ::selection {
+      background: rgba(192, 57, 43, 0.2);
+    }
+
+    /* Toolbar */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      background: rgba(252, 252, 252, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .toolbar {
+        background: rgba(18, 18, 18, 0.85);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+
+    .toolbar a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .toolbar a:hover {
+      color: var(--accent-color);
+    }
+
+    .font-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .font-controls button {
+      background: none;
+      border: 1px solid var(--meta-color);
+      color: var(--text-color);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .font-controls button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    main {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .subject-badge {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--accent-color);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      color: var(--heading-color);
+      font-family: var(--font-body);
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    h2 {
+      color: var(--heading-color);
+      font-family: var(--font-body);
+      font-size: 1.6rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      scroll-margin-top: 80px;
+    }
+
+    h3 {
+      color: var(--subheading-color);
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.3rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 400;
+      scroll-margin-top: 80px;
+    }
+
+    .meta {
+      font-family: var(--font-ui);
+      color: var(--meta-color);
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    
+    .meta time::after {
+      content: " • ";
+      margin-left: 1rem;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--toc-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+      font-family: var(--font-ui);
+    }
+
+    .toc-title {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--meta-color);
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc li {
+      margin-bottom: 0.75rem;
+    }
+
+    .toc a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .toc a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Content */
+    .content a {
+      color: var(--accent-color);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom-color 0.2s ease;
+    }
+
+    .content a:hover {
+      border-bottom-color: var(--accent-color);
+    }
+
+    .content p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Drop cap */
+    .content > p:first-of-type::first-letter {
+      float: left;
+      font-size: 4em;
+      line-height: 0.8;
+      color: var(--accent-color);
+      font-family: var(--font-body);
+      margin: 0 0.1em 0 0;
+      font-weight: 700;
+    }
+
+    /* Blockquotes */
+    blockquote {
+      border-left: 4px solid var(--accent-color);
+      font-style: italic;
+      padding: 1rem 1.5rem;
+      background: var(--blockquote-bg);
+      border-radius: 0 8px 8px 0;
+      margin: 2rem 0;
+      color: var(--subheading-color);
+    }
+    
+    blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    pre {
+      background: var(--toc-bg);
+      padding: 1.2rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin: 1.5rem 0;
+    }
+
+    /* Sources */
+    .sources {
+      background: var(--source-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 4rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+    }
+
+    .sources h2 {
+      font-family: var(--font-ui);
+      font-size: 1.1rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sources ol {
+      padding-left: 1.2rem;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    .sources li {
+      margin-bottom: 0.8rem;
+      scroll-margin-top: 100px;
+    }
+    
+    .sources a {
+      color: var(--text-color);
+      text-decoration: underline;
+    }
+
+    .source-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #27ae60;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px solid rgba(39, 174, 96, 0.25);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .source-tier {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 600;
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-left: 0.3rem;
+      vertical-align: middle;
+    }
+
+    .source-tier-3 {
+      color: #b8860b;
+      background: rgba(212, 160, 23, 0.10);
+      border: 1px solid rgba(212, 160, 23, 0.30);
+    }
+
+    .source-congruence {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      border-radius: 3px;
+      padding: 0.05rem 0.35rem;
+      margin-left: 0.3rem;
+      vertical-align: middle;
+    }
+
+    .source-congruence[data-level="exact"] {
+      color: #1a7a3a;
+      background: rgba(26, 122, 58, 0.06);
+    }
+
+    .source-claim {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-style: italic;
+      color: #888;
+      margin-top: 0.25rem;
+      padding-left: 0.2rem;
+      line-height: 1.4;
+    }
+
+    /* Inline References */
+    .ref {
+      font-size: 0.7em;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+      top: -0.5em;
+    }
+
+    .ref a {
+      color: #c0392b;
+      text-decoration: none;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      padding: 0 0.1em;
+    }
+
+    .ref a:hover {
+      color: #e74c3c;
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      color: var(--meta-color);
+      margin-top: 2rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      footer {
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+
+    footer a {
+      color: var(--meta-color);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text-color);
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky toolbar -->
+  <nav class="toolbar">
+    <a href="../index.html">← Library</a>
+    <div class="font-controls">
+      <button id="fontToggle" aria-label="Toggle font family">Sans</button>
+      <button id="fontDecrease" aria-label="Decrease font size">A-</button>
+      <button id="fontReset" aria-label="Reset font size">Reset</button>
+      <button id="fontIncrease" aria-label="Increase font size">A+</button>
+    </div>
+  </nav>
+
+  <main>
+    <header>
+      <span class="subject-badge">Cellular Biology</span>
+      <h1>The Engine of Life: Demystifying Cellular Respiration</h1>
+      <div class="meta">
+        <time>July 29, 2026</time>
+        <span class="reading-time">≈ 18 min read</span>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <nav class="toc">
+      <h2 class="toc-title">Contents</h2>
+      <ul>
+        <li><a href="#paradox-slow-flame">1. The Paradox of the Slow Flame</a></li>
+        <li><a href="#glycolysis-splitting-fuel">2. Phase One — Glycolysis: Splitting Fuel in the Cytosolic Outer Works</a></li>
+        <li><a href="#gateway-pyruvate-decarboxylation">3. The Gateway — Pyruvate Decarboxylation and the Bridge to the Matrix</a></li>
+        <li><a href="#citric-acid-cycle-molecular-mill">4. Phase Two — The Citric Acid Cycle: The Unceasing Molecular Mill</a></li>
+        <li><a href="#electron-transport-chain-cascade">5. Phase Three — The Electron Transport Chain: The Energy Cascade</a></li>
+        <li><a href="#chemiosmotic-revolution-rotary-engine">6. The Chemiosmotic Revolution and the Rotary Engine of Life</a></li>
+        <li><a href="#energy-accounting-stoichiometry">7. Energy Accounting — Modern Stoichiometry Beyond the 38-ATP Myth</a></li>
+        <li><a href="#metabolic-flexibility-heat-redox">8. The Edge of the Engine: Metabolic Flexibility, Heat, and Redox Signals</a></li>
+        <li><a href="#reflection-silent-symphony">9. Reflection — The Silent Symphony Within</a></li>
+      </ul>
+    </nav>
+
+    <!-- Article content -->
+    <article class="content">
+      <p>If you hold a spoonful of sugar over an open flame, it melts, turns brown, and eventually ignites into a sharp, energetic burst of fire. In a matter of seconds, the chemical bonds holding a mole of glucose molecules together are violently ruptured, consuming oxygen and releasing carbon dioxide, water, and heat into the surrounding air. The energy release is fast, chaotic, and destructive, releasing roughly 2,870 kilojoules of heat per mole.</p>
+
+      <p>Yet, inside every single one of the trillions of cells in your body right now, that exact same chemical breakdown is taking place with absolute, whispering precision. We often colloquially say that our cells "burn" food for fuel, but what happens inside living tissue is the absolute opposite of combustion. Instead of bursting into flames or raising your body temperature by even a fraction of a degree, your cells capture that energy with remarkable thermodynamic efficiency—converting it into the universal cellular currency, adenosine triphosphate (ATP<sup class="ref"><a href="#src-1">[1]</a></sup>), that powers your thoughts, your muscle contractions, and your heartbeats.</p>
+
+      <p>For decades, students of biology have encountered this process—cellular respiration—as an intimidating wall of textbook diagrams: Glycolysis, the Citric Acid (Krebs) Cycle, and the Electron Transport Chain. It is often taught as a dry catalog of complex enzyme names, chemical structures, and carbon counting. But when stripped of jargon and viewed through the lens of physics and molecular engineering, cellular respiration reveals itself as one of the most elegant systems in the natural world: a multi-stage energy cascade, a physical proton battery, and a mechanical nanoscale rotary motor spinning at thousands of revolutions per minute inside your mitochondria.</p>
+
+      <h2 id="paradox-slow-flame">1. The Paradox of the Slow Flame</h2>
+
+      <p>To understand why cellular respiration is structured the way it is, one must first confront a fundamental physical problem: why can't a cell simply release energy from food in a single reaction?</p>
+
+      <p>When a mole of glucose (C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>) reacts with six moles of oxygen (6O<sub>2</sub>), it releases a massive amount of free energy—approximately 2,870 kJ/mol. If a cell were to release all of this energy in a single chemical step, the sudden dissipation of heat would instantly denature cellular proteins, rupture membranes, and kill the cell.</p>
+
+      <p>Furthermore, single-step combustion would be catastrophically wasteful. Energy released all at once as heat cannot be captured to do useful chemical work. It would be equivalent to exploding a car's entire gas tank with a single match instead of igniting tiny, controlled drops of gasoline inside internal combustion cylinders to turn a crankshaft.</p>
+
+      <pre>
+Combustion (Fire):
+Glucose + O₂ ────► Explosive Heat + Light + CO₂ + H₂O (Energy lost as heat)
+
+Cellular Respiration:
+Glucose + O₂ ────► Controlled Multi-Stage Cascade ────► Proton Battery ────► Spinning ATP Turbine + CO₂ + H₂O
+      </pre>
+
+      <p>Cellular respiration solves this thermodynamic challenge through <strong>step-by-step oxidation</strong><sup class="ref"><a href="#src-1">[1]</a></sup>. Instead of snapping all chemical bonds at once, the cell strips high-energy electrons from glucose incrementally across more than two dozen distinct enzymatic steps. By lowering the activation energy at each step, the cell harvests energy in tiny, manageable thermodynamic packages.</p>
+
+      <p>Crucially, the cell does not transfer these electrons directly to oxygen until the very end of the process. Instead, it uses specialized electron-carrier molecules—primarily <strong>NAD<sup>+</sup></strong> (nicotinamide adenine dinucleotide) and <strong>FAD</strong> (flavin adenine dinucleotide)—which act as molecular shuttles<sup class="ref"><a href="#src-1">[1]</a></sup>. These carriers pick up high-energy electrons (along with protons) from glucose intermediates, becoming <strong>NADH</strong> and <strong>FADH<sub>2</sub></strong>, and transport them to a specialized cellular energy plant: the mitochondrion.</p>
+
+      <h2 id="glycolysis-splitting-fuel">2. Phase One — Glycolysis: Splitting Fuel in the Cytosolic Outer Works</h2>
+
+      <p>The journey of energy extraction begins not inside the mitochondrion, but in the fluid cytoplasm (cytosol) of the cell. This first phase is called <strong>Glycolysis</strong>—literally "sugar splitting"<sup class="ref"><a href="#src-1">[1]</a></sup>.</p>
+
+      <p>Glycolysis is one of the most ancient metabolic pathways on Earth. The vast majority of living organisms—including all eukaryotes and most bacteria—perform glycolysis in virtually identical fashion, reflecting a biochemical foundation laid down billions of years ago.</p>
+
+      <p>Imagine glucose as a stable, symmetrical six-carbon ring (a pyranose ring). Because it is chemically stable, it does not spontaneously break apart. The cell must first spend energy to prime and destabilize it—a phase known as the <strong>Energy Investment Phase</strong>.</p>
+
+      <pre>
+[Glycolysis Flowchart]
+
+Glucose (6C)
+   │
+   ▼ (Phosphorylated to Glucose-6-phosphate)
+Fructose-6-phosphate (6C)
+   │
+   ▼ (Phosphorylated to Fructose-1,6-bisphosphate; Costs 2 ATP)
+Cleaved into 2x Glyceraldehyde-3-phosphate (3C)
+   │
+   ▼ (Harvests 4 ATP + 2 NADH)
+2x Pyruvate (3C)
+      </pre>
+
+      <p><strong>1. Investment:</strong> The cell first attaches a phosphate group to glucose, isomerizes it into fructose-6-phosphate (a five-membered furanose ring), and then attaches a second phosphate group, creating fructose-1,6-bisphosphate. Spending two ATP to prime the sugar is the metabolic equivalent of a business investing capital to yield a high return.</p>
+
+      <p><strong>2. Cleavage:</strong> The energized fructose molecule is cleaved in half into two identical three-carbon molecules of glyceraldehyde-3-phosphate (G3P).</p>
+
+      <p><strong>3. Payoff:</strong> In the subsequent <strong>Energy Payoff Phase</strong>, each G3P molecule is oxidized and modified by a series of cytosolic enzymes. High-energy electrons are extracted to convert two NAD<sup>+</sup> into two NADH, and four phosphate groups are transferred directly to ADP to form four ATP molecules via <strong>substrate-level phosphorylation</strong><sup class="ref"><a href="#src-1">[1]</a></sup>.</p>
+
+      <p>At the conclusion of glycolysis, the net accounting per glucose molecule is:</p>
+      <ul>
+        <li><strong>Net Energy Yield:</strong> 2 ATP (spent 2, created 4) and 2 NADH.</li>
+        <li><strong>End Product:</strong> Two three-carbon molecules of <strong>pyruvate</strong>.</li>
+      </ul>
+
+      <p>Notice that up to this point, not a single molecule of oxygen has been consumed. If oxygen is absent, cells can continue performing glycolysis via fermentation (converting pyruvate to lactate or ethanol to recycle NAD<sup>+</sup>). But when oxygen is available, pyruvate moves on to far greater energy extraction.</p>
+
+      <h2 id="gateway-pyruvate-decarboxylation">3. The Gateway — Pyruvate Decarboxylation and the Bridge to the Matrix</h2>
+
+      <p>Pyruvate created in the cytosol now stands outside the cell's main power plant: the <strong>mitochondrion</strong>.</p>
+
+      <p>The mitochondrion is enclosed by two distinct membranes: a smooth, permeable outer membrane and a tightly sealed, highly folded inner membrane surrounding an inner fluid called the <strong>matrix</strong>. To move from the cytosol into the matrix, pyruvate passes through transport channels and encounters a massive molecular assembly called the <strong>Pyruvate Dehydrogenase Complex</strong><sup class="ref"><a href="#src-1">[1]</a></sup>.</p>
+
+      <pre>
+Cytosol                       Inner Membrane                       Matrix
+───────                       ──────────────                       ──────
+2x Pyruvate (3C) ──── Transport ────────► Pyruvate Dehydrogenase
+                                                 │ (Per Pyruvate)
+                                                 ├─► Releases 1 CO₂ (Total: 2 CO₂)
+                                                 ├─► Produces 1 NADH (Total: 2 NADH)
+                                                 └─► Attaches Coenzyme A
+                                                 │
+                                                 ▼
+                                           2x Acetyl-CoA (2C)
+      </pre>
+
+      <p>Because each glucose molecule yields two pyruvates, this gateway step occurs twice per glucose. At the mitochondrial gate, three critical events take place for each pyruvate:</p>
+      <ol>
+        <li><strong>Decarboxylation:</strong> One carbon atom is stripped from pyruvate and released as a molecule of carbon dioxide (CO<sub>2</sub>). This is the very first CO<sub>2</sub> produced in respiration—the source of part of the carbon dioxide you exhale with every breath.</li>
+        <li><strong>Electron Harvesting:</strong> High-energy electrons are stripped from the remaining two-carbon fragment, reducing NAD<sup>+</sup> to NADH.</li>
+        <li><strong>Activation:</strong> The remaining two-carbon acetyl group is attached to a carrier molecule called <strong>Coenzyme A</strong>, creating <strong>Acetyl-CoA</strong>.</li>
+      </ol>
+
+      <p>Acetyl-CoA is the universal fuel ticket of metabolism. Whether your body breaks down carbohydrates, fats, or proteins, they are all ultimately converted into Acetyl-CoA to enter the main engine of cellular respiration: the Citric Acid Cycle.</p>
+
+      <h2 id="citric-acid-cycle-molecular-mill">4. Phase Two — The Citric Acid Cycle: The Unceasing Molecular Mill</h2>
+
+      <p>In 1937, German-born biochemist <strong>Hans Krebs</strong> elucidated the circular sequence of chemical reactions that processes Acetyl-CoA in the mitochondrial matrix<sup class="ref"><a href="#src-2">[2]</a></sup>. When he submitted his discovery to <em>Nature</em>, the editor rejected the paper due to a backlog of correspondence<sup class="ref"><a href="#src-2">[2]</a></sup>. Krebs published it instead in <em>Enzymologia</em>, and 16 years later was awarded the 1953 Nobel Prize in Physiology or Medicine<sup class="ref"><a href="#src-5">[5]</a></sup>. Today, the <strong>Krebs Cycle</strong> (also known as the Citric Acid Cycle or TCA cycle) stands as the central hub of aerobic biochemistry.</p>
+
+      <p>To understand the Krebs cycle intuitively, picture a continuous molecular wheel or grinding mill:</p>
+
+      <pre>
+                  Acetyl-CoA (2C)  [Fuel In]
+                        │
+                        ▼
+   Oxaloacetate (4C) ◄─────── Citrate (6C)
+         │                         │
+         │  (Krebs Cycle 8-Step)   │  Releases 2x CO₂
+         │     Harvests:           │  Produces 3x NADH
+         │   3 NADH, 1 FADH₂,      │  Produces 1 FADH₂
+         │   1 GTP/ATP per turn    │  Produces 1 GTP/ATP
+         ▼                         ▼
+   Succinate (4C) ◄────────── α-Ketoglutarate (5C)
+      </pre>
+
+      <p><strong>1. Condensation (Step 1):</strong> The two-carbon Acetyl-CoA enters the matrix and is combined with a resident four-carbon acceptor molecule called <strong>oxaloacetate</strong> to form a six-carbon molecule: <strong>citrate</strong> (citric acid).</p>
+
+      <p><strong>2. Isomerization & Decarboxylation (Steps 2–5):</strong> Citrate is systematically rearranged and stripped of two carbon atoms, which are released as two molecules of CO<sub>2</sub>. As these bonds are broken, energy is harvested to reduce two NAD<sup>+</sup> into two NADH, and one molecule of GTP (or ATP) is produced directly via substrate-level phosphorylation.</p>
+
+      <p><strong>3. Regeneration (Steps 6–8):</strong> The remaining four-carbon molecule undergoes further oxidation. Succinate is oxidized to fumarate, reducing FAD to FADH<sub>2</sub>. Fumarate is hydrated to malate, which is finally oxidized back into <strong>oxaloacetate</strong>.</p>
+
+      <p>By regenerating oxaloacetate at the end of the eighth step, the wheel resets itself, ready to accept the next incoming Acetyl-CoA.</p>
+
+      <blockquote>
+        <p><strong>The Carbon Illusion:</strong> It is a common misconception that the two carbon atoms released as CO<sub>2</sub> during a single turn of the Krebs cycle are the exact same two carbons that just entered via Acetyl-CoA. Isotopic tracer studies reveal that the released CO<sub>2</sub> actually originates from the oxaloacetate backbone from previous turns of the cycle. The newly arrived carbons remain embedded in the molecular wheel for future rounds.</p>
+      </blockquote>
+
+      <p>For every single glucose molecule entering respiration (yielding two Acetyl-CoA molecules), two full turns of the Krebs cycle produce:</p>
+      <ul>
+        <li><strong>4 CO<sub>2</sub></strong> (exhaust gas).</li>
+        <li><strong>6 NADH</strong> (electron shuttles loaded).</li>
+        <li><strong>2 FADH<sub>2</sub></strong> (electron shuttles loaded).</li>
+        <li><strong>2 ATP</strong> (or GTP).</li>
+      </ul>
+
+      <p>At this juncture, glucose has been entirely dismantled. All six of its carbon atoms have been turned into CO<sub>2</sub>. Yet, up to this point, the cell has generated a net total of only <strong>four ATP molecules</strong> (two from glycolysis, two from Krebs). Where is all the energy?</p>
+
+      <p>The answer lies in the electron carriers: <strong>10 NADH</strong> and <strong>2 FADH<sub>2</sub></strong> (accumulated across glycolysis, pyruvate oxidation, and Krebs) are now holding the vast majority of the chemical energy stripped from glucose. They are ready to deliver their high-energy passengers directly to the final stage of respiration.</p>
+
+      <h2 id="electron-transport-chain-cascade">5. Phase Three — The Electron Transport Chain: The Energy Cascade</h2>
+
+      <p>We now reach the central power station of cellular respiration: <strong>Oxidative Phosphorylation</strong>, occurring across the inner mitochondrial membrane. Here, the electron carriers (NADH and FADH<sub>2</sub>) drop off their high-energy electrons to the <strong>Electron Transport Chain (ETC)</strong>.</p>
+
+      <p>The ETC consists of four large protein complexes embedded in the inner membrane (labeled Complexes I, II, III, and IV), along with two mobile electron shuttles: <strong>Ubiquinone</strong> (Coenzyme Q) and <strong>Cytochrome c</strong>.</p>
+
+      <pre>
+Intermembrane Space (High H+ concentration)   [PROTON RESERVOIR]
+▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲ ▲
+│ 4 H⁺           │ 4 H⁺           │ 2 H⁺               ▲ H⁺ flow
+├──┴──┐          ├──┴──┐          ├──┴──┐              │
+│ I   │─── Q ───►│ III │── Cyto c─►│ IV  │         ┌───┴──┐
+└──┬──┘          └─────┘          └──┬──┘         │ ATP  │
+   ▲                                 │            │Syn-  │
+   │ NADH ──► NAD⁺                   ▼            │thase │
+   │                                O₂ ──► H₂O    └───┬──┘
+[Complex II: FADH₂ ──► Q (0 H⁺)]                      ▼
+Matrix (Low H+ concentration)                     ADP + Pi ──► ATP
+      </pre>
+
+      <p>Picture the electron transport chain as an energetic electrical cascade. Each successive protein complex in the chain has a higher <strong>electronegativity</strong> (affinity for electrons) than the one before it. As electrons fall down this gradient from one complex to the next, they drop to lower energy states, releasing free energy at each step.</p>
+
+      <p>Crucially, Complexes I, III, and IV use this released electron energy as mechanical work to pump protons (H<sup>+</sup>) out of the mitochondrial matrix and into the narrow <strong>intermembrane space</strong><sup class="ref"><a href="#src-7">[7]</a></sup>:</p>
+
+      <ol>
+        <li><strong>Complex I (NADH Dehydrogenase):</strong> Accepts electrons from NADH, passing them to Ubiquinone. The energy released pumps <strong>4 H<sup>+</sup></strong> across the membrane<sup class="ref"><a href="#src-7">[7]</a></sup>.</li>
+        <li><strong>Complex II (Succinate Dehydrogenase):</strong> Accepts electrons from FADH<sub>2</sub>. Because FADH<sub>2</sub> enters at a lower energy level, Complex II does not release enough energy to pump protons (<strong>0 H<sup>+</sup></strong>)<sup class="ref"><a href="#src-7">[7]</a></sup>. It passes electrons to Ubiquinone.</li>
+        <li><strong>Complex III (Cytochrome bc<sub>1</sub> Complex):</strong> Accepts electrons from Ubiquinone and passes them to Cytochrome c, pumping another <strong>4 H<sup>+</sup></strong> across<sup class="ref"><a href="#src-7">[7]</a></sup>.</li>
+        <li><strong>Complex IV (Cytochrome c Oxidase):</strong> Accepts electrons from Cytochrome c and pumps <strong>2 H<sup>+</sup></strong> across<sup class="ref"><a href="#src-7">[7]</a></sup>.</li>
+      </ol>
+
+      <p>At Complex IV, the electrons reach the very end of the line. Where do they go?</p>
+
+      <p>This is the exact point where <strong>molecular oxygen (O<sub>2</sub>)</strong> enters cellular respiration. Oxygen does not "burn" glucose; rather, oxygen is extraordinarily electronegative—the ultimate "electron sink." Complex IV transfers four low-energy electrons to an oxygen molecule, which combines with four matrix protons to form two molecules of water (2H<sub>2</sub>O)<sup class="ref"><a href="#src-9">[9]</a></sup>.</p>
+
+      <p>This explains why poisons like <strong>cyanide</strong> or <strong>carbon monoxide</strong> are lethal within minutes: they bind irreversibly to iron centers in Complex IV, preventing oxygen from accepting electrons. The entire transport chain immediately backs up like a clogged drain, proton pumping halts, and ATP production freezes.</p>
+
+      <h2 id="chemiosmotic-revolution-rotary-engine">6. The Chemiosmotic Revolution and the Rotary Engine of Life</h2>
+
+      <p>By pumping protons out of the matrix into the intermembrane space, Complexes I, III, and IV create an intense physical imbalance: a concentrated proton reservoir. This generates both a concentration gradient (more H<sup>+</sup> outside) and an electrical gradient (positive charge outside)—together known as the <strong>proton-motive force</strong><sup class="ref"><a href="#src-3">[3]</a></sup>.</p>
+
+      <p>For decades, classical biochemists assumed that electron transport must be creating an elusive, high-energy chemical intermediate—conventionally dubbed "X~P"—that directly transferred a phosphate group to ADP. Thousands of researchers spent millions of dollars hunting for this missing chemical link during the intense <strong>"Ox-Phos Wars"</strong> of the 1960s<sup class="ref"><a href="#src-3">[3]</a></sup>.</p>
+
+      <p>In 1961, British biochemist <strong>Peter Mitchell</strong> proposed a radical physical alternative<sup class="ref"><a href="#src-3">[3]</a></sup>: there was no chemical intermediate X~P at all. Instead, energy was stored physically as an electrochemical proton gradient across an intact membrane—a phenomenon he called <strong>chemiosmosis</strong><sup class="ref"><a href="#src-3">[3]</a></sup>. Mitchell's physical model challenged traditional enzymology and was initially met with heavy skepticism, but as experiments confirmed that proton gradients drive phosphorylation, Mitchell was vindicated, receiving the 1978 Nobel Prize in Chemistry<sup class="ref"><a href="#src-4">[4]</a></sup>.</p>
+
+      <pre>
+                  [THE CHEMIOSMOTIC DAM]
+
+Intermembrane Space (High H+ Concentration / Positive Charge)
+=============================================================  ◄── Inner Membrane
+        │
+        ▼ (Protons rush through FO channel)
+   ┌─────────┐
+   │ Rotor c │ ◄── Physically spins at ~100 Hz!
+   └────┬────┘
+        │ (Turns γ stalk)
+   ┌────┴────┐
+   │ Head F₁ │ ◄── Mechanical compression forces ADP + Pi ──► ATP!
+   └─────────┘
+=============================================================
+Matrix (Low H+ Concentration / Negative Charge)
+      </pre>
+
+      <p>The physical turbine that utilizes this proton gradient is <strong>ATP Synthase</strong> (F<sub>1</sub>F<sub>O</sub> complex)—the smallest rotary motor in nature<sup class="ref"><a href="#src-9">[9]</a></sup>.</p>
+
+      <p>ATP Synthase consists of two functional parts:</p>
+      <ul>
+        <li><strong>F<sub>O</sub> Subunit:</strong> Embedded in the inner membrane, containing a cylindrical ring of c-subunits (the rotor).</li>
+        <li><strong>F<sub>1</sub> Subunit:</strong> A catalytic head protruding into the matrix, held stationary by a side stalk.</li>
+      </ul>
+
+      <p>As protons in the intermembrane space rush back down their gradient into the matrix, they pass through channels in the F<sub>O</sub> rotor. The flow of protons induces a physical, mechanical rotation of the c-ring and attached γ-stalk at speeds of over <strong>100 revolutions per second</strong><sup class="ref"><a href="#src-9">[9]</a></sup>!</p>
+
+      <p>As the asymmetrical γ-stalk rotates inside the stationary F<sub>1</sub> head, it physically pushes against the catalytic β-subunits. This mechanical distortion alters their shape across three sequential conformations (Paul Boyer's <em>Binding Change Mechanism</em>)<sup class="ref"><a href="#src-9">[9]</a></sup>:</p>
+      <ol>
+        <li><strong>Open (O):</strong> Binds incoming ADP and inorganic phosphate (P<sub>i</sub>).</li>
+        <li><strong>Loose (L):</strong> Holds ADP and P<sub>i</sub> in close proximity.</li>
+        <li><strong>Tight (T):</strong> Mechanically squeezes ADP and P<sub>i</sub> together with such force that a covalent bond forms, synthesizing ATP.</li>
+        <li>As the stalk continues spinning, the subunit snaps back to <strong>Open</strong>, releasing the newly minted ATP into the matrix.</li>
+      </ol>
+
+      <p>Electrical potential energy (proton gradient) is converted into mechanical kinetic energy (rotation), which is converted into chemical potential energy (ATP).</p>
+
+      <h2 id="energy-accounting-stoichiometry">7. Energy Accounting — Modern Stoichiometry Beyond the 38-ATP Myth</h2>
+
+      <p>For generations, biology textbooks stated that one molecule of glucose yields exactly <strong>36 or 38 ATP molecules</strong>. If you studied biology in school, this is almost certainly the number you memorized.</p>
+
+      <p>Modern bioenergetics has significantly refined this picture<sup class="ref"><a href="#src-7">[7]</a>,<sup class="ref"><a href="#src-8">[8]</a></sup>.</p>
+
+      <p>The old 36–38 calculation assumed whole-number <strong>P/O ratios</strong> (3 ATP per NADH, 2 per FADH<sub>2</sub>), treating the cell as an ideal machine without energy losses or transport costs<sup class="ref"><a href="#src-8">[8]</a></sup>. In reality, the P/O ratio is determined by the mechanical gear ratio of the ATP Synthase rotor and the transport cost of moving substrates into the matrix<sup class="ref"><a href="#src-7">[7]</a>,<sup class="ref"><a href="#src-8">[8]</a></sup>:</p>
+      <ul>
+        <li><strong>Oxidation of 1 NADH</strong> pumps 10 H<sup>+</sup> across the membrane<sup class="ref"><a href="#src-7">[7]</a></sup>.</li>
+        <li><strong>Oxidation of 1 FADH<sub>2</sub></strong> pumps 6 H<sup>+</sup> across the membrane<sup class="ref"><a href="#src-7">[7]</a></sup>.</li>
+        <li>In mammalian mitochondria, the ATP Synthase c-ring rotor consists of 8 subunits, meaning one full 360° rotation (synthesizing 3 ATP) requires 8 H<sup>+</sup> (or ≈ 2.67 H<sup>+</sup> per ATP). Transporting 1 P<sub>i</sub> into the matrix costs an additional 1 H<sup>+</sup>, bringing the total cost to ≈ 3.67 H<sup>+</sup> per ATP synthesized and exported<sup class="ref"><a href="#src-7">[7]</a></sup>.</li>
+      </ul>
+
+      <p>Dividing the pumped protons by this realistic cost yields the modern accepted P/O ratios:</p>
+      <p style="text-align: center; font-weight: 600;">P/O for NADH = 10 H<sup>+</sup> / 3.67 H<sup>+</sup> ≈ <strong>2.5 ATP</strong><sup class="ref"><a href="#src-7">[7]</a></sup></p>
+      <p style="text-align: center; font-weight: 600;">P/O for FADH<sub>2</sub> = 6 H<sup>+</sup> / 3.67 H<sup>+</sup> ≈ <strong>1.5 ATP</strong><sup class="ref"><a href="#src-7">[7]</a></sup></p>
+
+      <h2 id="metabolic-flexibility-heat-redox">8. The Edge of the Engine: Metabolic Flexibility, Heat, and Redox Signals</h2>
+
+      <p>Having mapped the primary engine of respiration, we can now appreciate its broader biological context. Mitochondria are not rigid isolated power generators; they are integrated hubs of metabolic flexibility, body temperature control, and cellular signaling.</p>
+
+      <h3 id="amphibolic-flexibility">A. Amphibolic Flexibility: Construction vs. Destruction</h3>
+      <p>The Citric Acid Cycle is <strong>amphibolic</strong>—operating simultaneously as a catabolic engine and an anabolic biosynthetic factory<sup class="ref"><a href="#src-10">[10]</a></sup>. The cell constantly siphons off intermediates for biosynthesis (<strong>cataplerosis</strong>)<sup class="ref"><a href="#src-10">[10]</a></sup>:</p>
+      <ul>
+        <li><strong>Citrate</strong> is exported to the cytosol to synthesize fatty acids and cholesterol.</li>
+        <li><strong>α-Ketoglutarate</strong> and <strong>oxaloacetate</strong> are used to build amino acids.</li>
+        <li><strong>Succinyl-CoA</strong> forms the backbone of porphyrins for hemoglobin and cytochromes.</li>
+      </ul>
+
+      <p>To prevent the cycle from draining completely, specialized "refilling" reactions (<strong>anaplerotic reactions</strong>) convert excess pyruvate directly into oxaloacetate<sup class="ref"><a href="#src-10">[10]</a></sup>.</p>
+
+      <pre>
+                  [THE DUAL ROLES OF MITOCHONDRIA]
+
+   Basal Proton Leak                     Redox Hormesis (ROS)
+   ─────────────────                     ────────────────────
+   • 20–30% of resting metabolism        • Low ROS: Essential signaling
+   • Generates 37°C body heat            • High ROS: Oxidative damage
+   • UCP1 in brown fat (Thermogenesis)   • Controlled by antioxidants
+      </pre>
+
+      <h3 id="proton-leak-body-heat">B. Proton Leak and Body Heat</h3>
+      <p>Cellular respiration has a thermodynamic efficiency of roughly 40%—the remaining 60% of energy is released as heat. Much of this heat comes from a natural "basal proton leak" across the inner membrane, accounting for 20–30% of our resting metabolic rate. This leak is not a defect; it provides warm-blooded animals with their steady 37°C body temperature.</p>
+
+      <p>In <strong>brown adipose tissue (brown fat)</strong>, this process is specialized through <strong>Thermogenin (UCP1)</strong><sup class="ref"><a href="#src-11">[11]</a></sup>. UCP1 opens a regulated channel that allows protons to short-circuit the membrane without passing through ATP Synthase, converting proton gradient energy directly into warmth for newborns and hibernating mammals<sup class="ref"><a href="#src-11">[11]</a></sup>.</p>
+
+      <h3 id="redox-balance-ros">C. The Redox Balance of ROS</h3>
+      <p>As electrons travel down the ETC, occasional leaks at Complexes I and III transfer single electrons directly to oxygen, forming <strong>Reactive Oxygen Species (ROS)</strong> such as superoxide (O<sub>2</sub><sup>•-</sup>) and hydrogen peroxide (H<sub>2</sub>O<sub>2</sub>)<sup class="ref"><a href="#src-12">[12]</a></sup>.</p>
+
+      <p>Modern redox biology shows that ROS operate via <strong>hormesis</strong><sup class="ref"><a href="#src-12">[12]</a></sup>: at low physiological levels (<strong>oxidative eustress</strong>), ROS act as essential signaling messengers that trigger cellular adaptation to exercise and stimulate mitochondrial repair. Only when ROS overwhelm cellular antioxidants (<strong>oxidative distress</strong>) do they cause non-specific oxidative damage to lipids and DNA<sup class="ref"><a href="#src-12">[12]</a></sup>.</p>
+
+      <h2 id="reflection-silent-symphony">9. Reflection — The Silent Symphony Within</h2>
+
+      <p>Cellular respiration is often taught as a dense checklist of terms—<em>pyruvate</em>, <em>aconitase</em>, <em>cytochrome c</em>.</p>
+
+      <p>But when stripped of dry memorization, a magnificent picture emerges.</p>
+
+      <p>Right now, trillions of microscopic powerhouses inside your cells are executing a silent, synchronized symphony. Glucose molecules from your last meal are split in the cytosol, handed into the mitochondrial matrix, and ground through the Krebs cycle. High-energy electrons ride molecular shuttles to the inner membrane, cascades of protons are pumped into intermembrane reservoirs, and billions of nanoscale rotary turbines spin at 100 revolutions per second, forcing phosphate onto ADP.</p>
+
+      <p>Every breath you take brings the final electron acceptor; every breath you exhale releases the carbon exhaust of a cycle discovered by a scientist whose paper was once rejected for lack of space.</p>
+
+      <p>You are not powered by fire or heat. You are powered by a physical, mechanical, chemical waterfall of protons—the quietest, most extraordinary engine in the known universe.</p>
+    </article>
+
+    <!-- Sources -->
+    <section class="sources">
+      <h2 id="sources">Sources & Further Reading</h2>
+      <ol class="sources">
+        <li id="src-1" class="source-item"><a href="https://doi.org/10.1002/bmb.2005.494033010419" target="_blank" rel="noopener">Boyle John (2005). Lehninger principles of biochemistry (4th ed.): Nelson, D., and Cox, M.. <em>Biochemistry and Molecular Biology Education</em>. https://doi.org/10.1002/bmb.2005.494033010419</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-2" class="source-item"><a href="https://doi.org/10.1016/0014-5793(80)80564-3" target="_blank" rel="noopener">Krebs H.A., Johnson W.A. (1980). The role of citric acid in intermediate metabolism in animal tissues. <em>FEBS Letters</em>. https://doi.org/10.1016/0014-5793(80)80564-3</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-3" class="source-item"><a href="https://doi.org/10.1038/191144a0" target="_blank" rel="noopener">MITCHELL PETER (1961). Coupling of Phosphorylation to Electron and Hydrogen Transfer by a Chemi-Osmotic type of Mechanism. <em>Nature</em>. https://doi.org/10.1038/191144a0</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-4" class="source-item"><a href="https://doi.org/10.5771/9781493064601-344" target="_blank" rel="noopener">Segretto Mike (2022). 1978. <em>33 1/3 Revolutions Per Minute</em>. https://doi.org/10.5771/9781493064601-344</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-5" class="source-item"><a href="https://doi.org/10.1016/s0095-9561(16)33242-x" target="_blank" rel="noopener">Okand forfattare (1953). 1953. <em>Journal of the American Pharmaceutical Association (Practical Pharmacy ed.)</em>. https://doi.org/10.1016/s0095-9561(16)33242-x</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-6" class="source-item"><a href="https://doi.org/10.1515/9781400833658-024" target="_blank" rel="noopener">Okand forfattare (2010). 1931. <em>C. P. Cavafy</em>. https://doi.org/10.1515/9781400833658-024</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-7" class="source-item"><a href="https://doi.org/10.1016/j.bbabio.2004.09.004" target="_blank" rel="noopener">Hinkle Peter C. (2005). P/O ratios of mitochondrial oxidative phosphorylation. <em>Biochimica et Biophysica Acta (BBA) - Bioenergetics</em>. https://doi.org/10.1016/j.bbabio.2004.09.004</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-8" class="source-item"><a href="https://doi.org/10.1042/bst0311095" target="_blank" rel="noopener">Rich P.R. (2003). The molecular machinery of Keilin's respiratory chain. <em>Biochemical Society Transactions</em>. https://doi.org/10.1042/bst0311095</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-9" class="source-item"><a href="https://doi.org/10.1021/ed065pa337" target="_blank" rel="noopener">Wilson Jerry L. (1988). Biochemistry; Third edition (Stryer, Lubert). <em>Journal of Chemical Education</em>. https://doi.org/10.1021/ed065pa337</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-10" class="source-item"><a href="https://doi.org/10.1074/jbc.R200006200" target="_blank" rel="noopener">Owen Oliver E., Kalhan Satish C., Hanson Richard W. (2002). The Key Role of Anaplerosis and Cataplerosis for Citric Acid Cycle Function. <em>Journal of Biological Chemistry</em>. https://doi.org/10.1074/jbc.r200006200</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-11" class="source-item"><a href="https://doi.org/10.1152/physrev.00015.2003" target="_blank" rel="noopener">CANNON BARBARA, NEDERGAARD JAN (2004). Brown Adipose Tissue: Function and Physiological Significance. <em>Physiological Reviews</em>. https://doi.org/10.1152/physrev.00015.2003</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+        <li id="src-12" class="source-item"><a href="https://doi.org/10.1038/s41580-020-0230-3" target="_blank" rel="noopener">Sies Helmut, Jones Dean P. (2020). Reactive oxygen species (ROS) as pleiotropic physiological signalling agents. <em>Nature Reviews Molecular Cell Biology</em>. https://doi.org/10.1038/s41580-020-0230-3</a><span class="source-verified" title="Kanonisk metadata hamtad fran Crossref eller OpenAlex, titel kontrollerad">&#10003; Verified</span></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <p>An <em>Exploration</em> by gAIa · Part of the <a href="../index.html">Explorations Library</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const content = document.querySelector('.content');
+      const btnDec = document.getElementById('fontDecrease');
+      const btnInc = document.getElementById('fontIncrease');
+      const btnReset = document.getElementById('fontReset');
+      const btnToggle = document.getElementById('fontToggle');
+      const defaultSize = 18;
+      
+      function setFontSize(size) {
+        content.style.fontSize = size + 'px';
+        localStorage.setItem('explorationsFontSize', size);
+      }
+      
+      let currentSize = localStorage.getItem('explorationsFontSize');
+      if (currentSize) {
+        currentSize = parseInt(currentSize, 10);
+        setFontSize(currentSize);
+      } else {
+        currentSize = defaultSize;
+      }
+
+      let currentFont = localStorage.getItem('explorationsFontFamily') || 'serif';
+      if (currentFont === 'sans') {
+        document.body.classList.add('sans-serif-mode');
+        if (btnToggle) btnToggle.textContent = 'Serif';
+      }
+
+      if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+          document.body.classList.toggle('sans-serif-mode');
+          const isSans = document.body.classList.contains('sans-serif-mode');
+          localStorage.setItem('explorationsFontFamily', isSans ? 'sans' : 'serif');
+          btnToggle.textContent = isSans ? 'Serif' : 'Sans';
+        });
+      }
+
+      if (btnDec) {
+        btnDec.addEventListener('click', () => {
+          currentSize = Math.max(12, currentSize - 1);
+          setFontSize(currentSize);
+        });
+      }
+
+      if (btnInc) {
+        btnInc.addEventListener('click', () => {
+          currentSize = Math.min(28, currentSize + 1);
+          setFontSize(currentSize);
+        });
+      }
+
+      if (btnReset) {
+        btnReset.addEventListener('click', () => {
+          currentSize = defaultSize;
+          setFontSize(defaultSize);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
