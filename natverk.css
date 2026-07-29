@@ -1,0 +1,280 @@
+/* ====================================================================
+   natverk.css — Explorations: slaktskapsnatverk och soktraffar
+   ====================================================================
+   Bygger vidare pa de variabler som redan finns i index.html.
+   Ingen egen fargskala, ingen egen typografi.
+   ==================================================================== */
+
+/* ── Natverkets yta ──────────────────────────────────────────────── */
+
+.natverk {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto 2rem;
+  padding: 0 1.5rem;
+  height: 460px;
+}
+
+.natverk[hidden] { display: none; }
+
+#natverkKanter {
+  position: absolute;
+  inset: 0 1.5rem;
+  pointer-events: auto;
+}
+
+#natverkNoder {
+  position: absolute;
+  inset: 0 1.5rem;
+  pointer-events: none;
+}
+
+/* ── Noderna ─────────────────────────────────────────────────────── */
+
+.nod {
+  --d: 24px;
+  --gloed: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--d);
+  height: var(--d);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+  will-change: transform;
+  transition: opacity 0.3s ease;
+}
+
+.nod-prick {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--accent-color);
+  opacity: calc(0.45 + 0.55 * var(--gloed));
+  box-shadow: 0 0 calc(4px + 14px * var(--gloed))
+              rgba(192, 57, 43, calc(0.15 + 0.55 * var(--gloed)));
+  transition: opacity 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.nod-etikett {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--meta-color);
+  pointer-events: none;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.nod:hover .nod-prick,
+.nod:focus-visible .nod-prick { transform: scale(1.18); }
+
+.nod:hover .nod-etikett,
+.nod:focus-visible .nod-etikett,
+.nod-oppen .nod-etikett { color: var(--text-color); }
+
+.nod:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 6px;
+  border-radius: 50%;
+}
+
+.nod.svag { opacity: 0.28; }
+.nod.svag .nod-etikett { opacity: 0.6; }
+
+.nod-oppen .nod-prick { transform: scale(1.25); }
+
+/* ── Satelliter, alltsa avsnitt runt en oppnad nod ───────────────── */
+
+.satellit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 150px;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  color: var(--text-color);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  line-height: 1.3;
+  text-decoration: none;
+  pointer-events: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: satellitIn 0.22s ease both;
+}
+
+.satellit:hover,
+.satellit:focus-visible {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+@keyframes satellitIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Statusrad, vaxel och kanttips ───────────────────────────────── */
+
+.natverk-rad {
+  max-width: 740px;
+  margin: 0 auto 1.5rem;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--meta-color);
+}
+
+#natverkVaxel {
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  background: none;
+  color: var(--meta-color);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+}
+
+#natverkVaxel[aria-pressed="true"] {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+#kanttips {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  max-width: 240px;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-color);
+  pointer-events: none;
+}
+
+#kanttips[hidden] { display: none; }
+
+/* ── Traffistan ──────────────────────────────────────────────────── */
+
+#traffar {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 1.5rem 5rem;
+}
+
+#traffar[hidden] { display: none; }
+
+.traff {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.traff-titel {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  text-decoration: none;
+  display: block;
+}
+
+.traff-titel:hover { opacity: 0.75; }
+
+.traff-amne {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--meta-color);
+  margin-top: 0.25rem;
+}
+
+.traff-avsnitt {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+}
+
+.traff-avsnitt li { margin-bottom: 0.5rem; }
+
+.traff-avsnitt a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid var(--card-border);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.traff-avsnitt a:hover {
+  border-left-color: var(--accent-color);
+  background: rgba(192, 57, 43, 0.04);
+}
+
+.traff-rubrik {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.2rem;
+}
+
+.traff-utdrag {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--meta-color);
+}
+
+.traff-utdrag mark {
+  background: rgba(192, 57, 43, 0.18);
+  color: var(--text-color);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* ── Mobil: natverket bakom en vaxel, listan forst ───────────────── */
+
+@media (max-width: 700px) {
+  .natverk { display: none; height: 380px; }
+  body.visa-natverk .natverk { display: block; }
+}
+
+@media (min-width: 701px) {
+  #natverkVaxel { display: none; }
+}
+
+/* ── Respekt for reducerad rorelse ───────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .nod, .nod-prick, .nod-etikett, .satellit {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

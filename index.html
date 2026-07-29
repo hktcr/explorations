@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="natverk.css">
   <style>
     :root {
       --bg-color: #fcfcfc;
@@ -220,93 +221,6 @@
       .library-header h1 { font-size: 2rem; }
       .articles-grid { grid-template-columns: 1fr; }
     }
-  
-    /* Search highlight & popup */
-    mark.search-highlight {
-      background-color: rgba(192, 57, 43, 0.15);
-      color: inherit;
-      border-radius: 2px;
-      transition: background-color 0.3s, transform 0.3s;
-    }
-    mark.search-highlight.active-highlight {
-      background-color: rgba(192, 57, 43, 0.6);
-      transform: scale(1.05);
-      box-shadow: 0 0 8px rgba(192,57,43,0.4);
-    }
-    .search-popup {
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      width: 320px;
-      max-height: 400px;
-      overflow-y: auto;
-      background: var(--bg-color);
-      border: 1px solid rgba(0,0,0,0.1);
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      z-index: 1001;
-      display: none;
-      flex-direction: column;
-      font-family: var(--font-ui);
-    }
-    .search-popup.visible {
-      display: flex;
-    }
-    .search-popup-header {
-      padding: 10px 15px;
-      border-bottom: 1px solid var(--card-border);
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--meta-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0,0,0,0.02);
-      border-radius: 8px 8px 0 0;
-    }
-    .search-popup-results {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .search-popup-result-item {
-      padding: 12px 15px;
-      border-bottom: 1px solid rgba(0,0,0,0.04);
-      cursor: pointer;
-      font-size: 0.9rem;
-      line-height: 1.4;
-      color: var(--text-color);
-      transition: background 0.2s;
-    }
-    .search-popup-result-item:hover {
-      background: rgba(192, 57, 43, 0.05);
-    }
-    .search-popup-result-item .match-context {
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      opacity: 0.9;
-    }
-    .search-popup-result-item mark {
-      background-color: rgba(192, 57, 43, 0.3);
-      color: inherit;
-      border-radius: 2px;
-      padding: 0 2px;
-    }
-
-
-    @media (prefers-color-scheme: dark) {
-      .search-popup {
-        border-color: rgba(255,255,255,0.1);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      }
-      .search-popup-header {
-        background: rgba(255,255,255,0.05);
-        border-bottom-color: rgba(255,255,255,0.05);
-      }
-      .search-popup-result-item {
-        border-bottom-color: rgba(255,255,255,0.05);
-      }
-    }
   </style>
 </head>
 <body>
@@ -317,8 +231,19 @@
   </header>
 
   <div class="search-container">
-    <input type="text" class="search-input" id="searchInput" placeholder="Search explorations…" autocomplete="off">
-  </div>
+    <input type="text" class="search-input" id="searchInput" placeholder="Sök i hela biblioteket…" autocomplete="off">
+  </div>    <div class="natverk-rad">
+      <span id="natverkStatus" role="status" aria-live="polite"></span>
+      <button type="button" id="natverkVaxel" aria-pressed="false">Visa nätverk</button>
+    </div>
+
+    <section class="natverk" id="natverk" hidden>
+      <canvas id="natverkKanter" aria-hidden="true"></canvas>
+      <nav id="natverkNoder" aria-label="Släktskapsnätverk över biblioteket"></nav>
+      <div id="kanttips" role="tooltip" hidden></div>
+    </section>
+
+
 
   <div class="articles-grid" id="articlesGrid">
 
@@ -410,105 +335,13 @@
       <span class="card-link">Read →</span>
     </a>
 
-  </div>
+  </div>    <div id="traffar" hidden></div>
+
 
   <footer class="library-footer">
     <p>Explorations by gAIa · Part of the GAIA Knowledge System</p>
   </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const searchInput = document.getElementById('searchInput');
-      const grid = document.getElementById('articlesGrid');
-      const cards = grid.querySelectorAll('.article-card');
-
-      if (searchInput) {
-        // Inject popup HTML
-        const popupHTML = `
-          <div id="searchPopup" class="search-popup" style="width:100%; max-width:740px; left:0; right:0; margin:0 auto; top: 380px;">
-            <div class="search-popup-header">
-              <span id="searchCount">0 results</span>
-              <button id="closeSearchPopup" style="background:none;border:none;cursor:pointer;color:var(--meta-color);font-size:1.1rem;padding:0;line-height:1;">&times;</button>
-            </div>
-            <ul id="searchResultsList" class="search-popup-results"></ul>
-          </div>
-        `;
-        document.querySelector('.search-container').insertAdjacentHTML('beforeend', popupHTML);
-        
-        const searchPopup = document.getElementById('searchPopup');
-        const searchResultsList = document.getElementById('searchResultsList');
-        const searchCount = document.getElementById('searchCount');
-        const closeBtn = document.getElementById('closeSearchPopup');
-        
-        closeBtn.addEventListener('click', () => {
-          searchPopup.classList.remove('visible');
-          cards.forEach(card => {
-             card.style.display = 'block';
-             card.classList.remove('dimmed');
-          });
-          searchInput.value = '';
-        });
-
-        searchInput.addEventListener('input', (e) => {
-          const query = e.target.value.toLowerCase().trim();
-          searchResultsList.innerHTML = '';
-          
-          if (query.length > 2) {
-            let matchCount = 0;
-            
-            cards.forEach(card => {
-              const text = card.textContent.toLowerCase();
-              if (text.includes(query)) {
-                // Find context snippet in the summary
-                const summaryEl = card.querySelector('p');
-                const titleEl = card.querySelector('h2');
-                const link = card.getAttribute('href') || '#';
-                
-                let snippet = '';
-                if (summaryEl) {
-                    const sumText = summaryEl.textContent;
-                    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-                    const matchIdx = sumText.toLowerCase().indexOf(query);
-                    if (matchIdx !== -1) {
-                        const contextStart = Math.max(0, matchIdx - 40);
-                        const contextEnd = Math.min(sumText.length, matchIdx + query.length + 40);
-                        snippet = sumText.substring(contextStart, contextEnd);
-                        if (contextStart > 0) snippet = '...' + snippet;
-                        if (contextEnd < sumText.length) snippet = snippet + '...';
-                        snippet = snippet.replace(regex, '<mark>$1</mark>');
-                    } else if (titleEl.textContent.toLowerCase().includes(query)) {
-                        snippet = "Matches title: " + titleEl.textContent.replace(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark>$1</mark>');
-                    }
-                }
-                
-                const li = document.createElement('li');
-                li.className = 'search-popup-result-item';
-                li.innerHTML = `<strong>${titleEl.textContent}</strong><br><div class="match-context">${snippet}</div>`;
-                li.addEventListener('click', () => {
-                    window.location.href = link;
-                });
-                searchResultsList.appendChild(li);
-                matchCount++;
-                
-                card.style.display = 'block';
-              } else {
-                card.style.display = 'none';
-              }
-            });
-            
-            if (matchCount > 0) {
-              searchCount.textContent = `${matchCount} article${matchCount !== 1 ? 's' : ''}`;
-              searchPopup.classList.add('visible');
-            } else {
-              searchPopup.classList.remove('visible');
-            }
-          } else {
-            searchPopup.classList.remove('visible');
-            cards.forEach(card => card.style.display = 'block');
-          }
-        });
-      }
-    });
-  </script>
+  <script src="natverk.js" defer></script>
 </body>
 </html>
