@@ -1,9 +1,17 @@
 /* ====================================================================
    natverk.css — Explorations: slaktskapsnatverk och soktraffar
    ====================================================================
-   Bygger vidare pa de variabler som redan finns i index.html.
+   Rev 2. Bygger vidare pa variablerna som redan finns i index.html.
    Ingen egen fargskala, ingen egen typografi.
    ==================================================================== */
+
+/* ── Doljning ────────────────────────────────────────────────────── */
+
+/* Anvands i stallet for hidden-attributet. hidden ger display:none fran
+   webblasarens egen stilmall, och varje display-regel i sidans stilmall
+   vinner over den. Kortrutnatet har display:grid och korten display:flex,
+   sa hidden gjorde ingenting alls pa dem. */
+.dold { display: none !important; }
 
 /* ── Natverkets yta ──────────────────────────────────────────────── */
 
@@ -79,7 +87,7 @@
 
 .nod:hover .nod-etikett,
 .nod:focus-visible .nod-etikett,
-.nod-oppen .nod-etikett { color: var(--text-color); }
+.nod-vald .nod-etikett { color: var(--text-color); }
 
 .nod:focus-visible {
   outline: 2px solid var(--accent-color);
@@ -90,59 +98,36 @@
 .nod.svag { opacity: 0.28; }
 .nod.svag .nod-etikett { opacity: 0.6; }
 
-.nod-oppen .nod-prick { transform: scale(1.25); }
-
-/* ── Satelliter, alltsa avsnitt runt en oppnad nod ───────────────── */
-
-.satellit {
-  position: absolute;
-  top: 0;
-  left: 0;
-  max-width: 150px;
-  padding: 0.3rem 0.6rem;
-  border: 1px solid var(--card-border);
-  border-radius: 6px;
-  background: var(--card-bg);
-  box-shadow: var(--card-shadow);
-  color: var(--text-color);
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  line-height: 1.3;
-  text-decoration: none;
-  pointer-events: auto;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  animation: satellitIn 0.22s ease both;
+/* Vald nod. Ersatter den gamla satellitkransen: klick pekar nu in i
+   traffistan i stallet for att lagga lankrutor ovanpa natverket. */
+.nod-vald .nod-prick {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 3px var(--bg-color), 0 0 0 5px var(--accent-color);
 }
 
-.satellit:hover,
-.satellit:focus-visible {
-  border-color: var(--accent-color);
-  color: var(--accent-color);
-}
-
-@keyframes satellitIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+.nod-vald .nod-etikett { font-weight: 600; }
 
 /* ── Statusrad, vaxel och kanttips ───────────────────────────────── */
 
 .natverk-rad {
-  max-width: 740px;
-  margin: 0 auto 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto 1rem;
   padding: 0 1.5rem;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   gap: 1rem;
   font-family: var(--font-ui);
   font-size: 0.8rem;
+  line-height: 1.5;
   color: var(--meta-color);
+  min-height: 2.4em;
 }
 
+#natverkStatus { flex: 1; }
+
 #natverkVaxel {
+  flex: none;
   border: 1px solid var(--card-border);
   border-radius: 6px;
   background: none;
@@ -163,7 +148,7 @@
   top: 0;
   left: 0;
   z-index: 20;
-  max-width: 240px;
+  max-width: 260px;
   padding: 0.35rem 0.6rem;
   border-radius: 6px;
   background: var(--card-bg);
@@ -171,8 +156,19 @@
   box-shadow: var(--card-shadow);
   font-family: var(--font-ui);
   font-size: 0.72rem;
+  line-height: 1.4;
   color: var(--text-color);
   pointer-events: none;
+}
+
+#kanttips::before {
+  content: "Delad vokabulär";
+  display: block;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--meta-color);
+  margin-bottom: 0.15rem;
 }
 
 #kanttips[hidden] { display: none; }
@@ -185,12 +181,30 @@
   padding: 0 1.5rem 5rem;
 }
 
-#traffar[hidden] { display: none; }
+.ingen-traff {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--meta-color);
+  text-align: center;
+  padding: 2rem 0;
+}
 
 .traff {
-  padding: 1.25rem 0;
+  padding: 1.25rem 1rem;
+  margin: 0 -1rem;
   border-bottom: 1px solid var(--card-border);
+  border-left: 2px solid transparent;
+  border-radius: 4px;
+  scroll-margin-top: 30vh;
+  transition: background 0.4s ease, border-left-color 0.4s ease;
 }
+
+.traff-vald {
+  background: rgba(192, 57, 43, 0.05);
+  border-left-color: var(--accent-color);
+}
+
+.traff:focus { outline: none; }
 
 .traff-titel {
   font-family: var(--font-body);
@@ -259,11 +273,12 @@
   padding: 0 1px;
 }
 
-/* ── Mobil: natverket bakom en vaxel, listan forst ───────────────── */
+/* ── Mobil: natverket bakom en vaxel, traffistan forst ───────────── */
 
 @media (max-width: 700px) {
   .natverk { display: none; height: 380px; }
   body.visa-natverk .natverk { display: block; }
+  .nod-etikett { font-size: 0.65rem; }
 }
 
 @media (min-width: 701px) {
@@ -273,7 +288,7 @@
 /* ── Respekt for reducerad rorelse ───────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .nod, .nod-prick, .nod-etikett, .satellit {
+  .nod, .nod-prick, .nod-etikett, .traff {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }

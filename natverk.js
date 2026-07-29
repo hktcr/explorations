@@ -1,7 +1,7 @@
 /* ====================================================================
    natverk.js — Explorations: fulltextsokning och slaktskapsnatverk
    ====================================================================
-   Inga beroenden. Laddas med <script defer src="natverk.js"></script>.
+   Rev 2. Inga beroenden. Laddas med <script src="natverk.js" defer>.
 
    Tva datafiler, byggda av .agent/scripts/build_search_index.py:
 
@@ -334,12 +334,22 @@
     var sokdataHamtas = null;
     var natverk = null;
     var nodElement = {};
-    var oppen = null;
     var senasteTraffar = [];
     var senastePoang = {};
+    var vald = null;
     var animation = null;
     var lugntLage = window.matchMedia
       && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Visning styrs med en klass och inte med hidden-attributet.
+       hidden ger display:none fran webblasarens egen stilmall, och
+       varje display-regel i sidans stilmall vinner over den. Kortrutnatet
+       har display:grid och korten display:flex, sa hidden gjorde
+       ingenting alls pa dem. Det var orsaken till att traffistan hamnade
+       under elva kvarstaende kort och aldrig syntes. */
+    function visa(el, synlig) {
+      el.classList.toggle('dold', !synlig);
+    }
 
     function accentfarg() {
       var v = getComputedStyle(document.documentElement)
@@ -366,21 +376,21 @@
           if (!svar.ok) throw new Error('sok-index.json gav ' + svar.status);
           return svar.json();
         })
-        .then(function (data) {
-          sokdata = data;
-          return data;
-        })
-        .catch(function (fel) {
-          sokdataHamtas = null;
-          throw fel;
-        });
+        .then(function (data) { sokdata = data; return data; })
+        .catch(function (fel) { sokdataHamtas = null; throw fel; });
       return sokdataHamtas;
     }
 
     // ── Nodbygge ───────────────────────────────────────────────────
 
     function diameter(ord) {
-      return Math.round(15 + 24 * Math.min(1, Math.sqrt(ord / 11000)));
+      return Math.round(18 + 24 * Math.min(1, Math.sqrt(ord / 11000)));
+    }
+
+    function kortTitel(titel) {
+      var kolon = titel.indexOf(':');
+      var t = kolon > 6 ? titel.slice(0, kolon) : titel;
+      return t.length > 30 ? t.slice(0, 29).trim() + '…' : t;
     }
 
     function byggNoder() {
@@ -397,7 +407,10 @@
       noder.forEach(function (n) { index[n.slug] = n; });
 
       var kanter = natverksdata.kanter.map(function (k) {
-        return { a: k.a, b: k.b, vikt: k.vikt, termer: k.termer, _a: index[k.a], _b: index[k.b] };
+        return {
+          a: k.a, b: k.b, vikt: k.vikt, termer: k.termer,
+          _a: index[k.a], _b: index[k.b]
+        };
       }).filter(function (k) { return k._a && k._b; });
 
       noder.forEach(function (n) {
@@ -406,13 +419,14 @@
         knapp.className = 'nod';
         knapp.style.setProperty('--d', (n.r * 2) + 'px');
         knapp.setAttribute('data-slug', n.slug);
-        knapp.setAttribute('aria-expanded', 'false');
         knapp.innerHTML = '<span class="nod-prick" aria-hidden="true"></span>'
-          + '<span class="nod-etikett">' + fly(kort(n.titel)) + '</span>';
-        knapp.title = n.titel + '\n' + n.amne
-          + '\nNyckelord: ' + n.nyckelord.join(', ')
-          + '\nKallor: ' + n.kallor.verifierade + ' av ' + n.kallor.totalt + ' verifierade';
-        knapp.addEventListener('click', function () { vaxlaNod(n); });
+          + '<span class="nod-etikett">' + fly(kortTitel(n.titel)) + '</span>';
+        knapp.setAttribute('aria-label', n.titel);
+        knapp.addEventListener('click', function () { valjNod(n); });
+        knapp.addEventListener('mouseenter', function () { beskriv(n); });
+        knapp.addEventListener('focus', function () { beskriv(n); });
+        knapp.addEventListener('mouseleave', function () { grundstatus(); });
+        knapp.addEventListener('blur', function () { grundstatus(); });
         nodlager.appendChild(knapp);
         nodElement[n.slug] = knapp;
       });
@@ -420,17 +434,93 @@
       natverk = new Natverk(noder, kanter);
     }
 
-    function kort(titel) {
-      var kolon = titel.indexOf(':');
-      var t = kolon > 6 ? titel.slice(0, kolon) : titel;
-      return t.length > 30 ? t.slice(0, 29).trim() + '…' : t;
+    // ── Statusraden bar kontexten ──────────────────────────────────
+
+    function grundstatus() {
+      if (senasteTraffar.length) {
+        status.textContent = senasteTraffar.length
+          + (senasteTraffar.length === 1 ? ' essä träffad. ' : ' essäer träffade. ')
+          + 'Klicka en tänd nod för att hoppa till träffarna.';
+      } else if (natverk) {
+        status.textContent = natverksdata.artiklar.length + ' essäer, '
+          + natverk.kanter.length + ' släktskap. Hovra en nod för att se vad den handlar om.';
+      }
+    }
+
+    /* Hovring och tangentbordsfokus skriver artikelns sammanhang i
+       statusraden. Det ar den snabbaste vagen till kontext utan att
+       nagot lager laggs over natverket. */
+    function beskriv(nod) {
+      var traff = hittaTraff(nod.slug);
+      if (traff) {
+        var basta = traff.avsnitt[0];
+        status.textContent = nod.titel + ' · ' + traff.avsnitt.length
+          + (traff.avsnitt.length === 1 ? ' träffat avsnitt' : ' träffade avsnitt')
+          + (basta && basta.rubrik ? ' · bäst: ' + basta.rubrik : '');
+      } else if (senasteTraffar.length) {
+        status.textContent = nod.titel + ' · ingen träff på sökningen';
+      } else {
+        status.textContent = nod.titel + ' · ' + nod.amne
+          + ' · ' + nod.nyckelord.slice(0, 4).join(', ')
+          + ' · ' + nod.kallor.verifierade + ' av ' + nod.kallor.totalt
+          + ' källor verifierade';
+      }
+    }
+
+    function hittaTraff(slug) {
+      for (var i = 0; i < senasteTraffar.length; i++) {
+        if (senasteTraffar[i].slug === slug) return senasteTraffar[i];
+      }
+      return null;
+    }
+
+    // ── Nodval: natverket pekar in i traffistan ────────────────────
+
+    /* Tidigare oppnade ett klick en krans av sma lankrutor runt noden.
+       De lag utan forklaring ovanpa natverket och gick inte att koppla
+       till nagot. Nu pekar noden i stallet in i traffistan, dar rubrik
+       och textutdrag redan finns. */
+    function valjNod(nod) {
+      var block = traffista.querySelector('.traff[data-slug="' + nod.slug + '"]');
+      if (!block) {
+        window.location.href = nod.slug + '/index.html';
+        return;
+      }
+      Array.prototype.forEach.call(traffista.querySelectorAll('.traff'), function (b) {
+        b.classList.remove('traff-vald');
+      });
+      Object.keys(nodElement).forEach(function (s) {
+        nodElement[s].classList.toggle('nod-vald', s === nod.slug);
+      });
+      vald = nod.slug;
+      block.classList.add('traff-vald');
+      block.scrollIntoView({
+        behavior: lugntLage ? 'auto' : 'smooth',
+        block: 'center'
+      });
+      rita();
+    }
+
+    function avvalj() {
+      vald = null;
+      Object.keys(nodElement).forEach(function (s) {
+        nodElement[s].classList.remove('nod-vald');
+      });
+      Array.prototype.forEach.call(traffista.querySelectorAll('.traff'), function (b) {
+        b.classList.remove('traff-vald');
+      });
+      rita();
     }
 
     // ── Rendering ──────────────────────────────────────────────────
 
+    /* Matt tas fran nodlagret och inte fran sektionen. Sektionen har
+       vaggutfyllnad medan duken och nodlagret ar indragna med samma
+       matt, sa sektionens bredd gav ett koordinatrum 48 px for brett.
+       Kanterna motte darfor inte prickarna och hogerkanten flot ut. */
     function matt() {
-      var rekt = behallare.getBoundingClientRect();
-      return { bredd: Math.max(320, rekt.width), hojd: Math.max(300, rekt.height) };
+      var rekt = nodlager.getBoundingClientRect();
+      return { bredd: Math.max(280, rekt.width), hojd: Math.max(280, rekt.height) };
     }
 
     function rita() {
@@ -449,34 +539,33 @@
       var soker = senasteTraffar.length > 0;
 
       natverk.kanter.forEach(function (k) {
-        var badeTraff = soker
-          && senastePoang[k.a] > 0 && senastePoang[k.b] > 0;
+        var badeTraff = soker && senastePoang[k.a] > 0 && senastePoang[k.b] > 0;
+        var rorVald = vald && (k.a === vald || k.b === vald);
         ritare.beginPath();
         ritare.moveTo(k._a.x, k._a.y);
         ritare.lineTo(k._b.x, k._b.y);
         ritare.strokeStyle = accent;
-        ritare.globalAlpha = badeTraff
-          ? 0.30 + 0.45 * Math.min(1, k.vikt)
+        ritare.globalAlpha = rorVald ? 0.75
+          : badeTraff ? 0.30 + 0.45 * Math.min(1, k.vikt)
           : (soker ? 0.05 : 0.10 + 0.30 * Math.min(1, k.vikt));
-        ritare.lineWidth = badeTraff ? 2 : 1;
+        ritare.lineWidth = (badeTraff || rorVald) ? 2 : 1;
         ritare.stroke();
       });
 
       // Kallringar. Bakre bagen ar alla kallor, framre de verifierade.
       natverk.noder.forEach(function (n) {
-        var totalt = n.kallor.totalt;
-        if (!totalt) return;
+        if (!n.kallor.totalt) return;
         var radie = n.r + 5;
-        var andel = n.kallor.verifierade / totalt;
-        ritare.globalAlpha = soker && !(senastePoang[n.slug] > 0) ? 0.12 : 0.25;
-        ritare.beginPath();
-        ritare.arc(n.x, n.y, radie, 0, Math.PI * 2);
+        var svag = soker && !(senastePoang[n.slug] > 0);
+        var andel = n.kallor.verifierade / n.kallor.totalt;
         ritare.strokeStyle = accent;
         ritare.lineWidth = 2;
+        ritare.globalAlpha = svag ? 0.10 : 0.22;
+        ritare.beginPath();
+        ritare.arc(n.x, n.y, radie, 0, Math.PI * 2);
         ritare.stroke();
-
         if (andel > 0) {
-          ritare.globalAlpha = soker && !(senastePoang[n.slug] > 0) ? 0.25 : 0.85;
+          ritare.globalAlpha = svag ? 0.20 : 0.85;
           ritare.beginPath();
           ritare.arc(n.x, n.y, radie, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * andel);
           ritare.stroke();
@@ -492,16 +581,11 @@
         var el = nodElement[n.slug];
         if (el) el.style.transform = 'translate(' + (n.x - n.r) + 'px,' + (n.y - n.r) + 'px)';
       });
-      if (oppen) placeraSatelliter();
     }
 
     function animera() {
-      if (animation) cancelAnimationFrame(animation);
-      if (lugntLage) {
-        natverk.stabilisera(500);
-        rita();
-        return;
-      }
+      if (animation) { cancelAnimationFrame(animation); animation = null; }
+      if (lugntLage) { natverk.stabilisera(500); rita(); return; }
       var steg = function () {
         var rorelse = natverk.tick();
         rita();
@@ -520,106 +604,51 @@
       animera();
     }
 
-    // ── Satelliter, alltsa avsnitt runt en oppnad nod ───────────────
-
-    function stangSatelliter() {
-      Array.prototype.forEach.call(
-        nodlager.querySelectorAll('.satellit'),
-        function (el) { el.remove(); }
-      );
-      if (oppen && nodElement[oppen.nod.slug]) {
-        nodElement[oppen.nod.slug].setAttribute('aria-expanded', 'false');
-        nodElement[oppen.nod.slug].classList.remove('nod-oppen');
-      }
-      oppen = null;
-    }
-
-    function vaxlaNod(nod) {
-      var varOppen = oppen && oppen.nod.slug === nod.slug;
-      stangSatelliter();
-      if (varOppen) { rita(); return; }
-
-      var traff = null;
-      for (var i = 0; i < senasteTraffar.length; i++) {
-        if (senasteTraffar[i].slug === nod.slug) { traff = senasteTraffar[i]; break; }
-      }
-
-      var poster = [{ etikett: 'Las hela', href: nod.slug + '/index.html' }];
-      if (traff) {
-        traff.avsnitt.forEach(function (a) {
-          poster.push({
-            etikett: a.rubrik || 'Ingress',
-            href: nod.slug + '/index.html' + (a.ankare ? '#' + a.ankare : '')
-          });
-        });
-      }
-
-      oppen = { nod: nod, poster: poster, element: [] };
-
-      poster.forEach(function (p) {
-        var lank = document.createElement('a');
-        lank.className = 'satellit';
-        lank.href = p.href;
-        lank.textContent = p.etikett;
-        nodlager.appendChild(lank);
-        oppen.element.push(lank);
-      });
-
-      nodElement[nod.slug].setAttribute('aria-expanded', 'true');
-      nodElement[nod.slug].classList.add('nod-oppen');
-
-      if (animation) { cancelAnimationFrame(animation); animation = null; }
-      natverk.alfa = 0;
-      rita();
-    }
-
-    function placeraSatelliter() {
-      var m = matt();
-      var antal = oppen.element.length;
-      var radie = oppen.nod.r + 62;
-      oppen.element.forEach(function (el, i) {
-        var vinkel = -Math.PI / 2 + (i / Math.max(1, antal)) * Math.PI * 2;
-        var x = oppen.nod.x + Math.cos(vinkel) * radie;
-        var y = oppen.nod.y + Math.sin(vinkel) * radie;
-        x = Math.max(4, Math.min(m.bredd - 150, x - 60));
-        y = Math.max(4, Math.min(m.hojd - 26, y - 11));
-        el.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-      });
-    }
-
     // ── Sokning och resultat ───────────────────────────────────────
 
     function rensa() {
       senasteTraffar = [];
       senastePoang = {};
-      stangSatelliter();
+      vald = null;
       traffista.innerHTML = '';
-      traffista.hidden = true;
-      rutnat.hidden = false;
+      visa(traffista, false);
+      visa(rutnat, true);
       Object.keys(nodElement).forEach(function (slug) {
-        nodElement[slug].classList.remove('svag');
+        nodElement[slug].classList.remove('svag', 'nod-vald');
         nodElement[slug].style.setProperty('--gloed', '0');
       });
-      status.textContent = natverksdata.artiklar.length + ' essaer, '
-        + natverk.kanter.length + ' slaktskap';
+      grundstatus();
       rita();
     }
 
-    function visa(traffar) {
+    function visaTraffar(traffar) {
       senasteTraffar = traffar;
       senastePoang = {};
+      vald = null;
       var hogsta = traffar.length ? traffar[0].poang : 1;
       traffar.forEach(function (t) { senastePoang[t.slug] = t.poang; });
 
       Object.keys(nodElement).forEach(function (slug) {
         var poang = senastePoang[slug] || 0;
         var el = nodElement[slug];
+        el.classList.remove('nod-vald');
         el.classList.toggle('svag', poang === 0);
-        el.style.setProperty('--gloed', poang ? (0.35 + 0.65 * (poang / hogsta)).toFixed(3) : '0');
+        el.style.setProperty('--gloed',
+          poang ? (0.35 + 0.65 * (poang / hogsta)).toFixed(3) : '0');
       });
 
-      rutnat.hidden = true;
-      traffista.hidden = false;
+      // Kortrutnatet doljs, traffistan tar dess plats direkt under natverket.
+      visa(rutnat, false);
+      visa(traffista, true);
+
+      if (!traffar.length) {
+        traffista.innerHTML = '<p class="ingen-traff">Ingen essä innehåller alla sökorden.</p>';
+        grundstatus();
+        status.textContent = 'Ingen träff.';
+        rita();
+        return;
+      }
+
       traffista.innerHTML = traffar.map(function (t) {
         var avsnitt = t.avsnitt.map(function (a) {
           var href = t.slug + '/index.html' + (a.ankare ? '#' + a.ankare : '');
@@ -627,16 +656,14 @@
             + '<span class="traff-rubrik">' + fly(a.rubrik || 'Ingress') + '</span>'
             + '<span class="traff-utdrag">' + utdrag(a.text, t.termer) + '</span></a></li>';
         }).join('');
-        return '<article class="traff" data-slug="' + fly(t.slug) + '">'
-          + '<a class="traff-titel" href="' + fly(t.slug) + '/index.html">' + fly(t.titel) + '</a>'
+        return '<article class="traff" data-slug="' + fly(t.slug) + '" tabindex="-1">'
+          + '<a class="traff-titel" href="' + fly(t.slug) + '/index.html">'
+          + fly(t.titel) + '</a>'
           + '<span class="traff-amne">' + fly(t.amne) + '</span>'
           + '<ul class="traff-avsnitt">' + avsnitt + '</ul></article>';
       }).join('');
 
-      status.textContent = traffar.length
-        ? traffar.length + (traffar.length === 1 ? ' essa' : ' essaer')
-        : 'Ingen traff';
-      stangSatelliter();
+      grundstatus();
       rita();
     }
 
@@ -645,12 +672,12 @@
       if (fraga.trim().length < MIN_TECKEN) { rensa(); return; }
       hamtaSok().then(function (data) {
         if (sokfalt.value !== fraga) return;
-        visa(sok(data, fraga));
+        visaTraffar(sok(data, fraga));
       }).catch(function (fel) {
         console.error('[Explorations] sokindex kunde inte laddas:', fel);
-        status.textContent = 'Sokindexet kunde inte laddas. Kortvyn galler.';
-        rutnat.hidden = false;
-        traffista.hidden = true;
+        status.textContent = 'Sökindexet kunde inte laddas. Kortvyn gäller.';
+        visa(rutnat, true);
+        visa(traffista, false);
       });
     }
 
@@ -668,16 +695,32 @@
 
     if (tips && window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
       duk.addEventListener('mousemove', function (e) {
+        if (!natverk) return;
         var rekt = duk.getBoundingClientRect();
         var px = e.clientX - rekt.left, py = e.clientY - rekt.top;
-        var narmast = null, kortast = 9;
+
+        /* Noderna ar kanternas andpunkter. Utan den har sparren lag
+           varje nod inom traffavstand fran sina egna kanter, och tipset
+           blinkade fram sa fort pekaren narmade sig en prick. Det var de
+           oforklarliga rutorna runt noden. */
+        for (var i = 0; i < natverk.noder.length; i++) {
+          var n = natverk.noder[i];
+          var ndx = px - n.x, ndy = py - n.y;
+          if (Math.sqrt(ndx * ndx + ndy * ndy) < n.r + 22) { tips.hidden = true; return; }
+        }
+
+        var narmast = null, kortast = 7;
         natverk.kanter.forEach(function (k) {
           var d = avstandTillKant(px, py, k);
           if (d < kortast) { kortast = d; narmast = k; }
         });
+
         if (narmast) {
-          tips.textContent = 'Delad vokabular: ' + narmast.termer.join(', ');
-          tips.style.transform = 'translate(' + (px + 14) + 'px,' + (py + 14) + 'px)';
+          tips.textContent = narmast.termer.join(', ');
+          // Tipset ligger i sektionen, koordinaterna galler duken.
+          tips.style.transform = 'translate('
+            + (px + duk.offsetLeft + 14) + 'px,'
+            + (py + duk.offsetTop + 14) + 'px)';
           tips.hidden = false;
         } else {
           tips.hidden = true;
@@ -699,7 +742,7 @@
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        if (oppen) { stangSatelliter(); rita(); return; }
+        if (vald) { avvalj(); return; }
         if (sokfalt.value) { sokfalt.value = ''; rensa(); }
       }
       if (e.key === '/' && document.activeElement !== sokfalt) {
@@ -712,6 +755,7 @@
       vaxel.addEventListener('click', function () {
         var pa = document.body.classList.toggle('visa-natverk');
         vaxel.setAttribute('aria-pressed', pa ? 'true' : 'false');
+        vaxel.textContent = pa ? 'Dölj nätverk' : 'Visa nätverk';
         if (pa) starta();
       });
     }
@@ -719,10 +763,7 @@
     var omritning = null;
     window.addEventListener('resize', function () {
       clearTimeout(omritning);
-      omritning = setTimeout(function () {
-        if (!natverk) return;
-        starta();
-      }, 200);
+      omritning = setTimeout(function () { if (natverk) starta(); }, 200);
     });
 
     hamtaNatverk().then(function (data) {
@@ -735,23 +776,26 @@
       console.error('[Explorations] natverk-index.json kunde inte laddas:', fel);
       behallare.hidden = true;
       if (vaxel) vaxel.hidden = true;
+      status.textContent = 'Nätverket kunde inte laddas. Kortvyn gäller.';
       reservsokning();
     });
 
-    /* Reserv: om natverksdata fattas soker vi i korten som forut,
-       men utan buggen dar "read" matchar varje kort. */
+    /* Reserv om natverksdata fattas: sokning i korten, men mot
+       data-attributen och inte mot textContent. Det gamla skriptet
+       matchade mot hela kortets text, dar "Read →" och "min read"
+       ingar, sa sokningen read gav traff pa varje kort. */
     function reservsokning() {
       var kort = rutnat.querySelectorAll('.article-card');
       sokfalt.addEventListener('input', function () {
         var fraga = sokfalt.value.trim().toLowerCase();
         Array.prototype.forEach.call(kort, function (k) {
-          if (!fraga) { k.hidden = false; return; }
+          if (!fraga) { k.classList.remove('dold'); return; }
           var falt = [
             k.getAttribute('data-title') || '',
             k.getAttribute('data-subject') || '',
             k.getAttribute('data-excerpt') || ''
           ].join(' ').toLowerCase();
-          k.hidden = falt.indexOf(fraga) === -1;
+          k.classList.toggle('dold', falt.indexOf(fraga) === -1);
         });
       });
     }
