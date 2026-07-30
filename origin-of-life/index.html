@@ -1,136 +1,194 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="How scientific knowledge of life's origin has changed, what is established, and what remains open.">
-  <title>The Long Dawn | gAIa Exploration</title>
+  <title>The Long Dawn | Explorations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      color-scheme: light;
-      --paper: #f7f3ea;
-      --paper-deep: #ebe3d4;
-      --ink: #162421;
-      --muted: #5b6965;
-      --accent: #bf4b35;
-      --accent-dark: #7d2b20;
-      --sea: #1f6663;
-      --line: rgba(22, 36, 33, .16);
-      --serif: Georgia, "Times New Roman", serif;
-      --sans: Inter, ui-sans-serif, system-ui, sans-serif;
-      --font-scale: 1;
+      color-scheme: light dark;
+      --bg-color: #fcfcfc;
+      --text-color: #1a1a1a;
+      --heading-color: #c0392b;
+      --subheading-color: #1a1a1a;
+      --accent-color: #c0392b;
+      --meta-color: #777;
+      --toolbar-bg: rgba(252,252,252,.92);
+      --toc-bg: #f6f3f1;
+      --blockquote-bg: #f8f5f3;
+      --line: rgba(0,0,0,.09);
+      --font-body: "Merriweather", serif;
+      --font-ui: "Inter", sans-serif;
     }
-    [data-theme="dark"] {
-      color-scheme: dark;
-      --paper: #101917;
-      --paper-deep: #182522;
-      --ink: #edf0e8;
-      --muted: #aab8b2;
-      --accent: #ef846c;
-      --accent-dark: #ffb09e;
-      --sea: #81c7bd;
-      --line: rgba(237, 240, 232, .17);
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --heading-color: #e74c3c;
+        --subheading-color: #e0e0e0;
+        --accent-color: #e74c3c;
+        --meta-color: #aaa;
+        --toolbar-bg: rgba(18,18,18,.92);
+        --toc-bg: #1b1b1b;
+        --blockquote-bg: #1b1b1b;
+        --line: rgba(255,255,255,.1);
+      }
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--serif);
-      font-size: calc(18px * var(--font-scale));
-      line-height: 1.72;
-      text-rendering: optimizeLegibility;
+      margin: 0; background: var(--bg-color); color: var(--text-color);
+      font-family: var(--font-body); font-size: 18px; line-height: 1.8;
+      transition: background .3s ease, color .3s ease;
     }
-    a { color: var(--accent-dark); text-underline-offset: .16em; }
-    .masthead {
-      border-bottom: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 82% 16%, rgba(191,75,53,.18), transparent 28rem),
-        linear-gradient(140deg, var(--paper), var(--paper-deep));
+    body.sans-serif-mode { --font-body: var(--font-ui); }
+    .toolbar {
+      position: sticky; top: 0; z-index: 1000; display: flex; align-items: center;
+      gap: .75rem; min-height: 54px; padding: .55rem 1rem;
+      background: var(--toolbar-bg); border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px); font-family: var(--font-ui);
     }
-    .mast-inner { max-width: 1180px; margin: auto; padding: 1rem 1.25rem 5.2rem; }
-    .topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-    .brand {
-      font: 700 .72rem/1 var(--sans);
-      letter-spacing: .18em;
-      text-transform: uppercase;
+    .toolbar > a { color: var(--text-color); text-decoration: none; font-size: .86rem; font-weight: 600; }
+    .toolbar > a:hover, .toolbar > a:focus-visible { color: var(--accent-color); }
+    .search-box { margin-left: auto; }
+    #articleSearch {
+      width: min(210px, 28vw); padding: .4rem .65rem; border: 1px solid var(--meta-color);
+      border-radius: 5px; background: transparent; color: var(--text-color);
+      font: .78rem/1.2 var(--font-ui);
     }
-    .controls { display: flex; gap: .35rem; }
-    button {
-      border: 1px solid var(--line); border-radius: 999px; background: transparent;
-      color: var(--ink); min-width: 2.35rem; min-height: 2.35rem; cursor: pointer;
-      font: 650 .78rem/1 var(--sans);
+    .font-controls { display: flex; gap: .35rem; }
+    .toolbar button {
+      border: 1px solid var(--meta-color); border-radius: 4px; background: transparent;
+      color: var(--text-color); padding: .3rem .48rem; cursor: pointer;
+      font: .76rem/1 var(--font-ui);
     }
-    button:hover, button:focus-visible { border-color: var(--accent); outline: none; }
-    .kicker { margin: 5.6rem 0 1rem; color: var(--accent-dark); font: 750 .72rem/1.2 var(--sans); letter-spacing: .15em; text-transform: uppercase; }
-    h1 { max-width: 900px; margin: 0; font-size: clamp(3.2rem, 9vw, 7.6rem); line-height: .9; letter-spacing: -.055em; font-weight: 500; }
-    .dek { max-width: 760px; margin: 1.7rem 0 0; font-size: clamp(1.25rem, 2.4vw, 1.7rem); line-height: 1.35; color: var(--muted); }
-    .meta { margin-top: 2rem; font: 650 .72rem/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-    .layout { max-width: 1180px; margin: auto; padding: 3.5rem 1.25rem 7rem; display: grid; grid-template-columns: minmax(0, 700px) 260px; gap: 6rem; align-items: start; }
-    article > p:first-child { font-size: 1.25em; line-height: 1.55; }
-    h2 { margin: 4.3rem 0 1.2rem; font-size: clamp(2rem, 4.5vw, 3.25rem); line-height: 1.05; letter-spacing: -.035em; font-weight: 520; scroll-margin-top: 1rem; }
-    h3 { margin: 2.6rem 0 .8rem; font: 750 .9rem/1.25 var(--sans); color: var(--sea); letter-spacing: .1em; text-transform: uppercase; }
-    p { margin: 0 0 1.25rem; }
-    blockquote { margin: 3rem 0; padding: 1.5rem 0 1.5rem 1.8rem; border-left: 4px solid var(--accent); color: var(--sea); font-size: 1.28em; line-height: 1.45; }
-    blockquote p { margin: 0; }
-    .ref { font: 650 .63em/1 var(--sans); padding-left: .12em; }
-    .ref a { text-decoration: none; }
-    .toc { position: sticky; top: 1rem; border-top: 4px solid var(--ink); padding-top: 1rem; }
-    .toc h2 { margin: 0 0 .8rem; font: 750 .7rem/1.2 var(--sans); text-transform: uppercase; letter-spacing: .15em; }
-    .toc ol { list-style: none; padding: 0; margin: 0; }
-    .toc li { margin: 0 0 .48rem; font: 550 .72rem/1.28 var(--sans); }
-    .toc .level-3 { padding-left: .8rem; color: var(--muted); }
-    .toc a { color: inherit; text-decoration: none; }
-    .toc a:hover { color: var(--accent-dark); }
-    .sources-wrap { background: var(--paper-deep); border-top: 1px solid var(--line); padding: 5rem 1.25rem 7rem; }
-    .sources-inner { max-width: 980px; margin: auto; }
-    .sources-inner > h2 { margin-top: 0; }
-    .sources { list-style: none; padding: 0; margin: 2rem 0 0; }
-    .source-item { display: grid; grid-template-columns: 2.4rem 1fr; gap: .85rem; padding: 1rem 0; border-top: 1px solid var(--line); scroll-margin-top: 1rem; }
-    .source-number { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border: 1px solid var(--line); border-radius: 50%; font: 700 .68rem/1 var(--sans); }
-    .citation { margin: 0 0 .25rem; font-size: .84rem; line-height: 1.45; }
-    .source-note { margin: 0; color: var(--muted); font: .68rem/1.45 var(--sans); }
-    .source-verified { display: inline-block; margin-left: .45rem; color: var(--sea); font: 700 .58rem/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
-    footer { padding: 1.3rem; text-align: center; border-top: 1px solid var(--line); color: var(--muted); font: .68rem/1.4 var(--sans); }
-    @media (max-width: 880px) {
-      .layout { grid-template-columns: 1fr; gap: 3rem; }
-      .toc { position: static; grid-row: 1; columns: 2; }
-      .toc h2 { column-span: all; }
-      .mast-inner { padding-bottom: 3.5rem; }
-      .kicker { margin-top: 3.8rem; }
+    .toolbar button:hover, .toolbar button:focus-visible, #articleSearch:focus {
+      border-color: var(--accent-color); color: var(--accent-color); outline: none;
     }
-    @media (max-width: 560px) {
-      body { font-size: calc(17px * var(--font-scale)); }
-      .toc { columns: 1; }
-      h1 { font-size: 3.3rem; }
+    .audio-player { display: none; }
+    main { max-width: 740px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    .article-header { text-align: center; margin-bottom: 3rem; }
+    .subject-badge {
+      display: block; margin-bottom: 1rem; color: var(--accent-color);
+      font: 600 .75rem/1.3 var(--font-ui); letter-spacing: .15em; text-transform: uppercase;
+    }
+    h1 { margin: 0 0 .75rem; color: var(--heading-color); font-size: clamp(2.4rem, 8vw, 3.55rem); line-height: 1.15; }
+    .subtitle { margin: 0 auto 1.2rem; max-width: 650px; color: var(--meta-color); font-size: 1.08rem; line-height: 1.55; font-style: italic; }
+    .meta { display: flex; justify-content: center; gap: 1rem; color: var(--meta-color); font: .86rem/1.4 var(--font-ui); }
+    .meta time::after { content: " •"; margin-left: 1rem; }
+    .toc {
+      margin: 0 0 3rem; padding: 1.65rem 2rem; border-radius: 8px;
+      background: var(--toc-bg); font-family: var(--font-ui);
+    }
+    .toc-title { margin: 0 0 1rem; color: var(--meta-color); font: 600 .8rem/1.2 var(--font-ui); letter-spacing: .12em; text-transform: uppercase; }
+    .toc ul { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 2rem; }
+    .toc li { break-inside: avoid; margin: 0 0 .65rem; font-size: .86rem; line-height: 1.4; }
+    .toc-level-3 { padding-left: .8rem; }
+    .toc a { color: var(--text-color); text-decoration: none; }
+    .toc a:hover, .toc a.active { color: var(--accent-color); }
+    .content h2, .content h3 { scroll-margin-top: 76px; }
+    .content h2 { margin: 2.8rem 0 1rem; color: var(--heading-color); font-size: 1.65rem; line-height: 1.3; }
+    .content h3 { margin: 2.1rem 0 .8rem; color: var(--subheading-color); font-size: 1.28rem; font-style: italic; font-weight: 400; }
+    .content p { margin: 0 0 1.5rem; }
+    .content > p:first-of-type::first-letter {
+      float: left; margin: .08em .1em 0 0; color: var(--accent-color);
+      font-size: 4em; line-height: .72; font-weight: 700;
+    }
+    blockquote {
+      margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--accent-color);
+      border-radius: 0 8px 8px 0; background: var(--blockquote-bg); color: var(--subheading-color); font-style: italic;
+    }
+    blockquote p:last-child { margin-bottom: 0; }
+    .ref { position: relative; top: -.5em; font: 600 .7em/0 var(--font-ui); }
+    .ref a { color: var(--accent-color); text-decoration: none; }
+    .sources-section { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    .sources-section h2 { color: var(--heading-color); }
+    ol.sources { padding-left: 1.5rem; }
+    .source-item { margin-bottom: 1.15rem; scroll-margin-top: 76px; font: .8rem/1.5 var(--font-ui); }
+    .source-item:target { padding: .35rem .5rem; margin-left: -.5rem; background: rgba(192,57,43,.08); border-radius: 4px; }
+    .source-item > a { color: var(--text-color); text-decoration: none; }
+    .source-item > a:hover { color: var(--accent-color); text-decoration: underline; }
+    .source-tier, .source-verified, .source-congruence {
+      display: inline-block; margin: .28rem .35rem 0 0; font: 600 .65rem/1.2 var(--font-ui);
+    }
+    .source-tier-3 { color: #b8860b; } .source-tier-2 { color: #777; }
+    .source-verified { color: #278046; }
+    .source-congruence { color: var(--meta-color); }
+    .source-claim, .source-access { display: block; margin-top: .2rem; color: var(--meta-color); font-size: .72rem; font-style: italic; }
+    mark.search-highlight { background: rgba(192,57,43,.24); color: inherit; border-radius: 2px; }
+    mark.search-highlight.active-highlight { background: rgba(192,57,43,.58); }
+    .search-popup {
+      position: fixed; top: 62px; right: 18px; z-index: 1001; display: none;
+      width: min(360px, calc(100vw - 36px)); max-height: 55vh; overflow-y: auto;
+      background: var(--bg-color); border: 1px solid var(--line); border-radius: 8px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.18); font-family: var(--font-ui);
+    }
+    .search-popup.visible { display: block; }
+    .search-popup-header { display: flex; justify-content: space-between; padding: .7rem 1rem; border-bottom: 1px solid var(--line); color: var(--meta-color); font-size: .78rem; }
+    .search-popup-results { list-style: none; margin: 0; padding: 0; }
+    .search-popup-result-item { padding: .75rem 1rem; border-bottom: 1px solid var(--line); cursor: pointer; font-size: .78rem; line-height: 1.45; }
+    .search-popup-result-item:hover { background: rgba(192,57,43,.06); }
+    footer { padding: 2.5rem 1.5rem; border-top: 1px solid var(--line); text-align: center; color: var(--meta-color); font: .82rem/1.5 var(--font-ui); }
+    footer a { color: inherit; }
+    @media (max-width: 680px) {
+      .toolbar { flex-wrap: wrap; }
+      .search-box { order: 3; width: 100%; margin: .2rem 0 0; }
+      #articleSearch { width: 100%; }
+      .font-controls button:nth-child(2) { display: none; }
+      .toc ul { columns: 1; }
+      main { padding-top: 2rem; }
     }
     @media print {
-      .controls, .toc { display: none; }
-      .layout { display: block; max-width: 720px; }
-      body { font-size: 11pt; }
+      .toolbar, .toc { display: none !important; }
+      body { background: white !important; color: black !important; font-size: 12pt; }
+      main { max-width: none; padding: 0; }
     }
   </style>
 </head>
-<body>
-  <header class="masthead">
-    <div class="mast-inner">
-      <div class="topline">
-        <div class="brand">gAIa / Exploration</div>
-        <div class="controls" aria-label="Reading controls">
-          <button type="button" data-action="smaller" aria-label="Decrease text size">A-</button>
-          <button type="button" data-action="larger" aria-label="Increase text size">A+</button>
-          <button type="button" data-action="theme" aria-label="Toggle dark mode">◐</button>
-        </div>
-      </div>
-      <p class="kicker">Origins / Evidence / Open questions</p>
-      <h1>The Long Dawn</h1>
-      <p class="dek">How the origin of life became a science of possible worlds</p>
-      <p class="meta">30 July 2026 · 26 minute read · Updated through July 2026</p>
+<body data-has-narration="false">
+  <nav class="toolbar" aria-label="Reading tools">
+    <a href="../index.html">← Library</a>
+    <div class="search-box"><input type="search" id="articleSearch" placeholder="Search in article..." aria-label="Search in article"></div>
+    <div class="font-controls">
+      <button id="fontToggle" type="button" aria-label="Toggle font family">Sans</button>
+      <button id="fontDecrease" type="button" aria-label="Decrease font size">A-</button>
+      <button id="fontReset" type="button" aria-label="Reset font size">Reset</button>
+      <button id="fontIncrease" type="button" aria-label="Increase font size">A+</button>
     </div>
-  </header>
-  <main class="layout">
-    <article><p>No identified fossil captures life's first emergence. There may never have been a single moment to fossilize.</p>
+    <div class="audio-player" id="audioPlayer" aria-hidden="true"></div>
+  </nav>
+  <main>
+    <header class="article-header">
+      <span class="subject-badge">Origins of Life &amp; Astrobiology</span>
+      <h1>The Long Dawn</h1>
+      <p class="subtitle">How the origin of life became a science of possible worlds</p>
+      <div class="meta"><time datetime="2026-07-30">July 30, 2026</time><span>≈ 30 min read</span></div>
+    </header>
+    <nav class="toc" aria-label="Contents">
+      <h2 class="toc-title">Contents</h2>
+      <ul><li class="toc-level-2"><a href="#before-origins-became-experimental">Before origins became experimental</a></li>
+<li class="toc-level-2"><a href="#the-flask-that-changed-the-burden-of-proof">The flask that changed the burden of proof</a></li>
+<li class="toc-level-2"><a href="#the-early-earth-stopped-looking-like-a-permanent-inferno">The early Earth stopped looking like a permanent inferno</a></li>
+<li class="toc-level-2"><a href="#reading-life-s-oldest-damaged-archive">Reading life&#x27;s oldest damaged archive</a></li>
+<li class="toc-level-2"><a href="#the-ancestor-that-was-not-first">The ancestor that was not first</a></li>
+<li class="toc-level-2"><a href="#what-an-evolvable-chemical-system-requires">What an evolvable chemical system requires</a></li>
+<li class="toc-level-2"><a href="#rna-and-the-discovery-of-molecular-memory">RNA and the discovery of molecular memory</a></li>
+<li class="toc-level-2"><a href="#metabolism-before-genes">Metabolism before genes?</a></li>
+<li class="toc-level-2"><a href="#vents-batteries-built-by-geology">Vents: batteries built by geology</a></li>
+<li class="toc-level-2"><a href="#ponds-hot-springs-and-the-creative-use-of-drying">Ponds, hot springs, and the creative use of drying</a></li>
+<li class="toc-level-2"><a href="#membranes-and-the-invention-of-an-inside">Membranes and the invention of an inside</a></li>
+<li class="toc-level-2"><a href="#selection-before-full-genes">Selection before full genes</a></li>
+<li class="toc-level-2"><a href="#from-rival-camps-to-a-network-of-environments">From rival camps to a network of environments</a></li>
+<li class="toc-level-2"><a href="#are-laboratories-close-to-creating-life">Are laboratories close to creating life?</a></li>
+<li class="toc-level-2"><a href="#what-is-known-what-is-likely-and-what-remains-open">What is known, what is likely, and what remains open</a></li>
+<li class="toc-level-2"><a href="#one-planet-is-not-a-probability">One planet is not a probability</a></li>
+<li class="toc-level-2"><a href="#the-edge-of-the-knowable">The edge of the knowable</a></li></ul>
+    </nav>
+    <article class="content"><p>No identified fossil captures life's first emergence. There may never have been a single moment to fossilize.</p>
 <p>Imagine moving backward through the history of a cell. The membrane becomes leakier and simpler. The protein machines grow fewer. DNA yields its central role to RNA or to some other, now extinct, carrier of heredity. Metabolism becomes a loose traffic of reactions across minerals, water, and small compartments. Reproduction becomes unreliable. Variation remains, but the boundary between an evolving population and a complicated chemical system begins to blur.</p>
 <p>At what point did matter become alive?</p>
 <p>The question sounds as if nature must have crossed a painted line. Yet the line is partly drawn by the observer. Modern cells provide the template from which life is usually defined: bounded, metabolizing, self-maintaining, reproducing, and capable of Darwinian evolution. Viruses already show that these properties need not arrive as one indivisible package. A virion outside a cell is metabolically inert; the viral process inside a host participates in replication and evolution. Whether that makes a virus alive is an ontological interpretation, not a settled empirical result. Origin-of-life research confronts an even deeper version of the same problem. It asks how several properties that now occur together first became coupled strongly enough for natural selection to build on them.</p>
@@ -139,13 +197,13 @@
 <p>What has changed, then, is not ignorance into certainty. It is one kind of ignorance into a much better structured one.</p>
 <blockquote><p>The modern achievement is not a recipe for life. It is a map of demonstrated reactions, unresolved transitions, and historical routes that may have vanished forever.</p></blockquote>
 <h2 id="before-origins-became-experimental">Before origins became experimental</h2>
-<p>For much of history, the generation of life was treated as something that could still be watched in ordinary surroundings. Maggots appeared on meat. Microorganisms clouded broth. Mice were said to emerge from stored grain. The crucial conceptual break did not consist in declaring that life could never arise from nonlife. It came from recognizing that present-day observations had been misread. Redi, Spallanzani, and Pasteur showed that organisms appearing in ordinary nutrient media came from existing life or contamination. Pasteur's flasks closed the case against routine spontaneous generation under modern conditions, not against chemical evolution on a young planet without organisms, oxygen-rich air, or biological scavengers.<sup class="ref"><a href="#src-1">[1]</a></sup></p>
+<p>For much of history, the generation of life was treated as something that could still be watched in ordinary surroundings. Maggots appeared on meat. Microorganisms clouded broth. Mice were said to emerge from stored grain. The crucial conceptual break did not consist in declaring that life could never arise from nonlife. It came from recognizing that present-day observations had been misread. Pasteur's experiments challenged routine spontaneous generation of organisms under modern conditions, not chemical evolution on a young planet without organisms, oxygen-rich air, or biological scavengers.<sup class="ref"><a href="#src-35">[35]</a></sup></p>
 <p>Charles Darwin grasped the distinction. In an 1871 letter to Joseph Hooker, he imagined a "warm little pond" containing ammonia and phosphoric salts, acted on by light, heat, and electricity. A protein-like compound might form there, he speculated, if it were not immediately consumed by existing organisms. The aside was short, private, and chemically undeveloped, but the last condition was profound. The modern biosphere does not merely occupy Earth. It destroys or eats many of the fragile chemical intermediates from which life might otherwise emerge.<sup class="ref"><a href="#src-1">[1]</a></sup></p>
-<p>In the 1920s, Alexander Oparin and J. B. S. Haldane independently turned this intuition into a programme of chemical evolution. An oxygen-poor atmosphere, external energy, accumulating organic molecules, and increasingly organized droplets or aggregates might create a long prehistory before true cells. Many details of their atmospheric picture have changed, but their central move survived: life's origin could be decomposed into natural stages and tested indirectly.<sup class="ref"><a href="#src-1">[1]</a></sup></p>
+<p>In the 1920s, Alexander Oparin and J. B. S. Haldane independently turned this intuition into a programme of chemical evolution. An oxygen-poor atmosphere, external energy, accumulating organic molecules, and increasingly organized droplets or aggregates might create a long prehistory before true cells. Many details of their atmospheric picture have changed, but their central move survived: life's origin could be decomposed into natural stages and studied scientifically.<sup class="ref"><a href="#src-35">[35]</a></sup></p>
 <p>The field still lacked its iconic experiment. That arrived in a glass apparatus at the University of Chicago.</p>
 <h2 id="the-flask-that-changed-the-burden-of-proof">The flask that changed the burden of proof</h2>
-<p>In 1952, graduate student Stanley Miller circulated water vapour through methane, ammonia, and hydrogen, then sent electrical sparks across the gases. A condenser returned the products to the water flask. Within days the clear water darkened. Analysis showed amino acids, including glycine and alanine. Miller published the result in 1953 in a paper scarcely longer than a modern abstract and methods section.<sup class="ref"><a href="#src-2">[2]</a></sup></p>
-<p>The experiment did not create life. It did not create proteins, a genetic system, metabolism, or a cell. Abiotic organic synthesis was already known. Miller's specific breakthrough was to show that a simulated planetary gas-and-energy environment could generate amino acids under controlled conditions. It made prebiotic synthesis experimentally tractable and changed the burden of proof.<sup class="ref"><a href="#src-2">[2]</a></sup></p>
+<p>In 1952, graduate student Stanley Miller circulated water vapour through methane, ammonia, and hydrogen, then sent electrical sparks across the gases. A condenser returned the products to the water flask. Analysis showed amino acids, including glycine and alanine. Miller published the result in 1953.<sup class="ref"><a href="#src-2">[2]</a></sup><sup class="ref"><a href="#src-35">[35]</a></sup></p>
+<p>The experiment did not create life. It did not create proteins, a genetic system, metabolism, or a cell. Abiotic organic synthesis was already known. Miller's specific breakthrough was to show that a simulated planetary gas-and-energy environment could generate amino acids under controlled conditions, helping turn prebiotic chemistry into an experimental research programme.<sup class="ref"><a href="#src-2">[2]</a></sup><sup class="ref"><a href="#src-35">[35]</a></sup></p>
 <p>Miller's result became so famous that its diagram hardened into a creation story: atmosphere above, primordial ocean below, lightning between them, life waiting at the end. The real legacy is subtler. The strongly reducing global atmosphere represented by methane, ammonia, and hydrogen is no longer a secure model of the Hadean Earth. Many models favour an atmosphere dominated by carbon dioxide and nitrogen, with reduction varying through place and time. Yet this does not make the experiment irrelevant. Volcanic plumes, impacts, lightning, water droplets, iron-rich settings, and transient hydrogen-rich atmospheres can create local chemical conditions unlike the planetary average. The correct update is not "Miller was wrong." It is "Miller demonstrated a class of possibilities whose planetary setting must be tested."<sup class="ref"><a href="#src-2">[2]</a></sup><sup class="ref"><a href="#src-32">[32]</a></sup></p>
 <p>Even Miller's old samples continued to revise the story. Decades later, researchers used modern analytical instruments on sealed material from a volcanic spark experiment and identified 22 amino acids and five amines, a richer mixture than 1950s methods had revealed.<sup class="ref"><a href="#src-3">[3]</a></sup> The experiment remained the same; the knowledge extracted from it changed.</p>
 <p>This pattern recurs throughout origin research. A possible reaction is found, then the question becomes harder. Were the starting materials present at useful concentrations? Could products survive, connect to the next step, and recur without a researcher purifying the mixture and timing every addition? A living system must organize materials, channel energy, retain useful innovations, and reproduce its organization with variation.</p>
@@ -154,30 +212,30 @@
 <p>Earth formed about 4.54 billion years ago. Its earliest eon is called the Hadean, a name derived from the underworld. For decades the name matched the dominant image: a molten, impact-battered world in which oceans and stable crust arrived late. Very little Hadean rock survives because Earth's surface has been melted, metamorphosed, eroded, buried, and recycled by plate tectonics.</p>
 <p>Tiny zircon crystals changed that picture. Zircon is a durable mineral that can preserve chemical and isotopic information even after its original rock has disappeared. Jack Hills zircons from Western Australia include grains about 4.4 billion years old. Their oxygen isotopes and mineral chemistry are consistent with differentiated crust interacting with liquid water surprisingly early.<sup class="ref"><a href="#src-4">[4]</a></sup></p>
 <p>The inference has limits. A zircon is more like a ship's black box than a photograph. It records selected conditions, not a global landscape. Early liquid water does not prove an ocean covering the entire planet, a stable climate, or life. It does, however, weaken the old assumption that no habitable surface environments could have existed until much later.</p>
-<p>Impact modelling changed another part of the picture. In one influential model, large impacts could devastate the surface and boil portions of the ocean without sterilizing every crustal and marine refuge. Life or prebiotic chemistry might have persisted below the surface or restarted in newly generated hydrothermal systems.<sup class="ref"><a href="#src-33">[33]</a></sup> The once popular image of a single late, globally sterilizing "heavy bombardment" has become a more complex and model-dependent history.</p>
+<p>Impact modelling changed another part of the picture. In one influential model, large impacts could devastate the surface and boil portions of the ocean without sterilizing every crustal and marine refuge. A microbial biosphere, if already present, could have persisted in subsurface or hydrothermal refuges.<sup class="ref"><a href="#src-33">[33]</a></sup> The once popular image of a single late, globally sterilizing "heavy bombardment" has become a more complex and model-dependent history.</p>
 <p>The window in which life could have originated therefore widened. But a habitable Earth is an empty stage until evidence of inhabitants appears.</p>
 <h2 id="reading-life-s-oldest-damaged-archive">Reading life's oldest damaged archive</h2>
 <p>Searching for early life is not like searching for dinosaur bones. Microbial cells are small, soft, and easily destroyed. The oldest surviving rocks have often been heated, squeezed, recrystallized, and chemically altered. Biology must be inferred from combinations of shape, geological context, carbon chemistry, isotopic composition, mineral associations, and spatial organization.</p>
 <p>Each individual clue can be forged by nonliving chemistry.</p>
-<p>A filament may be a mineral growth. A mound may be sediment deformed by tectonic pressure. Carbon depleted in the heavier isotope can result from biological carbon fixation, but some abiotic reactions also fractionate carbon. Organic matter can move through cracks long after a rock forms. A mineral may preserve the age of its host while the carbon inside has a different history. The older the claim, the more severe these problems become.<sup class="ref"><a href="#src-11">[11]</a></sup></p>
-<p>The strongest early evidence comes from ensembles rather than record-breaking objects. In the Dresser Formation of Western Australia, rocks about 3.48 billion years old preserve stromatolite structures, microbial mat fabrics, chemical signals, and evidence of a volcanic hot-spring environment.<sup class="ref"><a href="#src-7">[7]</a></sup> In the roughly 3.43 billion-year-old Strelley Pool Formation, regionally organized stromatolite systems vary with their sedimentary settings in ways that are difficult to explain as isolated mineral accidents.<sup class="ref"><a href="#src-6">[6]</a></sup> Particular specimens and interpretations continue to be refined, but taken together these records make life by about 3.4 to 3.5 billion years ago a strong conclusion.</p>
+<p>Morphological and chemical biosignatures can be altered or mimicked by nonliving processes, so the oldest claims require several independent lines of evidence in their geological context. The older the claim, the more severe these problems become.<sup class="ref"><a href="#src-11">[11]</a></sup></p>
+<p>The strongest early evidence comes from ensembles rather than record-breaking objects. In the Dresser Formation of Western Australia, rocks about 3.48 billion years old preserve stromatolite structures, microbial mat fabrics, and evidence of a volcanic hot-spring environment.<sup class="ref"><a href="#src-7">[7]</a></sup> In the roughly 3.43 billion-year-old Strelley Pool Formation, regionally organized stromatolite systems vary with their sedimentary settings in ways that are difficult to explain as isolated mineral accidents.<sup class="ref"><a href="#src-6">[6]</a></sup> Particular specimens and interpretations continue to be refined, but taken together these records make life by about 3.4 to 3.5 billion years ago a strong conclusion.</p>
 <p>Beyond that boundary, the wording must change.</p>
-<p>In 2016, researchers reported conical structures in 3.7 billion-year-old rocks at Isua, Greenland, and interpreted them as stromatolites made by microbial communities.<sup class="ref"><a href="#src-8">[8]</a></sup> Two years later, another team examined the structures in three dimensions and argued that the apparent cones were cross-sections through elongated ridges produced by deformation.<sup class="ref"><a href="#src-9">[9]</a></sup> In a two-dimensional rock face, the structures resembled ice-cream cones. In three dimensions, the critics argued, they were closer to long bars.</p>
+<p>In 2016, researchers reported 1-to-4-centimetre-high structures in 3.7 billion-year-old rocks at Isua, Greenland, and interpreted them as stromatolites made by microbial communities.<sup class="ref"><a href="#src-8">[8]</a></sup> Two years later, another team used three-dimensional analysis and argued that the structures were more plausibly non-biological deformation features formed after burial.<sup class="ref"><a href="#src-9">[9]</a></sup></p>
 <p>The episode is not a story of careless science corrected by better scientists. It is science functioning under extreme evidential scarcity. The initial interpretation generated a testable claim. New geometry changed the weight of evidence. Debate continues because ancient rocks do not preserve ideal controls.</p>
-<p>In northern Quebec, structures in the Nuvvuagittuq belt have been described as hematite tubes and filaments resembling microorganisms from hydrothermal environments. The host rocks are at least 3.77 billion years old and may be substantially older, but both their precise age and the biological interpretation of the structures are disputed. Abiotic mineral "chemical gardens" can produce lifelike forms.<sup class="ref"><a href="#src-10">[10]</a></sup></p>
-<p>The most ancient proposed biosignature is smaller still. A 2015 study described graphite enclosed within a roughly 4.1 billion-year-old zircon. Its carbon isotope composition is compatible with biological fractionation, and the authors carefully called it "potentially biogenic."<sup class="ref"><a href="#src-5">[5]</a></sup> One indigenous carbon inclusion with a nonunique isotope value is not evidence strong enough to establish life at 4.1 billion years. It is a reason to keep searching.</p>
+<p>In northern Quebec, researchers described hematite tubes and filaments in the Nuvvuagittuq belt and proposed that they were products of microorganisms living in a hydrothermal environment. The authors placed the host rocks between 3.77 and 4.28 billion years old.<sup class="ref"><a href="#src-10">[10]</a></sup> As with every proposed biosignature from this period, the interpretation must be tested against the possibility of nonliving processes rather than treated as a settled date for life.<sup class="ref"><a href="#src-11">[11]</a></sup></p>
+<p>The most ancient proposed biosignature is smaller still. A 2015 study described one roughly 4.1 billion-year-old zircon containing two primary graphitic inclusions. Their carbon isotope composition is compatible with biological fractionation, and the authors carefully called the material "potentially biogenic."<sup class="ref"><a href="#src-5">[5]</a></sup> One zircon with a nonunique isotope value is not evidence strong enough to establish life at 4.1 billion years. It is a reason to keep searching.</p>
 <p>The defensible timeline therefore has several tiers:</p>
 <p>Life was established by about 3.4 to 3.5 billion years ago. Evidence may extend to 3.7 or 3.8 billion years, but major claims remain contested. Evidence at about 4.1 billion years is intriguing and speculative. The origin itself must be earlier than the oldest evidence, perhaps much earlier, because the geological archive's oldest surviving page does not date the day the book was begun.</p>
 <blockquote><p>An oldest fossil is a minimum age, not a birth certificate.</p></blockquote>
 <h2 id="the-ancestor-that-was-not-first">The ancestor that was not first</h2>
 <p>Rocks are not the only archive. Every living cell also carries history.</p>
-<p>All known cellular life uses related ribosomes, a nearly universal genetic code, ATP as a central energy currency, and homologous molecular machinery. In 1977, Carl Woese and George Fox used ribosomal RNA to reveal that life contains a deep division between Bacteria and the lineage later called Archaea.<sup class="ref"><a href="#src-12">[12]</a></sup> The tree of life was no longer a simple split between familiar bacteria and complex organisms. Archaea also expanded the recognized environmental range of life, although not all archaea are extremophiles.</p>
-<p>At nearly the same historical moment, scientists encountered dense animal communities around deep-sea hydrothermal vents, ecosystems supported by microbial chemosynthesis rather than direct sunlight.<sup class="ref"><a href="#src-13">[13]</a></sup> The discoveries encouraged a powerful inference: perhaps life's earliest metabolism was rooted in geochemical energy and hydrothermal gradients.</p>
+<p>All known cellular life shares homologous molecular machinery that allows comparative genomics to reconstruct deep common ancestry.<sup class="ref"><a href="#src-14">[14]</a></sup> In 1977, Carl Woese and George Fox used ribosomal RNA to reveal a deep division between Bacteria and the lineage later called Archaea.<sup class="ref"><a href="#src-12">[12]</a></sup> The tree of life was no longer a simple split between familiar bacteria and complex organisms.</p>
+<p>At nearly the same historical moment, scientists encountered animal communities around deep-sea hydrothermal vents that appeared to depend on microbial chemosynthesis rather than photosynthesis.<sup class="ref"><a href="#src-13">[13]</a></sup> The discoveries encouraged a powerful inference: perhaps life's earliest metabolism was rooted in geochemical energy and hydrothermal gradients.</p>
 <p>The inference remains plausible, not conclusive.</p>
 <p>Comparative genomics reconstructs the last universal common ancestor, usually abbreviated LUCA. The name is often misunderstood. LUCA was not necessarily the first cell, the first replicator, or the only lineage alive at its time. It is the most recent ancestral population from which all surviving cellular lineages descend. Earlier lineages may have vanished, exchanged genes, fused, or left descendants only through components absorbed into the winning ancestry.</p>
 <p>Think of reconstructing the ancestor of all surviving languages. Shared grammar and words reveal a deep common source, but they do not identify the first human sound, the first language, or every extinct language that once existed.</p>
 <p>LUCA was already far from life's origin. A system possessing translation, a genetic code, a cellular boundary, energy metabolism, and a substantial genome stands on top of a long prior history. Its exact membrane chemistry is uncertain and may not have matched that of either modern bacteria or archaea. The transition from geochemistry to such a system must include the origin of coding itself, one of the most difficult problems in biology.</p>
-<p>In 2024, a large phylogenomic analysis used ancient gene duplications, molecular clocks, fossils, and isotope records to estimate that LUCA lived about 4.2 billion years ago, with a model interval from 4.09 to 4.33 billion years. The same study reconstructed a genome of at least roughly 2.5 megabases, about 2,600 proteins, anaerobic acetogenic metabolism, and an ecological community around LUCA.<sup class="ref"><a href="#src-14">[14]</a></sup></p>
+<p>In 2024, a large phylogenomic analysis used ancient gene duplications, molecular clocks, fossils, and isotope records to estimate that LUCA lived about 4.2 billion years ago, with a model interval from 4.09 to 4.33 billion years. Its predictive model estimated a genome size of roughly 2.5 to 3.0 megabases encoding about 2,600 proteins; the analysis also inferred anaerobic acetogenic metabolism and an ecological community around LUCA.<sup class="ref"><a href="#src-14">[14]</a></sup></p>
 <p>This is an important result and a model-based inference. It is not a direct date. Deep molecular clocks depend on uncertain calibrations, evolutionary rates, gene loss, horizontal gene transfer, root placement, and assumptions about how gene families changed. Earlier studies reconstructed a different, smaller set of genes and emphasized hydrogen-dependent metabolism in a hydrothermal setting. The contrast is information, not embarrassment: it reveals which conclusions are robust and which remain sensitive to method.</p>
 <p>The robust conclusion is that LUCA already possessed advanced translation and energy-handling systems. Its exact date, genome size, physiology, membrane composition, and habitat are less secure. Even a hydrothermal LUCA would not prove that life originated at a vent. LUCA could have adapted to that environment after earlier evolution elsewhere.</p>
 <p>This distinction prevents a seductive compression of time. Between the first chemistry capable of cumulative evolution and LUCA lies a largely lost evolutionary history whose duration is uncertain.</p>
@@ -195,7 +253,7 @@
 <p>One early obstacle was synthesis. Simply making ribose and nucleobases separately and joining them is chemically inefficient, especially for canonical pyrimidines. In 2009, Matthew Powner, Béatrice Gerland, and John Sutherland demonstrated a route to activated pyrimidine ribonucleotides that bypassed free ribose and free nucleobases, assembling the components through shared intermediates from proposed prebiotic feedstocks.<sup class="ref"><a href="#src-15">[15]</a></sup> The work did not solve all nucleotide synthesis, but it changed what counted as plausible.</p>
 <p>In 2015, a related programme showed that hydrogen cyanide chemistry, reduced sulfur, ultraviolet light, and copper could generate related precursors of ribonucleotides, amino acids, and lipids.<sup class="ref"><a href="#src-16">[16]</a></sup> This was a move from isolated products toward systems chemistry. Instead of asking for one route to RNA and an unrelated route to proteins, the work asked whether several biological subsystems could emerge from a shared chemical network.</p>
 <p>The route still requires environmental interpretation. Ultraviolet light can drive constructive photochemistry and also destroy products. Reagents must be supplied, separated, concentrated, and moved through changing conditions. A sequence carried out by a chemist is not automatically a sequence carried out by a landscape.</p>
-<p>RNA replication poses a second obstacle. In 2009, two cross-catalytic RNA enzymes were shown to synthesize each other from supplied oligonucleotide pieces, supporting exponential amplification without proteins.<sup class="ref"><a href="#src-17">[17]</a></sup> This was self-sustaining molecular replication in a restricted sense, but the ribozymes did not copy arbitrary sequences from simple activated monomers or copy their own full sequences.</p>
+<p>RNA replication poses a second obstacle. In 2009, two cross-catalytic RNA enzymes were shown to synthesize each other from supplied oligonucleotide pieces, supporting exponential amplification without proteins.<sup class="ref"><a href="#src-17">[17]</a></sup> This was self-sustaining molecular replication in a restricted sense. The system did not perform general template copying from simple activated monomers; each offspring enzyme was assembled by ligating two pre-supplied oligonucleotide fragments.</p>
 <p>Progress continued through ribozymes that copy increasingly difficult templates, nonenzymatic primer extension, and experiments coupling RNA chemistry to compartments. Then, in 2026, a striking result narrowed a famous gap.</p>
 <p>QT45 is a laboratory-evolved RNA polymerase ribozyme only 45 nucleotides long. In mildly alkaline eutectic ice, using activated trinucleotide substrates, it catalysed synthesis of its complementary strand and, in a separate reaction, a copy of itself. The complementary-strand reaction reached 94.1 percent average per-nucleotide fidelity. Both full-length syntheses had yields of about 0.2 percent after 72 days.<sup class="ref"><a href="#src-18">[18]</a></sup></p>
 <p>The result matters because previously known polymerase ribozymes were much larger, making their own prebiotic origin and replication difficult. A small motif suggests that sophisticated RNA polymerase activity may be more accessible in sequence space than expected.</p>
@@ -205,19 +263,19 @@
 <h2 id="metabolism-before-genes">Metabolism before genes?</h2>
 <p>RNA-centred models begin with heredity. Metabolism-first models begin with energy and organized reaction networks.</p>
 <p>Living cells are not bags of static molecules. They persist by driving reactions away from equilibrium. They couple favourable reactions to unfavourable ones, maintain ion gradients, transform carbon, and continuously replace components. A replicator without a source of activated building blocks eventually exhausts its fuel. A reaction network without sufficiently precise heredity cannot accumulate open-ended adaptations. The origin problem likely required the two to meet.</p>
-<p>Minerals provide one possible route. Iron-sulfur surfaces can bind and catalyse organic reactions in hydrothermal-origin models.<sup class="ref"><a href="#src-21">[21]</a></sup> Clays can concentrate activated nucleotides and promote formation of RNA oligomers.<sup class="ref"><a href="#src-19">[19]</a></sup> Under laboratory conditions, iron and other metals can drive portions of networks resembling parts of central metabolism. In 2019, researchers reported a nonenzymatic network promoted by ferrous iron in which pyruvate and glyoxylate built up nine of the eleven intermediates of the biological Krebs cycle, including five universal metabolic precursors.<sup class="ref"><a href="#src-20">[20]</a></sup></p>
+<p>Minerals provide one possible route. Montmorillonite clay can promote formation of RNA oligomers from activated nucleotide monomers.<sup class="ref"><a href="#src-19">[19]</a></sup> Under laboratory conditions, iron and other metals can drive portions of networks resembling parts of central metabolism. In 2019, researchers reported a nonenzymatic network promoted by ferrous iron in which pyruvate and glyoxylate built up nine of the eleven intermediates of the biological Krebs cycle, including five universal metabolic precursors.<sup class="ref"><a href="#src-20">[20]</a></sup></p>
 <p>These experiments establish chemical continuity in a limited sense. Modern metabolism does not consist of arbitrary reactions; some of its transformations are favoured or catalysed by geochemistry. Yet resemblance can be overread. A modern pathway may have been shaped by later evolution. Reproducing several intermediates does not demonstrate a complete self-sustaining cycle, historical ancestry, or a mechanism of heredity.</p>
 <p>Autocatalytic sets offer another idea. In such a network, molecules collectively accelerate the production of members of the set even if no single molecule copies itself. This can create growth, competition, and compositional persistence. But coarse compositional inheritance is generally less precise than sequence inheritance. Without enough information surviving from one generation to the next, improvements dissolve into noise.</p>
 <p>The divide between replication-first and metabolism-first may therefore be false. Geochemical networks could have supplied feedstocks and energy to early polymers. Polymers could later make those reactions more selective and heritable. Small peptides might have stabilized RNA or membranes before a genetic code existed. Instead of one subsystem waiting to be invented and then adding the others, partial systems may have supported one another.</p>
 <h2 id="vents-batteries-built-by-geology">Vents: batteries built by geology</h2>
 <p>Hydrothermal vents are attractive because they transform the early Earth into an energy machine.</p>
-<p>When water reacts with iron-rich rock, serpentinization can produce hydrogen. At an alkaline vent, hydrogen-rich fluids meet a more acidic, carbon-dioxide-containing ocean. Mineral precipitates form porous walls. Across those walls lie redox and pH gradients, the raw form of differences that living cells still exploit with membranes and molecular machinery. Iron and nickel sulfides can act as catalysts. Micropores can confine molecules that an open ocean would dilute.</p>
-<p>This is not the same environment as the extremely hot black smokers that first made vents famous. Alkaline vents can contain cooler regions compatible with a wider range of organic chemistry. The hypothesis proposes a continuity between geological gradients and biological chemiosmosis, perhaps allowing early systems to borrow a naturally maintained proton gradient before evolving their own membranes and pumps.<sup class="ref"><a href="#src-21">[21]</a></sup></p>
+<p>When water reacts with iron-rich rock, serpentinization can produce hydrogen. At an alkaline vent, hydrogen-rich fluids meet carbon dioxide dissolved in ocean water. The resulting disequilibrium offers both a redox reaction and a natural proton gradient.</p>
+<p>This is not the same environment as the extremely hot black smokers that first made vents famous. Lost City-type alkaline vents are cooler. The hypothesis proposes that geological H₂-CO₂ chemistry and naturally maintained proton gradients could have preceded cellular chemiosmosis.<sup class="ref"><a href="#src-21">[21]</a></sup></p>
 <p>The analogy is a battery built by rock. One side supplies electron donors, the other acceptors, and a mineral barrier keeps the disequilibrium from disappearing immediately.</p>
 <p>The problems are equally real. Ocean water dilutes reactants. Salts and divalent ions can destabilize simple fatty-acid membranes. Water favours hydrolysis of many polymers. Some productive surface photochemistry needs ultraviolet light unavailable in the deep sea. Demonstrations of nucleotides, peptides, membranes, and continuous replication under one vent-compatible regime remain incomplete.</p>
 <p>Vents solve energy and confinement elegantly. They do not yet solve the whole system.</p>
 <h2 id="ponds-hot-springs-and-the-creative-use-of-drying">Ponds, hot springs, and the creative use of drying</h2>
-<p>Terrestrial hot springs and ponds solve a different cluster of problems.</p>
+<p>The terrestrial hot-spring hypothesis proposes a different cluster of solutions.</p>
 <p>Evaporation concentrates dilute solutes. Drying can drive condensation reactions that are unfavourable in bulk water. Rehydration can release polymers and encourage amphiphiles to assemble into vesicles, trapping some of the nearby material. Repeated wet-dry cycles create a natural sequence: concentrate, react, encapsulate, disperse, and repeat. Ultraviolet light reaches the surface and can drive productive photochemistry. Freshwater can be friendlier to fatty-acid membranes than seawater.<sup class="ref"><a href="#src-22">[22]</a></sup></p>
 <p>Picture a volcanic landscape after rain. Water fills shallow mineral basins. Dissolved compounds arrive from the atmosphere, rock, dust, or neighbouring pools. Sunlight changes them. The pool shrinks. Molecules become crowded on mineral surfaces. A dry film forms, then the next rain tears it apart and wraps fragments into microscopic compartments. Most products fail. A few persist through another cycle.</p>
 <p>The picture is chemically productive and historically unconfirmed. Suitable exposed land must have existed. Feedstocks must reach the same landscape in a usable order. Ultraviolet radiation also destroys RNA and organics. Drying helps bond formation and can promote damaging side reactions. A result in a carefully cycled laboratory tray does not show that a Hadean field sustained the full sequence.</p>
@@ -233,7 +291,7 @@
 <p>Natural selection does not require DNA. It requires persistent variation, differential reproduction, and enough heredity for successful variants to leave related descendants.</p>
 <p>Before precise genes, physical and chemical filtering already operated. Some molecules were more stable. Some surfaces concentrated particular reactants. Some vesicles grew faster. Some catalytic networks consumed fuel more effectively. These filters can enrich particular forms of organization without foresight, but they are not Darwinian selection unless reproducing entities also transmit heritable variation.</p>
 <p>But selection becomes cumulatively creative only when innovations persist. A fire spreads and varies with fuel, but it does not normally encode an open-ended recipe for constructing better fires. A genetic system does. The key transition is therefore not from pure chance to pure selection. Random molecular events generate alternatives, physical chemistry filters them, and increasingly reliable heredity allows selection to retain a longer history of successful changes.</p>
-<p>Designed non-cellular laboratory systems provide partial demonstrations. Experiments with autocatalytic RNA networks show growth differences, innovation, and compositional variation that can be analysed in Darwinian terms.<sup class="ref"><a href="#src-25">[25]</a></sup> Chemically fuelled libraries can display template effects and alter the behaviour of compartments or droplets.<sup class="ref"><a href="#src-26">[26]</a></sup></p>
+<p>Designed non-cellular laboratory systems provide partial demonstrations. Experiments with autocatalytic RNA networks show growth differences, innovation, and compositional variation that can be analysed in Darwinian terms.<sup class="ref"><a href="#src-25">[25]</a></sup> Chemically fuelled dynamic libraries can display template-mediated selection and protect otherwise unstable oligomers.<sup class="ref"><a href="#src-26">[26]</a></sup></p>
 <p>They are also designed systems supplied with selected, often activated components. No experiment has started with a plausible messy inventory and produced an indefinitely evolving chemical ecology without serial intervention.</p>
 <p>The missing threshold is not a mystical spark. It is robust integration leading to open-ended evolution: sustained adaptive change in which heritable novelty can continue to arise rather than merely cycling among variants designed in advance.</p>
 <h2 id="from-rival-camps-to-a-network-of-environments">From rival camps to a network of environments</h2>
@@ -249,7 +307,7 @@
 <p>The change resembles the move from studying organ parts on a table to studying physiology. A heart, lung, and kidney can each function in isolation under artificial support. Life depends on their integration.</p>
 <h2 id="are-laboratories-close-to-creating-life">Are laboratories close to creating life?</h2>
 <p>The answer depends on what "creating life" means.</p>
-<p>Top-down synthetic biology begins with existing life and simplifies or rewrites it. In 2016, researchers reported a bacterium with a reduced genome of 473 genes. Even this minimal cell contained 149 genes whose functions were then unknown.<sup class="ref"><a href="#src-27">[27]</a></sup> The achievement reveals how much modern cellular life depends on. It does not reconstruct primitive life because the cell inherits ribosomes, enzymes, membranes, metabolism, and billions of years of evolutionary refinement.</p>
+<p>Top-down synthetic biology begins with existing life and simplifies or rewrites it. In 2016, researchers reported a bacterium with a reduced genome of 473 genes. Even this minimal cell contained 149 genes whose functions were then unknown.<sup class="ref"><a href="#src-27">[27]</a></sup> Because this was minimization of an already viable Mycoplasma-based genome, it was a top-down synthetic-biology result, not a reconstruction of primitive life.</p>
 <p>Bottom-up research begins with nonliving components and tries to assemble cell-like functions. Different systems have achieved vesicle growth, division, template copying, catalytic networks, energy-related reactions, and limited forms of selection. QT45 shows that a very small RNA catalyst can perform, in separate noncycling reactions, both component syntheses needed for copying itself. Yet no system combines all required functions into sustained autonomous evolution from geochemically credible feedstocks.</p>
 <p>Calling either achievement "life from scratch" confuses different goals.</p>
 <p>One operational standard for a decisive bottom-up demonstration would not require resemblance to a bacterium. The system would need to persist as a population, obtain energy and materials from a defined environment, reproduce its organization, generate heritable variation, and adapt over many generations without a researcher redesigning each cycle. Such a system could be much simpler than modern life and still represent a major threshold.</p>
@@ -260,7 +318,7 @@
 <p>The disputed frontier includes every proposed biosignature older than about 3.5 billion years, the exact age and nature of LUCA, the relative roles of vents and surface settings, and which subsystem first carried durable heredity. The first genetic polymer, the origin of the genetic code, the route to biological homochirality, the number of independent origins, and the probability of abiogenesis remain unknown. Above all, no complete autonomous path from plausible planetary feedstocks to open-ended Darwinian protocells has been demonstrated.</p>
 <h2 id="one-planet-is-not-a-probability">One planet is not a probability</h2>
 <p>The apparent early appearance of life is often used to argue that life must arise readily whenever conditions permit. The inference is weaker than it sounds.</p>
-<p>Earth is one known inhabited planet, and observers can only find themselves on a planet where life began early enough for complex observers to evolve. Bayesian analyses show that the evidential force of early terrestrial life depends strongly on prior assumptions, the time actually available for abiogenesis, and how many suitable sites existed.<sup class="ref"><a href="#src-28">[28]</a></sup></p>
+<p>Earth is one known inhabited planet, and observers can only find themselves on a planet where life began early enough for complex observers to evolve. Bayesian analyses show that the evidential force of early terrestrial life depends strongly on prior assumptions and the time actually available for abiogenesis.<sup class="ref"><a href="#src-28">[28]</a></sup></p>
 <p>An early origin is compatible with a high probability. It does not establish one. Nor does the absence of a complete mechanism establish that abiogenesis is vanishingly improbable. One case cannot tightly measure a general rate.</p>
 <p>A genuinely independent second genesis would transform the question. Life on Mars, an icy moon, an exoplanet, or even a biochemically independent "shadow biosphere" on Earth would provide another draw from nature's distribution. The most informative discovery would not merely be organic molecules or familiar terrestrial contamination, but a system with different deep biochemistry or a demonstrably separate ancestry.</p>
 <p>Panspermia does not remove the ultimate problem. Transporting organisms or prebiotic material between worlds may be possible in some circumstances, but it changes the location of origin rather than explaining how the first evolvable system arose.</p>
@@ -272,83 +330,135 @@
 <p>If life emerged gradually, asking for the first living molecule may be like asking for the first instant at which dawn became day. Physics can describe the rising light. Chemistry can identify the colours. Biology can study the world that wakes within it. The boundary remains useful, but nature need not have crossed it in one step.</p>
 <blockquote><p>The most scientifically honest answer is also the most generative: several transitions from chemistry toward life have experimental support, the complete process has not been reconstructed, and the planet's actual route remains open.</p></blockquote>
 <p>The origin of life is no longer beyond experiment. It is not yet history recovered. It is a science of constrained possible worlds, each tested against the stubborn requirements of chemistry, geology, and evolution.</p></article>
-    <nav class="toc" aria-label="Contents">
-      <h2>Contents</h2>
-      <ol><li class="level-2"><a href="#before-origins-became-experimental">Before origins became experimental</a></li>
-<li class="level-2"><a href="#the-flask-that-changed-the-burden-of-proof">The flask that changed the burden of proof</a></li>
-<li class="level-2"><a href="#the-early-earth-stopped-looking-like-a-permanent-inferno">The early Earth stopped looking like a permanent inferno</a></li>
-<li class="level-2"><a href="#reading-life-s-oldest-damaged-archive">Reading life&#x27;s oldest damaged archive</a></li>
-<li class="level-2"><a href="#the-ancestor-that-was-not-first">The ancestor that was not first</a></li>
-<li class="level-2"><a href="#what-an-evolvable-chemical-system-requires">What an evolvable chemical system requires</a></li>
-<li class="level-2"><a href="#rna-and-the-discovery-of-molecular-memory">RNA and the discovery of molecular memory</a></li>
-<li class="level-2"><a href="#metabolism-before-genes">Metabolism before genes?</a></li>
-<li class="level-2"><a href="#vents-batteries-built-by-geology">Vents: batteries built by geology</a></li>
-<li class="level-2"><a href="#ponds-hot-springs-and-the-creative-use-of-drying">Ponds, hot springs, and the creative use of drying</a></li>
-<li class="level-2"><a href="#membranes-and-the-invention-of-an-inside">Membranes and the invention of an inside</a></li>
-<li class="level-2"><a href="#selection-before-full-genes">Selection before full genes</a></li>
-<li class="level-2"><a href="#from-rival-camps-to-a-network-of-environments">From rival camps to a network of environments</a></li>
-<li class="level-2"><a href="#are-laboratories-close-to-creating-life">Are laboratories close to creating life?</a></li>
-<li class="level-2"><a href="#what-is-known-what-is-likely-and-what-remains-open">What is known, what is likely, and what remains open</a></li>
-<li class="level-2"><a href="#one-planet-is-not-a-probability">One planet is not a probability</a></li>
-<li class="level-2"><a href="#the-edge-of-the-knowable">The edge of the knowable</a></li></ol>
-    </nav>
+    <section class="sources-section" aria-labelledby="sources-title">
+      <h2 id="sources-title">Sources &amp; Further Reading</h2>
+      <ol class="sources"><li id="src-1" class="source-item"><a href="https://doi.org/10.1007/s11084-009-9172-7" target="_blank" rel="noopener">Peretó, Juli, Bada, Jeffrey L., Lazcano, Antonio (2009). "Charles Darwin and the Origin of Life". <em>Origins of Life and Evolution of Biospheres</em> 39(5): 395-406.</a><span class="source-tier source-tier-2">⭐⭐ Authoritative review</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Darwin&#x27;s 1871 warm-little-pond letter and its distinction between prebiotic chemistry before and after an established biosphere.</span><span class="source-access">Access: full text / authoritative review</span></li>
+<li id="src-2" class="source-item"><a href="https://doi.org/10.1126/science.117.3046.528" target="_blank" rel="noopener">Miller, Stanley L. (1953). "A Production of Amino Acids Under Possible Primitive Earth Conditions". <em>Science</em> 117(3046): 528-529.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Spark discharge in CH4, NH3, H2 and H2O produced amino acids.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-3" class="source-item"><a href="https://doi.org/10.1126/science.1161527" target="_blank" rel="noopener">Johnson, Adam P., Cleaves, H. James, Dworkin, Jason P., et al. (2008). "The Miller Volcanic Spark Discharge Experiment". <em>Science</em> 322(5900): 404-404.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Reanalysis identified 22 amino acids and five amines.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-4" class="source-item"><a href="https://doi.org/10.1038/35051550" target="_blank" rel="noopener">Wilde, Simon A., Valley, John W., Peck, William H., et al. (2001). "Evidence from detrital zircons for the existence of continental crust and oceans on the Earth 4.4 Gyr ago". <em>Nature</em> 409(6817): 175-178.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Zircon chemistry supports very early crust and liquid-water interaction.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-5" class="source-item"><a href="https://doi.org/10.1073/pnas.1517557112" target="_blank" rel="noopener">Bell, Elizabeth A., Boehnke, Patrick, Harrison, T. Mark, et al. (2015). "Potentially biogenic carbon preserved in a 4.1 billion-year-old zircon". <em>Proceedings of the National Academy of Sciences</em> 112(47): 14518-14521.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: One 4.10 Ga zircon contains two primary graphitic inclusions with a biologically compatible but nonunique carbon isotope value.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-6" class="source-item"><a href="https://doi.org/10.1038/nature04764" target="_blank" rel="noopener">Allwood, Abigail C., Walter, Malcolm R., Kamber, Balz S., et al. (2006). "Stromatolite reef from the Early Archaean era of Australia". <em>Nature</em> 441(7094): 714-718.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Regionally organized Strelley Pool stromatolite morphologies vary with facies.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-7" class="source-item"><a href="https://doi.org/10.1038/ncomms15263" target="_blank" rel="noopener">Djokic, Tara, Van Kranendonk, Martin J., Campbell, Kathleen A., et al. (2017). "Earliest signs of life on land preserved in ca. 3.5 Ga hot spring deposits". <em>Nature Communications</em> 8(1).</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Dresser hot-spring deposits contain contextual biosignatures including stromatolites and microbial fabrics.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-8" class="source-item"><a href="https://doi.org/10.1038/nature19355" target="_blank" rel="noopener">Nutman, Allen P., Bennett, Vickie C., Friend, Clark R. L., et al. (2016). "Rapid emergence of life shown by discovery of 3,700-million-year-old microbial structures". <em>Nature</em> 537(7621): 535-538.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Structures were interpreted as 3.7 Ga stromatolites.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-9" class="source-item"><a href="https://doi.org/10.1038/s41586-018-0610-4" target="_blank" rel="noopener">Allwood, Abigail C., Rosing, Minik T., Flannery, David T., et al. (2018). "Reassessing evidence of life in 3,700-million-year-old rocks of Greenland". <em>Nature</em> 563(7730): 241-244.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: Three-dimensional geometry supports deformation structures rather than primary cones.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-10" class="source-item"><a href="https://doi.org/10.1038/nature21377" target="_blank" rel="noopener">Dodd, Matthew S., Papineau, Dominic, Grenne, Tor, et al. (2017). "Evidence for early life in Earth’s oldest hydrothermal vent precipitates". <em>Nature</em> 543(7643): 60-64.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Nuvvuagittuq hematite tubes and filaments were proposed as hydrothermal biosignatures in rocks placed by the authors between 3.77 and 4.28 Ga.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-11" class="source-item"><a href="https://doi.org/10.1038/s41586-019-1436-4" target="_blank" rel="noopener">Javaux, Emmanuelle J. (2019). "Challenges in evidencing the earliest traces of life". <em>Nature</em> 572(7770): 451-460.</a><span class="source-tier source-tier-2">⭐⭐ Authoritative review</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: Ancient morphology and isotope evidence require converging context because abiotic processes can mimic biosignatures.</span><span class="source-access">Access: abstract / authoritative review</span></li>
+<li id="src-12" class="source-item"><a href="https://doi.org/10.1073/pnas.74.11.5088" target="_blank" rel="noopener">Woese, Carl R., Fox, George E. (1977). "Phylogenetic structure of the prokaryotic domain: The primary kingdoms". <em>Proceedings of the National Academy of Sciences</em> 74(11): 5088-5090.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Ribosomal RNA revealed a deep archaeal lineage distinct from Bacteria.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-13" class="source-item"><a href="https://doi.org/10.1126/science.203.4385.1073" target="_blank" rel="noopener">Corliss, John B., Dymond, Jack, Gordon, Louis I., et al. (1979). "Submarine Thermal Springs on the Galápagos Rift". <em>Science</em> 203(4385): 1073-1083.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Animal communities at hydrothermal vents appeared to depend on sulfur-bacterial chemosynthesis rather than photosynthesis.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-14" class="source-item"><a href="https://doi.org/10.1038/s41559-024-02461-1" target="_blank" rel="noopener">Moody, Edmund R. R., Álvarez-Carretero, Sandra, Mahendrarajah, Tara A., et al. (2024). "The nature of the last universal common ancestor and its impact on the early Earth system". <em>Nature Ecology &amp;amp; Evolution</em> 8(9): 1654-1666.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: Study estimates LUCA at 4.09 to 4.33 Ga and uses a predictive model to estimate a 2.49-to-2.99-Mb genome encoding about 2,600 proteins, with anaerobic acetogenesis and ecosystem context inferred.</span><span class="source-access">Access: full text / primary model integration</span></li>
+<li id="src-15" class="source-item"><a href="https://doi.org/10.1038/nature08013" target="_blank" rel="noopener">Powner, Matthew W., Gerland, Béatrice, Sutherland, John D. (2009). "Synthesis of activated pyrimidine ribonucleotides in prebiotically plausible conditions". <em>Nature</em> 459(7244): 239-242.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Activated pyrimidine ribonucleotides were synthesized through a route bypassing free ribose and bases.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-16" class="source-item"><a href="https://doi.org/10.1038/nchem.2202" target="_blank" rel="noopener">Patel, Bhavesh H., Percivalle, Claudia, Ritson, Dougal J., et al. (2015). "Common origins of RNA, protein and lipid precursors in a cyanosulfidic protometabolism". <em>Nature Chemistry</em> 7(4): 301-307.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Related HCN photoredox chemistry produced precursors to several biological subsystems.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-17" class="source-item"><a href="https://doi.org/10.1126/science.1167856" target="_blank" rel="noopener">Lincoln, Tracey A., Joyce, Gerald F. (2009). "Self-Sustained Replication of an RNA Enzyme". <em>Science</em> 323(5918): 1229-1232.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Cross-catalytic ribozymes amplified exponentially from supplied oligonucleotide substrates.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-18" class="source-item"><a href="https://doi.org/10.1126/science.adt2760" target="_blank" rel="noopener">Gianni, Edoardo, Kwok, Samantha L. Y., Wan, Christopher J. K., et al. (2026). "A small polymerase ribozyme that can synthesize itself and its complementary strand". <em>Science</em> 391(6789): 1022-1028.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: QT45 separately synthesized its complement and itself at about 0.2 percent yield over 72 days; complement copying averaged 94.1 percent per-nucleotide fidelity.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-19" class="source-item"><a href="https://doi.org/10.1038/381059a0" target="_blank" rel="noopener">Ferris, James P., Hill, Aubrey R., Liu, Rihe, et al. (1996). "Synthesis of long prebiotic oligomers on mineral surfaces". <em>Nature</em> 381(6577): 59-61.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Montmorillonite promoted oligomerization of activated RNA monomers.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-20" class="source-item"><a href="https://doi.org/10.1038/s41586-019-1151-1" target="_blank" rel="noopener">Muchowska, Kamila B., Varma, Sreejith J., Moran, Joseph (2019). "Synthesis and breakdown of universal metabolic precursors promoted by iron". <em>Nature</em> 569(7754): 104-107.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Ferrous iron promoted a nonenzymatic network in which pyruvate and glyoxylate built nine of eleven Krebs-cycle intermediates, including five universal metabolic precursors.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-21" class="source-item"><a href="https://doi.org/10.1038/nrmicro1991" target="_blank" rel="noopener">Martin, William, Baross, John, Kelley, Deborah, et al. (2008). "Hydrothermal vents and the origin of life". <em>Nature Reviews Microbiology</em> 6(11): 805-814.</a><span class="source-tier source-tier-2">⭐⭐ Authoritative review</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: Alkaline vents provide H2, CO2, minerals, pores, and natural gradients as a coherent origin hypothesis.</span><span class="source-access">Access: abstract / authoritative review</span></li>
+<li id="src-22" class="source-item"><a href="https://doi.org/10.1089/ast.2019.2045" target="_blank" rel="noopener">Damer, Bruce, Deamer, David (2020). "The Hot Spring Hypothesis for an Origin of Life". <em>Astrobiology</em> 20(4): 429-452.</a><span class="source-tier source-tier-2">⭐⭐ Hypothesis review</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: The hot-spring hypothesis proposes that terrestrial hydrothermal fields provide wet-dry cycles and repeated polymerization and encapsulation opportunities.</span><span class="source-access">Access: full text / peer-reviewed hypothesis review</span></li>
+<li id="src-23" class="source-item"><a href="https://doi.org/10.1038/nature07018" target="_blank" rel="noopener">Mansy, Sheref S., Schrum, Jason P., Krishnamurthy, Mathangi, et al. (2008). "Template-directed synthesis of a genetic polymer in a model protocell". <em>Nature</em> 454(7200): 122-125.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Fatty-acid vesicles admitted activated substrates and supported template-directed synthesis.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-24" class="source-item"><a href="https://doi.org/10.1021/ja900919c" target="_blank" rel="noopener">Zhu, Ting F., Szostak, Jack W. (2009). "Coupled Growth and Division of Model Protocell Membranes". <em>Journal of the American Chemical Society</em> 131(15): 5705-5713.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Model fatty-acid membranes grew and divided under physical forcing.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-25" class="source-item"><a href="https://doi.org/10.1038/s41467-021-21000-1" target="_blank" rel="noopener">Ameta, Sandeep, Arsène, Simon, Foulon, Sophie, et al. (2021). "Darwinian properties and their trade-offs in autocatalytic RNA reaction networks". <em>Nature Communications</em> 12(1).</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: RNA networks displayed differential growth, variation, and innovation with trade-offs.</span><span class="source-access">Access: full text / primary</span></li>
+<li id="src-26" class="source-item"><a href="https://doi.org/10.1038/s41557-024-01570-5" target="_blank" rel="noopener">Kriebisch, Christine M. E., Burger, Ludwig, Zozulia, Oleksii, et al. (2024). "Template-based copying in chemically fuelled dynamic combinatorial libraries". <em>Nature Chemistry</em> 16(8): 1240-1249.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Chemically fuelled dynamic libraries displayed template-mediated selection and protected unstable oligomers.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-27" class="source-item"><a href="https://doi.org/10.1126/science.aad6253" target="_blank" rel="noopener">Hutchison, Clyde A., Chuang, Ray-Yuan, Noskov, Vladimir N., et al. (2016). "Design and synthesis of a minimal bacterial genome". <em>Science</em> 351(6280).</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: JCVI-syn3.0 contained 473 genes, including 149 then lacking assigned functions.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-28" class="source-item"><a href="https://doi.org/10.1073/pnas.1111694108" target="_blank" rel="noopener">Spiegel, David S., Turner, Edwin L. (2011). "Bayesian analysis of the astrobiological implications of life’s early emergence on Earth". <em>Proceedings of the National Academy of Sciences</em> 109(2): 395-400.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: One observer-selected planet weakly constrains abiogenesis probability and results depend on priors.</span><span class="source-access">Access: full text / primary model analysis</span></li>
+<li id="src-30" class="source-item"><a href="https://doi.org/10.1126/science.1241888" target="_blank" rel="noopener">Adamala, Katarzyna, Szostak, Jack W. (2013). "Nonenzymatic Template-Directed RNA Synthesis Inside Model Protocells". <em>Science</em> 342(6162): 1098-1100.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Citrate protected fatty-acid vesicles from Mg2+ while supporting internal RNA copying chemistry.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-31" class="source-item"><a href="https://doi.org/10.1126/science.289.5481.920" target="_blank" rel="noopener">Nissen, Poul, Hansen, Jeffrey, Ban, Nenad, et al. (2000). "The Structural Basis of Ribosome Activity in Peptide Bond Synthesis". <em>Science</em> 289(5481): 920-930.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Ribosomal peptidyl transfer is centred on ribosomal RNA.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-32" class="source-item"><a href="https://doi.org/10.1038/s42004-026-01969-w" target="_blank" rel="noopener">Moldogazieva, Nurbubu T., Terentiev, Alexander A., Mokhosoev, Innokenty M., et al. (2026). "Redox chemistry of early Earth and the origin of life". <em>Communications Chemistry</em> 9(1).</a><span class="source-tier source-tier-2">⭐⭐ Authoritative review</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="exact">Exact claim match</span><span class="source-claim">Supports: Multiple environmental and redox scenarios remain active; early atmospheric conditions varied through time and place.</span><span class="source-access">Access: full text / current review</span></li>
+<li id="src-33" class="source-item"><a href="https://doi.org/10.1038/nature08015" target="_blank" rel="noopener">Abramov, Oleg, Mojzsis, Stephen J. (2009). "Microbial habitability of the Hadean Earth during the late heavy bombardment". <em>Nature</em> 459(7245): 419-422.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: Thermal modelling found that even severe bombardment need not sterilize all subsurface microbial refuges.</span><span class="source-access">Access: abstract / primary model analysis</span></li>
+<li id="src-34" class="source-item"><a href="https://doi.org/10.1126/science.1100757" target="_blank" rel="noopener">Chen, Irene A., Roberts, Richard W., Szostak, Jack W. (2004). "The Emergence of Competition Between Model Protocells". <em>Science</em> 305(5689): 1474-1476.</a><span class="source-tier source-tier-3">⭐⭐⭐ Primary</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: Osmotically swollen vesicles acquired membrane molecules from relaxed vesicles, coupling an internal property to compartment growth.</span><span class="source-access">Access: abstract / primary</span></li>
+<li id="src-35" class="source-item"><a href="https://doi.org/10.1101/cshperspect.a002089" target="_blank" rel="noopener">Lazcano, A. (2010). "Historical Development of Origins Research". <em>Cold Spring Harbor Perspectives in Biology</em> 2(11): a002089-a002089.</a><span class="source-tier source-tier-2">⭐⭐ Authoritative review</span><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">✓ Verified</span><span class="source-congruence" data-level="reasonable">Reasonable claim match</span><span class="source-claim">Supports: Pasteur&#x27;s challenge to spontaneous generation, the Oparin-Haldane programmes, pre-Miller abiotic syntheses, Miller&#x27;s graduate experiment in 1952, and its role in establishing experimental prebiotic chemistry.</span><span class="source-access">Access: full text / authoritative review</span></li></ol>
+    </section>
   </main>
-  <section class="sources-wrap" aria-labelledby="sources-title">
-    <div class="sources-inner">
-      <h2 id="sources-title">Sources &amp; further reading</h2>
-      <p>Primary research is preferred. Each note states the exact use made of the source and the access level used during review.</p>
-      <ol class="sources"><li id="src-1" class="source-item"><span class="source-number">1</span><div><p class="citation">Peretó, Bada &amp; Lazcano (2009), &quot;Charles Darwin and the Origin of Life&quot; <a href="https://doi.org/10.1007/s11084-009-9172-7" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / review metadata. <strong>Used for:</strong> Historical distinction among spontaneous generation, Darwin&#x27;s warm little pond, and chemical evolution.</p></div></li>
-<li id="src-2" class="source-item"><span class="source-number">2</span><div><p class="citation">Miller (1953), &quot;A Production of Amino Acids Under Possible Primitive Earth Conditions&quot; <a href="https://doi.org/10.1126/science.117.3046.528" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> Spark discharge in CH4, NH3, H2 and H2O produced amino acids.</p></div></li>
-<li id="src-3" class="source-item"><span class="source-number">3</span><div><p class="citation">Johnson et al. (2008), &quot;The Miller Volcanic Spark Discharge Experiment&quot; <a href="https://doi.org/10.1126/science.1161527" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> Reanalysis identified 22 amino acids and five amines.</p></div></li>
-<li id="src-4" class="source-item"><span class="source-number">4</span><div><p class="citation">Wilde et al. (2001), &quot;Evidence from detrital zircons for the existence of continental crust and oceans on the Earth 4.4 Gyr ago&quot; <a href="https://doi.org/10.1038/35051550" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Zircon chemistry supports very early crust and liquid-water interaction.</p></div></li>
-<li id="src-5" class="source-item"><span class="source-number">5</span><div><p class="citation">Bell et al. (2015), &quot;Potentially biogenic carbon preserved in a 4.1 billion-year-old zircon&quot; <a href="https://doi.org/10.1073/pnas.1517557112" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> One indigenous graphite inclusion has a biologically compatible but nonunique carbon isotope value.</p></div></li>
-<li id="src-6" class="source-item"><span class="source-number">6</span><div><p class="citation">Allwood et al. (2006), &quot;Stromatolite reef from the Early Archaean era of Australia&quot; <a href="https://doi.org/10.1038/nature04764" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Regionally organized Strelley Pool stromatolite morphologies vary with facies.</p></div></li>
-<li id="src-7" class="source-item"><span class="source-number">7</span><div><p class="citation">Djokic et al. (2017), &quot;Earliest signs of life on land preserved in ca. 3.5 Ga hot spring deposits&quot; <a href="https://doi.org/10.1038/ncomms15263" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> Dresser hot-spring deposits contain contextual biosignatures including stromatolites and microbial fabrics.</p></div></li>
-<li id="src-8" class="source-item"><span class="source-number">8</span><div><p class="citation">Nutman et al. (2016), &quot;Rapid emergence of life shown by discovery of 3,700-million-year-old microbial structures&quot; <a href="https://doi.org/10.1038/nature19355" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Structures were interpreted as 3.7 Ga stromatolites.</p></div></li>
-<li id="src-9" class="source-item"><span class="source-number">9</span><div><p class="citation">Allwood et al. (2018), &quot;Reassessing evidence of life in 3,700-million-year-old rocks of Greenland&quot; <a href="https://doi.org/10.1038/s41586-018-0610-4" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Three-dimensional geometry supports deformation structures rather than primary cones.</p></div></li>
-<li id="src-10" class="source-item"><span class="source-number">10</span><div><p class="citation">Dodd et al. (2017), &quot;Evidence for early life in Earth&#x27;s oldest hydrothermal vent precipitates&quot; <a href="https://doi.org/10.1038/nature21377" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Nuvvuagittuq tubes, filaments, and associated chemistry were proposed as biosignatures; interpretation and age remain disputed.</p></div></li>
-<li id="src-11" class="source-item"><span class="source-number">11</span><div><p class="citation">Javaux (2019), &quot;Challenges in evidencing the earliest traces of life&quot; <a href="https://doi.org/10.1038/s41586-019-1436-4" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / authoritative review. <strong>Used for:</strong> Ancient morphology and isotope evidence require converging context because abiotic processes can mimic biosignatures.</p></div></li>
-<li id="src-12" class="source-item"><span class="source-number">12</span><div><p class="citation">Woese &amp; Fox (1977), &quot;Phylogenetic structure of the prokaryotic domain: the primary kingdoms&quot; <a href="https://doi.org/10.1073/pnas.74.11.5088" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> Ribosomal RNA revealed a deep archaeal lineage distinct from Bacteria.</p></div></li>
-<li id="src-13" class="source-item"><span class="source-number">13</span><div><p class="citation">Corliss et al. (1979), &quot;Submarine thermal springs on the Galapagos Rift&quot; <a href="https://doi.org/10.1126/science.203.4385.1073" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Hydrothermal vent ecosystems showed dense communities supported by chemosynthetic primary production.</p></div></li>
-<li id="src-14" class="source-item"><span class="source-number">14</span><div><p class="citation">Moody et al. (2024), &quot;The nature of the last universal common ancestor and its impact on the early Earth system&quot; <a href="https://doi.org/10.1038/s41559-024-02461-1" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary model integration. <strong>Used for:</strong> Study estimates LUCA at 4.09 to 4.33 Ga, about 2.5 to 3 Mb, around 2,600 proteins, and an anaerobic acetogen in an ecosystem.</p></div></li>
-<li id="src-15" class="source-item"><span class="source-number">15</span><div><p class="citation">Powner, Gerland &amp; Sutherland (2009), &quot;Synthesis of activated pyrimidine ribonucleotides in prebiotically plausible conditions&quot; <a href="https://doi.org/10.1038/nature08013" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> Activated pyrimidine ribonucleotides were synthesized through a route bypassing free ribose and bases.</p></div></li>
-<li id="src-16" class="source-item"><span class="source-number">16</span><div><p class="citation">Patel et al. (2015), &quot;Common origins of RNA, protein and lipid precursors in a cyanosulfidic protometabolism&quot; <a href="https://doi.org/10.1038/nchem.2202" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> Related HCN photoredox chemistry produced precursors to several biological subsystems.</p></div></li>
-<li id="src-17" class="source-item"><span class="source-number">17</span><div><p class="citation">Lincoln &amp; Joyce (2009), &quot;Self-Sustained Replication of an RNA Enzyme&quot; <a href="https://doi.org/10.1126/science.1167856" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> Cross-catalytic ribozymes amplified exponentially from supplied oligonucleotide substrates.</p></div></li>
-<li id="src-18" class="source-item"><span class="source-number">18</span><div><p class="citation">Gianni et al. (2026), &quot;A small polymerase ribozyme that can synthesize itself and its complementary strand&quot; <a href="https://doi.org/10.1126/science.adt2760" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> QT45 separately synthesized its complement and itself at about 0.2 percent yield over 72 days; complement copying averaged 94.1 percent per-nucleotide fidelity.</p></div></li>
-<li id="src-19" class="source-item"><span class="source-number">19</span><div><p class="citation">Ferris et al. (1996), &quot;Synthesis of long prebiotic oligomers on mineral surfaces&quot; <a href="https://doi.org/10.1038/381059a0" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Montmorillonite promoted oligomerization of activated RNA monomers.</p></div></li>
-<li id="src-20" class="source-item"><span class="source-number">20</span><div><p class="citation">Muchowska et al. (2019), &quot;Synthesis and breakdown of universal metabolic precursors promoted by iron&quot; <a href="https://doi.org/10.1038/s41586-019-1151-1" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> Ferrous iron promoted a nonenzymatic network in which pyruvate and glyoxylate built nine of eleven Krebs-cycle intermediates, including five universal metabolic precursors.</p></div></li>
-<li id="src-21" class="source-item"><span class="source-number">21</span><div><p class="citation">Martin et al. (2008), &quot;Hydrothermal vents and the origin of life&quot; <a href="https://doi.org/10.1038/nrmicro1991" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / authoritative review. <strong>Used for:</strong> Alkaline vents provide H2, CO2, minerals, pores, and natural gradients as a coherent origin hypothesis.</p></div></li>
-<li id="src-22" class="source-item"><span class="source-number">22</span><div><p class="citation">Damer &amp; Deamer (2020), &quot;The Hot Spring Hypothesis for an Origin of Life&quot; <a href="https://doi.org/10.1089/ast.2019.2045" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / authoritative scenario review. <strong>Used for:</strong> Terrestrial hydrothermal fields provide wet-dry cycles and repeated polymerization and encapsulation opportunities.</p></div></li>
-<li id="src-23" class="source-item"><span class="source-number">23</span><div><p class="citation">Mansy et al. (2008), &quot;Template-directed synthesis of a genetic polymer in a model protocell&quot; <a href="https://doi.org/10.1038/nature07018" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Fatty-acid vesicles admitted activated substrates and supported template-directed synthesis.</p></div></li>
-<li id="src-24" class="source-item"><span class="source-number">24</span><div><p class="citation">Zhu &amp; Szostak (2009), &quot;Coupled growth and division of model protocell membranes&quot; <a href="https://doi.org/10.1021/ja900919c" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Model fatty-acid membranes grew and divided under physical forcing.</p></div></li>
-<li id="src-25" class="source-item"><span class="source-number">25</span><div><p class="citation">Ameta et al. (2021), &quot;Darwinian properties and their trade-offs in autocatalytic RNA reaction networks&quot; <a href="https://doi.org/10.1038/s41467-021-21000-1" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary. <strong>Used for:</strong> RNA networks displayed differential growth, variation, and innovation with trade-offs.</p></div></li>
-<li id="src-26" class="source-item"><span class="source-number">26</span><div><p class="citation">Kriebisch et al. (2024), &quot;Template-based copying in chemically fuelled dynamic combinatorial libraries&quot; <a href="https://doi.org/10.1038/s41557-024-01570-5" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Chemically fuelled designed systems show template effects and coupled system behaviour.</p></div></li>
-<li id="src-27" class="source-item"><span class="source-number">27</span><div><p class="citation">Hutchison et al. (2016), &quot;Design and synthesis of a minimal bacterial genome&quot; <a href="https://doi.org/10.1126/science.aad6253" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> JCVI-syn3.0 contained 473 genes, including 149 then lacking assigned functions.</p></div></li>
-<li id="src-28" class="source-item"><span class="source-number">28</span><div><p class="citation">Spiegel &amp; Turner (2012), &quot;Bayesian analysis of the astrobiological implications of life&#x27;s early emergence on Earth&quot; <a href="https://doi.org/10.1073/pnas.1111694108" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / primary model analysis. <strong>Used for:</strong> One observer-selected planet weakly constrains abiogenesis probability and results depend on priors.</p></div></li>
-<li id="src-30" class="source-item"><span class="source-number">30</span><div><p class="citation">Adamala &amp; Szostak (2013), &quot;Nonenzymatic template-directed RNA synthesis inside model protocells&quot; <a href="https://doi.org/10.1126/science.1241888" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Citrate protected fatty-acid vesicles from Mg2+ while supporting internal RNA copying chemistry.</p></div></li>
-<li id="src-31" class="source-item"><span class="source-number">31</span><div><p class="citation">Nissen et al. (2000), &quot;The structural basis of ribosome activity in peptide bond synthesis&quot; <a href="https://doi.org/10.1126/science.289.5481.920" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Ribosomal peptidyl transfer is centred on ribosomal RNA.</p></div></li>
-<li id="src-32" class="source-item"><span class="source-number">32</span><div><p class="citation">Moldogazieva et al. (2026), &quot;Redox chemistry of early Earth and the origin of life&quot; <a href="https://doi.org/10.1038/s42004-026-01969-w" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> full text / current review. <strong>Used for:</strong> Multiple environmental and redox scenarios remain active; early atmospheric conditions varied through time and place.</p></div></li>
-<li id="src-33" class="source-item"><span class="source-number">33</span><div><p class="citation">Abramov &amp; Mojzsis (2009), &quot;Microbial habitability of the Hadean Earth during the late heavy bombardment&quot; <a href="https://doi.org/10.1038/nature08015" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary model analysis. <strong>Used for:</strong> Thermal modelling found that even severe bombardment need not sterilize all subsurface microbial refuges.</p></div></li>
-<li id="src-34" class="source-item"><span class="source-number">34</span><div><p class="citation">Chen, Roberts &amp; Szostak (2004), &quot;The emergence of competition between model protocells&quot; <a href="https://doi.org/10.1126/science.1100757" rel="noopener">DOI</a><span class="source-verified" title="DOI identity and title matched against Crossref on 2026-07-30">DOI verified</span></p><p class="source-note"><strong>Access:</strong> abstract / primary. <strong>Used for:</strong> Osmotically swollen vesicles acquired membrane molecules from relaxed vesicles, coupling an internal property to compartment growth.</p></div></li></ol>
-    </div>
-  </section>
-  <footer>gAIa exploration · No artificial images used · Evidence checked 30 July 2026</footer>
+  <footer>An <em>Exploration</em> by gAIa · Part of the <a href="../index.html">Explorations Library</a></footer>
   <script>
-    const root = document.documentElement;
-    let scale = Number(localStorage.getItem("fontScale") || 1);
-    const applyScale = () => root.style.setProperty("--font-scale", scale.toFixed(2));
-    applyScale();
-    document.querySelector('[data-action="smaller"]').addEventListener("click", () => {
-      scale = Math.max(.85, scale - .08); localStorage.setItem("fontScale", scale); applyScale();
-    });
-    document.querySelector('[data-action="larger"]').addEventListener("click", () => {
-      scale = Math.min(1.35, scale + .08); localStorage.setItem("fontScale", scale); applyScale();
-    });
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) root.dataset.theme = savedTheme;
-    document.querySelector('[data-action="theme"]').addEventListener("click", () => {
-      root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
-      localStorage.setItem("theme", root.dataset.theme);
+    document.addEventListener("DOMContentLoaded", () => {
+      const content = document.querySelector(".content");
+      const defaultSize = 18;
+      let currentSize = Number(localStorage.getItem("explorationsFontSize") || defaultSize);
+      const setFontSize = size => {
+        currentSize = size;
+        content.style.fontSize = size + "px";
+        localStorage.setItem("explorationsFontSize", size);
+      };
+      setFontSize(currentSize);
+      const toggle = document.getElementById("fontToggle");
+      if (localStorage.getItem("explorationsFontFamily") === "sans") {
+        document.body.classList.add("sans-serif-mode");
+        toggle.textContent = "Serif";
+      }
+      toggle.addEventListener("click", () => {
+        document.body.classList.toggle("sans-serif-mode");
+        const sans = document.body.classList.contains("sans-serif-mode");
+        localStorage.setItem("explorationsFontFamily", sans ? "sans" : "serif");
+        toggle.textContent = sans ? "Serif" : "Sans";
+      });
+      document.getElementById("fontDecrease").addEventListener("click", () => setFontSize(Math.max(12, currentSize - 1)));
+      document.getElementById("fontIncrease").addEventListener("click", () => setFontSize(Math.min(32, currentSize + 1)));
+      document.getElementById("fontReset").addEventListener("click", () => setFontSize(defaultSize));
+
+      const headings = document.querySelectorAll(".content h2[id], .content h3[id]");
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          document.querySelectorAll(".toc a").forEach(a => a.classList.remove("active"));
+          document.querySelector(`.toc a[href="#${entry.target.id}"]`)?.classList.add("active");
+        });
+      }, { rootMargin: "0px 0px -78% 0px" });
+      headings.forEach(h => observer.observe(h));
+
+      const search = document.getElementById("articleSearch");
+      document.body.insertAdjacentHTML("beforeend", '<div id="searchPopup" class="search-popup"><div class="search-popup-header"><span id="searchCount">0 results</span><button id="closeSearch" type="button" aria-label="Close search">×</button></div><ul id="searchResults" class="search-popup-results"></ul></div>');
+      const popup = document.getElementById("searchPopup");
+      const results = document.getElementById("searchResults");
+      const count = document.getElementById("searchCount");
+      const clear = () => {
+        document.querySelectorAll("mark.search-highlight").forEach(mark => {
+          mark.replaceWith(document.createTextNode(mark.textContent));
+        });
+        content.normalize();
+      };
+      document.getElementById("closeSearch").addEventListener("click", () => {
+        popup.classList.remove("visible"); clear(); search.value = "";
+      });
+      search.addEventListener("input", () => {
+        clear(); results.innerHTML = "";
+        const query = search.value.trim();
+        if (query.length < 3) { popup.classList.remove("visible"); return; }
+        const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(escaped, "gi");
+        const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        let matches = 0;
+        nodes.forEach(node => {
+          if (!regex.test(node.nodeValue)) return;
+          regex.lastIndex = 0;
+          const fragment = document.createDocumentFragment();
+          let last = 0;
+          for (const match of node.nodeValue.matchAll(regex)) {
+            fragment.append(node.nodeValue.slice(last, match.index));
+            const mark = document.createElement("mark");
+            mark.className = "search-highlight";
+            mark.textContent = match[0];
+            fragment.append(mark);
+            const item = document.createElement("li");
+            item.className = "search-popup-result-item";
+            const start = Math.max(0, match.index - 45);
+            item.textContent = "…" + node.nodeValue.slice(start, match.index + match[0].length + 55) + "…";
+            item.addEventListener("click", () => {
+              document.querySelectorAll("mark.active-highlight").forEach(m => m.classList.remove("active-highlight"));
+              mark.classList.add("active-highlight");
+              mark.scrollIntoView({ behavior: "smooth", block: "center" });
+            });
+            results.append(item);
+            matches += 1;
+            last = match.index + match[0].length;
+          }
+          fragment.append(node.nodeValue.slice(last));
+          node.replaceWith(fragment);
+        });
+        count.textContent = matches + (matches === 1 ? " result" : " results");
+        popup.classList.toggle("visible", matches > 0);
+      });
     });
   </script>
 </body>
