@@ -1,0 +1,127 @@
+
+  <nav class="toolbar" aria-label="Reading tools">
+    <a href="../index.html">← Library</a>
+    <div class="search-box"><input type="search" id="articleSearch" placeholder="Search in article..." aria-label="Search in article"></div>
+    <div class="font-controls">
+      <button id="fontToggle" type="button" aria-label="Toggle font family">Sans</button>
+      <button id="fontDecrease" type="button" aria-label="Decrease font size">A-</button>
+      <button id="fontReset" type="button" aria-label="Reset font size">Reset</button>
+      <button id="fontIncrease" type="button" aria-label="Increase font size">A+</button>
+      <button id="printArticle" type="button" aria-label="Print article">Print</button>
+    </div>
+    <div class="audio-player" id="audioPlayer" aria-hidden="true"></div>
+  </nav>
+  <main>
+    <header class="article-header">
+      <span class="subject-badge">EXP#17 • Artificial Intelligence · Energy · Environment</span>
+      <h1>The Invisible Appetite</h1>
+      <p class="subtitle">What generative AI really costs the planet, what the viral comparisons get wrong, and what may happen next</p>
+      <div class="meta">
+        <time datetime="2026-07-30">July 30, 2026</time>
+        <span>≈ 31 min read</span>
+        <span class="verification-badge">✓ 100% source trail checked</span>
+      </div>
+    </header>
+    <p class="standfirst">The environmental debate around generative AI is crowded with dramatic comparisons and incompatible numbers. This exploration follows the energy, carbon, water, and material trail from chip fabrication to a single response, separating measured facts from conditional estimates and plausible futures from prophecy.</p>
+    <nav class="toc" aria-label="Contents">
+      <h2 class="toc-title">Contents</h2>
+      <ul>
+        <li class="toc-level-2"><a href="#the-prompt-and-the-power-plant">The prompt and the power plant</a></li>
+<li class="toc-level-2"><a href="#what-are-we-counting">What are we actually counting?</a></li>
+<li class="toc-level-3"><a href="#four-different-denominators">Four different denominators</a></li>
+<li class="toc-level-3"><a href="#measurement-is-not-a-nameplate">Measurement is not a nameplate</a></li>
+<li class="toc-level-2"><a href="#training-and-inference">Training is a project, inference is traffic</a></li>
+<li class="toc-level-3"><a href="#inference-is-not-one-operation">Inference is not one operation</a></li>
+<li class="toc-level-2"><a href="#why-generative-ai-changed-the-curve">Why generative AI changed the curve</a></li>
+<li class="toc-level-3"><a href="#parameters-tokens-and-active-computation">Parameters, tokens, and active computation</a></li>
+<li class="toc-level-3"><a href="#capacity-and-utilization">Capacity and utilization</a></li>
+<li class="toc-level-2"><a href="#electricity-global-and-local">Electricity: modest globally, enormous locally</a></li>
+<li class="toc-level-3"><a href="#the-efficiency-era-did-happen">The efficiency era did happen</a></li>
+<li class="toc-level-3"><a href="#who-pays-for-the-grid">Who pays for the grid?</a></li>
+<li class="toc-level-2"><a href="#carbon-electrons-have-addresses">Carbon: electrons have addresses</a></li>
+<li class="toc-level-3"><a href="#location-based-and-market-based">Location-based and market-based carbon</a></li>
+<li class="toc-level-3"><a href="#carbon-is-not-the-only-axis">Carbon is not the only axis</a></li>
+<li class="toc-level-2"><a href="#water-the-bottle-and-the-watershed">Water: the bottle, the pipe, and the watershed</a></li>
+<li class="toc-level-3"><a href="#withdrawal-is-not-consumption">Withdrawal is not consumption</a></li>
+<li class="toc-level-3"><a href="#direct-indirect-and-embodied-water">Direct, indirect, and embodied water</a></li>
+<li class="toc-level-2"><a href="#the-footprint-before-switch-on">The footprint before switch-on</a></li>
+<li class="toc-level-2"><a href="#myths-and-truths">Myths and truths</a></li>
+<li class="toc-level-3"><a href="#myth-one-prompt-equals-a-bottle">Myth 1: Every AI prompt consumes a bottle of water</a></li>
+<li class="toc-level-3"><a href="#myth-ai-is-destroying-the-grid">Myth 2: AI is about to consume most of the world's electricity</a></li>
+<li class="toc-level-3"><a href="#myth-training-is-the-problem">Myth 3: Training is the environmental problem, inference is negligible</a></li>
+<li class="toc-level-3"><a href="#myth-all-models-cost-the-same">Myth 4: All AI answers of similar length cost roughly the same</a></li>
+<li class="toc-level-3"><a href="#myth-a-number-is-a-number">Myth 5: A precise per-query number is automatically more scientific</a></li>
+<li class="toc-level-3"><a href="#myth-efficiency-will-solve-it">Myth 6: Efficiency improvements will automatically reduce total impact</a></li>
+<li class="toc-level-3"><a href="#myth-renewables-erase-impact">Myth 7: Renewable procurement erases the physical footprint</a></li>
+<li class="toc-level-3"><a href="#myth-ai-is-only-an-environmental-cost">Myth 8: AI is only an environmental burden, or AI will solve climate change</a></li>
+<li class="toc-level-2"><a href="#the-future-is-a-fan">The future is a fan, not a line</a></li>
+<li class="toc-level-3"><a href="#scenario-the-efficiency-dividend">Scenario A: the efficiency dividend</a></li>
+<li class="toc-level-3"><a href="#scenario-the-agentic-expansion">Scenario B: the agentic expansion</a></li>
+<li class="toc-level-3"><a href="#scenario-the-grid-constrained-boom">Scenario C: the grid-constrained boom</a></li>
+<li class="toc-level-3"><a href="#scenario-the-accountable-compute-economy">Scenario D: the accountable compute economy</a></li>
+<li class="toc-level-3"><a href="#a-likely-mixed-world">A likely mixed world</a></li>
+<li class="toc-level-2"><a href="#what-we-still-do-not-know">What we still do not know</a></li>
+<li class="toc-level-3"><a href="#the-missing-data">The missing data</a></li>
+<li class="toc-level-3"><a href="#uncertainty-is-not-ignorance">Uncertainty is not ignorance</a></li>
+<li class="toc-level-2"><a href="#what-responsible-use-looks-like">What responsible use looks like</a></li>
+<li class="toc-level-3"><a href="#for-users">For users</a></li>
+<li class="toc-level-3"><a href="#for-developers-and-organisations">For developers and organisations</a></li>
+<li class="toc-level-3"><a href="#for-providers">For providers</a></li>
+<li class="toc-level-3"><a href="#for-policy-makers-and-communities">For policymakers and communities</a></li>
+<li class="toc-level-2"><a href="#the-question-behind-the-question">The question behind the question</a></li>
+      </ul>
+    </nav>
+    <article class="content">
+      <h2 id="the-prompt-and-the-power-plant">The prompt and the power plant</h2>
+<p>A prompt seems almost weightless. A sentence leaves a keyboard, letters appear on a screen, and nothing in the exchange resembles smoke, cooling towers, mines, transmission lines, or reservoirs. Yet the response has passed through a physical system. Electricity entered servers. Heat left processors. Water may have carried some of that heat away. New chips had already been manufactured, packaged, transported, installed, and connected to a grid. The environmental story of generative artificial intelligence begins with this simple correction: the cloud is not a place above nature. It is industrial infrastructure embedded within nature.</p>
+
+<p>The second correction is equally important. There is no scientifically honest number for “the environmental cost of an AI question” in the abstract. A short answer from a compact text model is not equivalent to a long chain-of-thought calculation, an agent that repeatedly calls tools, a high-resolution image, or a generated video. The same model can consume different amounts of energy depending on prompt length, output length, batching, hardware, software, utilization, data-centre overhead, and where and when the electricity is generated.<sup class="ref"><a href="#src-1">[1]</a></sup><sup class="ref"><a href="#src-9">[9]</a></sup></p>
+
+<p>This variability is why the public debate so often appears contradictory. One headline says a text prompt uses only a fraction of a watt-hour. Another warns that AI data centres are becoming power-system-scale infrastructure. Both can be true. The first describes a marginal action under particular conditions. The second describes billions of actions, model development, idle capacity, rapidly expanding applications, and the physical build-out required to serve them.</p>
+
+<blockquote><p>The central paradox is not that the measurements disagree. It is that a rapidly shrinking cost per task is meeting a rapidly expanding number and intensity of tasks.</p></blockquote>
+
+<p>In 2026, the International Energy Agency estimated that energy use per AI task had fallen by at least an order of magnitude annually in recent years, while electricity use in AI-focused data centres rose by about 50 percent in 2025. It projected total data-centre electricity demand rising from roughly 485 terawatt-hours in 2025 to about 950 terawatt-hours in 2030, close to 3 percent of global electricity demand.<sup class="ref"><a href="#src-1">[1]</a></sup> Efficiency is real. Expansion is real. Any account that keeps only one side produces a myth.</p>
+<h2 id="what-are-we-counting">What are we actually counting?</h2>
+<p>Environmental accounting becomes confusing when different studies draw different boundaries around the same system. Imagine asking for the energy cost of baking a loaf of bread. One answer might count only the oven during the final bake. Another might include kneading, refrigeration, transport, flour milling, fertilizer, construction of the bakery, and manufacture of the oven. Neither boundary is automatically wrong, but the numbers cannot be compared until the boundary is made explicit.</p>
+
+<p>AI has at least eight relevant stages: hardware production, data-centre construction, data acquisition and preparation, model experimentation, the final training run, post-training and evaluation, deployment and inference, and end-of-life treatment. Most public figures count only one or two. A lifecycle study of a family of language models found that model development work outside the final training runs amounted to roughly half as much impact as the training itself in that particular programme. The same study also showed that measured power varied substantially during training, rather than remaining fixed at a chip's advertised maximum.<sup class="ref"><a href="#src-10">[10]</a></sup></p>
+
+<h3 id="four-different-denominators">Four different denominators</h3>
+
+<p>A useful analysis separates four questions. First, what is the <em>absolute footprint</em> of building and operating a model or service? Second, what is the <em>marginal footprint</em> of one additional task? Third, what is the <em>footprint per useful outcome</em>, such as a correct translation, a diagnosed fault, or a completed design? Fourth, what is the <em>system effect</em> after changes in price, demand, behaviour, and infrastructure are included?</p>
+
+<p>These denominators can point in different directions. A new accelerator may reduce joules per token. A better model may solve a task with fewer attempts. Yet lower cost can invite more users, longer outputs, autonomous agents, and applications that were previously uneconomic. The environmental result is therefore not a property of the chip alone. It emerges from the relationship between technology, product design, business incentives, and human demand.</p>
+
+<div class="evidence-grid">
+  <div class="evidence-card"><strong>Operational energy</strong><span>Electricity used while training or serving models, including supporting servers and facility overhead when measured comprehensively.</span></div>
+  <div class="evidence-card"><strong>Embodied impact</strong><span>Mining, materials processing, semiconductor fabrication, packaging, transport, buildings, and end-of-life.</span></div>
+  <div class="evidence-card"><strong>Carbon</strong><span>Not identical to electricity. It depends on the generation mix, location, time, accounting method, and lifecycle boundary.</span></div>
+  <div class="evidence-card"><strong>Water</strong><span>May include direct cooling, water consumed by electricity generation, semiconductor manufacturing, and local scarcity.</span></div>
+</div>
+
+<h3 id="measurement-is-not-a-nameplate">Measurement is not a nameplate</h3>
+
+<p>Another common error is to multiply the thermal design power printed on a GPU specification by elapsed time and call the result measured consumption. Direct work on eight-GPU H100 systems found that even computationally intensive training workloads operated at about 76 percent of the node's combined nameplate rating. A model calibrated from measurements estimated energy considerably more accurately than simple nameplate-based methods.<sup class="ref"><a href="#src-14">[14]</a></sup> Conversely, counting only accelerator power can underestimate the whole system because CPUs, memory, networking, storage, idle capacity, cooling, and power conversion also consume energy.</p>
+
+<p>This is why the emerging standard is full-stack measurement at the wall, paired with workload details and quality targets. MLPerf Power was designed to compare energy efficiency across machine-learning systems while measuring complete-system power for the benchmarked workload, not merely quoting component ratings.<sup class="ref"><a href="#src-13">[13]</a></sup> The practical lesson is unglamorous but decisive: a credible number needs a defined task, a system boundary, a measurement method, and a timestamp.</p>
+<h2 id="training-and-inference">Training is a project, inference is traffic</h2>
+<p>The most familiar story about AI's footprint is the spectacular training run: thousands of accelerators working for weeks or months to fit a model's parameters. Training is visible, discrete, and narratively convenient. It resembles building a bridge. A large quantity of material and energy is concentrated in one project, then the finished structure is used repeatedly.</p>
+
+<p>Inference resembles traffic across that bridge. One vehicle is small compared with construction. Millions or billions of journeys can nevertheless dominate the lifetime burden. Which side is larger depends on the number of users, the model's lifetime, the tasks being served, the efficiency of the serving stack, and whether the training cost is amortized across one deployment or many.</p>
+
+<p>The BLOOM lifecycle assessment illustrates the importance of boundaries. Its final training was estimated at about 24.7 tonnes of carbon-dioxide equivalent when only dynamic electricity was counted, and about 50.5 tonnes when equipment manufacturing and broader operational processes were included.<sup class="ref"><a href="#src-11">[11]</a></sup> Meta's Llama 3.1 model card reported 39.3 million H100 GPU-hours for its model family and estimated 11,390 tonnes of location-based training emissions. It simultaneously reported zero market-based emissions because Meta matched electricity consumption with renewable energy purchases.<sup class="ref"><a href="#src-15">[15]</a></sup> Those two figures answer different accounting questions, a distinction that should never be hidden behind a single word such as “carbon neutral.”</p>
+
+<h3 id="inference-is-not-one-operation">Inference is not one operation</h3>
+
+<p>A language model first processes the input context, often called prefill, and then generates output token by token, often called decode. Long documents increase the first burden. Long answers and deliberative reasoning increase the second. Batching can share hardware efficiently across simultaneous requests, but strict low-latency service may leave capacity underused. Quantization, speculative decoding, caching, model parallelism, and the serving framework can all alter energy per useful response.</p>
+
+<p>A 2025 ACL study found that the energy consequences of inference optimizations were highly dependent on workload shape, software, and hardware. Properly matched combinations reduced total energy use by as much as 73 percent compared with unoptimized baselines in the studied settings.<sup class="ref"><a href="#src-9">[9]</a></sup> Earlier measurements across machine-learning tasks found that general-purpose generative systems could require orders of magnitude more energy than task-specific models for the same class of task.<sup class="ref"><a href="#src-8">[8]</a></sup></p>
+
+<p>This does not imply that specialized models always produce the better environmental outcome. A general model may replace several separately trained systems, may perform a task that otherwise requires repeated human effort, or may achieve higher quality. It does mean that “use the largest available model” is not an environmentally neutral default. Model selection is part of product design, just as choosing a truck or bicycle is part of transport design.</p>
+
+<blockquote><p>The training-versus-inference debate has no universal winner. The answer changes with scale, lifetime, workload, and what the accountant chooses to include.</p></blockquote>
+<h2 id="why-generative-ai-changed-the-curve">Why generative AI changed the curve</h2>
+<p>For much of the 2010s, digital services expanded faster than data-centre electricity use. Better servers did more work per joule. Virtualization increased utilization. Hyperscale operators improved cooling and power delivery. The result was an efficiency dividend large enough to offset much of the growth in computation.<sup class="ref"><a href="#src-4">[4]</a></sup></p>
+
+<p>Generative AI changes several terms in that equation at once. Traditional digital services often retrieve, rank, transmit, or transform stored information. A large generative model performs dense numerical computation to construct each output. Its parameters must be available across accelerator memory, and generating a sequence requires repeated passes through the model. Longer contexts increase attention and memory work. Multimodal systems process images, audio, and video. Reasoning models can spend many more tokens internally than appear in the final answer.</p>
