@@ -1,0 +1,95 @@
+rk. Larger outputs require more decoding steps. Images and video add large spatial and temporal representations.</p>
+
+<p>The shift is not simply that an AI server uses more power than an older server. It is that demand for a new category of computation is growing while the industry is simultaneously increasing model capability, product reach, and infrastructure density. The same efficiency improvement that makes one response cheaper can make an entirely new service economically possible.</p>
+
+<h3 id="parameters-tokens-and-active-computation">Parameters, tokens, and active computation</h3>
+
+<p>Parameter count is a useful clue but a poor environmental meter. A dense model activates nearly all of its parameters for each token. A mixture-of-experts model may contain many parameters while activating only a subset. A smaller model with a very long context can use more energy than a larger model answering a short request. A reasoning system may generate hidden intermediate tokens that are not visible in the final response. Retrieval can add search, storage, and reranking. Agentic systems can call models repeatedly.</p>
+
+<p>This means the environmental unit of interest is moving from “one model call” to “one completed workflow.” A workflow should include all retries, tool calls, safety checks, retrieved documents, generated media, and failed branches. Without this boundary, a product can appear efficient at the visible interface while shifting work into hidden orchestration.</p>
+
+<h3 id="capacity-and-utilization">Capacity and utilization</h3>
+
+<p>Accelerators consume energy differently when busy, partly busy, or idle. Providers need spare capacity to meet unpredictable demand and latency guarantees. A lightly loaded service can allocate more facility energy to each answer than a well-batched service, even when both use identical chips. Conversely, maximizing utilization may increase delay or reduce resilience.</p>
+
+<p>The environmental optimum is therefore not maximum chip efficiency in isolation. It is a balance among quality, utilization, latency, reliability, and system power. This is one reason peer-reviewed inference measurements emphasize workload geometry and full-system conditions rather than theoretical floating-point operations alone.<sup class="ref"><a href="#src-9">[9]</a></sup><sup class="ref"><a href="#src-13">[13]</a></sup></p>
+
+<p>Generative AI changed the curve because it combined an exceptionally flexible computational method with an interface that made advanced computation feel effortless. The user sees language. The infrastructure sees a stream of scheduled matrix operations, memory transfers, network traffic, and heat.</p>
+<h2 id="electricity-global-and-local">Electricity: modest globally, enormous locally</h2>
+<p>At global scale, data centres remain smaller than major energy-consuming sectors such as industry, transport, or building heat. The IEA estimated about 415 terawatt-hours of data-centre electricity use in 2024, around 1.5 percent of global demand, and projected close to 945 terawatt-hours by 2030 in its 2025 base case.<sup class="ref"><a href="#src-2">[2]</a></sup> Its 2026 update placed the central 2030 estimate at about 950 terawatt-hours.<sup class="ref"><a href="#src-1">[1]</a></sup> Those numbers are large, but they do not support claims that AI is about to consume most of the world's electricity.</p>
+
+<p>The global average is also a poor guide to local consequences. Data centres cluster where land, fibre, tax treatment, grid connections, and customers align. A load that appears as a fraction of one percent worldwide can become the dominant source of new demand in a particular utility territory. The 2026 Lawrence Berkeley National Laboratory update estimated a reference case of 649 terawatt-hours for United States data centres in 2030, with a broad range from 521 to 843 terawatt-hours. That corresponded to 9.5 to 15.3 percent of projected national electricity use, with 11.8 percent in the reference case.<sup class="ref"><a href="#src-3">[3]</a></sup></p>
+
+<p>This concentration changes the engineering problem. A data centre is not merely an annual total. It is a large, often continuous load requesting a grid connection on a timetable much shorter than that required to plan transmission, manufacture transformers, permit generation, and build substations. Advanced AI racks also concentrate power into smaller spaces. The IEA reported an elevenfold increase in AI-server power density from 2020 to 2025 and projected another fourfold increase by 2027.<sup class="ref"><a href="#src-1">[1]</a></sup></p>
+
+<h3 id="the-efficiency-era-did-happen">The efficiency era did happen</h3>
+
+<p>It would be a mistake to extrapolate computing demand as though efficiency never improves. A 2020 <em>Science</em> analysis showed that rapid growth in data-centre services during the previous decade had been partly offset by major gains in servers, virtualization, storage, and facility efficiency. Global electricity use grew far more slowly than simplistic workload extrapolations predicted.<sup class="ref"><a href="#src-4">[4]</a></sup> That history explains why some earlier forecasts of runaway data-centre energy demand proved exaggerated.</p>
+
+<p>It would be an equal mistake to assume that the same offset must continue indefinitely. Generative AI has introduced unusually rapid demand growth, higher rack densities, and new kinds of workload. The correct inference from past efficiency is not that electricity demand cannot rise. It is that forecasts must model both demand and efficiency, and must be updated as technology and behaviour change.</p>
+
+<h3 id="who-pays-for-the-grid">Who pays for the grid?</h3>
+
+<p>Environmental impact includes distributional questions. New generation, transmission, substations, backup systems, and water infrastructure have costs. Whether those costs are borne by the data-centre operator, all ratepayers, taxpayers, or host communities is a policy choice. The IEA notes that data centres can sometimes improve use of existing assets and need not automatically raise prices, but rapid concentrated loads in tight systems can trigger expensive investments and create affordability risks.<sup class="ref"><a href="#src-1">[1]</a></sup></p>
+
+<p>Data centres could also become flexible grid participants. Training jobs can sometimes be shifted in time or place. Batteries and on-site assets can respond to grid conditions. Yet low-latency inference, contractual uptime requirements, and clustered infrastructure limit flexibility. The environmental quality of AI electricity therefore depends not only on how much is used, but on how intelligently the load is integrated.</p>
+<h2 id="carbon-electrons-have-addresses">Carbon: electrons have addresses</h2>
+<p>A kilowatt-hour is a quantity of energy, not a quantity of carbon. The same electrical work can be associated with very different emissions depending on the generation that supplies it. Hydroelectric, wind, nuclear, gas, and coal systems have different operational and lifecycle profiles. The carbon intensity of a grid also changes from hour to hour as demand and generation vary.</p>
+
+<p>Research on cloud AI workloads found that geographic choice could be the largest operational emissions lever among the strategies examined, with time-of-day scheduling also producing meaningful differences.<sup class="ref"><a href="#src-12">[12]</a></sup> This is the foundation of carbon-aware computing: schedule flexible work when and where the electricity system is cleaner, while respecting latency, data governance, and hardware availability.</p>
+
+<h3 id="location-based-and-market-based">Location-based and market-based carbon</h3>
+
+<p>Two accounting languages are often mixed. Location-based accounting estimates emissions from the electricity physically associated with the grid where consumption occurs. Market-based accounting adjusts for contracts such as power-purchase agreements and renewable-energy certificates. Procurement can finance clean generation and is therefore environmentally important. It does not, by itself, prove that a data centre was physically supplied by carbon-free electricity during every hour of operation.</p>
+
+<p>The Llama 3.1 disclosure makes the difference unusually visible: 11,390 tonnes of location-based emissions and zero market-based emissions for training.<sup class="ref"><a href="#src-15">[15]</a></sup> Neither number should erase the other. The physical grid figure describes the generation context. The market figure describes contractual claims and procurement. A serious assessment presents both, together with the method.</p>
+
+<p>Company sustainability reports show substantial clean-energy procurement. Google reported contracting more than 12 gigawatts of new clean energy in 2025 and described large avoided-emissions effects from efficiency and procurement.<sup class="ref"><a href="#src-19">[19]</a></sup> These are consequential efforts, but they are self-reported and rely on counterfactual accounting choices. They should be read alongside absolute emissions, electricity growth, hourly matching, supply-chain impacts, and local grid conditions.</p>
+
+<h3 id="carbon-is-not-the-only-axis">Carbon is not the only axis</h3>
+
+<p>Optimizing carbon can trade against other impacts. A low-carbon region may be water-stressed. Evaporative cooling can reduce electricity use while consuming water. Dry cooling can save water while increasing power use during hot conditions. Extending hardware life may reduce manufacturing demand but operate less efficient chips for longer. Environmental design is therefore a multi-objective problem, not a contest to minimize one number regardless of context.</p>
+
+<blockquote><p>“Renewable-powered” is not a complete physical description. Ask when the power was generated, where it entered the grid, what was contracted, and what other resources were displaced.</p></blockquote>
+<h2 id="water-the-bottle-and-the-watershed">Water: the bottle, the pipe, and the watershed</h2>
+<p>Few claims about AI have travelled as quickly as the image of a bottle of water disappearing into a chatbot conversation. The claim has a legitimate research origin, but the viral version usually loses its conditions. A peer-reviewed analysis estimated that a GPT-3-scale service could consume roughly 500 millilitres of water for about 10 to 50 medium-length responses under particular deployment assumptions. The range depended strongly on location, season, cooling, and electricity generation.<sup class="ref"><a href="#src-6">[6]</a></sup></p>
+
+<p>That estimate was never a universal meter attached to every prompt. It combined direct cooling water and indirect water associated with electricity. Change the model, hardware, data centre, weather, grid, output length, or definition of consumption, and the result changes. A more recent company measurement reported only 0.26 millilitres for the median text prompt in Google's Gemini Apps production environment, while Mistral's lifecycle-based estimate reported 45 millilitres for a 400-token Le Chat response.<sup class="ref"><a href="#src-18">[18]</a></sup><sup class="ref"><a href="#src-16">[16]</a></sup> These figures are not proof that one study is right and the others are wrong. They describe different systems, boundaries, accounting methods, and distributions.</p>
+
+<h3 id="withdrawal-is-not-consumption">Withdrawal is not consumption</h3>
+
+<p>Water withdrawal is the amount taken from a source. Water consumption is the portion not promptly returned to the same watershed in usable form, often because it evaporates. A cooling system can withdraw a large volume and return most of it, or withdraw less and consume a larger share. Potable water, reclaimed wastewater, seawater, and rainwater also have different opportunity costs.</p>
+
+<p>Data-centre water use has historically been less transparent than energy use, and facility-level data are often sparse.<sup class="ref"><a href="#src-7">[7]</a></sup> The European Union's reporting scheme now requires covered data centres to report total energy, water input, potable water input, renewable-energy indicators, and other performance metrics to a common database using defined methodologies.<sup class="ref"><a href="#src-20">[20]</a></sup> Standardized disclosure is important because a global litre total can conceal the question communities care about most: was scarce local water consumed during a hot, dry period?</p>
+
+<h3 id="direct-indirect-and-embodied-water">Direct, indirect, and embodied water</h3>
+
+<p>Direct water cools the facility. Indirect operational water is used by the electricity system, for example in thermal power generation. Embodied water is used in manufacturing chips, servers, buildings, and other equipment. These categories overlap with geography. A water-efficient data centre supplied by water-intensive electricity can shift rather than eliminate its footprint.</p>
+
+<p>A 2025 <em>Nature Sustainability</em> model estimated that United States AI-server expansion during 2024 to 2030 could produce an annual water footprint of about 731 to 1,125 million cubic metres and an additional 24 to 44 million tonnes of carbon-dioxide equivalent, depending on deployment, grid decarbonization, efficiency, and location.<sup class="ref"><a href="#src-5">[5]</a></sup> These are scenarios, not measured destiny. Their value lies in showing how decisions about siting, grids, cooling, and efficiency alter outcomes.</p>
+
+<p>Water also exposes the limits of per-query ethics. Shorter answers can reduce marginal consumption, but the larger decisions are made when a facility is sited, a cooling system selected, an electricity contract signed, and a model architecture deployed. Individual restraint matters most when multiplied across many users. Infrastructure governance determines the conditions under which those individual actions occur.</p>
+<h2 id="the-footprint-before-switch-on">The footprint before switch-on</h2>
+<p>Before a chip performs its first matrix multiplication, its materials have crossed a long industrial chain. Silicon wafers are fabricated in highly controlled plants. Memory, substrates, printed circuit boards, heat sinks, cables, and power electronics are manufactured and assembled. Semiconductor production uses electricity, water, gases, chemicals, and mineral resources. Data-centre construction requires concrete, steel, electrical equipment, and cooling infrastructure.</p>
+
+<p>An ADEME-supported lifecycle study of eight graphics cards estimated embodied global-warming impacts of roughly 60 to 150 kilograms of carbon-dioxide equivalent per card. Manufacturing dominated embodied impacts, and the GPU and memory components were central contributors across several categories.<sup class="ref"><a href="#src-17">[17]</a></sup> Those figures should not be multiplied casually across every accelerator installation because high-end data-centre modules differ from consumer cards and inventories remain incomplete. They do show why manufacturing cannot be treated as zero.</p>
+
+<p>Fast replacement cycles create a second-order effect. New hardware can provide dramatically more computation per joule, favouring rapid upgrades. Yet retiring functional equipment early increases manufacturing demand and electronic waste. The best replacement point depends on utilization, expected efficiency gains, the carbon intensity of electricity, embodied impacts, and whether older equipment can be repurposed for less demanding workloads.</p>
+
+<p>The physical bottleneck extends beyond processors. High-bandwidth memory, transformers, switchgear, copper, batteries, and grid equipment can constrain expansion. The IEA's 2026 assessment describes a scramble not only for electricity, but for grid connections, manufacturing capacity, chips, capital, and critical inputs.<sup class="ref"><a href="#src-1">[1]</a></sup> AI's environmental footprint is therefore partly a question of industrial metabolism: how quickly societies extract, manufacture, install, use, and replace the material organs of computation.</p>
+<h2 id="myths-and-truths">Myths and truths</h2>
+<div class="myth-card">
+  <h3 id="myth-one-prompt-equals-a-bottle">Myth 1: Every AI prompt consumes a bottle of water</h3>
+  <p><strong>Verdict: false as a universal claim, useful as a warning about hidden water only when the assumptions are stated.</strong></p>
+  <p>The bottle comparison came from a conditional model estimate for a particular scale of system and a range of responses. Direct measurements and other lifecycle estimates span orders of magnitude because the service, prompt, response length, hardware, cooling, electricity, and boundary differ.<sup class="ref"><a href="#src-6">[6]</a></sup><sup class="ref"><a href="#src-16">[16]</a></sup><sup class="ref"><a href="#src-18">[18]</a></sup> The scientifically responsible sentence is not “a prompt uses X water.” It is “this measured or modelled workload, under these conditions, used or was allocated X.”</p>
+</div>
+
+<div class="myth-card">
+  <h3 id="myth-ai-is-destroying-the-grid">Myth 2: AI is about to consume most of the world's electricity</h3>
+  <p><strong>Verdict: unsupported globally, but capable of becoming a dominant source of new load locally.</strong></p>
+  <p>The IEA's central projection places all data centres near 3 percent of global electricity demand in 2030, not a majority.<sup class="ref"><a href="#src-1">[1]</a></sup> The United States share and some regional shares can be much higher, and the speed and concentration of projects can stress grids even when the global percentage looks modest.<sup class="ref"><a href="#src-3">[3]</a></sup> Global reassurance and local alarm can therefore both mislead when used alone.</p>
+</div>
+
+<div class="myth-card">
+  <h3 id="myth-training-is-the-problem">Myth 3: Training is the environmental problem, inference is negligible</h3>
+  <p><strong>Verdict: sometimes true early in a model's life, often false at large deployment scale.</strong></p>
