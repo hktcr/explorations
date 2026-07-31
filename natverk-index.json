@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "byggd": "2026-07-29T14:51:08Z",
+  "byggd": "2026-07-31T19:05:56Z",
   "artiklar": [
     {
       "slug": "adhd-explained",
@@ -15,12 +15,12 @@
         "verifierade": 12
       },
       "nyckelord": [
-        "attention",
-        "children",
-        "regulation",
-        "moral",
-        "external",
-        "person"
+        "adhd",
+        "dopamine",
+        "prefrontal",
+        "executive",
+        "cortex",
+        "disorder"
       ]
     },
     {
@@ -36,12 +36,54 @@
         "verifierade": 4
       },
       "nyckelord": [
+        "choline",
         "cholesterol",
+        "lutein",
         "dietary",
-        "liver",
-        "digestive",
-        "pill",
-        "nutrient"
+        "microbiome",
+        "nutritional"
+      ]
+    },
+    {
+      "slug": "ai-environmental-impact",
+      "titel": "The Invisible Appetite: What Generative AI Really Costs the Planet",
+      "amne": "EXP#17 • Artificial Intelligence · Energy · Environment",
+      "datum": "July 30, 2026",
+      "lastid": "≈ 31 min read",
+      "ord": 5723,
+      "avsnitt": 42,
+      "kallor": {
+        "totalt": 21,
+        "verifierade": 21
+      },
+      "nyckelord": [
+        "centres",
+        "data-centre",
+        "service",
+        "electricity",
+        "cooling",
+        "procurement"
+      ]
+    },
+    {
+      "slug": "ai-in-education",
+      "titel": "The Architect and the Crutch: How Generative AI Is Reshaping Human Learning",
+      "amne": "EXP#14 • Education & Cognition",
+      "datum": "July 29, 2026",
+      "lastid": "≈ 22 min read",
+      "ord": 2364,
+      "avsnitt": 7,
+      "kallor": {
+        "totalt": 15,
+        "verifierade": 15
+      },
+      "nyckelord": [
+        "offloading",
+        "crutch",
+        "tutoring",
+        "mental",
+        "mastery",
+        "classroom"
       ]
     },
     {
@@ -58,11 +100,11 @@
       },
       "nyckelord": [
         "validity",
-        "measuring",
-        "valid",
-        "score",
-        "argument",
-        "objective"
+        "fairness",
+        "psychometrics",
+        "item",
+        "goddard",
+        "reliability"
       ]
     },
     {
@@ -78,12 +120,12 @@
         "verifierade": 3
       },
       "nyckelord": [
-        "leaves",
-        "kitchen",
-        "culinary",
-        "italian",
-        "table",
-        "marketing"
+        "salad",
+        "caesar",
+        "cardini",
+        "dressing",
+        "anchovies",
+        "restaurant"
       ]
     },
     {
@@ -99,12 +141,54 @@
         "verifierade": 12
       },
       "nyckelord": [
-        "electrons",
+        "https",
         "nadh",
-        "electron",
-        "pyruvate",
         "respiration",
-        "krebs"
+        "fadh",
+        "protons",
+        "phosphate"
+      ]
+    },
+    {
+      "slug": "climate-borders",
+      "titel": "The Border Does Not Stop the Climate",
+      "amne": "EXP#18 • Climate · Migration · Borders",
+      "datum": "July 31, 2026",
+      "lastid": "≈ 36 min read",
+      "ord": 6665,
+      "avsnitt": 15,
+      "kallor": {
+        "totalt": 34,
+        "verifierade": 34
+      },
+      "nyckelord": [
+        "mobility",
+        "refugee",
+        "ceuta",
+        "drought",
+        "asylum",
+        "evacuation"
+      ]
+    },
+    {
+      "slug": "cranberries",
+      "titel": "The Red Paradox: Cranberries, Historically and Today",
+      "amne": "EXP#16 • Food History · Nutrition · Evidence",
+      "datum": "July 30, 2026",
+      "lastid": "≈ 22 min read",
+      "ord": 1668,
+      "avsnitt": 21,
+      "kallor": {
+        "totalt": 10,
+        "verifierade": 10
+      },
+      "nyckelord": [
+        "cranberry",
+        "cranberries",
+        "fruit",
+        "sweetened",
+        "juice",
+        "berries"
       ]
     },
     {
@@ -120,12 +204,12 @@
         "verifierade": 16
       },
       "nyckelord": [
-        "text",
-        "cosmological",
-        "gravity",
-        "cosmic",
-        "cluster",
-        "stars"
+        "cosmology",
+        "gravitational",
+        "particle",
+        "baryonic",
+        "lambda",
+        "galaxies"
       ]
     },
     {
@@ -141,12 +225,12 @@
         "verifierade": 11
       },
       "nyckelord": [
-        "artificial",
-        "digital",
-        "code",
-        "text",
-        "algorithmic",
-        "systemic"
+        "biome",
+        "algal",
+        "blooms",
+        "parasitism",
+        "unguided",
+        "synthetic"
       ]
     },
     {
@@ -162,12 +246,12 @@
         "verifierade": 16
       },
       "nyckelord": [
-        "reproduction",
-        "genome",
-        "flora",
-        "female",
-        "somatic",
-        "cell"
+        "cloning",
+        "sexual",
+        "cloned",
+        "clone",
+        "komodo",
+        "asexual"
       ]
     },
     {
@@ -183,12 +267,12 @@
         "verifierade": 13
       },
       "nyckelord": [
-        "yolk",
-        "match",
-        "supports",
-        "firm",
-        "thermal",
-        "liquid"
+        "denaturation",
+        "albumen",
+        "ovalbumin",
+        "coagulation",
+        "hydrophobic",
+        "ovotransferrin"
       ]
     },
     {
@@ -204,12 +288,12 @@
         "verifierade": 7
       },
       "nyckelord": [
-        "electrons",
         "mitochondrial",
-        "acetyl",
         "citric",
-        "electron",
-        "nadh"
+        "nadh",
+        "oxaloacetate",
+        "electrons",
+        "coenzyme"
       ]
     },
     {
@@ -225,12 +309,12 @@
         "verifierade": 21
       },
       "nyckelord": [
+        "muskox",
+        "dovrefjell",
+        "herd",
+        "muskoxen",
         "norwegian",
-        "sheep",
-        "snow",
-        "climate",
-        "norway",
-        "area"
+        "qiviut"
       ]
     },
     {
@@ -248,10 +332,10 @@
       "nyckelord": [
         "radar",
         "birds",
+        "abisko",
         "altitudes",
         "arctic",
-        "circle",
-        "compass"
+        "circle"
       ]
     },
     {
@@ -267,12 +351,33 @@
         "verifierade": 7
       },
       "nyckelord": [
+        "octopus",
+        "octopuses",
+        "sleep",
         "neurons",
-        "marine",
-        "skin",
-        "cognition",
-        "otto",
-        "centralized"
+        "cephalopod",
+        "handlers"
+      ]
+    },
+    {
+      "slug": "origin-of-life",
+      "titel": "The Long Dawn: How the Origin of Life Became a Science of Possible Worlds",
+      "amne": "EXP#15 • Origins of Life & Astrobiology",
+      "datum": "July 30, 2026",
+      "lastid": "≈ 30 min read",
+      "ord": 5662,
+      "avsnitt": 18,
+      "kallor": {
+        "totalt": 34,
+        "verifierade": 34
+      },
+      "nyckelord": [
+        "luca",
+        "vesicles",
+        "feedstocks",
+        "heredity",
+        "life's",
+        "polymers"
       ]
     },
     {
@@ -288,12 +393,12 @@
         "verifierade": 4
       },
       "nyckelord": [
-        "cover",
-        "government",
-        "hiding",
-        "aliens",
-        "probability",
-        "protocols"
+        "cover-up",
+        "conspiracy",
+        "secret",
+        "extraterrestrial",
+        "secrecy",
+        "grimes"
       ]
     }
   ],
@@ -301,337 +406,373 @@
     {
       "a": "cellular-respiration-demystified",
       "b": "krebs-cycle",
-      "vikt": 0.6513,
+      "vikt": 0.4351,
       "termer": [
-        "electrons",
         "nadh",
-        "electron",
-        "acetyl",
-        "mitochondrial"
+        "mitochondrial",
+        "electrons",
+        "respiration",
+        "protons"
       ]
     },
     {
-      "a": "adhd-explained",
-      "b": "digital-biome",
-      "vikt": 0.2287,
+      "a": "ai-environmental-impact",
+      "b": "climate-borders",
+      "vikt": 0.1891,
       "termer": [
-        "digital",
-        "neural",
-        "resource",
-        "mode",
-        "network"
+        "emissions",
+        "uncertainty",
+        "temporary",
+        "choice",
+        "services"
       ]
     },
     {
-      "a": "agg-naring-och-myter",
-      "b": "digital-biome",
-      "vikt": 0.2259,
+      "a": "krebs-cycle",
+      "b": "origin-of-life",
+      "vikt": 0.154,
       "termer": [
-        "forest",
-        "ecosystems",
-        "ecosystem",
-        "ecological",
-        "feedback"
+        "hydrothermal",
+        "compartments",
+        "planetary",
+        "ocean",
+        "billion"
+      ]
+    },
+    {
+      "a": "ai-environmental-impact",
+      "b": "digital-biome",
+      "vikt": 0.1487,
+      "termer": [
+        "training",
+        "cooling",
+        "computation",
+        "electricity",
+        "hardware"
+      ]
+    },
+    {
+      "a": "ai-environmental-impact",
+      "b": "origin-of-life",
+      "vikt": 0.1459,
+      "termer": [
+        "inference",
+        "plausible",
+        "conditions",
+        "useful",
+        "materials"
+      ]
+    },
+    {
+      "a": "climate-borders",
+      "b": "origin-of-life",
+      "vikt": 0.1237,
+      "termer": [
+        "preserve",
+        "conditions",
+        "secure",
+        "already",
+        "route"
+      ]
+    },
+    {
+      "a": "ai-in-education",
+      "b": "digital-biome",
+      "vikt": 0.122,
+      "termer": [
+        "algorithmic",
+        "generative",
+        "automated",
+        "text",
+        "code"
       ]
     },
     {
       "a": "agg-naring-och-myter",
       "b": "krebs-cycle",
-      "vikt": 0.2138,
+      "vikt": 0.1173,
       "termer": [
         "dietary",
-        "enzyme",
+        "acid",
         "molecule",
-        "matrix",
-        "acid"
+        "enzyme",
+        "cholesterol"
       ]
     },
     {
-      "a": "adhd-explained",
-      "b": "octopus-intelligence",
-      "vikt": 0.2028,
+      "a": "ai-in-education",
+      "b": "assessment-validity-reliability",
+      "vikt": 0.1151,
       "termer": [
-        "nervous",
-        "brain",
-        "neural",
-        "lived",
-        "network"
-      ]
-    },
-    {
-      "a": "adhd-explained",
-      "b": "agg-naring-och-myter",
-      "vikt": 0.2013,
-      "termer": [
-        "brain",
-        "regulation",
-        "reward",
-        "profile",
-        "foraging"
-      ]
-    },
-    {
-      "a": "digital-biome",
-      "b": "djur-kloning",
-      "vikt": 0.201,
-      "termer": [
-        "artificial",
-        "code",
-        "population",
-        "flora",
-        "mutations"
+        "educational",
+        "students",
+        "schools",
+        "competence",
+        "knowledge"
       ]
     },
     {
       "a": "djur-kloning",
-      "b": "octopus-intelligence",
-      "vikt": 0.197,
+      "b": "origin-of-life",
+      "vikt": 0.1043,
       "termer": [
-        "reproduction",
-        "biologists",
-        "skin",
-        "somatic",
-        "animal"
+        "genes",
+        "genome",
+        "division",
+        "copy",
+        "reproduction"
       ]
     },
     {
-      "a": "assessment-validity-reliability",
+      "a": "agg-naring-och-myter",
       "b": "digital-biome",
-      "vikt": 0.1885,
+      "vikt": 0.1022,
       "termer": [
-        "algorithm",
-        "digital",
-        "systemic",
-        "algorithmic",
-        "intelligence"
+        "feedback",
+        "ecological",
+        "ecosystem",
+        "ecosystems",
+        "akin"
       ]
     },
     {
-      "a": "adhd-explained",
-      "b": "assessment-validity-reliability",
-      "vikt": 0.1866,
+      "a": "cellular-respiration-demystified",
+      "b": "origin-of-life",
+      "vikt": 0.1006,
       "termer": [
-        "clinical",
-        "verbal",
-        "person",
-        "task",
-        "social"
-      ]
-    },
-    {
-      "a": "agg-naring-och-myter",
-      "b": "djur-kloning",
-      "vikt": 0.1824,
-      "termer": [
-        "liver",
-        "population",
-        "disease",
-        "cell",
-        "eggs"
-      ]
-    },
-    {
-      "a": "agg-naring-och-myter",
-      "b": "caesar-sallad",
-      "vikt": 0.1819,
-      "termer": [
-        "culinary",
-        "yolk",
-        "prepared",
-        "staple",
-        "bowl"
-      ]
-    },
-    {
-      "a": "agg-naring-och-myter",
-      "b": "octopus-intelligence",
-      "vikt": 0.1797,
-      "termer": [
-        "pill",
-        "humans",
-        "digestive",
-        "brain",
-        "nutrient"
+        "membrane",
+        "molecule",
+        "reactions",
+        "cellular",
+        "cycle"
       ]
     },
     {
       "a": "cellular-respiration-demystified",
       "b": "egg-coagulation-lab",
-      "vikt": 0.1787,
+      "vikt": 0.0979,
       "termer": [
         "verified",
-        "journal",
-        "bonds",
         "thermodynamic",
-        "temperature"
-      ]
-    },
-    {
-      "a": "agg-naring-och-myter",
-      "b": "egg-coagulation-lab",
-      "vikt": 0.1736,
-      "termer": [
-        "yolk",
-        "culinary",
-        "native",
-        "proteins",
-        "eggs"
-      ]
-    },
-    {
-      "a": "assessment-validity-reliability",
-      "b": "dark-matter-dark-energy",
-      "vikt": 0.1715,
-      "termer": [
-        "measurement",
-        "validity",
-        "cluster",
-        "measuring",
-        "curves"
-      ]
-    },
-    {
-      "a": "agg-naring-och-myter",
-      "b": "cellular-respiration-demystified",
-      "vikt": 0.1693,
-      "termer": [
-        "matrix",
-        "molecule",
-        "metabolic",
         "acid",
-        "cholesterol"
-      ]
-    },
-    {
-      "a": "dark-matter-dark-energy",
-      "b": "utomjordisk-kunskap",
-      "vikt": 0.1665,
-      "termer": [
-        "astronomers",
-        "detection",
-        "cosmic",
-        "quantum",
-        "david"
-      ]
-    },
-    {
-      "a": "dark-matter-dark-energy",
-      "b": "digital-biome",
-      "vikt": 0.1582,
-      "termer": [
-        "text",
-        "parameter",
-        "expansion",
-        "applying",
-        "theoretical"
-      ]
-    },
-    {
-      "a": "nordkalotten-flyttfaglar-radar",
-      "b": "utomjordisk-kunskap",
-      "vikt": 0.1542,
-      "termer": [
-        "radar",
-        "altitudes",
-        "altitude",
-        "cameras",
-        "flying"
-      ]
-    },
-    {
-      "a": "caesar-sallad",
-      "b": "egg-coagulation-lab",
-      "vikt": 0.1517,
-      "termer": [
-        "kitchen",
-        "culinary",
-        "properties",
-        "yolk",
-        "adding"
-      ]
-    },
-    {
-      "a": "assessment-validity-reliability",
-      "b": "utomjordisk-kunskap",
-      "vikt": 0.1507,
-      "termer": [
-        "argument",
-        "probability",
-        "hiding",
-        "intelligence",
-        "government"
+        "molecular",
+        "complexes"
       ]
     },
     {
       "a": "adhd-explained",
-      "b": "nordkalotten-flyttfaglar-radar",
-      "vikt": 0.1482,
+      "b": "ai-in-education",
+      "vikt": 0.0964,
       "termer": [
-        "radar",
-        "rhythm",
-        "important",
-        "task",
-        "focus"
+        "mental",
+        "classroom",
+        "adhd",
+        "cognitive",
+        "emotional"
       ]
     },
     {
-      "a": "muskoxen-norway",
-      "b": "nordkalotten-flyttfaglar-radar",
-      "vikt": 0.1479,
+      "a": "agg-naring-och-myter",
+      "b": "cranberries",
+      "vikt": 0.0946,
       "termer": [
-        "norway",
-        "circle",
-        "arctic",
-        "norwegian",
-        "rain"
+        "nutritional",
+        "blood",
+        "tract",
+        "foods",
+        "cardiovascular"
+      ]
+    },
+    {
+      "a": "adhd-explained",
+      "b": "digital-biome",
+      "vikt": 0.0905,
+      "termer": [
+        "neural",
+        "digital",
+        "resource",
+        "network",
+        "mode"
+      ]
+    },
+    {
+      "a": "climate-borders",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "vikt": 0.0851,
+      "termer": [
+        "migration",
+        "weather",
+        "north",
+        "farms",
+        "wind"
+      ]
+    },
+    {
+      "a": "climate-borders",
+      "b": "muskoxen-norway",
+      "vikt": 0.0849,
+      "termer": [
+        "climate",
+        "warming",
+        "adaptation",
+        "authorities",
+        "border"
+      ]
+    },
+    {
+      "a": "djur-kloning",
+      "b": "octopus-intelligence",
+      "vikt": 0.0844,
+      "termer": [
+        "biologists",
+        "reproduction",
+        "skin",
+        "somatic",
+        "males"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "octopus-intelligence",
+      "vikt": 0.0827,
+      "termer": [
+        "pill",
+        "humans",
+        "digestive",
+        "brain",
+        "nerve"
+      ]
+    },
+    {
+      "a": "ai-environmental-impact",
+      "b": "assessment-validity-reliability",
+      "vikt": 0.0823,
+      "termer": [
+        "measurement",
+        "inference",
+        "looks",
+        "accuracy",
+        "reliability"
       ]
     },
     {
       "a": "egg-coagulation-lab",
       "b": "krebs-cycle",
-      "vikt": 0.1459,
+      "vikt": 0.0818,
       "termer": [
         "acid",
         "complexes",
-        "bonds",
         "molecular",
-        "hydrogen"
+        "bonds",
+        "reverse"
       ]
     },
     {
-      "a": "djur-kloning",
-      "b": "muskoxen-norway",
-      "vikt": 0.1436,
+      "a": "cranberries",
+      "b": "origin-of-life",
+      "vikt": 0.0813,
       "termer": [
-        "sheep",
-        "population",
-        "extinct",
-        "survived",
-        "park"
+        "products",
+        "drying",
+        "possibility",
+        "related",
+        "chemistry"
       ]
     },
     {
       "a": "agg-naring-och-myter",
-      "b": "muskoxen-norway",
-      "vikt": 0.1405,
+      "b": "nordkalotten-flyttfaglar-radar",
+      "vikt": 0.0731,
       "termer": [
-        "population",
-        "climate",
-        "pleistocene",
-        "native",
-        "animal"
+        "birds",
+        "bird",
+        "suddenly",
+        "ecological",
+        "daily"
+      ]
+    },
+    {
+      "a": "muskoxen-norway",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "vikt": 0.0724,
+      "termer": [
+        "norway",
+        "circle",
+        "arctic",
+        "norwegian",
+        "meters"
+      ]
+    },
+    {
+      "a": "climate-borders",
+      "b": "utomjordisk-kunskap",
+      "vikt": 0.0716,
+      "termer": [
+        "government",
+        "surveillance",
+        "military",
+        "hide",
+        "security"
+      ]
+    },
+    {
+      "a": "ai-environmental-impact",
+      "b": "dark-matter-dark-energy",
+      "vikt": 0.0706,
+      "termer": [
+        "text",
+        "measurements",
+        "measurement",
+        "density",
+        "expansion"
+      ]
+    },
+    {
+      "a": "nordkalotten-flyttfaglar-radar",
+      "b": "utomjordisk-kunskap",
+      "vikt": 0.0691,
+      "termer": [
+        "radar",
+        "altitudes",
+        "flying",
+        "blind",
+        "radars"
+      ]
+    },
+    {
+      "a": "assessment-validity-reliability",
+      "b": "dark-matter-dark-energy",
+      "vikt": 0.0663,
+      "termer": [
+        "validity",
+        "measurement",
+        "dark",
+        "curves",
+        "measuring"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "caesar-sallad",
+      "vikt": 0.0639,
+      "termer": [
+        "yolk",
+        "culinary",
+        "prepared",
+        "bowl",
+        "staple"
       ]
     },
     {
       "a": "caesar-sallad",
-      "b": "djur-kloning",
-      "vikt": 0.1025,
+      "b": "egg-coagulation-lab",
+      "vikt": 0.0511,
       "termer": [
-        "mother",
-        "looked",
-        "father",
-        "parents",
-        "horse"
+        "kitchen",
+        "yolk",
+        "culinary",
+        "properties",
+        "adding"
       ]
     }
   ]
