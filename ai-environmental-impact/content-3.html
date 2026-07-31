@@ -1,0 +1,117 @@
+ten false for a widely used service.</strong></p>
+  <p>Training is concentrated and can be very large. Inference accumulates with every user and every generated token. Model experimentation, post-training, evaluations, failed runs, idle capacity, and hardware manufacture further complicate the comparison.<sup class="ref"><a href="#src-10">[10]</a></sup><sup class="ref"><a href="#src-11">[11]</a></sup> The correct ratio is model-specific and changes over time.</p>
+</div>
+
+<div class="myth-card">
+  <h3 id="myth-all-models-cost-the-same">Myth 4: All AI answers of similar length cost roughly the same</h3>
+  <p><strong>Verdict: false.</strong></p>
+  <p>Model size and architecture matter, but so do context length, batching, hardware generation, software stack, quantization, latency target, and the number of hidden steps. A small classifier, a compact language model, a frontier reasoning system, an image generator, and a video model are different machines in environmental terms. Controlled studies find large variation across models and tasks, including orders-of-magnitude differences between some general-purpose and task-specific systems.<sup class="ref"><a href="#src-8">[8]</a></sup><sup class="ref"><a href="#src-9">[9]</a></sup></p>
+</div>
+
+<div class="myth-card">
+  <h3 id="myth-a-number-is-a-number">Myth 5: A precise per-query number is automatically more scientific</h3>
+  <p><strong>Verdict: false precision is a major risk.</strong></p>
+  <p>A number with three decimal places can still omit idle capacity, facility overhead, water from electricity, hardware, or development. It may represent a median rather than a mean, one region rather than a fleet, or one response length rather than a service distribution. Measurement is valuable, but only when the numerator and denominator travel with it.</p>
+</div>
+
+<div class="myth-card">
+  <h3 id="myth-efficiency-will-solve-it">Myth 6: Efficiency improvements will automatically reduce total impact</h3>
+  <p><strong>Verdict: efficiency is necessary, not sufficient.</strong></p>
+  <p>Cheaper computation can increase demand, a family of effects often discussed under the rebound effect or Jevons paradox. Evidence for economy-wide “backfire” is context-dependent and debated, so it should not be invoked as an iron law.<sup class="ref"><a href="#src-21">[21]</a></sup> For AI, the mechanism is plausible and already visible: lower cost enables more users, longer contexts, richer media, and autonomous agents. Total impact falls only when efficiency gains outpace growth in the amount and intensity of use.</p>
+</div>
+
+<div class="myth-card">
+  <h3 id="myth-renewables-erase-impact">Myth 7: Renewable procurement erases the physical footprint</h3>
+  <p><strong>Verdict: false, although good procurement can materially improve the system.</strong></p>
+  <p>Clean-energy contracts can add generation, reduce market-based emissions, and accelerate investment. They do not manufacture chips without materials, cool facilities without water, or guarantee carbon-free electricity in every operating hour. Location-based and market-based accounts should be presented together, not chosen according to which looks better.<sup class="ref"><a href="#src-12">[12]</a></sup><sup class="ref"><a href="#src-15">[15]</a></sup></p>
+</div>
+
+<div class="myth-card">
+  <h3 id="myth-ai-is-only-an-environmental-cost">Myth 8: AI is only an environmental burden, or AI will solve climate change</h3>
+  <p><strong>Verdict: both extremes are category errors.</strong></p>
+  <p>AI can improve forecasting, grid operations, industrial control, materials discovery, logistics, and monitoring. The IEA estimates that documented AI-enabled applications could save more than 13 exajoules of energy in 2035 if barriers to adoption are overcome.<sup class="ref"><a href="#src-1">[1]</a></sup> Benefits are not automatic and may be offset by deployment, rebound, or poorly chosen applications. The relevant comparison is the full marginal impact of an intervention against the counterfactual without it.</p>
+</div>
+
+<blockquote><p>The most durable truth is methodological: whenever someone offers one number for “AI,” ask which model, which task, which boundary, which place, which time, and which accounting rule.</p></blockquote>
+<h2 id="the-future-is-a-fan">The future is a fan, not a line</h2>
+<p>Predictions about AI's environmental impact are unusually fragile because several fast-moving variables multiply rather than add. Compute per task may fall sharply. Demand may rise even faster. Models may become more specialized, or they may shift toward expensive reasoning and multimodal agents. Grids may decarbonize, or rapid load growth may keep fossil generation online. Water-saving cooling may spread, or facilities may cluster in stressed regions. Transparency may improve, or proprietary systems may remain opaque.</p>
+
+<p>For that reason, the following are scenarios, not point forecasts. They describe coherent directions that can coexist in different countries and companies.</p>
+
+<h3 id="scenario-the-efficiency-dividend">Scenario A: the efficiency dividend</h3>
+
+<p>Hardware improves, compact models become capable enough for most routine tasks, and routing systems send each request to the smallest suitable model. Quantization, caching, speculative decoding, and higher utilization reduce energy per useful output. Data centres disclose workload-level energy and carbon. Flexible training follows periods of abundant low-carbon electricity. In this world, AI service grows rapidly while electricity growth remains manageable.</p>
+
+<p>There is evidence for the mechanisms. Per-task energy has already fallen quickly in leading systems, and optimized inference can reduce energy substantially.<sup class="ref"><a href="#src-1">[1]</a></sup><sup class="ref"><a href="#src-9">[9]</a></sup> The uncertainty is behavioural: whether efficiency is banked as lower impact or spent on more intensive products.</p>
+
+<h3 id="scenario-the-agentic-expansion">Scenario B: the agentic expansion</h3>
+
+<p>Simple chat becomes only the entry point. Systems plan, browse, generate media, run simulations, call other models, and repeat actions until a goal is reached. A user-visible request triggers hundreds of hidden inference steps. Video and synthetic data expand. Efficiency per operation improves, but operations per task and tasks per person grow faster.</p>
+
+<p>The IEA warns that reasoning, agentic work, and video generation can require hundreds or thousands of times more energy per query than simple text generation.<sup class="ref"><a href="#src-1">[1]</a></sup> This scenario is the clearest route to demand exceeding central forecasts after 2030. It also makes “per prompt” an obsolete metric because one prompt may launch an entire computational workflow.</p>
+
+<h3 id="scenario-the-grid-constrained-boom">Scenario C: the grid-constrained boom</h3>
+
+<p>Investment remains high, but transformers, transmission, generation, memory, and permitting become limiting. Projects wait in connection queues or build dedicated gas generation. Electricity systems overbuild for uncertain future load. Some regions welcome jobs and tax revenue; others resist water use, land demands, pollution, and cost shifting.</p>
+
+<p>The IEA's 2026 outlook already identifies near-term bottlenecks and a possible 15 to 27 gigawatts of on-site natural-gas generation for data centres by 2030, mostly in the United States.<sup class="ref"><a href="#src-1">[1]</a></sup> The environmental result would depend on whether temporary fossil supply becomes locked-in infrastructure, and whether data centres provide flexibility or insist on inflexible priority service.</p>
+
+<h3 id="scenario-the-accountable-compute-economy">Scenario D: the accountable compute economy</h3>
+
+<p>Governments and customers require standardized reporting of energy, water, carbon, hardware, and service-level efficiency. Environmental labels resemble nutrition labels: not a moral verdict, but comparable information. Procurement contracts include hourly carbon matching, water-stress safeguards, hardware durability, and community benefit agreements. Model providers expose energy-aware settings and default to proportional computation.</p>
+
+<p>The European reporting framework for data centres is an early institutional version of this trajectory.<sup class="ref"><a href="#src-20">[20]</a></sup> Measurement standards such as MLPerf Power provide a technical foundation.<sup class="ref"><a href="#src-13">[13]</a></sup> The difficult step is connecting facility metrics to specific AI services without revealing sensitive operational data or encouraging misleading optimization around a narrow score.</p>
+
+<h3 id="a-likely-mixed-world">A likely mixed world</h3>
+
+<p>The most probable future is not one scenario winning everywhere. Large frontier systems may become more energy-intensive while small local models become dramatically cheaper. Some grids may absorb data centres with abundant low-carbon power; others may add gas. Some applications may produce environmental benefits much larger than their footprint; others may generate disposable content at industrial scale. Global averages will become less informative as differences between workloads and locations widen.</p>
+
+<p>Confidence is highest in three directional predictions. First, per-task efficiency will continue to improve, although not at a guaranteed constant rate. Second, total data-centre electricity demand will rise substantially through 2030 under most credible scenarios. Third, transparency and local infrastructure politics will become as important as model architecture. Confidence is lower in the exact split between training and inference, the pace of agent adoption, and the degree of rebound after 2030.</p>
+<h2 id="what-we-still-do-not-know">What we still do not know</h2>
+<p>The strongest conclusion in this field is that uncertainty is structural, not merely temporary. Proprietary providers rarely publish enough workload, hardware, utilization, and facility data to reproduce service-level estimates. Even when figures are disclosed, methods differ. One report may count only direct electricity. Another includes cooling and idle capacity. A lifecycle study may allocate hardware impacts by time, computation, or revenue. Water may mean withdrawal, consumption, direct cooling, or a full supply-chain footprint.</p>
+
+<p>Future demand is even harder. Forecasts require assumptions about chip shipments, utilization, model architectures, inference volume, equipment lifetimes, grid connections, and efficiency. The Lawrence Berkeley National Laboratory's 2030 United States range of 521 to 843 terawatt-hours is wide because plausible changes in these inputs compound.<sup class="ref"><a href="#src-3">[3]</a></sup> The IEA likewise maintains multiple scenarios and revises them as market and engineering conditions change.<sup class="ref"><a href="#src-1">[1]</a></sup></p>
+
+<h3 id="the-missing-data">The missing data</h3>
+
+<p>Public evidence remains weakest in several places: the environmental cost of proprietary frontier-model development, the distribution of real-world inference tasks, the energy of long-running agents, chip and memory supply chains, facility-level water use in stressed basins, and the end-of-life fate of rapidly replaced accelerators. Company-wide sustainability reports cannot isolate these questions. A model card cannot describe an entire service. A per-query measurement cannot reveal capital expansion.</p>
+
+<p>There is also no universally accepted way to allocate shared infrastructure. If a cluster serves search, advertising, cloud customers, and AI, how much belongs to each? If a model is released openly and reused by thousands of organizations, should training be allocated to the original developer, to downstream users, or amortized across all uses? Different answers serve different policy purposes.</p>
+
+<h3 id="uncertainty-is-not-ignorance">Uncertainty is not ignorance</h3>
+
+<p>Uncertainty does not mean that nothing is known. The direction of global data-centre electricity demand is upward. Workload choice matters. Location and time affect carbon. Cooling and electricity affect water. Hardware manufacture is non-zero. Efficiency is improving. Local impacts can be large. The uncertainty concerns magnitude, allocation, and future pathways.</p>
+
+<p>A responsible article therefore distinguishes measurements from models, company reports from independent studies, global averages from local conditions, and scenarios from predictions. Scientific honesty is not the absence of conclusions. It is the calibration of each conclusion to the evidence that can actually support it.</p>
+<h2 id="what-responsible-use-looks-like">What responsible use looks like</h2>
+<p>Environmental responsibility does not require pretending that every AI use is frivolous, nor treating every generated token as harmless. It requires proportionality. The computation devoted to a task should be commensurate with the value, accuracy, urgency, and complexity of the outcome.</p>
+
+<h3 id="for-users">For users</h3>
+
+<p>The largest personal lever is not ritualistic guilt over every prompt. It is avoiding high-cost generation that has little value, especially repeated media generation, unnecessarily long outputs, and autonomous workflows that continue without oversight. Clear requests can reduce retries. Asking for a concise answer when concision is genuinely sufficient reduces output tokens. Reusing a good result can be better than regenerating near-identical variants.</p>
+
+<p>These actions should be kept in proportion. One person's shorter answer cannot compensate for infrastructure powered by high-carbon electricity or poorly governed siting. User choices matter as demand signals and at scale, not as a substitute for provider responsibility.</p>
+
+<h3 id="for-developers-and-organisations">For developers and organisations</h3>
+
+<p>Use the smallest system that meets a measured quality threshold. Route simple tasks to compact models and escalate only when needed. Cache common results. Measure joules per successful task, not merely tokens per second. Include idle capacity and facility overhead. Schedule flexible work by carbon and water conditions. Evaluate whether an AI system replaces a more or less resource-intensive process rather than comparing it with doing nothing.</p>
+
+<p>Environmental evaluation should be part of model evaluation, alongside accuracy, latency, safety, and cost. The serving study at Google scale is instructive because it attempts full-stack production measurement rather than estimating from accelerator specifications alone.<sup class="ref"><a href="#src-18">[18]</a></sup> Its company authorship and specific infrastructure limit generalization, but the measurement boundary is a useful precedent.</p>
+
+<h3 id="for-providers">For providers</h3>
+
+<p>Disclose absolute electricity use, location-based and market-based emissions, water withdrawal and consumption, local water stress, hardware lifecycle assumptions, and representative workload distributions. Publish medians and tails. A median text prompt says little about the upper tail of video, reasoning, or agentic use. State whether reported figures include idle capacity, CPUs, networking, storage, cooling, development, and hardware.</p>
+
+<p>Offer environmental controls as product features. A “fast and efficient” mode can use a smaller model and shorter reasoning. Non-urgent batch work can be delayed to cleaner periods. Customers can be shown the difference between text, image, and video workloads without pretending that one universal conversion is possible.</p>
+
+<h3 id="for-policy-makers-and-communities">For policymakers and communities</h3>
+
+<p>Require comparable, site-level reporting while protecting legitimate security and commercial interests. Make developers bear the costs of dedicated grid and water infrastructure when those costs are caused by their projects. Evaluate peak demand, not only annual totals. Protect households and existing industries from speculative overbuilding. Reward flexible connections, reclaimed water where appropriate, heat reuse, and additional clean generation that is temporally and geographically credible.</p>
+
+<p>Communities need more than a corporate global water-positive or carbon-neutral pledge. They need to know the project's local withdrawal, consumption, drought plan, backup generation, emissions, noise, land use, jobs, tax effects, and grid cost allocation. Environmental justice begins where aggregate sustainability reports end.</p>
+
+<div class="principle-box"><strong>A practical hierarchy</strong><p>First avoid computation with little value. Then right-size the model and output. Then optimize software and hardware. Then run it at a cleaner time and place. Finally, examine the full system effect, including rebound and the activity the AI changes or replaces.</p></div>
+<h2 id="the-question-behind-the-question">The question behind the question</h2>
+<p>Asking whether generative AI is “bad for the environment” sounds direct, but it compresses too many decisions into a moral adjective. A medical model that prevents waste, a grid controller that integrates renewable power, a student generating disposable images, and an agent running thousands of speculative actions are not the same environmental proposition. Neither are two identical prompts served from different models on different grids.</p>
+
+<p>The evidence supports neither complacency nor apocalypse. A simple text query in an efficient modern service can have a small marginal footprint. The infrastructure needed to serve a rapidly expanding universe of models and applications can still reshape electricity systems, water planning, industrial supply chains, and local politics. Efficiency can soften growth without guaranteeing that total demand falls. Clean-energy procurement can improve the system without making physical impacts vanish. AI can supp
