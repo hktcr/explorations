@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "byggd": "2026-08-02T12:00:00Z",
+  "byggd": "2026-08-02T19:18:32Z",
   "artiklar": [
     {
       "slug": "adhd-explained",
@@ -318,6 +318,27 @@
       ]
     },
     {
+      "slug": "nazca-lines",
+      "titel": "The Desert Was Meant to Be Walked",
+      "amne": "EXP#21 • Archaeology · Landscape · Belief",
+      "datum": "August 2, 2026",
+      "lastid": "≈ 29 min read",
+      "ord": 6616,
+      "avsnitt": 17,
+      "kallor": {
+        "totalt": 16,
+        "verifierade": 16
+      },
+      "nyckelord": [
+        "nazca",
+        "geoglyphs",
+        "ritual",
+        "landscape",
+        "water",
+        "archaeology"
+      ]
+    },
+    {
       "slug": "nordkalotten-flyttfaglar-radar",
       "titel": "The Invisible River: How Radar Revealed the High-Flying Nomads of the Arctic",
       "amne": "EXP#4 • Biology",
@@ -506,6 +527,18 @@
       ]
     },
     {
+      "a": "nazca-lines",
+      "b": "utomjordisk-kunskap",
+      "vikt": 0.126,
+      "termer": [
+        "extraterrestrial",
+        "evidence",
+        "mystery",
+        "explanation",
+        "sky"
+      ]
+    },
+    {
       "a": "climate-borders",
       "b": "origin-of-life",
       "vikt": 0.1237,
@@ -563,6 +596,18 @@
         "division",
         "copy",
         "reproduction"
+      ]
+    },
+    {
+      "a": "nazca-lines",
+      "b": "origin-of-life",
+      "vikt": 0.104,
+      "termer": [
+        "evidence",
+        "hypotheses",
+        "unknown",
+        "origins",
+        "inference"
       ]
     },
     {
@@ -626,6 +671,18 @@
       ]
     },
     {
+      "a": "nazca-lines",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "vikt": 0.092,
+      "termer": [
+        "birds",
+        "landscape",
+        "movement",
+        "view",
+        "remote-sensing"
+      ]
+    },
+    {
       "a": "adhd-explained",
       "b": "digital-biome",
       "vikt": 0.0905,
@@ -674,6 +731,18 @@
       ]
     },
     {
+      "a": "nazca-lines",
+      "b": "digital-biome",
+      "vikt": 0.084,
+      "termer": [
+        "patterns",
+        "landscape",
+        "networks",
+        "interpretation",
+        "AI"
+      ]
+    },
+    {
       "a": "agg-naring-och-myter",
       "b": "octopus-intelligence",
       "vikt": 0.0827,
@@ -719,6 +788,18 @@
         "possibility",
         "related",
         "chemistry"
+      ]
+    },
+    {
+      "a": "nazca-lines",
+      "b": "climate-borders",
+      "vikt": 0.076,
+      "termer": [
+        "landscape",
+        "water",
+        "movement",
+        "borders",
+        "human"
       ]
     },
     {
