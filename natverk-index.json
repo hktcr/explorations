@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "byggd": "2026-08-02T19:18:32Z",
+  "byggd": "2026-08-03T09:54:34Z",
   "artiklar": [
     {
       "slug": "adhd-explained",
@@ -420,6 +420,27 @@
         "teaching",
         "screens",
         "artificial-intelligence"
+      ]
+    },
+    {
+      "slug": "steel-cut-oat-porridge",
+      "titel": "The Jar That Cooks While You Travel",
+      "amne": "EXP#22 • Food · Nutrition · Travel",
+      "datum": "August 3, 2026",
+      "lastid": "≈ 31 min read",
+      "ord": 6131,
+      "avsnitt": 19,
+      "kallor": {
+        "totalt": 25,
+        "verifierade": 25
+      },
+      "nyckelord": [
+        "oats",
+        "beta-glucan",
+        "whole-grain",
+        "food-jar",
+        "porridge",
+        "nutrition"
       ]
     },
     {
@@ -896,6 +917,36 @@
         "culinary",
         "properties",
         "adding"
+      ]
+    },
+    {
+      "a": "agg-naring-och-myter",
+      "b": "steel-cut-oat-porridge",
+      "vikt": 0.241,
+      "termer": [
+        "nutrition",
+        "cholesterol",
+        "dietary"
+      ]
+    },
+    {
+      "a": "cranberries",
+      "b": "steel-cut-oat-porridge",
+      "vikt": 0.196,
+      "termer": [
+        "berries",
+        "fruit",
+        "sweetened"
+      ]
+    },
+    {
+      "a": "caesar-sallad",
+      "b": "steel-cut-oat-porridge",
+      "vikt": 0.121,
+      "termer": [
+        "food",
+        "meal",
+        "nutrition"
       ]
     }
   ]
