@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-exploration-id="EXP#16" lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="description" content="A source-verified exploration of cranberries: their history, biology, modern products, health evidence, risks, and myths.">
@@ -12,6 +12,7 @@
 </style>
 <link rel="stylesheet" href="../reader-settings.css">
 <script src="../reader-settings.js"></script>
+<link rel="stylesheet" href="../engagement/engagement.css" data-engagement-asset="style">
 </head>
 <body>
 <nav class="toolbar" aria-label="Reading tools"><a href="../index.html">← Library</a><input id="articleSearch" class="search" type="search" placeholder="Search in article..." aria-label="Search in article"><button id="fontToggle">Sans</button><button id="smaller">A-</button><button id="reset">Reset</button><button id="larger">A+</button></nav><div id="popup" class="popup" aria-live="polite"></div>
@@ -89,4 +90,5 @@ const body=document.body, root=document.documentElement, content=document.queryS
 document.getElementById('fontToggle').onclick=()=>{body.classList.toggle('sans');document.getElementById('fontToggle').textContent=body.classList.contains('sans')?'Serif':'Sans'};document.getElementById('larger').onclick=()=>{size=Math.min(24,size+1);body.style.fontSize=size+'px'};document.getElementById('smaller').onclick=()=>{size=Math.max(14,size-1);body.style.fontSize=size+'px'};document.getElementById('reset').onclick=()=>{size=18;body.style.fontSize='18px';body.classList.remove('sans');document.getElementById('fontToggle').textContent='Sans'};
 const original=content.innerHTML;input.addEventListener('input',()=>{const q=input.value.trim();content.innerHTML=original;popup.classList.remove('show');if(q.length<2)return;const walker=document.createTreeWalker(content,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);let count=0;const snippets=[];const re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');nodes.forEach(n=>{if(['SCRIPT','STYLE'].includes(n.parentElement.tagName))return;const text=n.nodeValue;if(!re.test(text))return;re.lastIndex=0;const frag=document.createDocumentFragment();let last=0,m;while((m=re.exec(text))&&count<200){frag.append(text.slice(last,m.index));const mark=document.createElement('mark');mark.textContent=m[0];frag.append(mark);last=m.index+m[0].length;count++;if(snippets.length<12)snippets.push(text.slice(Math.max(0,m.index-45),Math.min(text.length,m.index+q.length+70)));}frag.append(text.slice(last));n.replaceWith(frag)});popup.innerHTML='<strong>'+count+' match'+(count===1?'':'es')+'</strong>'+snippets.map(s=>'<p>'+s.replace(/</g,'&lt;')+'</p>').join('');if(count)popup.classList.add('show')});
 </script>
+<script type="module" src="../engagement/engagement.js" data-engagement-asset="runtime"></script>
 </body></html>

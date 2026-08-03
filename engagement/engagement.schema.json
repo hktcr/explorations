@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hktcr.github.io/explorations/engagement/engagement.schema.json",
+  "title": "Explorations public engagement projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "generatedAt", "policy", "integrations", "articles"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["readingEvidence", "publication", "readwise"],
+      "properties": {
+        "readingEvidence": { "const": "explicit-user-confirmation" },
+        "publication": { "const": "explicit-public-projection-only" },
+        "readwise": { "const": "metadata-only-no-raw-highlights" }
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["readwise"],
+      "properties": {
+        "readwise": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["adapter", "status"],
+          "properties": {
+            "adapter": { "const": "readwise-metadata-v1" },
+            "status": { "const": "not-configured" }
+          }
+        }
+      }
+    },
+    "articles": {
+      "type": "object",
+      "propertyNames": { "pattern": "^EXP#[1-9][0-9]*$" },
+      "additionalProperties": { "$ref": "#/$defs/article" }
+    }
+  },
+  "$defs": {
+    "publication": {
+      "type": "object",
+      "properties": {
+        "visibility": { "const": "public" },
+        "publicationStatus": { "const": "published" }
+      }
+    },
+    "reading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confirmed", "confirmedAt", "evidence", "visibility", "publicationStatus"],
+      "properties": {
+        "confirmed": { "const": true },
+        "confirmedAt": { "type": "string", "format": "date-time" },
+        "evidence": { "const": "explicit-user-confirmation" },
+        "visibility": { "const": "public" },
+        "publicationStatus": { "const": "published" }
+      }
+    },
+    "reflection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "body", "visibility", "publicationStatus"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["user-comment", "joint-reflection"] },
+        "body": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "publishedAt": { "type": "string", "format": "date-time" },
+        "authorLabel": { "type": "string", "minLength": 1 },
+        "articleAnchor": { "type": "string", "minLength": 1 },
+        "visibility": { "const": "public" },
+        "publicationStatus": { "const": "published" }
+      }
+    },
+    "readwiseReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "kind", "title", "authors", "evidenceStatus", "visibility", "publicationStatus"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "source": { "const": "readwise" },
+        "kind": { "enum": ["book", "article", "document", "podcast", "other"] },
+        "title": { "type": "string", "minLength": 1 },
+        "authors": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "canonicalUrl": { "type": "string", "format": "uri", "pattern": "^https?://" },
+        "relevanceSummary": { "type": "string", "minLength": 1 },
+        "highlightCount": { "type": "integer", "minimum": 0 },
+        "evidenceStatus": { "enum": ["unverified", "original-checked"] },
+        "visibility": { "const": "public" },
+        "publicationStatus": { "const": "published" }
+      }
+    },
+    "article": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "reading", "reflections", "readwiseReferences"],
+      "properties": {
+        "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "reading": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/reading" }] },
+        "reflections": { "type": "array", "items": { "$ref": "#/$defs/reflection" } },
+        "readwiseReferences": { "type": "array", "items": { "$ref": "#/$defs/readwiseReference" } }
+      }
+    }
+  }
+}
