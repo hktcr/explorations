@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "byggd": "2026-08-03T10:06:47.943Z",
+  "byggd": "2026-08-03T10:09:08Z",
   "artiklar": [
     {
       "slug": "adhd-explained",
@@ -231,6 +231,27 @@
         "parasitism",
         "unguided",
         "synthetic"
+      ]
+    },
+    {
+      "slug": "disengaged-teen",
+      "titel": "The Obedient Student May Already Have Left",
+      "amne": "EXP#24 • Education · Motivation · Adolescence",
+      "datum": "August 3, 2026",
+      "lastid": "≈ 34 min read",
+      "ord": 7186,
+      "avsnitt": 17,
+      "kallor": {
+        "totalt": 27,
+        "verifierade": 27
+      },
+      "nyckelord": [
+        "engagement",
+        "agency",
+        "explorer",
+        "autonomy",
+        "motivation",
+        "adolescence"
       ]
     },
     {
@@ -531,6 +552,30 @@
       ]
     },
     {
+      "a": "ai-in-education",
+      "b": "disengaged-teen",
+      "vikt": 0.238,
+      "termer": [
+        "learning",
+        "agency",
+        "students",
+        "thinking",
+        "AI"
+      ]
+    },
+    {
+      "a": "disengaged-teen",
+      "b": "school-digitalisation",
+      "vikt": 0.229,
+      "termer": [
+        "school",
+        "students",
+        "teaching",
+        "technology",
+        "agency"
+      ]
+    },
+    {
       "a": "cranberries",
       "b": "steel-cut-oat-porridge",
       "vikt": 0.196,
@@ -550,6 +595,30 @@
         "temporary",
         "choice",
         "services"
+      ]
+    },
+    {
+      "a": "adhd-explained",
+      "b": "disengaged-teen",
+      "vikt": 0.174,
+      "termer": [
+        "attention",
+        "motivation",
+        "school",
+        "agency",
+        "executive"
+      ]
+    },
+    {
+      "a": "assessment-validity-reliability",
+      "b": "disengaged-teen",
+      "vikt": 0.162,
+      "termer": [
+        "assessment",
+        "measurement",
+        "grades",
+        "validity",
+        "students"
       ]
     },
     {
@@ -755,18 +824,6 @@
       ]
     },
     {
-      "a": "nazca-lines",
-      "b": "nordkalotten-flyttfaglar-radar",
-      "vikt": 0.092,
-      "termer": [
-        "birds",
-        "landscape",
-        "movement",
-        "view",
-        "remote-sensing"
-      ]
-    },
-    {
       "a": "jotunheimen",
       "b": "muskoxen-norway",
       "vikt": 0.092,
@@ -776,6 +833,18 @@
         "wildlife",
         "glacial",
         "landscape"
+      ]
+    },
+    {
+      "a": "nazca-lines",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "vikt": 0.092,
+      "termer": [
+        "birds",
+        "landscape",
+        "movement",
+        "view",
+        "remote-sensing"
       ]
     },
     {
