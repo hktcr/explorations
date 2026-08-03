@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "byggd": "2026-08-03T09:54:34Z",
+  "byggd": "2026-08-03T10:04:25.868Z",
   "artiklar": [
     {
       "slug": "adhd-explained",
@@ -276,6 +276,27 @@
       ]
     },
     {
+      "slug": "jotunheimen",
+      "titel": "The mountains are older than their shape",
+      "amne": "EXP#22 • Geology · Ecology · Culture",
+      "datum": "August 3, 2026",
+      "lastid": "≈ 19 min read",
+      "ord": 3687,
+      "avsnitt": 17,
+      "kallor": {
+        "totalt": 24,
+        "verifierade": 24
+      },
+      "nyckelord": [
+        "jotunheimen",
+        "geology",
+        "glaciers",
+        "mountains",
+        "archaeology",
+        "hiking"
+      ]
+    },
+    {
       "slug": "krebs-cycle",
       "titel": "The Invisible Engine: How Life Catches Fire",
       "amne": "EXP#2 • Biochemistry · Evolutionary Biology",
@@ -500,6 +521,26 @@
       ]
     },
     {
+      "a": "agg-naring-och-myter",
+      "b": "steel-cut-oat-porridge",
+      "vikt": 0.241,
+      "termer": [
+        "nutrition",
+        "cholesterol",
+        "dietary"
+      ]
+    },
+    {
+      "a": "cranberries",
+      "b": "steel-cut-oat-porridge",
+      "vikt": 0.196,
+      "termer": [
+        "berries",
+        "fruit",
+        "sweetened"
+      ]
+    },
+    {
       "a": "ai-environmental-impact",
       "b": "climate-borders",
       "vikt": 0.1891,
@@ -581,6 +622,16 @@
         "automated",
         "text",
         "code"
+      ]
+    },
+    {
+      "a": "caesar-sallad",
+      "b": "steel-cut-oat-porridge",
+      "vikt": 0.121,
+      "termer": [
+        "food",
+        "meal",
+        "nutrition"
       ]
     },
     {
@@ -680,6 +731,18 @@
       ]
     },
     {
+      "a": "jotunheimen",
+      "b": "nazca-lines",
+      "vikt": 0.095,
+      "termer": [
+        "archaeology",
+        "landscape",
+        "walking",
+        "routes",
+        "water"
+      ]
+    },
+    {
       "a": "agg-naring-och-myter",
       "b": "cranberries",
       "vikt": 0.0946,
@@ -704,6 +767,18 @@
       ]
     },
     {
+      "a": "jotunheimen",
+      "b": "muskoxen-norway",
+      "vikt": 0.092,
+      "termer": [
+        "norway",
+        "mountains",
+        "wildlife",
+        "glacial",
+        "landscape"
+      ]
+    },
+    {
       "a": "adhd-explained",
       "b": "digital-biome",
       "vikt": 0.0905,
@@ -725,6 +800,18 @@
         "north",
         "farms",
         "wind"
+      ]
+    },
+    {
+      "a": "climate-borders",
+      "b": "jotunheimen",
+      "vikt": 0.085,
+      "termer": [
+        "climate",
+        "glaciers",
+        "weather",
+        "retreat",
+        "water"
       ]
     },
     {
@@ -872,6 +959,18 @@
       ]
     },
     {
+      "a": "jotunheimen",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "vikt": 0.07,
+      "termer": [
+        "birds",
+        "migration",
+        "mountains",
+        "weather",
+        "norway"
+      ]
+    },
+    {
       "a": "nordkalotten-flyttfaglar-radar",
       "b": "utomjordisk-kunskap",
       "vikt": 0.0691,
@@ -917,36 +1016,6 @@
         "culinary",
         "properties",
         "adding"
-      ]
-    },
-    {
-      "a": "agg-naring-och-myter",
-      "b": "steel-cut-oat-porridge",
-      "vikt": 0.241,
-      "termer": [
-        "nutrition",
-        "cholesterol",
-        "dietary"
-      ]
-    },
-    {
-      "a": "cranberries",
-      "b": "steel-cut-oat-porridge",
-      "vikt": 0.196,
-      "termer": [
-        "berries",
-        "fruit",
-        "sweetened"
-      ]
-    },
-    {
-      "a": "caesar-sallad",
-      "b": "steel-cut-oat-porridge",
-      "vikt": 0.121,
-      "termer": [
-        "food",
-        "meal",
-        "nutrition"
       ]
     }
   ]
