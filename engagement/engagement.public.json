@@ -1,0 +1,17 @@
+{
+  "$schema": "./engagement.schema.json",
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-03T00:00:00.000Z",
+  "policy": {
+    "readingEvidence": "explicit-user-confirmation",
+    "publication": "explicit-public-projection-only",
+    "readwise": "metadata-only-no-raw-highlights"
+  },
+  "integrations": {
+    "readwise": {
+      "adapter": "readwise-metadata-v1",
+      "status": "not-configured"
+    }
+  },
+  "articles": {}
+}

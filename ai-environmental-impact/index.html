@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="violet">
+<html data-exploration-id="EXP#17" lang="en" data-theme="violet">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="../reader-settings.css">
 <script src="../reader-settings.js"></script>
+<link rel="stylesheet" href="../engagement/engagement.css" data-engagement-asset="style">
 </head><body data-has-narration="false"><div id="articleRoot" aria-live="polite"></div><script>
 (async()=>{const files=['content-1.html','content-2.html','content-3.html','content-4.html','content-5.html'];const chunks=await Promise.all(files.map(async f=>{const r=await fetch(f);if(!r.ok)throw new Error(f);return r.text()}));document.getElementById('articleRoot').outerHTML=chunks.join('');const s=document.createElement('script');s.src='app.js';s.onload=()=>document.dispatchEvent(new Event('DOMContentLoaded'));document.body.appendChild(s)})().catch(e=>{document.getElementById('articleRoot').textContent='Article could not be loaded.';console.error(e)});
-</script></body></html>
+</script><script type="module" src="../engagement/engagement.js" data-engagement-asset="runtime"></script>
+</body></html>
