@@ -457,7 +457,14 @@ class ReflectionSurface {
   }
 
   installEvents() {
-    this.trigger.addEventListener("click", () => this.panel.hidden ? this.openPanel() : this.closePanel());
+    this.trigger.addEventListener("pointerdown", () => this.readSelection({ preserve: true }));
+    this.trigger.addEventListener("click", () => {
+      if (!this.selectionAction.hidden && this.selectionSnapshot && !this.selectionSnapshot.error) {
+        this.useSelection();
+        return;
+      }
+      this.panel.hidden ? this.openPanel() : this.closePanel();
+    });
     this.closeButton.addEventListener("click", () => this.closePanel(true));
     this.selectionAction.addEventListener("click", () => this.useSelection());
     this.exportButton.addEventListener("click", () => this.openExport());
@@ -474,14 +481,22 @@ class ReflectionSurface {
       tabs[next].focus();
     });
 
-    let selectionTimer;
-    const queueSelection = () => {
-      clearTimeout(selectionTimer);
-      selectionTimer = setTimeout(() => this.readSelection(), 80);
+    let selectionTimers = [];
+    const queueSelection = (delays = [60, 220, 520]) => {
+      selectionTimers.forEach(clearTimeout);
+      selectionTimers = delays.map(delay => setTimeout(() => this.readSelection({ preserve: true }), delay));
     };
-    document.addEventListener("selectionchange", queueSelection);
-    this.root.addEventListener("pointerup", queueSelection);
-    this.root.addEventListener("touchend", () => setTimeout(queueSelection, 180), { passive: true });
+    document.addEventListener("selectionchange", () => queueSelection());
+    document.addEventListener("contextmenu", () => queueSelection([80, 280, 700, 1200]));
+    this.root.addEventListener("pointerup", () => queueSelection([40, 180, 420, 900]));
+    this.root.addEventListener("touchend", () => queueSelection([120, 320, 700, 1200]), { passive: true });
+    document.addEventListener("pointerdown", event => {
+      if (event.target.closest?.("#xr-selection-action, #xr-trigger, #xr-panel, .xr-dialog")) return;
+      const selection = document.getSelection();
+      if (selection && !selection.isCollapsed) return;
+      this.selectionSnapshot = null;
+      this.selectionAction.hidden = true;
+    }, { capture: true });
     document.addEventListener("keydown", event => {
       if (event.key === "Escape" && !this.panel.hidden && !this.exportDialog.open && !this.importDialog.open) this.closePanel(true);
       if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === "r") {
@@ -569,20 +584,25 @@ class ReflectionSurface {
     this.tabReflections.tabIndex = comments ? -1 : 0;
   }
 
-  readSelection() {
+  readSelection({ preserve = false } = {}) {
     if (this.exportDialog.open || this.importDialog.open || !this.root.isConnected) return;
     const captured = captureSelection(this.root, this.article, this.registryEntry);
     if (!captured) {
+      if (preserve && this.selectionSnapshot) return;
       this.selectionSnapshot = null;
       this.selectionAction.hidden = true;
       return;
     }
     this.selectionSnapshot = captured;
     if (captured.error) {
-      this.selectionAction.hidden = true;
+      this.selectionAction.textContent = "Markera inom ett stycke";
+      this.selectionAction.disabled = true;
+      this.selectionAction.hidden = false;
       this.announce(captured.error, true);
       return;
     }
+    this.selectionAction.textContent = "Kommentera markering";
+    this.selectionAction.disabled = false;
     this.selectionAction.hidden = false;
     if (captured.rect?.width || captured.rect?.height) {
       this.selectionAction.style.setProperty("--xr-selection-x", `${Math.max(12, Math.min(window.innerWidth - 190, captured.rect.left + captured.rect.width / 2))}px`);
