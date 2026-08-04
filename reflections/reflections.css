@@ -902,7 +902,16 @@ body.xr-dialog-open {
   }
 }
 
-@media (pointer: coarse) {
+@media (pointer: coarse), (any-pointer: coarse) {
+  #xr-selection-action,
+  .xr-selection-action {
+    top: auto;
+    right: auto;
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   #xr-trigger,
   #xr-selection-action,
   .xr-selection-action,
