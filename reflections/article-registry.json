@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "registryId": "explorations-reflections-articles",
+  "defaults": {
+    "rootSelector": "main article",
+    "blockSelector": "p, li, blockquote, td, th, figcaption",
+    "sectionSelector": "h2[id], h3[id]",
+    "excludedSelector": ".toc, .sources, .sources-section, .related-explorations, [data-xr-exclude]",
+    "metaSelector": ".meta",
+    "language": "en"
+  },
+  "articles": [
+    {
+      "id": "EXP#1",
+      "slug": "octopus-intelligence",
+      "title": "Nine Brains and a Dream",
+      "path": "octopus-intelligence/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#2",
+      "slug": "krebs-cycle",
+      "title": "The Invisible Engine: How Life Catches Fire",
+      "path": "krebs-cycle/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#3",
+      "slug": "digital-biome",
+      "title": "The Digital Biome: Field Notes from an AI Ecologist",
+      "path": "digital-biome/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#4",
+      "slug": "nordkalotten-flyttfaglar-radar",
+      "title": "The Invisible River: How Radar Revealed the High-Flying Nomads of the Arctic",
+      "path": "nordkalotten-flyttfaglar-radar/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#5",
+      "slug": "utomjordisk-kunskap",
+      "title": "The Anatomy of a Cosmic Secret: Why Hiding Extraterrestrial Contact is Mathematically Impossible",
+      "path": "utomjordisk-kunskap/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#6",
+      "slug": "agg-naring-och-myter",
+      "title": "The Egg: Evolution's Survival Pill and Science's Greatest Misunderstanding",
+      "path": "agg-naring-och-myter/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#7",
+      "slug": "adhd-explained",
+      "title": "The Hunter’s Radar in a Factory World: What ADHD Really Is",
+      "path": "adhd-explained/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#8",
+      "slug": "egg-coagulation-lab",
+      "title": "The Thermal Ballet of Egg Proteins: Molecular Kinetics, Culinary Physics, and Pedagogical Inquiry",
+      "path": "egg-coagulation-lab/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#9",
+      "slug": "caesar-sallad",
+      "title": "The Theatrical Illusion of the Caesar Salad",
+      "path": "caesar-sallad/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#10",
+      "slug": "assessment-validity-reliability",
+      "title": "The Architecture of Judgment: Why Perfect Fairness in Testing is a Mathematical Utopia",
+      "path": "assessment-validity-reliability/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#11",
+      "slug": "muskoxen-norway",
+      "title": "The Exile and the Emperor: How the Ice Age Muskox Returned to Norway",
+      "path": "muskoxen-norway/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#12",
+      "slug": "dark-matter-dark-energy",
+      "title": "The Unseen Architecture: Dark Matter, Dark Energy, and the Deepening Questions of Modern Cosmology",
+      "path": "dark-matter-dark-energy/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#13",
+      "slug": "cellular-respiration-demystified",
+      "title": "The Engine of Life: Demystifying Cellular Respiration",
+      "path": "cellular-respiration-demystified/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#14",
+      "slug": "ai-in-education",
+      "title": "The Architect and the Crutch: How Generative AI Is Reshaping Human Learning",
+      "path": "ai-in-education/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#15",
+      "slug": "origin-of-life",
+      "title": "The Long Dawn",
+      "path": "origin-of-life/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#16",
+      "slug": "cranberries",
+      "title": "The Red Paradox",
+      "path": "cranberries/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#17",
+      "slug": "ai-environmental-impact",
+      "title": "The Invisible Appetite",
+      "path": "ai-environmental-impact/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "async-fragments"
+    },
+    {
+      "id": "EXP#18",
+      "slug": "climate-borders",
+      "title": "The Border Does Not Stop the Climate",
+      "path": "climate-borders/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#19",
+      "slug": "what-is-sex",
+      "title": "The answer depends on the question",
+      "path": "what-is-sex/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#20",
+      "slug": "school-digitalisation",
+      "title": "The screen was not the strategy",
+      "path": "school-digitalisation/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#21",
+      "slug": "nazca-lines",
+      "title": "The desert was meant to be walked",
+      "path": "nazca-lines/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#22",
+      "slug": "steel-cut-oat-porridge",
+      "title": "The jar that cooks while you travel",
+      "path": "steel-cut-oat-porridge/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#23",
+      "slug": "jotunheimen",
+      "title": "The mountains are older than their shape",
+      "path": "jotunheimen/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#24",
+      "slug": "disengaged-teen",
+      "title": "The obedient student may already have left",
+      "path": "disengaged-teen/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    },
+    {
+      "id": "EXP#25",
+      "slug": "djur-kloning",
+      "title": "The Mother Without a Mate: Cloning, Parthenogenesis, and Evolutionary Strategy",
+      "path": "djur-kloning/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
+    }
+  ]
+}

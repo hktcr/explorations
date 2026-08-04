@@ -9,7 +9,8 @@ import {
 const DATA_URL = new URL("./engagement.public.json", import.meta.url);
 const SVG = {
   read: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5c3.5-.8 6.3-.2 8.5 1.7 2.2-1.9 5-2.5 8.5-1.7v13c-3.3-.7-6-.2-8.5 1.5-2.5-1.7-5.2-2.2-8.5-1.5zM12 7.2V20"/></svg>',
-  reflection: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14v11H9l-4 4zM8 8h8M8 11.5h6"/></svg>'
+  reflection: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14v11H9l-4 4zM8 8h8M8 11.5h6"/></svg>',
+  readwise: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4.5h11v15l-5.5-3-5.5 3zM9 8h6M9 11h4"/></svg>'
 };
 
 function dateLabel(value) {
@@ -40,10 +41,41 @@ function markersFor(article) {
     const label = signals.reflectionCount === 1 ? "En publicerad kommentar eller reflektion" : `${signals.reflectionCount} publicerade kommentarer och reflektioner`;
     markers.append(iconMarker("reflection", label));
   }
+  if (signals.showReadwiseMarker) {
+    const label = signals.readwiseReferenceCount === 1 ? "En publicerad Readwise-källa" : `${signals.readwiseReferenceCount} publicerade Readwise-källor`;
+    markers.append(iconMarker("readwise", label));
+  }
   return markers;
 }
 
+function statusLegend() {
+  let legend = document.getElementById("explorations-status-legend");
+  if (!legend) {
+    legend = document.createElement("div");
+    legend.id = "explorations-status-legend";
+    legend.className = "engagement-status-legend xr-library-legend";
+    legend.lang = "sv";
+    legend.setAttribute("aria-label", "Statussymboler i biblioteket");
+    const search = document.querySelector(".search-container");
+    if (search) search.insertAdjacentElement("afterend", legend);
+  }
+  [
+    ["read", "Läst"],
+    ["reflection", "Publicerad reflektion"],
+    ["readwise", "Readwise-källa"]
+  ].forEach(([kind, label]) => {
+    if (legend.querySelector(`[data-engagement-legend="${kind}"]`)) return;
+    const item = document.createElement("span");
+    item.className = "engagement-status-legend__item";
+    item.dataset.engagementLegend = kind;
+    item.innerHTML = `${SVG[kind]}<span>${label}</span>`;
+    legend.append(item);
+  });
+  return legend;
+}
+
 function decorateLibrary(model) {
+  statusLegend();
   document.querySelectorAll(".article-card[data-exploration-id], .card[data-exploration-id]").forEach(card => {
     const article = articleForId(model, card.dataset.explorationId);
     if (!article) return;
@@ -166,8 +198,7 @@ function reflectionPanel(articleId, reflections, readwiseReferences) {
   trigger.className = "engagement-reflection-tab";
   trigger.setAttribute("aria-controls", panelId);
   trigger.setAttribute("aria-expanded", "false");
-  const surfaceCount = reflections.length + readwiseReferences.length;
-  trigger.innerHTML = `${SVG.reflection}<span>Reflektioner</span><span class="engagement-reflection-tab__count" aria-label="${surfaceCount} publicerade poster">${surfaceCount}</span>`;
+  trigger.innerHTML = `${SVG.reflection}<span>Publicerat</span><span class="engagement-reflection-tab__count" aria-label="${reflections.length} publicerade reflektioner">R ${reflections.length}</span><span class="engagement-reflection-tab__count" aria-label="${readwiseReferences.length} publicerade Readwise-källor">W ${readwiseReferences.length}</span>`;
 
   const closePanel = () => {
     panel.hidden = true;
@@ -204,7 +235,7 @@ function decorateArticle(model) {
 
   const render = () => {
     let awaitingAsyncArticle = false;
-    if ((signals.showReadMarker || signals.showReflectionMarker) && !document.querySelector(".engagement-markers--article")) {
+    if ((signals.showReadMarker || signals.showReflectionMarker || signals.showReadwiseMarker) && !document.querySelector(".engagement-markers--article")) {
       const meta = document.querySelector(".meta");
       if (meta) {
         const markers = markersFor(article);
@@ -247,6 +278,12 @@ async function start() {
   decorateLibrary(model);
   decorateArticle(model);
 }
+
+import("../reflections/reflections.js")
+  .then(module => module.startReflections())
+  .catch(error => {
+    console.warn("[Explorations] Det privata reflektionsspåret kunde inte laddas.", error);
+  });
 
 start().catch(error => {
   console.warn("[Explorations] Engagement layer was not loaded.", error);
