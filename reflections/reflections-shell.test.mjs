@@ -227,4 +227,20 @@ describe("förväntade runtime- och CSS-krokar", () => {
 
     required.forEach(([pattern, label]) => assert.match(source, pattern, `CSS saknar ${label}`));
   });
+
+  test("iPad-markering har fördröjda avläsningar och en synlig reservväg", async () => {
+    const runtime = await text("reflections/reflections.js");
+    const styles = await text("reflections/reflections.css");
+
+    assert.match(runtime, /addEventListener\(["']contextmenu["']/,
+      "iPad-runtimen ska läsa markeringen när Safaris markeringsmeny öppnas");
+    assert.match(runtime, /queueSelection\(\[80, 280, 700, 1200\]\)/,
+      "iPad-runtimen ska försöka igen medan Safari färdigställer markeringen");
+    assert.match(runtime, /readSelection\(\{ preserve: true \}\)/,
+      "en giltig iPad-markering ska bevaras när fokus flyttas till en knapp");
+    assert.match(runtime, /this\.trigger\.addEventListener\(["']pointerdown["']/,
+      "Kommentarer-knappen ska kunna fånga en markering som reservväg");
+    assert.match(styles, /@media\s*\(pointer:\s*coarse\),\s*\(any-pointer:\s*coarse\)[\s\S]*?#xr-selection-action[\s\S]*?bottom:/,
+      "markeringsknappen ska ligga synligt längst ned på pekskärmar även i liggande iPad-läge");
+  });
 });
