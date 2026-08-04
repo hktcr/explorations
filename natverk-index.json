@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "byggd": "2026-08-03T10:09:08Z",
+  "byggd": "2026-08-04T13:49:28.472Z",
   "artiklar": [
     {
       "slug": "adhd-explained",
@@ -84,6 +84,27 @@
         "mental",
         "mastery",
         "classroom"
+      ]
+    },
+    {
+      "slug": "ai-life-consciousness-system",
+      "titel": "The system that says “I”",
+      "amne": "EXP#26 • Artificial Intelligence • Systems • Consciousness",
+      "datum": "August 4, 2026",
+      "lastid": "≈ 43 min read",
+      "ord": 8436,
+      "avsnitt": 18,
+      "kallor": {
+        "totalt": 38,
+        "verifierade": 38
+      },
+      "nyckelord": [
+        "consciousness",
+        "intelligence",
+        "systemhood",
+        "agency",
+        "autopoiesis",
+        "functionalism"
       ]
     },
     {
@@ -1085,6 +1106,78 @@
         "culinary",
         "properties",
         "adding"
+      ]
+    },
+    {
+      "a": "ai-life-consciousness-system",
+      "b": "disengaged-teen",
+      "vikt": 0.2305,
+      "termer": [
+        "agency",
+        "learning",
+        "report",
+        "supports",
+        "evidence"
+      ]
+    },
+    {
+      "a": "ai-life-consciousness-system",
+      "b": "ai-environmental-impact",
+      "vikt": 0.2226,
+      "termer": [
+        "model",
+        "models",
+        "electricity",
+        "training",
+        "service"
+      ]
+    },
+    {
+      "a": "ai-life-consciousness-system",
+      "b": "school-digitalisation",
+      "vikt": 0.2128,
+      "termer": [
+        "access",
+        "learning",
+        "evidence",
+        "feedback",
+        "paper"
+      ]
+    },
+    {
+      "a": "ai-life-consciousness-system",
+      "b": "origin-of-life",
+      "vikt": 0.2115,
+      "termer": [
+        "life",
+        "organization",
+        "evidence",
+        "without",
+        "organized"
+      ]
+    },
+    {
+      "a": "ai-life-consciousness-system",
+      "b": "digital-biome",
+      "vikt": 0.1983,
+      "termer": [
+        "models",
+        "model",
+        "intelligence",
+        "artificial",
+        "human"
+      ]
+    },
+    {
+      "a": "ai-life-consciousness-system",
+      "b": "ai-in-education",
+      "vikt": 0.1596,
+      "termer": [
+        "learning",
+        "cognitive",
+        "human",
+        "language",
+        "text"
       ]
     }
   ]
