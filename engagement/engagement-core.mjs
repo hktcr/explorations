@@ -76,6 +76,7 @@ export function getArticleSignals(article) {
   return {
     showReadMarker: isConfirmedRead(article),
     showReflectionMarker: reflections.length > 0,
+    showReadwiseMarker: readwiseReferences.length > 0,
     showReflectionSurface: reflections.length > 0 || readwiseReferences.length > 0,
     reflectionCount: reflections.length,
     readwiseReferenceCount: readwiseReferences.length
