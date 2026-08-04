@@ -260,6 +260,16 @@
       "toolbarSelector": ".toolbar",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#26",
+      "slug": "ai-life-consciousness-system",
+      "title": "The system that says “I”",
+      "path": "ai-life-consciousness-system/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }
