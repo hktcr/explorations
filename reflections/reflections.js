@@ -226,12 +226,17 @@ function captureSelection(root, article, registryEntry) {
   }
 }
 
-function setButtonLabel(button, count) {
-  button.replaceChildren(iconBubble(), element("span", { className: "xr-trigger__label", text: "Kommentarer" }), element("span", {
+function setButtonLabel(button, count, selectionReady = false) {
+  const label = selectionReady ? "Kommentera markering" : "Kommentarer";
+  button.replaceChildren(iconBubble(), element("span", { className: "xr-trigger__label", text: label }), element("span", {
     className: "xr-count",
     text: String(count),
     "aria-label": `${count} lokala kommentarer`
   }));
+  button.classList.toggle("xr-trigger--selection", selectionReady);
+  button.dataset.selectionReady = String(selectionReady);
+  button.setAttribute("aria-label", selectionReady ? "Kommentera den markerade texten" : `${count} lokala kommentarer. Öppna reflektionsspåret.`);
+  button.title = selectionReady ? "Kommentera den markerade texten" : "Öppna kommentarer";
 }
 
 function formatDate(value) {
@@ -457,9 +462,12 @@ class ReflectionSurface {
   }
 
   installEvents() {
-    this.trigger.addEventListener("pointerdown", () => this.readSelection({ preserve: true }));
+    const captureBeforeToolbarAction = () => this.captureSelectionForToolbar();
+    this.trigger.addEventListener("pointerdown", captureBeforeToolbarAction);
+    this.trigger.addEventListener("touchstart", captureBeforeToolbarAction, { passive: true });
+    this.trigger.addEventListener("mousedown", captureBeforeToolbarAction);
     this.trigger.addEventListener("click", () => {
-      if (!this.selectionAction.hidden && this.selectionSnapshot && !this.selectionSnapshot.error) {
+      if (this.selectionSnapshot && !this.selectionSnapshot.error) {
         this.useSelection();
         return;
       }
@@ -496,6 +504,7 @@ class ReflectionSurface {
       if (selection && !selection.isCollapsed) return;
       this.selectionSnapshot = null;
       this.selectionAction.hidden = true;
+      this.updateTriggerState();
     }, { capture: true });
     document.addEventListener("keydown", event => {
       if (event.key === "Escape" && !this.panel.hidden && !this.exportDialog.open && !this.importDialog.open) this.closePanel(true);
@@ -588,9 +597,13 @@ class ReflectionSurface {
     if (this.exportDialog.open || this.importDialog.open || !this.root.isConnected) return;
     const captured = captureSelection(this.root, this.article, this.registryEntry);
     if (!captured) {
-      if (preserve && this.selectionSnapshot) return;
+      if (preserve && this.selectionSnapshot) {
+        this.updateTriggerState();
+        return;
+      }
       this.selectionSnapshot = null;
       this.selectionAction.hidden = true;
+      this.updateTriggerState();
       return;
     }
     this.selectionSnapshot = captured;
@@ -599,15 +612,23 @@ class ReflectionSurface {
       this.selectionAction.disabled = true;
       this.selectionAction.hidden = false;
       this.announce(captured.error, true);
+      this.updateTriggerState();
       return;
     }
     this.selectionAction.textContent = "Kommentera markering";
     this.selectionAction.disabled = false;
     this.selectionAction.hidden = false;
+    this.updateTriggerState();
     if (captured.rect?.width || captured.rect?.height) {
       this.selectionAction.style.setProperty("--xr-selection-x", `${Math.max(12, Math.min(window.innerWidth - 190, captured.rect.left + captured.rect.width / 2))}px`);
       this.selectionAction.style.setProperty("--xr-selection-y", `${Math.max(12, captured.rect.bottom + 8)}px`);
     }
+  }
+
+  captureSelectionForToolbar() {
+    if (this.exportDialog.open || this.importDialog.open || !this.root.isConnected) return;
+    const captured = captureSelection(this.root, this.article, this.registryEntry);
+    if (captured) this.selectionSnapshot = captured;
   }
 
   async useSelection() {
@@ -621,8 +642,10 @@ class ReflectionSurface {
     let anchor = this.snapshot.anchors.find(item => item.signature === captured.anchor.signature && anchorsReferToSameText(item, captured.anchor));
     anchor ||= captured.anchor;
     this.activeAnchor = anchor;
+    this.selectionSnapshot = null;
     this.selectionAction.hidden = true;
     document.getSelection()?.removeAllRanges();
+    this.updateTriggerState();
     this.openPanel(false);
     this.switchTab("comments");
     this.renderPanel();
@@ -632,12 +655,18 @@ class ReflectionSurface {
   renderPanel() {
     const comments = this.snapshot.comments || [];
     const reflections = this.snapshot.reflections || [];
-    setButtonLabel(this.trigger, comments.length);
+    this.updateTriggerState();
     this.tabComments.textContent = `Kommentarer ${comments.length}`;
     this.tabReflections.textContent = `Bearbetat ${reflections.length}`;
     this.renderComments();
     this.renderReflections();
     this.switchTab(this.activeTab);
+  }
+
+  updateTriggerState() {
+    const count = this.snapshot.comments?.length || 0;
+    const selectionReady = Boolean(this.selectionSnapshot && !this.selectionSnapshot.error);
+    setButtonLabel(this.trigger, count, selectionReady);
   }
 
   renderComments() {

@@ -228,7 +228,7 @@ describe("förväntade runtime- och CSS-krokar", () => {
     required.forEach(([pattern, label]) => assert.match(source, pattern, `CSS saknar ${label}`));
   });
 
-  test("iPad-markering har fördröjda avläsningar och en synlig reservväg", async () => {
+  test("iPad-markering har fördröjda avläsningar och toppmenyn som huvudväg", async () => {
     const runtime = await text("reflections/reflections.js");
     const styles = await text("reflections/reflections.css");
 
@@ -240,7 +240,19 @@ describe("förväntade runtime- och CSS-krokar", () => {
       "en giltig iPad-markering ska bevaras när fokus flyttas till en knapp");
     assert.match(runtime, /this\.trigger\.addEventListener\(["']pointerdown["']/,
       "Kommentarer-knappen ska kunna fånga en markering som reservväg");
-    assert.match(styles, /@media\s*\(pointer:\s*coarse\),\s*\(any-pointer:\s*coarse\)[\s\S]*?#xr-selection-action[\s\S]*?bottom:/,
-      "markeringsknappen ska ligga synligt längst ned på pekskärmar även i liggande iPad-läge");
+    assert.match(runtime, /this\.trigger\.addEventListener\(["']touchstart["'],\s*captureBeforeToolbarAction/,
+      "toppmenyn ska spara markeringen innan Chrome på iPad flyttar fokus");
+    assert.match(runtime, /captureSelectionForToolbar\(\)[\s\S]*?captureSelection\(this\.root, this\.article, this\.registryEntry\)/,
+      "toppmenyn ska fånga markeringen utan att bygga om knappen under själva trycket");
+    assert.match(runtime, /if \(this\.selectionSnapshot && !this\.selectionSnapshot\.error\)/,
+      "toppmenyn ska använda den sparade markeringen även när reservknappen är dold");
+    assert.match(runtime, /xr-trigger--selection/,
+      "toppmenyn ska få ett särskilt aktivt läge vid giltig markering");
+    assert.match(runtime, /Kommentera markering/,
+      "toppmenyn ska tala om att den markerade texten kan kommenteras");
+    assert.match(styles, /#xr-trigger\.xr-trigger--selection[\s\S]*?var\(--xr-selection-gold\)/,
+      "den aktiva toppknappen ska visas i guld");
+    assert.match(styles, /@media\s*\(pointer:\s*coarse\),\s*\(any-pointer:\s*coarse\)[\s\S]*?#xr-selection-action[\s\S]*?display:\s*none\s*!important/,
+      "den flytande reservknappen ska döljas när toppmenyn är huvudväg på pekskärm");
   });
 });

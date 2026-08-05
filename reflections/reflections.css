@@ -18,6 +18,8 @@
   --xr-raised: color-mix(in srgb, var(--xr-text) 3%, var(--xr-bg));
   --xr-focus: var(--xr-text);
   --xr-highlight-bg: color-mix(in srgb, var(--xr-accent) 17%, transparent);
+  --xr-selection-gold: #e0b54a;
+  --xr-selection-gold-ink: #241a00;
   --xr-shadow: 0 18px 54px rgba(0, 0, 0, .2);
 }
 
@@ -106,6 +108,19 @@ body.xr-dialog-open {
   gap: .4rem;
   padding: .5rem .7rem;
   white-space: nowrap;
+}
+
+#xr-trigger.xr-trigger--selection {
+  border-color: #8a6500;
+  background: var(--xr-selection-gold);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--xr-selection-gold) 34%, transparent), 0 8px 24px rgba(87, 61, 0, .24);
+  color: var(--xr-selection-gold-ink);
+}
+
+#xr-trigger.xr-trigger--selection:hover,
+#xr-trigger.xr-trigger--selection:focus-visible {
+  border-color: var(--xr-selection-gold-ink);
+  color: var(--xr-selection-gold-ink);
 }
 
 .xr-trigger--floating {
@@ -869,7 +884,7 @@ body.xr-dialog-open {
     --xr-sheet-height: min(75dvh, var(--xr-visual-viewport-height));
   }
 
-  #xr-trigger .xr-trigger__label {
+  #xr-trigger:not(.xr-trigger--selection) .xr-trigger__label {
     position: absolute !important;
     width: 1px !important;
     height: 1px !important;
@@ -905,11 +920,7 @@ body.xr-dialog-open {
 @media (pointer: coarse), (any-pointer: coarse) {
   #xr-selection-action,
   .xr-selection-action {
-    top: auto;
-    right: auto;
-    bottom: max(1.25rem, env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%);
+    display: none !important;
   }
 
   #xr-trigger,
