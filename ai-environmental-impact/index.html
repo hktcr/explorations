@@ -14,5 +14,5 @@
 <link rel="stylesheet" href="../engagement/engagement.css" data-engagement-asset="style">
 </head><body data-has-narration="false"><div id="articleRoot" aria-live="polite"></div><script>
 (async()=>{const files=['content-1.html','content-2.html','content-3.html','content-4.html','content-5.html'];const chunks=await Promise.all(files.map(async f=>{const r=await fetch(f);if(!r.ok)throw new Error(f);return r.text()}));document.getElementById('articleRoot').outerHTML=chunks.join('');const s=document.createElement('script');s.src='app.js';s.onload=()=>document.dispatchEvent(new Event('DOMContentLoaded'));document.body.appendChild(s)})().catch(e=>{document.getElementById('articleRoot').textContent='Article could not be loaded.';console.error(e)});
-</script><script type="module" src="../engagement/engagement.js" data-engagement-asset="runtime"></script>
+</script><script type="module" src="../engagement/engagement.js?v=20260805-3" data-engagement-asset="runtime"></script>
 </body></html>

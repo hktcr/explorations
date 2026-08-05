@@ -19,6 +19,7 @@ import {
 import { openReflectionStore } from "./reflections-store.mjs";
 
 const ASSET_ROOT = new URL("./", import.meta.url);
+const REFLECTIONS_ASSET_VERSION = "20260805-3";
 const ROOT_SELECTORS = [
   "article.content",
   "article#article",
@@ -29,7 +30,8 @@ const ROOT_SELECTORS = [
   "article",
   "main"
 ];
-const BLOCK_SELECTOR = "h1,h2,h3,h4,h5,h6,p,li,blockquote,td,th,figcaption";
+const BLOCK_SELECTOR = "h1,h2,h3,h4,h5,h6,p,li,blockquote,td,th,figcaption,.mental,.answer>div";
+const SUPPLEMENTAL_BLOCK_SELECTOR = ".standfirst";
 const EXCLUDED_SELECTOR = [
   ".toolbar", ".tools", "nav", "footer", ".toc", ".table-of-contents",
   ".sources", ".sources-section", ".source-list", ".references", ".bibliography", ".footnotes",
@@ -48,7 +50,7 @@ function ensureStylesheet() {
     if (existing) return resolve();
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = new URL("reflections.css", ASSET_ROOT).href;
+    link.href = new URL(`reflections.css?v=${REFLECTIONS_ASSET_VERSION}`, ASSET_ROOT).href;
     link.dataset.xrUi = "style";
     link.addEventListener("load", resolve, { once: true });
     link.addEventListener("error", resolve, { once: true });
@@ -131,13 +133,18 @@ function nearestHeading(block, root) {
 function articleBlocks(root) {
   const candidates = [...root.querySelectorAll(BLOCK_SELECTOR)];
   if (root.matches?.(BLOCK_SELECTOR)) candidates.unshift(root);
+  document.querySelectorAll(SUPPLEMENTAL_BLOCK_SELECTOR).forEach(block => {
+    if (!root.contains(block)) candidates.push(block);
+  });
   return candidates.filter(block => {
-    if (isExcluded(block, root)) return false;
+    const blockRoot = root.contains(block) ? root : block;
+    if (isExcluded(block, blockRoot)) return false;
     if (block.matches("li,blockquote,td,th") && block.querySelector("p,li,blockquote")) return false;
     if (block.closest("p,li,blockquote,td,th") && !block.matches("p,li,blockquote,td,th")) return false;
     return block.textContent.replace(/\u00a0/g, " ").trim().length > 0;
   }).map((block, index) => {
-    const heading = nearestHeading(block, root);
+    const blockRoot = root.contains(block) ? root : block;
+    const heading = nearestHeading(block, blockRoot);
     return {
       id: block.id || null,
       tag: block.tagName.toLowerCase(),
@@ -198,14 +205,20 @@ function rangeForResolution(resolution) {
   }
 }
 
+export function currentSelection() {
+  if (typeof globalThis.getSelection === "function") return globalThis.getSelection();
+  if (typeof globalThis.document?.getSelection === "function") return globalThis.document.getSelection();
+  return null;
+}
+
 function captureSelection(root, article, registryEntry) {
-  const selection = document.getSelection();
+  const selection = currentSelection();
   if (!selection || selection.isCollapsed || selection.rangeCount !== 1) return null;
   const range = selection.getRangeAt(0);
-  if (!root.contains(range.startContainer) || !root.contains(range.endContainer)) return null;
   const blocks = articleBlocks(root);
   const startBlock = containingBlock(range.startContainer, blocks);
   const endBlock = containingBlock(range.endContainer, blocks);
+  if (!startBlock && !endBlock) return null;
   if (!startBlock || startBlock !== endBlock) return { error: "Markera text inom ett enda stycke eller en rubrik." };
   const index = blocks.indexOf(startBlock);
   let start = rangeOffset(startBlock.element, range.startContainer, range.startOffset);
@@ -226,17 +239,30 @@ function captureSelection(root, article, registryEntry) {
   }
 }
 
-function setButtonLabel(button, count, selectionReady = false) {
-  const label = selectionReady ? "Kommentera markering" : "Kommentarer";
-  button.replaceChildren(iconBubble(), element("span", { className: "xr-trigger__label", text: label }), element("span", {
-    className: "xr-count",
-    text: String(count),
-    "aria-label": `${count} lokala kommentarer`
-  }));
+function setButtonLabel(button, count, selectionState = "idle") {
+  const selectionReady = selectionState === "ready";
+  const selectionInvalid = selectionState === "invalid";
+  const label = selectionReady ? "Kommentera markering" : selectionInvalid ? "Markera inom ett stycke" : "Kommentarer";
+  let labelNode = button.querySelector(".xr-trigger__label");
+  let countNode = button.querySelector(".xr-count");
+  if (!labelNode || !countNode) {
+    labelNode = element("span", { className: "xr-trigger__label" });
+    countNode = element("span", { className: "xr-count" });
+    button.replaceChildren(iconBubble(), labelNode, countNode);
+  }
+  labelNode.textContent = label;
+  countNode.textContent = String(count);
+  countNode.setAttribute("aria-label", `${count} lokala kommentarer`);
   button.classList.toggle("xr-trigger--selection", selectionReady);
+  button.classList.toggle("xr-trigger--selection-error", selectionInvalid);
+  button.dataset.selectionState = selectionState;
   button.dataset.selectionReady = String(selectionReady);
-  button.setAttribute("aria-label", selectionReady ? "Kommentera den markerade texten" : `${count} lokala kommentarer. Öppna reflektionsspåret.`);
-  button.title = selectionReady ? "Kommentera den markerade texten" : "Öppna kommentarer";
+  button.setAttribute("aria-label", selectionReady
+    ? "Kommentera den markerade texten"
+    : selectionInvalid
+      ? "Markeringen behöver ligga inom ett enda stycke eller en rubrik"
+      : `${count} lokala kommentarer. Öppna reflektionsspåret.`);
+  button.title = selectionReady ? "Kommentera den markerade texten" : selectionInvalid ? "Markera text inom ett stycke" : "Öppna kommentarer";
 }
 
 function formatDate(value) {
@@ -324,6 +350,7 @@ class ReflectionSurface {
   async init() {
     await this.reload();
     this.installEvents();
+    this.installSelectionMonitor();
     this.installObserver();
     this.installViewport();
     this.renderHighlights();
@@ -467,6 +494,11 @@ class ReflectionSurface {
     this.trigger.addEventListener("touchstart", captureBeforeToolbarAction, { passive: true });
     this.trigger.addEventListener("mousedown", captureBeforeToolbarAction);
     this.trigger.addEventListener("click", () => {
+      if (this.selectionSnapshot?.error) {
+        this.updateTriggerState();
+        this.announce(this.selectionSnapshot.error, true);
+        return;
+      }
       if (this.selectionSnapshot && !this.selectionSnapshot.error) {
         this.useSelection();
         return;
@@ -495,12 +527,13 @@ class ReflectionSurface {
       selectionTimers = delays.map(delay => setTimeout(() => this.readSelection({ preserve: true }), delay));
     };
     document.addEventListener("selectionchange", () => queueSelection());
+    document.addEventListener("selectstart", () => queueSelection([0, 80, 180, 350, 650, 1000, 1600, 2400]));
     document.addEventListener("contextmenu", () => queueSelection([80, 280, 700, 1200]));
-    this.root.addEventListener("pointerup", () => queueSelection([40, 180, 420, 900]));
-    this.root.addEventListener("touchend", () => queueSelection([120, 320, 700, 1200]), { passive: true });
+    document.addEventListener("pointerup", () => queueSelection([40, 180, 420, 900]));
+    document.addEventListener("touchend", () => queueSelection([120, 320, 700, 1200]), { passive: true });
     document.addEventListener("pointerdown", event => {
       if (event.target.closest?.("#xr-selection-action, #xr-trigger, #xr-panel, .xr-dialog")) return;
-      const selection = document.getSelection();
+      const selection = currentSelection();
       if (selection && !selection.isCollapsed) return;
       this.selectionSnapshot = null;
       this.selectionAction.hidden = true;
@@ -523,6 +556,20 @@ class ReflectionSurface {
     });
     window.addEventListener("resize", () => this.queueHighlights());
     window.addEventListener("scroll", () => this.positionMarkers(), { passive: true });
+  }
+
+  installSelectionMonitor() {
+    const coarsePointer = globalThis.matchMedia?.("(pointer: coarse), (any-pointer: coarse)");
+    if (!coarsePointer?.matches) return;
+    const pollSelection = () => {
+      if (document.visibilityState === "hidden") return;
+      this.readSelection({ preserve: true });
+    };
+    this.selectionPollTimer = globalThis.setInterval(pollSelection, 300);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") pollSelection();
+    });
+    globalThis.addEventListener("pageshow", pollSelection);
   }
 
   installObserver() {
@@ -597,10 +644,7 @@ class ReflectionSurface {
     if (this.exportDialog.open || this.importDialog.open || !this.root.isConnected) return;
     const captured = captureSelection(this.root, this.article, this.registryEntry);
     if (!captured) {
-      if (preserve && this.selectionSnapshot) {
-        this.updateTriggerState();
-        return;
-      }
+      if (preserve && this.selectionSnapshot) return;
       this.selectionSnapshot = null;
       this.selectionAction.hidden = true;
       this.updateTriggerState();
@@ -644,7 +688,7 @@ class ReflectionSurface {
     this.activeAnchor = anchor;
     this.selectionSnapshot = null;
     this.selectionAction.hidden = true;
-    document.getSelection()?.removeAllRanges();
+    currentSelection()?.removeAllRanges();
     this.updateTriggerState();
     this.openPanel(false);
     this.switchTab("comments");
@@ -665,8 +709,8 @@ class ReflectionSurface {
 
   updateTriggerState() {
     const count = this.snapshot.comments?.length || 0;
-    const selectionReady = Boolean(this.selectionSnapshot && !this.selectionSnapshot.error);
-    setButtonLabel(this.trigger, count, selectionReady);
+    const selectionState = this.selectionSnapshot?.error ? "invalid" : this.selectionSnapshot ? "ready" : "idle";
+    setButtonLabel(this.trigger, count, selectionState);
   }
 
   renderComments() {

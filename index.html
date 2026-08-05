@@ -72,6 +72,6 @@ const input=document.getElementById('searchInput'),grid=document.getElementById(
 input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();let visible=0;cards.forEach(c=>{const match=!q||(c.dataset.title+' '+c.dataset.subject+' '+c.dataset.excerpt).toLowerCase().includes(q);c.hidden=!match;if(match)visible++});let empty=grid.querySelector('.no-results');if(!visible&&!empty){empty=document.createElement('p');empty.className='no-results';empty.textContent='Inga träffar.';grid.append(empty)}else if(visible&&empty)empty.remove()});
 </script>
 <script src="natverk.js" defer></script>
-<script type="module" src="engagement/engagement.js" data-engagement-asset="runtime"></script>
+<script type="module" src="engagement/engagement.js?v=20260805-3" data-engagement-asset="runtime"></script>
 </body>
 </html>

@@ -127,7 +127,7 @@ describe("skal och resursladdning", () => {
       assert.equal(styles[0].href, "../engagement/engagement.css");
       assert.equal(runtimes.length, 1, `${article.path} ska ladda exakt en engagement-runtime`);
       assert.equal(runtimes[0].type, "module");
-      assert.equal(runtimes[0].src, "../engagement/engagement.js");
+      assert.equal(runtimes[0].src, "../engagement/engagement.js?v=20260805-3");
 
       assert.doesNotMatch(source, /(?:src|href)=["'][^"']*reflections\/(?:reflections\.js|reflections\.css)["']/i,
         `${article.path} ska inte koppla den privata runtimen direkt`);
@@ -136,7 +136,8 @@ describe("skal och resursladdning", () => {
 
   test("engagement.js laddar den privata runtimen separat och felisolerat", async () => {
     const source = await text("engagement/engagement.js");
-    assert.match(source, /import\(\s*["']\.\.\/reflections\/reflections\.js["']\s*\)/);
+    assert.match(source, /const PRIVATE_RUNTIME_VERSION = ["']20260805-3["']/);
+    assert.match(source, /import\(\s*`\.\.\/reflections\/reflections\.js\?v=\$\{PRIVATE_RUNTIME_VERSION\}`\s*\)/);
     assert.match(source, /\.then\(\s*module\s*=>\s*module\.startReflections\(\)\s*\)/);
     assert.match(source, /Det privata reflektionsspåret kunde inte laddas/);
     assert.match(source, /start\(\)\.catch/);
@@ -183,7 +184,7 @@ describe("förväntade runtime- och CSS-krokar", () => {
     const required = [
       [/import\s*\{\s*openReflectionStore\s*\}\s*from\s*["']\.\/reflections-store\.mjs["']/, "privat lagringsadapter"],
       [/new URL\(["']article-registry\.json["'],\s*ASSET_ROOT\)/, "artikelregister"],
-      [/new URL\(["']reflections\.css["'],\s*ASSET_ROOT\)/, "privat stilmall"],
+      [/new URL\(`reflections\.css\?v=\$\{REFLECTIONS_ASSET_VERSION\}`,\s*ASSET_ROOT\)/, "versionsstyrd privat stilmall"],
       [/export async function startReflections\s*\(/, "fristående startfunktion"],
       [/document\.documentElement\.dataset\.explorationId/, "stabilt artikel-id"],
       [/new MutationObserver\s*\(/, "asynkront artikelinnehåll"],
@@ -238,6 +239,14 @@ describe("förväntade runtime- och CSS-krokar", () => {
       "iPad-runtimen ska försöka igen medan Safari färdigställer markeringen");
     assert.match(runtime, /readSelection\(\{ preserve: true \}\)/,
       "en giltig iPad-markering ska bevaras när fokus flyttas till en knapp");
+    assert.match(runtime, /installSelectionMonitor\(\)[\s\S]*?setInterval\(pollSelection, 300\)/,
+      "pekskärmar ska kontrollera markeringen även när långtryck inte ger en webbhändelse");
+    assert.match(runtime, /currentSelection\(\)[\s\S]*?globalThis\.getSelection/,
+      "markeringsläsningen ska använda fönstrets markeringsgränssnitt när det finns");
+    assert.match(runtime, /SUPPLEMENTAL_BLOCK_SELECTOR = ["']\.standfirst["']/,
+      "artikelns synliga ingress ska ingå i den kommenterbara läsytan");
+    assert.match(runtime, /BLOCK_SELECTOR = ["'][^"']*\.mental,[^"']*\.answer>div/,
+      "artikelns visuella textrutor ska ingå i den kommenterbara läsytan");
     assert.match(runtime, /this\.trigger\.addEventListener\(["']pointerdown["']/,
       "Kommentarer-knappen ska kunna fånga en markering som reservväg");
     assert.match(runtime, /this\.trigger\.addEventListener\(["']touchstart["'],\s*captureBeforeToolbarAction/,
@@ -250,9 +259,24 @@ describe("förväntade runtime- och CSS-krokar", () => {
       "toppmenyn ska få ett särskilt aktivt läge vid giltig markering");
     assert.match(runtime, /Kommentera markering/,
       "toppmenyn ska tala om att den markerade texten kan kommenteras");
+    assert.match(runtime, /Markera inom ett stycke/,
+      "toppmenyn ska förklara en markering som går över flera textblock");
     assert.match(styles, /#xr-trigger\.xr-trigger--selection[\s\S]*?var\(--xr-selection-gold\)/,
       "den aktiva toppknappen ska visas i guld");
     assert.match(styles, /@media\s*\(pointer:\s*coarse\),\s*\(any-pointer:\s*coarse\)[\s\S]*?#xr-selection-action[\s\S]*?display:\s*none\s*!important/,
       "den flytande reservknappen ska döljas när toppmenyn är huvudväg på pekskärm");
+  });
+
+  test("markeringsadaptern fungerar utan Document.getSelection", async () => {
+    const { currentSelection } = await import("./reflections.js");
+    const original = globalThis.getSelection;
+    const expected = { isCollapsed: false, rangeCount: 1 };
+    globalThis.getSelection = () => expected;
+    try {
+      assert.equal(currentSelection(), expected);
+    } finally {
+      if (original) globalThis.getSelection = original;
+      else delete globalThis.getSelection;
+    }
   });
 });

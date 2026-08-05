@@ -123,6 +123,18 @@ body.xr-dialog-open {
   color: var(--xr-selection-gold-ink);
 }
 
+#xr-trigger.xr-trigger--selection-error {
+  border-color: #a76322;
+  background: #fff0d8;
+  color: #5c2d00;
+}
+
+#xr-trigger.xr-trigger--selection-error:hover,
+#xr-trigger.xr-trigger--selection-error:focus-visible {
+  border-color: #5c2d00;
+  color: #5c2d00;
+}
+
 .xr-trigger--floating {
   position: fixed;
   z-index: var(--xr-layer-selection);
@@ -884,7 +896,7 @@ body.xr-dialog-open {
     --xr-sheet-height: min(75dvh, var(--xr-visual-viewport-height));
   }
 
-  #xr-trigger:not(.xr-trigger--selection) .xr-trigger__label {
+  #xr-trigger:not(.xr-trigger--selection):not(.xr-trigger--selection-error) .xr-trigger__label {
     position: absolute !important;
     width: 1px !important;
     height: 1px !important;

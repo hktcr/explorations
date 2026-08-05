@@ -7,6 +7,7 @@ import {
 } from "./engagement-core.mjs";
 
 const DATA_URL = new URL("./engagement.public.json", import.meta.url);
+const PRIVATE_RUNTIME_VERSION = "20260805-3";
 const SVG = {
   read: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5c3.5-.8 6.3-.2 8.5 1.7 2.2-1.9 5-2.5 8.5-1.7v13c-3.3-.7-6-.2-8.5 1.5-2.5-1.7-5.2-2.2-8.5-1.5zM12 7.2V20"/></svg>',
   reflection: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14v11H9l-4 4zM8 8h8M8 11.5h6"/></svg>',
@@ -279,7 +280,7 @@ async function start() {
   decorateArticle(model);
 }
 
-import("../reflections/reflections.js")
+import(`../reflections/reflections.js?v=${PRIVATE_RUNTIME_VERSION}`)
   .then(module => module.startReflections())
   .catch(error => {
     console.warn("[Explorations] Det privata reflektionsspåret kunde inte laddas.", error);
