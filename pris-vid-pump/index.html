@@ -1,0 +1,1326 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="description" content="En klickbar och källbelagd systemkarta över vad som avgör hur hårt bensinkostnaden slår mot ett hushåll.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#f4f1e9">
+<title>Vad avgör hur hårt bensinkostnaden slår?</title>
+<style>html,body{margin:0;min-height:100%;background:#f4f1e9}</style>
+</head>
+<body>
+<div id="public-system-map" lang="sv">
+  <style>
+    #public-system-map {
+      --paper: #f4f1e9;
+      --surface: #fffefa;
+      --surface-soft: #ebe8df;
+      --ink: #17201e;
+      --muted: #65706c;
+      --line: #87918d;
+      --line-soft: #c8cfcb;
+      --accent: #006c63;
+      --accent-soft: #d8ece7;
+      --focus: #8b4f00;
+      --shadow: 0 18px 60px rgba(28, 39, 36, 0.13);
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+      color-scheme: light;
+    }
+
+    #public-system-map * {
+      box-sizing: border-box;
+    }
+
+    #public-system-map button,
+    #public-system-map a,
+    #public-system-map [tabindex="0"] {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #public-system-map button {
+      font: inherit;
+    }
+
+    #public-system-map .psm-shell {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: clamp(24px, 4vw, 60px) clamp(16px, 4vw, 56px) 32px;
+    }
+
+    #public-system-map .psm-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px 36px;
+      align-items: end;
+      margin: 0 auto clamp(20px, 3vw, 34px);
+      max-width: 1180px;
+    }
+
+    #public-system-map .psm-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 760;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    #public-system-map .psm-kicker::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      border-radius: 99px;
+      background: currentColor;
+    }
+
+    #public-system-map h1 {
+      max-width: 900px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.05rem, 4.2vw, 4rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      text-wrap: balance;
+    }
+
+    #public-system-map .psm-lead {
+      max-width: 820px;
+      margin: 18px 0 0;
+      color: #384440;
+      font-size: clamp(1rem, 1.6vw, 1.18rem);
+      line-height: 1.62;
+      text-wrap: pretty;
+    }
+
+    #public-system-map .psm-header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-start;
+      padding-bottom: 4px;
+    }
+
+    #public-system-map .psm-button {
+      min-height: 44px;
+      border: 1px solid #aeb6b2;
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: rgba(255, 254, 250, 0.76);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 690;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    #public-system-map .psm-button:hover {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+
+    #public-system-map .psm-button:active {
+      transform: translateY(1px);
+    }
+
+    #public-system-map .psm-button[aria-expanded="true"] {
+      color: #ffffff;
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    #public-system-map :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    #public-system-map .psm-map-card {
+      position: relative;
+      min-height: 640px;
+      overflow: hidden;
+      border: 1px solid rgba(111, 123, 118, 0.32);
+      border-radius: clamp(20px, 3vw, 34px);
+      background:
+        radial-gradient(circle at 78% 22%, rgba(0, 108, 99, 0.07), transparent 26%),
+        linear-gradient(145deg, rgba(255, 254, 250, 0.98), rgba(249, 247, 240, 0.98));
+      box-shadow: 0 12px 42px rgba(40, 52, 48, 0.09);
+      isolation: isolate;
+    }
+
+    #public-system-map .psm-instruction {
+      position: absolute;
+      z-index: 5;
+      top: 18px;
+      left: 18px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      max-width: 420px;
+      min-height: 50px;
+      padding: 10px 14px 10px 11px;
+      border: 1px solid rgba(92, 107, 101, 0.23);
+      border-radius: 16px;
+      background: rgba(255, 254, 250, 0.91);
+      box-shadow: 0 8px 26px rgba(35, 48, 44, 0.08);
+      color: #34413d;
+      font-size: 0.87rem;
+      line-height: 1.35;
+      backdrop-filter: blur(10px);
+    }
+
+    #public-system-map .psm-instruction-icon {
+      display: grid;
+      flex: 0 0 30px;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+
+    #public-system-map .psm-map-wrap {
+      width: 100%;
+      min-height: 680px;
+      padding: 70px 18px 12px;
+    }
+
+    #public-system-map .psm-map {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 570px;
+      overflow: visible;
+    }
+
+    #public-system-map .psm-edge,
+    #public-system-map .psm-node {
+      cursor: pointer;
+      transition: opacity 170ms ease;
+    }
+
+    #public-system-map .psm-edge-visible {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 2.2;
+      marker-end: url(#psm-arrow);
+      vector-effect: non-scaling-stroke;
+      transition: stroke 170ms ease, stroke-width 170ms ease, opacity 170ms ease;
+    }
+
+    #public-system-map .psm-edge.is-conditional .psm-edge-visible {
+      stroke-dasharray: 7 6;
+    }
+
+    #public-system-map .psm-edge-hit {
+      fill: none;
+      stroke: transparent;
+      stroke-width: 44;
+      pointer-events: stroke;
+      vector-effect: non-scaling-stroke;
+    }
+
+    #public-system-map .psm-edge:hover .psm-edge-visible,
+    #public-system-map .psm-edge:focus-visible .psm-edge-visible,
+    #public-system-map .psm-edge.is-active .psm-edge-visible {
+      stroke: var(--accent);
+      stroke-width: 4.2;
+      marker-end: url(#psm-arrow-active);
+    }
+
+    #public-system-map .psm-node circle {
+      fill: var(--surface);
+      stroke: #6f7b77;
+      stroke-width: 1.8;
+      vector-effect: non-scaling-stroke;
+      filter: drop-shadow(0 8px 12px rgba(32, 43, 39, 0.09));
+      transition: fill 170ms ease, stroke 170ms ease, stroke-width 170ms ease, filter 170ms ease;
+    }
+
+    #public-system-map .psm-node text {
+      fill: var(--ink);
+      font-size: 15px;
+      font-weight: 720;
+      text-anchor: middle;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    #public-system-map .psm-node.is-outcome circle {
+      fill: var(--accent);
+      stroke: var(--accent);
+      filter: drop-shadow(0 12px 20px rgba(0, 92, 84, 0.22));
+    }
+
+    #public-system-map .psm-node.is-outcome text {
+      fill: #ffffff;
+      font-size: 16px;
+    }
+
+    #public-system-map .psm-node:hover circle,
+    #public-system-map .psm-node:focus-visible circle,
+    #public-system-map .psm-node.is-active circle {
+      fill: var(--accent-soft);
+      stroke: var(--accent);
+      stroke-width: 4;
+      filter: drop-shadow(0 12px 18px rgba(0, 92, 84, 0.18));
+    }
+
+    #public-system-map .psm-node.is-outcome:hover circle,
+    #public-system-map .psm-node.is-outcome:focus-visible circle,
+    #public-system-map .psm-node.is-outcome.is-active circle {
+      fill: #004f49;
+      stroke: #003f3a;
+    }
+
+    #public-system-map .psm-node.is-dim,
+    #public-system-map .psm-edge.is-dim {
+      opacity: 0.16;
+    }
+
+    #public-system-map .psm-node.is-neighbor circle {
+      stroke: var(--accent);
+    }
+
+    #public-system-map .psm-panel-scrim {
+      position: absolute;
+      z-index: 8;
+      inset: 0;
+      background: rgba(25, 34, 31, 0.14);
+      display: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+
+    #public-system-map .psm-panel-scrim.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #public-system-map .psm-map-card.has-panel .psm-map-wrap {
+      padding-right: min(440px, 42%);
+    }
+
+    #public-system-map .psm-below-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      max-width: 1180px;
+      margin: 14px auto 0;
+    }
+
+    #public-system-map .psm-reading-panel {
+      position: absolute;
+      z-index: 9;
+      top: 14px;
+      right: 14px;
+      bottom: 14px;
+      display: flex;
+      width: min(410px, calc(100% - 28px));
+      overflow: hidden;
+      border: 1px solid rgba(89, 104, 98, 0.25);
+      border-radius: 24px;
+      background: rgba(255, 254, 250, 0.98);
+      box-shadow: var(--shadow);
+      transform: translateX(calc(100% + 30px));
+      transition: transform 220ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    #public-system-map .psm-reading-panel.is-open {
+      transform: translateX(0);
+    }
+
+    #public-system-map .psm-panel-inner {
+      width: 100%;
+      overflow-y: auto;
+      padding: 24px 24px 28px;
+      scrollbar-width: thin;
+    }
+
+    #public-system-map .psm-panel-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    #public-system-map .psm-evidence-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      margin-bottom: 11px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #005a53;
+      font-size: 0.72rem;
+      font-weight: 780;
+      letter-spacing: 0.035em;
+      text-transform: uppercase;
+    }
+
+    #public-system-map .psm-panel-close {
+      display: grid;
+      flex: 0 0 44px;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid #bdc4c0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    #public-system-map .psm-panel-close:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    #public-system-map .psm-panel-title {
+      margin: 0 0 20px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 3vw, 2.35rem);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.07;
+    }
+
+    #public-system-map .psm-panel-section {
+      padding: 15px 0;
+      border-top: 1px solid #e1e4df;
+    }
+
+    #public-system-map .psm-panel-section h3 {
+      margin: 0 0 5px;
+      color: #5e6965;
+      font-size: 0.72rem;
+      font-weight: 790;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    #public-system-map .psm-panel-section p {
+      margin: 0;
+      color: #293531;
+      font-size: 0.96rem;
+      line-height: 1.58;
+    }
+
+    #public-system-map .psm-reflection {
+      margin-top: 18px;
+      padding: 15px 16px;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 13px 13px 0;
+      background: #eef5f2;
+    }
+
+    #public-system-map .psm-reflection h3 {
+      margin: 0 0 5px;
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    #public-system-map .psm-reflection p {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+      line-height: 1.48;
+    }
+
+    #public-system-map .psm-citations {
+      display: inline-flex;
+      gap: 3px;
+      vertical-align: super;
+      margin-left: 3px;
+      font-size: 0.68em;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    #public-system-map .psm-citations a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    #public-system-map .psm-source-list {
+      display: grid;
+      gap: 9px;
+      margin: 8px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #public-system-map .psm-source-list a {
+      display: grid;
+      grid-template-columns: 26px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      min-height: 44px;
+      padding: 9px 10px;
+      border: 1px solid #d7dcd8;
+      border-radius: 12px;
+      color: var(--ink);
+      text-decoration: none;
+      transition: border-color 150ms ease, background 150ms ease;
+    }
+
+    #public-system-map .psm-source-list a:hover {
+      border-color: var(--accent);
+      background: #f2f8f6;
+    }
+
+    #public-system-map .psm-source-index {
+      color: var(--accent);
+      font-size: 0.79rem;
+      font-weight: 800;
+    }
+
+    #public-system-map .psm-source-title {
+      display: block;
+      font-size: 0.83rem;
+      font-weight: 720;
+      line-height: 1.3;
+    }
+
+    #public-system-map .psm-source-meta {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.74rem;
+      line-height: 1.3;
+    }
+
+    #public-system-map .psm-caveat {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      max-width: 1180px;
+      margin: 16px auto 0;
+      color: #56615d;
+      font-size: 0.83rem;
+      line-height: 1.48;
+    }
+
+    #public-system-map .psm-caveat::before {
+      content: "i";
+      display: grid;
+      flex: 0 0 24px;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border: 1px solid #9da7a3;
+      border-radius: 50%;
+      font-family: Georgia, serif;
+      font-weight: 700;
+    }
+
+    #public-system-map .psm-text-view {
+      max-width: 1180px;
+      margin: 26px auto 0;
+      padding: clamp(18px, 4vw, 36px);
+      border: 1px solid #cfd5d1;
+      border-radius: 24px;
+      background: var(--surface);
+    }
+
+    #public-system-map .psm-text-view[hidden] {
+      display: none;
+    }
+
+    #public-system-map .psm-text-view > h2 {
+      margin: 0 0 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 500;
+    }
+
+    #public-system-map .psm-text-intro {
+      max-width: 760px;
+      margin: 0 0 22px;
+      color: var(--muted);
+    }
+
+    #public-system-map .psm-text-group {
+      margin-top: 28px;
+    }
+
+    #public-system-map .psm-text-group h3 {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    #public-system-map .psm-text-item {
+      border-top: 1px solid #e0e4e0;
+    }
+
+    #public-system-map .psm-text-item summary {
+      display: flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 11px 4px;
+      cursor: pointer;
+      font-weight: 720;
+      list-style: none;
+    }
+
+    #public-system-map .psm-text-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    #public-system-map .psm-text-item summary::after {
+      content: "+";
+      color: var(--accent);
+      font-size: 1.25rem;
+    }
+
+    #public-system-map .psm-text-item[open] summary::after {
+      content: "×";
+    }
+
+    #public-system-map .psm-text-body {
+      max-width: 760px;
+      padding: 2px 4px 20px;
+      color: #34403c;
+      font-size: 0.93rem;
+    }
+
+    #public-system-map .psm-text-body p {
+      margin: 8px 0;
+    }
+
+    #public-system-map .psm-text-kind {
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 650;
+    }
+
+    #public-system-map .psm-footer {
+      display: flex;
+      max-width: 1180px;
+      margin: 28px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid #d4d8d4;
+      color: #626c68;
+      font-size: 0.76rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1024px) {
+      #public-system-map .psm-map-card.has-panel .psm-map-wrap {
+        padding-right: 0;
+      }
+
+      #public-system-map .psm-panel-scrim {
+        position: fixed;
+        z-index: 18;
+        display: block;
+      }
+
+      #public-system-map .psm-reading-panel {
+        position: fixed;
+        z-index: 19;
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        max-height: 78vh;
+        border-right: 0;
+        border-bottom: 0;
+        border-left: 0;
+        border-radius: 24px 24px 0 0;
+        transform: translateY(calc(100% + 30px));
+      }
+
+      #public-system-map .psm-reading-panel.is-open {
+        transform: translateY(0);
+      }
+
+      #public-system-map .psm-panel-inner {
+        padding: 20px 18px 26px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      #public-system-map .psm-shell {
+        padding-inline: 12px;
+      }
+
+      #public-system-map .psm-header {
+        grid-template-columns: 1fr;
+      }
+
+      #public-system-map .psm-header-actions {
+        justify-content: flex-start;
+      }
+
+      #public-system-map .psm-map-card,
+      #public-system-map .psm-map-wrap {
+        min-height: auto;
+      }
+
+      #public-system-map .psm-map-card {
+        border-radius: 22px;
+      }
+
+      #public-system-map .psm-map-wrap {
+        padding: 82px 0 8px;
+      }
+
+      #public-system-map .psm-map {
+        min-height: auto;
+      }
+
+      #public-system-map .psm-node text,
+      #public-system-map .psm-node.is-outcome text {
+        font-size: 15px;
+      }
+
+      #public-system-map .psm-instruction {
+        right: 12px;
+        left: 12px;
+        top: 12px;
+        max-width: none;
+        font-size: 0.82rem;
+      }
+
+    }
+
+    @media (min-width: 561px) and (max-width: 820px) {
+      #public-system-map .psm-node text {
+        font-size: 21px;
+      }
+
+      #public-system-map .psm-node.is-outcome text {
+        font-size: 22px;
+      }
+    }
+
+    @media (min-width: 821px) and (max-width: 1024px) {
+      #public-system-map .psm-node text {
+        font-size: 17px;
+      }
+
+      #public-system-map .psm-node.is-outcome text {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 440px) {
+      #public-system-map h1 {
+        font-size: 2.35rem;
+      }
+
+      #public-system-map .psm-header-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      #public-system-map .psm-button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #public-system-map *,
+      #public-system-map *::before,
+      #public-system-map *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+  </style>
+
+  <main class="psm-shell">
+    <header class="psm-header">
+      <div>
+        <h1>Vad avgör hur hårt bensinkostnaden slår?</h1>
+        <p class="psm-lead">Literpriset spelar roll. Men kostnaden beror också på hur långt man kör, bilens förbrukning, hushållets ekonomi och vilka realistiska alternativ som finns.</p>
+      </div>
+    </header>
+
+    <section class="psm-map-card" aria-label="Interaktiv systemkarta">
+      <div class="psm-instruction">
+        <span>Tryck på en cirkel eller linje för en kort förklaring och källor.</span>
+      </div>
+      <div class="psm-map-wrap">
+        <svg class="psm-map" role="group" aria-label="Karta över vad som formar bensinens ekonomiska börda"></svg>
+      </div>
+      <div class="psm-panel-scrim" data-action="close-panel" aria-hidden="true"></div>
+      <aside class="psm-reading-panel" role="dialog" aria-label="Fördjupning" aria-hidden="true" aria-modal="false">
+        <div class="psm-panel-inner"></div>
+      </aside>
+    </section>
+
+    <div class="psm-below-actions" aria-label="Visningsalternativ">
+      <button class="psm-button" type="button" data-action="about">Om urvalet</button>
+      <button class="psm-button" type="button" data-action="text-view" aria-expanded="false" aria-controls="psm-text-view">Läs som text</button>
+    </div>
+
+    <p class="psm-caveat">Kartan visar ett urval av de starkaste sambanden. Den är inte en fullständig modell av transportsystemet och beskriver gruppmönster, inte varje enskilt hushåll. Citatet ”bensinen är för dyr” behandlas därför som en fråga att undersöka, inte som ett verifierat påstående om vad människor tycker.</p>
+
+    <section class="psm-text-view" id="psm-text-view" hidden aria-labelledby="psm-text-title">
+      <h2 id="psm-text-title">Kartan i text</h2>
+      <p class="psm-text-intro">Samma innehåll i linjär form. Öppna en rubrik för att läsa förklaringen och nå källorna.</p>
+      <div class="psm-text-content"></div>
+    </section>
+
+    <footer class="psm-footer">Faktagranskad 6 augusti 2026. Sidan använder inga kakor, ingen analyskod och ingen lokal lagring. Källänkar öppnas utan hänvisningsinformation.</footer>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.getElementById("public-system-map");
+      if (!root) return;
+
+      const sources = {
+        ki91: {
+          title: "Drivmedelsprisernas utveckling",
+          meta: "Konjunkturinstitutet, 2023, myndighetsrapport",
+          url: "https://www.konj.se/media/ts3j22ju/specialstudie-091-drivmedelsprisernas-utveckling.pdf"
+        },
+        ki111: {
+          title: "Slutredovisning av regeringsuppdraget: Analys av drivmedelspriser",
+          meta: "Konjunkturinstitutet, 2024, myndighetsrapport",
+          url: "https://www.konj.se/media/wr1bnjnc/specialstudie-111-slutredovisning-drivmedelsuppdrag.pdf"
+        },
+        ki102: {
+          title: "Elasticiteter inom miljö-, klimat- och energiområdet",
+          meta: "Konjunkturinstitutet, 2024, forskningsöversikt",
+          url: "https://www.konj.se/media/fsedffr1/specialstudie-102-elasticiteter-inom-miljo-klimat-och-energiomradet.pdf"
+        },
+        eliasson2018: {
+          title: "Distributional effects of taxes on car fuel, use, ownership and purchases",
+          meta: "Eliasson, Pyddoke och Swärdh, 2018, sakkunniggranskad artikel",
+          url: "https://doi.org/10.1016/j.ecotra.2018.03.001"
+        },
+        trafa: {
+          title: "Resvanor i Sverige",
+          meta: "Trafikanalys, officiell statistik och metodbeskrivning",
+          url: "https://www.trafa.se/transportmonster/RVU-Sverige/"
+        },
+        scb: {
+          title: "Hushållens utgifter, HUT",
+          meta: "Statistiska centralbyrån, officiell statistik",
+          url: "https://www.scb.se/hitta-statistik/statistik-efter-amne/hushallens-ekonomi/hushallens-utgifter/hushallens-utgifter-hut/"
+        },
+        trafikverket: {
+          title: "Transporternas klimatpåverkan",
+          meta: "Trafikverket, kunskapsunderlag, hämtat 2026",
+          url: "https://bransch.trafikverket.se/for-dig-i-branschen/miljo---for-dig-i-branschen/minskad-klimatpaverkan/transporternas-klimatpaverkan/"
+        },
+        euoil: {
+          title: "Weekly Oil Bulletin",
+          meta: "Europeiska kommissionen, officiell prisstatistik",
+          url: "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en"
+        },
+        skatteverket: {
+          title: "Skattesatser på bränslen 2026",
+          meta: "Skatteverket, rättslig vägledning",
+          url: "https://www4.skatteverket.se/rattsligvagledning/edition/2026.12/323440.html"
+        }
+      };
+
+      const nodes = [
+        {
+          id: "price",
+          label: "Pris vid pump",
+          lines: ["Pris vid", "pump"],
+          kind: "Observerbart mått",
+          desktop: [235, 155], mobile: [75, 105],
+          radius: 68, mobileRadius: 52,
+          summary: "Literpriset är den synliga kostnaden när bilen tankas. Det formas bland annat av råvarupriser, kronkurs, skatter och bränsleregler, men säger inte ensamt hur stor hushållets börda blir.",
+          evidence: "Konjunkturinstitutet pekar ut råoljepris och växelkurs som centrala drivkrafter bakom prisförändringar. De studerade bensinskatteförändringarna 2022 fick fullt genomslag på pumppriset. För diesel har reduktionspliktens priseffekt varierat, vilket inte utan vidare kan överföras till bensin.",
+          evidenceSources: ["ki91", "ki111"],
+          uncertainty: "Ett nationellt genomsnitt döljer variation mellan stationer och tidpunkter. Raffinering, lager, konkurrens, biokomponenter och tidsförskjutningar påverkar också.",
+          reflection: "Vilken del av priset och dess förändring kan svensk politik påverka direkt, och vilken del kommer utifrån?",
+          sourceIds: ["euoil", "ki91", "ki111", "skatteverket"]
+        },
+        {
+          id: "travel",
+          label: "Resbehov och alternativ",
+          lines: ["Resbehov", "och alternativ"],
+          mobileLines: ["Resbehov", "och", "alternativ"],
+          tabletLines: ["Resbehov", "och", "alternativ"],
+          kind: "Systemsyntes",
+          desktop: [165, 440], mobile: [80, 285],
+          radius: 70, mobileRadius: 53,
+          summary: "Avstånd, arbete, service, familjeliv och tillgång till andra färdsätt påverkar hur långt bilen används. Bostadsort är därför inte en enkel etikett för bilberoende.",
+          evidence: "Resvaneundersökningen mäter hur, när och varför människor reser. Fördelningsstudier visar gruppskillnader, men också stor variation mellan hushåll i samma inkomstgrupp och geografiska grupp.",
+          evidenceSources: ["trafa", "ki111"],
+          uncertainty: "Sambandet är villkorat. Kartan säger inte att alla utanför större städer kör långt eller att alla i städer har goda alternativ.",
+          reflection: "Vilka resor går faktiskt att förändra på kort sikt, och vilka kräver förändrad infrastruktur eller livsplanering?",
+          sourceIds: ["trafa", "ki111", "eliasson2018"]
+        },
+        {
+          id: "efficiency",
+          label: "Bilens förbrukning",
+          lines: ["Bilens", "förbrukning"],
+          mobileLines: ["Liter per", "kilometer"],
+          tabletLines: ["Liter per", "kilometer"],
+          kind: "Mätbar faktor",
+          desktop: [390, 565], mobile: [95, 520],
+          radius: 62, mobileRadius: 52,
+          summary: "Bränsle per kilometer avgör hur många liter som behövs för en given körsträcka. Fordonets teknik, vikt, hastighet och körsätt spelar in.",
+          evidence: "Trafikverket anger körsträcka, energianvändning per kilometer och fossil andel som tre centrala faktorer för vägtrafikens klimatpåverkan.",
+          evidenceSources: ["trafikverket"],
+          uncertainty: "Deklarerad och verklig förbrukning kan skilja sig. Temperatur, last, väg och körmönster påverkar utfallet.",
+          reflection: "Vilka hushåll har ekonomisk möjlighet att byta till ett effektivare fordon?",
+          sourceIds: ["trafikverket"]
+        },
+        {
+          id: "fuel",
+          label: "Bränsleanvändning",
+          lines: ["Bränsle-", "användning"],
+          mobileLines: ["Använda", "liter"],
+          tabletLines: ["Använda", "liter"],
+          kind: "Analytisk definition",
+          desktop: [535, 405], mobile: [185, 330],
+          radius: 66, mobileRadius: 51,
+          summary: "I kartans förenklade modell är använda liter körsträcka multiplicerad med bränsle per kilometer. Det kopplar ihop resmönster och fordonets egenskaper.",
+          evidence: "Detta är en beräkningsrelation, inte en skattad kausal modell. Trafikverkets faktormodell använder samma grundstruktur mellan trafikarbete och energi per kilometer.",
+          evidenceSources: ["trafikverket"],
+          uncertainty: "Modellen fångar inte alla variationer i verklig körning, tankning eller bränsleblandning.",
+          reflection: "Vilken faktor är lättast att förändra: antalet kilometer, liter per kilometer eller själva energislaget?",
+          sourceIds: ["trafikverket"]
+        },
+        {
+          id: "income",
+          label: "Hushållets ekonomi",
+          lines: ["Hushållets", "ekonomi"],
+          kind: "Observerbart mått",
+          desktop: [850, 145], mobile: [285, 105],
+          radius: 65, mobileRadius: 52,
+          summary: "Disponibel inkomst är ett mått på hushållets ekonomiska utrymme efter skatter och transfereringar. Samma bränsleutgift väger tyngre när utrymmet är mindre.",
+          evidence: "Konjunkturinstitutets fördelningsanalys jämför drivmedelskostnader med disponibel inkomst. SCB:s hushållsstatistik visar hur utgifter kan fördelas mellan olika hushållsgrupper.",
+          evidenceSources: ["ki111", "scb"],
+          uncertainty: "Inkomst fångar inte hela betalningsförmågan. Boendekostnader, skulder, förmögenhet och hushållets storlek påverkar också.",
+          reflection: "Bör stöd utgå från literpris, faktisk kostnadsbörda eller hushållets samlade ekonomi?",
+          sourceIds: ["ki111", "scb"]
+        },
+        {
+          id: "burden",
+          label: "Hur hårt kostnaden slår",
+          lines: ["Hur hårt", "kostnaden", "slår"],
+          kind: "Analytisk definition",
+          desktop: [830, 355], mobile: [300, 300],
+          radius: 84, mobileRadius: 58,
+          outcome: true,
+          summary: "Kartans centrala utfall är bränsleutgiften i relation till hushållets disponibla inkomst: literpris gånger använda liter, delat med disponibel inkomst.",
+          evidence: "Bland bilhushåll påverkas lägre inkomstgrupper i genomsnitt mer av höga drivmedelspriser. Studierna visar samtidigt stor spridning inom både inkomstgrupper och geografiska grupper.",
+          evidenceSources: ["ki111", "eliasson2018"],
+          uncertainty: "Måttet är en förenkling. Det beskriver inte hur nödvändiga resorna är eller vilka andra kostnader hushållet kan minska.",
+          reflection: "Är problemet främst ett högt pris, hög användning, liten inkomst eller en kombination?",
+          sourceIds: ["ki111", "eliasson2018", "scb"]
+        },
+        {
+          id: "climate",
+          label: "Klimatutsläpp",
+          lines: ["Klimat-", "utsläpp"],
+          kind: "Empiriskt belagt",
+          desktop: [850, 570], mobile: [285, 520],
+          radius: 65, mobileRadius: 52,
+          summary: "När fossil bensin förbränns bildas koldioxid. Därför har mängden bränsle, bränslets fossila andel och systemgränsen betydelse för klimatpåverkan.",
+          evidence: "Trafikverket beskriver ett direkt fysikaliskt samband mellan förbränning av fossil bensin eller diesel och koldioxidutsläpp.",
+          evidenceSources: ["trafikverket"],
+          uncertainty: "Utsläppets storlek beror på fossil andel och på om analysen avser avgasröret eller hela livscykeln.",
+          reflection: "Hur kan hushållens sårbarhet minska utan att utsläppskostnaden flyttas till framtiden?",
+          sourceIds: ["trafikverket"]
+        }
+      ];
+
+      const edges = [
+        {
+          id: "price_burden", from: "price", to: "burden", label: "Högre literpris ökar bördan, om allt annat är lika", kind: "Analytisk definition",
+          summary: "När använda liter och inkomst hålls oförändrade ger ett högre literpris en större relativ kostnadsbörda.",
+          evidence: "Detta följer av kartans definition: pris gånger liter, delat med disponibel inkomst. Fördelningsstudier använder motsvarande relativa kostnadsmått.", evidenceSources: ["ki111", "eliasson2018"],
+          uncertainty: "I verkligheten kan hushåll anpassa körning, bil eller andra utgifter. Därför är villkoret 'allt annat lika' viktigt.",
+          reflection: "Hur skiljer sig den omedelbara effekten från hushållets möjliga anpassning över flera år?", sourceIds: ["ki111", "eliasson2018"]
+        },
+        {
+          id: "travel_fuel", from: "travel", to: "fuel", label: "Resbehov och alternativ kan påverka hur många liter som används", kind: "Systemsyntes", conditional: true,
+          summary: "Fler eller längre bilresor kräver mer bränsle när bilens förbrukning hålls konstant. Vilka resor som görs formas både av behov, alternativ och val.",
+          evidence: "Resvanestatistik beskriver färdsätt, ärenden och resmönster. Trafikverket skiljer mellan trafikarbete och energi per kilometer i sin faktormodell.", evidenceSources: ["trafa", "trafikverket"],
+          uncertainty: "Körsträcka är både ett resultat av behov och val. Orsakernas relativa betydelse varierar mellan hushåll och över tid.",
+          reflection: "Vilka kilometer är nödvändiga, och vilka kan ersättas eller samordnas?", sourceIds: ["trafa", "trafikverket"]
+        },
+        {
+          id: "efficiency_fuel", from: "efficiency", to: "fuel", label: "Högre förbrukning kräver fler liter för samma sträcka", kind: "Analytisk definition",
+          summary: "När körsträckan hålls konstant ger fler liter per kilometer större bränsleanvändning.",
+          evidence: "Trafikverkets faktormodell skiljer mellan mängden trafik och energianvändningen per kilometer.", evidenceSources: ["trafikverket"],
+          uncertainty: "Ett effektivare fordon kan sänka literanvändningen, men inköpskostnaden och möjligheten att byta bil är ojämnt fördelade.",
+          reflection: "Vem kan investera sig ur en hög löpande kostnad, och vem kan inte?", sourceIds: ["trafikverket", "ki111"]
+        },
+        {
+          id: "fuel_burden", from: "fuel", to: "burden", label: "Fler använda liter ökar bördan, om allt annat är lika", kind: "Analytisk definition",
+          summary: "När literpris och inkomst hålls oförändrade ökar bränsleutgiften med antalet använda liter.",
+          evidence: "Detta följer av kartans kostnadsdefinition. Empiriska fördelningsstudier visar att användning och inkomst behöver analyseras tillsammans.", evidenceSources: ["ki111", "eliasson2018"],
+          uncertainty: "Literanvändning säger inte ensam hur nödvändiga resorna är eller hur snabbt den kan ändras.",
+          reflection: "Skulle en åtgärd minska själva användningen, eller bara dess kostnad för stunden?", sourceIds: ["ki111", "eliasson2018"]
+        },
+        {
+          id: "income_burden", from: "income", to: "burden", label: "Större ekonomiskt utrymme dämpar den relativa bördan", kind: "Analytisk definition",
+          summary: "Samma bränsleutgift utgör en mindre andel av ekonomin när den disponibla inkomsten är högre.",
+          evidence: "Bland hushåll med bil finner Konjunkturinstitutet att lägre inkomstgrupper i genomsnitt påverkas mer av höga drivmedelspriser.", evidenceSources: ["ki111"],
+          uncertainty: "Disponibel inkomst är inte hela hushållsbudgeten. Fasta kostnader och hushållets storlek kan förändra den faktiska pressen.",
+          reflection: "Vilket mått fångar bäst förmågan att bära en kostnad?", sourceIds: ["ki111", "scb"]
+        },
+        {
+          id: "price_fuel", from: "price", to: "fuel", label: "Högre pris kan dämpa användningen över tid", kind: "Empiriskt belagt", conditional: true,
+          summary: "När bensin blir dyrare minskar efterfrågan i genomsnitt. Anpassningen kan ske genom färre resor, annan bil, annat färdsätt eller förändrad lokalisering.",
+          evidence: "Konjunkturinstitutets forskningsöversikt visar en negativ genomsnittlig priselasticitet för vägtransportbränslen, vanligen större på lång än på kort sikt.", evidenceSources: ["ki102"],
+          uncertainty: "Responsen varierar kraftigt mellan hushåll, platser och tidshorisonter. En genomsnittlig elasticitet beskriver inte varje hushåll.",
+          reflection: "Vilka kan anpassa sig när priset ändras, och vilka blir kvar med kostnaden?", sourceIds: ["ki102"]
+        },
+        {
+          id: "fuel_climate", from: "fuel", to: "climate", label: "Fossil bränsleanvändning ger koldioxidutsläpp", kind: "Empiriskt belagt",
+          summary: "När fossil bensin förbränns frigörs fossil koldioxid. Mer fossil bränsleanvändning ger därför mer utsläpp, om övriga förhållanden är lika.",
+          evidence: "Trafikverket beskriver sambandet som fysikaliskt direkt och anger fossil andel som en avgörande faktor.", evidenceSources: ["trafikverket"],
+          uncertainty: "Total klimatpåverkan beror på bränsleblandning och vald systemgräns, exempelvis avgasrör eller livscykel.",
+          reflection: "Vilken åtgärd minskar både hushållets sårbarhet och fossil användning?", sourceIds: ["trafikverket"]
+        },
+        {
+          id: "climate_price", from: "climate", to: "price", label: "Utsläpp kan leda till styrmedel som påverkar priset", kind: "Systemsyntes", conditional: true, feedback: true,
+          summary: "Klimatutsläpp kan skapa politiska skäl för skatter, regler och investeringar som i sin tur påverkar priset. Detta är en institutionell återkoppling, inte en automatisk naturlag.",
+          evidence: "Konjunkturinstitutet beskriver klimatstyrmedel som en del av drivmedelsprisets utveckling och diskuterar behovet av styrning för klimatmålen.", evidenceSources: ["ki111"],
+          uncertainty: "Vilka styrmedel som väljs är ett politiskt och normativt beslut. Kartan säger inte att ett visst instrument är bäst.",
+          reflection: "Hur kan styrmedel kombineras med omställning och fördelningspolitik så att bördan inte bara flyttas?", sourceIds: ["ki111"]
+        }
+      ];
+
+      const about = {
+        id: "about",
+        label: "Om kartans urval",
+        kind: "Metod och avgränsning",
+        summary: "Kartan undersöker vardagspåståendet ”bensinen är för dyr” genom en mer precis fråga: vad avgör hur hårt bensinkostnaden slår mot ett hushåll? Den skiljer mellan priset, användningen, hushållets resurser och följder utanför hushållsbudgeten.",
+        evidence: "Sju noder och åtta samband har valts för att bevara systemöverblicken utan att göra anspråk på en fullständig transportmodell. Varje empiriskt påstående länkas till myndighetsunderlag eller sakkunniggranskad forskning.",
+        evidenceSources: ["ki91", "ki111", "eliasson2018"],
+        uncertainty: "Urvalet lämnar bland annat bilägande, bostadsmarknad, arbetsmarknad, företagens kostnader, lokal luftkvalitet och alternativa energislag utanför huvudbilden.",
+        reflection: "Vilken ny nod skulle ändra slutsatsen, inte bara göra kartan större?",
+        sourceIds: ["ki91", "ki111", "ki102", "eliasson2018"]
+      };
+
+      const nodeById = Object.fromEntries(nodes.map(node => [node.id, node]));
+      const edgeById = Object.fromEntries(edges.map(edge => [edge.id, edge]));
+      const map = root.querySelector(".psm-map");
+      const panel = root.querySelector(".psm-reading-panel");
+      const panelInner = root.querySelector(".psm-panel-inner");
+      const scrim = root.querySelector(".psm-panel-scrim");
+      const mapCard = root.querySelector(".psm-map-card");
+      const textView = root.querySelector(".psm-text-view");
+      const textContent = root.querySelector(".psm-text-content");
+      const textButton = root.querySelector('[data-action="text-view"]');
+      const compactMapMedia = window.matchMedia("(max-width: 560px)");
+      const modalPanelMedia = window.matchMedia("(max-width: 1024px)");
+      let selected = null;
+      let returnFocus = null;
+
+      function esc(value) {
+        return String(value).replace(/[&<>'"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));
+      }
+
+      function citations(ids) {
+        if (!ids || !ids.length) return "";
+        return `<span class="psm-citations" aria-label="Källhänvisningar">${ids.map((id, index) => {
+          const source = sources[id];
+          return `<a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="Källa ${index + 1}: ${esc(source.title)}">[${index + 1}]</a>`;
+        }).join("")}</span>`;
+      }
+
+      function sourceList(ids) {
+        return `<ul class="psm-source-list">${ids.map((id, index) => {
+          const source = sources[id];
+          return `<li><a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer"><span class="psm-source-index">[${index + 1}]</span><span><span class="psm-source-title">${esc(source.title)}</span><span class="psm-source-meta">${esc(source.meta)}</span></span></a></li>`;
+        }).join("")}</ul>`;
+      }
+
+      function panelMarkup(item) {
+        return `
+          <div class="psm-panel-top">
+            <div><span class="psm-evidence-tag">${esc(item.kind)}</span></div>
+            <button class="psm-panel-close" type="button" data-action="close-panel" aria-label="Stäng fördjupningen">×</button>
+          </div>
+          <h2 class="psm-panel-title" aria-live="polite" aria-atomic="true">${esc(item.label)}</h2>
+          <section class="psm-panel-section">
+            <h3>Vad det betyder</h3>
+            <p>${esc(item.summary)}</p>
+          </section>
+          <section class="psm-panel-section">
+            <h3>Vad underlaget visar</h3>
+            <p>${esc(item.evidence)}${citations(item.evidenceSources)}</p>
+          </section>
+          <section class="psm-panel-section">
+            <h3>Viktig osäkerhet</h3>
+            <p>${esc(item.uncertainty)}</p>
+          </section>
+          <div class="psm-reflection">
+            <h3>Tänk vidare</h3>
+            <p>${esc(item.reflection)}</p>
+          </div>
+          <section class="psm-panel-section">
+            <h3>Källor</h3>
+            ${sourceList(item.sourceIds)}
+          </section>`;
+      }
+
+      function point(node) {
+        return compactMapMedia.matches ? node.mobile : node.desktop;
+      }
+
+      function nodeRadius(node) {
+        return compactMapMedia.matches ? node.mobileRadius : node.radius;
+      }
+
+      function lineEnd(a, b, radius) {
+        const dx = b[0] - a[0];
+        const dy = b[1] - a[1];
+        const length = Math.hypot(dx, dy) || 1;
+        return [a[0] + dx * radius / length, a[1] + dy * radius / length];
+      }
+
+      function standardPath(edge) {
+        const fromNode = nodeById[edge.from];
+        const toNode = nodeById[edge.to];
+        const a0 = point(fromNode);
+        const b0 = point(toNode);
+        const a = lineEnd(a0, b0, nodeRadius(fromNode) + 5);
+        const b = lineEnd(b0, a0, nodeRadius(toNode) + 10);
+
+        if (edge.id === "price_burden") {
+          return compactMapMedia.matches
+            ? `M ${a[0]} ${a[1]} C 150 145, 230 225, ${b[0]} ${b[1]}`
+            : `M ${a[0]} ${a[1]} C 540 170, 690 240, ${b[0]} ${b[1]}`;
+        }
+        if (edge.id === "price_fuel") {
+          return compactMapMedia.matches
+            ? `M ${a[0]} ${a[1]} C 118 170, 146 250, ${b[0]} ${b[1]}`
+            : `M ${a[0]} ${a[1]} C 410 325, 500 405, ${b[0]} ${b[1]}`;
+        }
+        if (edge.id === "fuel_burden" && compactMapMedia.matches) {
+          return `M ${a[0]} ${a[1]} C 230 300, 252 300, ${b[0]} ${b[1]}`;
+        }
+        if (edge.feedback) {
+          return compactMapMedia.matches
+            ? `M ${a[0]} ${a[1]} C 340 540, 340 607, 270 607 C 140 607, 0 607, 0 500 C 0 380, 0 240, 0 185 C 10 160, 45 150, ${b[0]} ${b[1]}`
+            : `M ${a[0]} ${a[1]} C 1010 570, 1060 450, 1060 260 C 1060 120, 1000 15, 680 15 C 500 10, 340 30, ${b[0]} ${b[1]}`;
+        }
+        return `M ${a[0]} ${a[1]} L ${b[0]} ${b[1]}`;
+      }
+
+      function renderMap() {
+        const mobile = compactMapMedia.matches;
+        map.setAttribute("viewBox", mobile ? "0 0 360 620" : "0 0 1080 650");
+        map.setAttribute("preserveAspectRatio", "xMidYMid meet");
+        const edgeMarkup = edges.map(edge => {
+          const active = selected && selected.type === "edge" && selected.id === edge.id;
+          const conditional = edge.conditional ? " is-conditional" : "";
+          return `<g class="psm-edge${conditional}${active ? " is-active" : ""}" data-edge-id="${edge.id}" role="button" tabindex="0" aria-label="Samband: ${esc(edge.label)}">
+            <title>${esc(edge.label)}</title>
+            <path class="psm-edge-hit" d="${standardPath(edge)}"></path>
+            <path class="psm-edge-visible" d="${standardPath(edge)}"></path>
+          </g>`;
+        }).join("");
+        const nodeMarkup = nodes.map(node => {
+          const [x, y] = point(node);
+          const tablet = !mobile && modalPanelMedia.matches;
+          const lines = mobile && node.mobileLines ? node.mobileLines : tablet && node.tabletLines ? node.tabletLines : node.lines;
+          const lineHeight = mobile ? 16 : tablet ? 22 : 18;
+          const start = y - ((lines.length - 1) * lineHeight) / 2 + 5;
+          const tspans = lines.map((line, index) => `<tspan x="${x}" y="${start + index * lineHeight}">${esc(line)}</tspan>`).join("");
+          return `<g class="psm-node${node.outcome ? " is-outcome" : ""}" data-node-id="${node.id}" role="button" tabindex="0" aria-label="Nod: ${esc(node.label)}">
+            <title>${esc(node.label)}</title>
+            <circle cx="${x}" cy="${y}" r="${nodeRadius(node)}"></circle>
+            <text>${tspans}</text>
+          </g>`;
+        }).join("");
+        map.innerHTML = `
+          <defs>
+            <marker id="psm-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#87918d"></path></marker>
+            <marker id="psm-arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#006c63"></path></marker>
+          </defs>
+          <g class="psm-edges">${edgeMarkup}</g>
+          <g class="psm-nodes">${nodeMarkup}</g>`;
+        applySelectionClasses();
+      }
+
+      function applySelectionClasses() {
+        const nodeElements = [...map.querySelectorAll(".psm-node")];
+        const edgeElements = [...map.querySelectorAll(".psm-edge")];
+        nodeElements.forEach(el => el.classList.remove("is-active", "is-neighbor", "is-dim"));
+        edgeElements.forEach(el => el.classList.remove("is-active", "is-dim"));
+        if (!selected || selected.type === "about") return;
+
+        if (selected.type === "node") {
+          const relatedEdges = edges.filter(edge => edge.from === selected.id || edge.to === selected.id);
+          const relatedNodeIds = new Set([selected.id]);
+          relatedEdges.forEach(edge => {
+            relatedNodeIds.add(edge.from);
+            relatedNodeIds.add(edge.to);
+          });
+          nodeElements.forEach(el => {
+            const id = el.dataset.nodeId;
+            if (id === selected.id) el.classList.add("is-active");
+            else if (relatedNodeIds.has(id)) el.classList.add("is-neighbor");
+            else el.classList.add("is-dim");
+          });
+          edgeElements.forEach(el => {
+            if (relatedEdges.some(edge => edge.id === el.dataset.edgeId)) el.classList.add("is-active");
+            else el.classList.add("is-dim");
+          });
+        }
+
+        if (selected.type === "edge") {
+          const edge = edgeById[selected.id];
+          nodeElements.forEach(el => {
+            if (el.dataset.nodeId === edge.from || el.dataset.nodeId === edge.to) el.classList.add("is-neighbor");
+            else el.classList.add("is-dim");
+          });
+          edgeElements.forEach(el => {
+            if (el.dataset.edgeId === selected.id) el.classList.add("is-active");
+            else el.classList.add("is-dim");
+          });
+        }
+      }
+
+      function openItem(type, id, trigger) {
+        const item = type === "node" ? nodeById[id] : type === "edge" ? edgeById[id] : about;
+        if (modalPanelMedia.matches && !panel.classList.contains("is-open")) {
+          returnFocus = trigger || document.activeElement;
+        }
+        selected = { type, id };
+        panelInner.innerHTML = panelMarkup(item);
+        panel.classList.add("is-open");
+        panel.setAttribute("aria-hidden", "false");
+        panel.setAttribute("aria-modal", String(modalPanelMedia.matches));
+        mapCard.classList.add("has-panel");
+        if (modalPanelMedia.matches) scrim.classList.add("is-open");
+        applySelectionClasses();
+        if (modalPanelMedia.matches) {
+          requestAnimationFrame(() => panel.querySelector(".psm-panel-close")?.focus());
+        }
+      }
+
+      function closePanel() {
+        const focusTarget = returnFocus;
+        selected = null;
+        panel.classList.remove("is-open");
+        panel.setAttribute("aria-hidden", "true");
+        panel.setAttribute("aria-modal", "false");
+        scrim.classList.remove("is-open");
+        mapCard.classList.remove("has-panel");
+        applySelectionClasses();
+        if (modalPanelMedia.matches && focusTarget && document.contains(focusTarget)) {
+          requestAnimationFrame(() => focusTarget.focus());
+        }
+        returnFocus = null;
+      }
+
+      function textItem(item) {
+        return `<details class="psm-text-item">
+          <summary><span>${esc(item.label)}</span><span class="psm-text-kind">${esc(item.kind)}</span></summary>
+          <div class="psm-text-body">
+            <p><strong>Vad det betyder:</strong> ${esc(item.summary)}</p>
+            <p><strong>Underlag:</strong> ${esc(item.evidence)}${citations(item.evidenceSources)}</p>
+            <p><strong>Osäkerhet:</strong> ${esc(item.uncertainty)}</p>
+            <p><strong>Tänk vidare:</strong> ${esc(item.reflection)}</p>
+            ${sourceList(item.sourceIds)}
+          </div>
+        </details>`;
+      }
+
+      function renderTextView() {
+        textContent.innerHTML = `
+          <div class="psm-text-group"><h3>Noder</h3>${nodes.map(textItem).join("")}</div>
+          <div class="psm-text-group"><h3>Samband</h3>${edges.map(textItem).join("")}</div>`;
+      }
+
+      map.addEventListener("click", event => {
+        const node = event.target.closest(".psm-node");
+        const edge = event.target.closest(".psm-edge");
+        if (node) openItem("node", node.dataset.nodeId, node);
+        else if (edge) openItem("edge", edge.dataset.edgeId, edge);
+        else closePanel();
+      });
+
+      map.addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const node = event.target.closest(".psm-node");
+        const edge = event.target.closest(".psm-edge");
+        if (!node && !edge) return;
+        event.preventDefault();
+        if (node) openItem("node", node.dataset.nodeId, node);
+        if (edge) openItem("edge", edge.dataset.edgeId, edge);
+      });
+
+      root.addEventListener("click", event => {
+        const action = event.target.closest("[data-action]")?.dataset.action;
+        if (action === "close-panel") closePanel();
+        if (action === "about") openItem("about", "about", event.target.closest("[data-action]"));
+        if (action === "text-view") {
+          const willOpen = textView.hidden;
+          textView.hidden = !willOpen;
+          textButton.setAttribute("aria-expanded", String(willOpen));
+          textButton.textContent = willOpen ? "Dölj textversion" : "Läs som text";
+          if (willOpen) textView.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && panel.classList.contains("is-open")) {
+          closePanel();
+          return;
+        }
+        if (event.key === "Tab" && modalPanelMedia.matches && panel.classList.contains("is-open")) {
+          const focusable = [...panel.querySelectorAll('button, a[href]')].filter(element => !element.hasAttribute("disabled"));
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
+      });
+
+      compactMapMedia.addEventListener("change", () => {
+        closePanel();
+        renderMap();
+      });
+      modalPanelMedia.addEventListener("change", closePanel);
+      renderTextView();
+      renderMap();
+    })();
+  </script>
+</div>
+</body>
+</html>
