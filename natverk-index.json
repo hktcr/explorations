@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "byggd": "2026-08-04T13:49:28.472Z",
+  "byggd": "2026-08-09T09:58:33.816Z",
   "artiklar": [
     {
       "slug": "adhd-explained",
@@ -546,6 +546,27 @@
         "hermaphroditism",
         "intersex",
         "reproduction"
+      ]
+    },
+    {
+      "slug": "before-particles-quantum-fields",
+      "titel": "Before particles: learning to see the world as quantum fields",
+      "amne": "EXP#27 • Quantum field theory • Fundamental interactions • Physics",
+      "datum": "August 9, 2026",
+      "lastid": "≈ 41 min read",
+      "ord": 8027,
+      "avsnitt": 22,
+      "kallor": {
+        "totalt": 28,
+        "verifierade": 28
+      },
+      "nyckelord": [
+        "quantum-fields",
+        "gauge-theory",
+        "electroweak",
+        "QCD",
+        "gravity",
+        "renormalisation"
       ]
     }
   ],
@@ -1178,6 +1199,42 @@
         "human",
         "language",
         "text"
+      ]
+    },
+    {
+      "a": "before-particles-quantum-fields",
+      "b": "dark-matter-dark-energy",
+      "vikt": 0.318,
+      "termer": [
+        "quantum",
+        "fields",
+        "gravity",
+        "vacuum",
+        "energy"
+      ]
+    },
+    {
+      "a": "before-particles-quantum-fields",
+      "b": "origin-of-life",
+      "vikt": 0.132,
+      "termer": [
+        "emergence",
+        "scale",
+        "effective",
+        "organization",
+        "matter"
+      ]
+    },
+    {
+      "a": "before-particles-quantum-fields",
+      "b": "ai-life-consciousness-system",
+      "vikt": 0.116,
+      "termer": [
+        "ontology",
+        "model",
+        "system",
+        "evidence",
+        "interpretation"
       ]
     }
   ]

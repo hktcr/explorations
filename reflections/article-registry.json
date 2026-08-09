@@ -270,6 +270,16 @@
       "toolbarSelector": ".tools",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#27",
+      "slug": "before-particles-quantum-fields",
+      "title": "Before particles: learning to see the world as quantum fields",
+      "path": "before-particles-quantum-fields/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }
