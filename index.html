@@ -17,6 +17,10 @@
 .library-header p{margin:0;color:var(--meta);font:italic 1.15rem/1.6 var(--body)}
 .search-container{max-width:740px;margin:0 auto 2rem;padding:0 1.5rem}
 .search-input{width:100%;padding:1rem 1.5rem;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--text);font-size:1rem}
+.filter-row{display:flex;justify-content:flex-end;margin-top:.75rem}
+.read-filter{padding:.65rem 1rem;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--text);font:600 .85rem/1 var(--ui);cursor:pointer;transition:.2s}
+.read-filter:hover{border-color:var(--accent);color:var(--accent)}
+.read-filter[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .articles-grid{max-width:1100px;margin:auto;padding:0 1.5rem 5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:2rem}
 .article-card{display:flex;flex-direction:column;padding:2rem;border:1px solid var(--line);border-radius:12px;background:var(--card);color:inherit;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.1);transition:.25s}
 .article-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.16)}
@@ -34,7 +38,7 @@
 </head>
 <body>
 <header class="library-header"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p></header>
-<div class="search-container"><input type="search" class="search-input" id="searchInput" placeholder="Sök i hela biblioteket…" autocomplete="off"></div>
+<div class="search-container"><input type="search" class="search-input" id="searchInput" placeholder="Sök i hela biblioteket…" autocomplete="off"><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
 <div class="natverk-rad"><span id="natverkStatus" role="status" aria-live="polite"></span><button type="button" id="natverkVaxel" aria-pressed="false">Visa nätverk</button></div>
 <section class="natverk" id="natverk" hidden><canvas id="natverkKanter" aria-hidden="true"></canvas><nav id="natverkNoder" aria-label="Släktskapsnätverk över biblioteket"></nav><div id="kanttips" role="tooltip" hidden></div></section>
 <div id="traffar" class="dold"></div>
@@ -69,8 +73,13 @@
 </div>
 <footer class="library-footer"><p>Explorations by gAIa · Part of the GAIA Knowledge System</p></footer>
 <script>
-const input=document.getElementById('searchInput'),grid=document.getElementById('articlesGrid'),cards=[...grid.querySelectorAll('.article-card')];
-input.addEventListener('input',()=>{const q=input.value.toLowerCase().trim();let visible=0;cards.forEach(c=>{const match=!q||(c.dataset.title+' '+c.dataset.subject+' '+c.dataset.excerpt).toLowerCase().includes(q);c.hidden=!match;if(match)visible++});let empty=grid.querySelector('.no-results');if(!visible&&!empty){empty=document.createElement('p');empty.className='no-results';empty.textContent='Inga träffar.';grid.append(empty)}else if(visible&&empty)empty.remove()});
+const input=document.getElementById('searchInput'),grid=document.getElementById('articlesGrid'),cards=[...grid.querySelectorAll('.article-card')],readFilter=document.getElementById('readFilter');
+const readCards=cards.filter(c=>c.dataset.read==='true');
+let hideRead=false;
+const applyFilters=()=>{const q=input.value.toLowerCase().trim();let visible=0;cards.forEach(c=>{const matchesSearch=!q||(c.dataset.title+' '+c.dataset.subject+' '+c.dataset.excerpt).toLowerCase().includes(q);const matchesRead=!hideRead||c.dataset.read!=='true';const show=matchesSearch&&matchesRead;c.hidden=!show;if(show)visible++});let empty=grid.querySelector('.no-results');if(!visible&&!empty){empty=document.createElement('p');empty.className='no-results';empty.textContent=hideRead&&readCards.length===cards.length?'Alla artiklar är markerade som lästa.':'Inga träffar.';grid.append(empty)}else if(visible&&empty)empty.remove()};
+readFilter.textContent='Dölj lästa ('+readCards.length+')';
+readFilter.addEventListener('click',()=>{hideRead=!hideRead;readFilter.setAttribute('aria-pressed',String(hideRead));readFilter.textContent=(hideRead?'Visa lästa':'Dölj lästa')+' ('+readCards.length+')';applyFilters()});
+input.addEventListener('input',applyFilters);
 </script>
 <script src="natverk.js" defer></script>
 <script type="module" src="engagement/engagement.js?v=20260805-3" data-engagement-asset="runtime"></script>
