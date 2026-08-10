@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html data-exploration-id="EXP#28" lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="En källgranskad utforskning av Cognitive Load Theory, arbetsminne, undervisningsdesign och teorins gränser.">
+<title>När tänkandet blir för fullt | Explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap">
+<style>
+:root{--bg:#fcfcfc;--paper:#fff;--text:#1a1a1a;--muted:#666;--line:#dedede;--accent:#9b3f36;--soft:#f7f1ee;--verified:#1f6a3b;--body:'Merriweather',Georgia,'Times New Roman',serif;--ui:'Inter',system-ui,sans-serif;--measure:740px;--scale:1}
+@media(prefers-color-scheme:dark){:root{--bg:#121212;--paper:#1e1e1e;--text:#e0e0e0;--muted:#aaa;--line:#353535;--accent:#e07c70;--soft:#211b1a;--verified:#61c78b}}
+:root[data-theme=light]{--bg:#fcfcfc;--paper:#fff;--text:#1a1a1a;--muted:#666;--line:#dedede;--accent:#9b3f36;--soft:#f7f1ee;--verified:#1f6a3b}:root[data-theme=dark]{--bg:#121212;--paper:#1e1e1e;--text:#e0e0e0;--muted:#aaa;--line:#353535;--accent:#e07c70;--soft:#211b1a;--verified:#61c78b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui);font-size:calc(18px * var(--scale));line-height:1.8}.progress{position:fixed;inset:0 auto auto 0;width:0;height:3px;background:var(--accent);z-index:20}.tools{position:sticky;top:0;z-index:10;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding:.65rem max(1rem,calc((100vw - 1100px)/2));border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);font:500 .78rem/1.2 var(--ui)}button,input{font:inherit}.tools button,.tools a{border:1px solid var(--line);border-radius:4px;background:transparent;color:var(--text);padding:.38rem .58rem;text-decoration:none;cursor:pointer}.tools button:hover,.tools a:hover{border-color:var(--accent);color:var(--accent)}.search{min-width:180px;flex:1;max-width:290px;border:1px solid var(--line);border-radius:4px;background:transparent;color:var(--text);padding:.42rem .62rem}.width{display:flex;gap:.35rem;align-items:center;color:var(--muted);font-size:.72rem}.width input{width:85px}.hero{max-width:940px;margin:auto;padding:4.8rem 1.3rem 2.2rem;text-align:center}.badge{color:var(--accent);font:600 .72rem/1.2 var(--ui);letter-spacing:.15em;text-transform:uppercase}.hero h1{color:var(--accent);font:700 clamp(2.4rem,6vw,4.8rem)/1.1 var(--body);letter-spacing:-.03em;margin:.8rem 0 1rem}.subtitle{max-width:780px;margin:auto;color:var(--muted);font:italic clamp(1.05rem,2.2vw,1.3rem)/1.65 var(--body)}.meta{display:flex;justify-content:center;flex-wrap:wrap;gap:.8rem;margin-top:1.5rem;color:var(--muted);font-size:.78rem}.verified{color:var(--verified);font-weight:700}.standfirst{max-width:var(--measure);margin:2rem auto 3rem;padding:0 1.3rem;font:1.16rem/1.8 var(--body)}main{max-width:var(--measure);margin:auto;padding:0 1.3rem 6rem}.toc{margin:0 0 3rem;padding:1.25rem 1.35rem;border-radius:8px;background:var(--soft);font-size:.82rem}.toc summary{cursor:pointer;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}.toc ol{columns:2;padding-left:1.2rem}.toc li{break-inside:avoid;margin:.28rem 0}.toc a{color:var(--text);text-decoration:none}article{font:1rem/1.85 var(--body)}article>h2:first-of-type+p::first-letter{float:left;font-size:4em;line-height:.8;color:var(--accent);margin:.08em .1em 0 0;font-weight:700}article h2,article h3{scroll-margin-top:85px;font-family:var(--body);line-height:1.25}article h2{color:var(--accent);font-size:1.75rem;margin:3.6rem 0 1rem}article h3{font-size:1.25rem;font-style:italic;font-weight:400;margin:2.4rem 0 .7rem}article a{color:var(--accent)}article strong:first-child{font-family:var(--ui)}article ol,article ul{padding-left:1.4rem}.ref{font-size:.7em;line-height:0;position:relative;vertical-align:baseline;top:-.5em}.ref a{text-decoration:none;font-family:var(--ui);font-weight:600}.sources{margin-top:5rem;padding:1.6rem;border-radius:8px;background:var(--soft);font-family:var(--ui)}.sources h2{margin-top:0;font-family:var(--ui);font-size:1rem;letter-spacing:.06em;text-transform:uppercase}.sources li{margin:0 0 1.05rem;font-size:.76rem;line-height:1.5}.search-status{min-height:1.3em;margin:.4rem 0 1rem;color:var(--muted);font-family:var(--ui);font-size:.76rem}mark{background:#ffe58a;color:#191919}footer{text-align:center;border-top:1px solid var(--line);padding:2.5rem 1rem;color:var(--muted);font-size:.75rem}@media(max-width:700px){.toc ol{columns:1}.hero{padding-top:3rem}.tools{padding:.55rem}.width{display:none}}@media print{.tools,.progress{display:none!important}body{background:#fff;color:#000;font-size:12pt}.hero{padding-top:1rem}.toc{display:none}}
+</style>
+<link rel="stylesheet" href="../engagement/engagement.css" data-engagement-asset="style">
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<nav class="tools" aria-label="Läsverktyg"><a href="../index.html">Bibliotek</a><input class="search" id="search" type="search" placeholder="Sök i artikeln" aria-label="Sök i artikeln"><button id="font" type="button">Sans</button><button id="smaller" type="button" aria-label="Mindre text">A−</button><button id="reset" type="button">Återställ</button><button id="larger" type="button" aria-label="Större text">A+</button><button id="theme" type="button">Tema: Auto</button><button id="print" type="button">Skriv ut</button><label class="width">Radbredd <input id="width" type="range" min="560" max="900" value="740"></label></nav>
+<header class="hero"><div class="badge">EXP#28 · Pedagogik · Kognition · Undervisningsdesign</div><h1>När tänkandet blir för fullt</h1><p class="subtitle">Vad Cognitive Load Theory förklarar, och vad den inte gör</p><div class="meta"><time datetime="2026-08-10">10 augusti 2026</time><span>≈ 19 min läsning</span><span class="verified">18 akademiska källor kontrollerade</span></div></header>
+<p class="standfirst">Cognitive Load Theory handlar inte om att göra undervisning så lätt som möjligt. Den handlar om vilket mentalt arbete som behövs för att förstå, vilket arbete undervisningen råkar lägga ovanpå och hur skillnaden förändras när kunskapen växer.</p>
+<main>
+<details class="toc"><summary>Innehåll</summary><ol>
+<li><a href="#tavlan-som-blev-omöjlig">Tavlan som blev omöjlig</a></li><li><a href="#två-minnessystem-med-olika-uppgifter">Två minnessystem</a></li><li><a href="#element-interactivity-när-delarna-måste-mötas">Element interactivity</a></li><li><a href="#tre-sorters-belastning-eller-kanske-två">Tre sorters belastning</a></li><li><a href="#worked-examples-att-få-se-en-väg-genom-problemet">Worked examples</a></li><li><a href="#split-attention-när-integrationen-lämnas-åt-eleven">Split attention</a></li><li><a href="#redundancy-när-mer-information-blir-mindre-hjälp">Redundancy</a></li><li><a href="#expertise-reversal-när-stödet-får-bäst-före-datum">Expertise reversal</a></li><li><a href="#segmentering-pauser-som-bevarar-helheten">Segmentering</a></li><li><a href="#modality-och-transient-information-talet-som-försvinner">Modalitet och flyktig information</a></li><li><a href="#self-explanation-när-eleven-måste-skapa-förbindelsen">Self explanation</a></li><li><a href="#det-som-ofta-saknas-i-den-förenklade-clt-berättelsen">Det som ofta saknas</a></li><li><a href="#hur-vet-vi-hur-hög-belastningen-är">Hur belastning mäts</a></li><li><a href="#en-teori-som-har-förändrats">En teori som förändrats</a></li><li><a href="#nio-saker-clt-inte-säger">Nio saker CLT inte säger</a></li><li><a href="#en-försiktig-designkompass">En försiktig designkompass</a></li><li><a href="#det-begränsade-arbetsminnets-radikala-budskap">Det radikala budskapet</a></li><li><a href="#källor">Källor</a></li>
+</ol></details>
+<div class="search-status" id="status" role="status" aria-live="polite"></div>
+<article id="article">
+<h2 id="tavlan-som-blev-omöjlig">Tavlan som blev omöjlig</h2>
+<p>Läraren har planerat noggrant. På tavlan finns en tydlig bild av en
+cell. Till vänster ligger en lista över organeller. Under bilden finns
+en förklaring av cellandningen. Samtidigt berättar läraren vad eleverna
+ska titta efter. All information är korrekt. Inget är egentligen
+överflödigt.</p>
+<p>Ändå tappar några elever tråden.</p>
+<p>De letar efter vilken textrad som hör till vilken del av bilden.
+Medan de söker fortsätter läraren att tala. När de hittar rätt pil har
+den muntliga förklaringen redan gått vidare. De försöker hålla kvar
+början av resonemanget, tolka figuren och anteckna på samma gång.
+Problemet är inte brist på vilja. Det är inte heller säkert att
+innehållet är för svårt. Problemet kan ligga i hur många nya relationer
+som måste hållas aktiva samtidigt.</p>
+<p>Det är den situationen Cognitive Load Theory, vanligen förkortad CLT,
+försöker förstå.</p>
+<p>CLT är en teori om undervisningsdesign som utgår från samspelet
+mellan arbetsminne, långtidsminne, tidigare kunskap och uppgiftens
+struktur. Teorin har haft stort inflytande inom undervisningsforskning
+och multimedialt lärande. Den har också producerat en rad välkända
+effekter, bland annat worked example effect, split attention effect,
+redundancy effect, modality effect och expertise reversal
+effect.<sup class="ref"><a href="#src-1">[1]</a></sup><sup class="ref"><a href="#src-16">[16]</a></sup></p>
+<p>Men teorin har ofta förenklats till ett slagord: arbetsminnet är
+begränsat, alltså ska undervisningen göras enkel. Det är för grovt.
+Lärande kräver att eleven bearbetar något som ännu inte är bekant. En
+undervisning utan mental ansträngning kan vara lika misslyckad som en
+undervisning som överbelastar. Den avgörande frågan är inte hur lite
+eleven behöver tänka, utan vad elevens begränsade bearbetningskapacitet
+används till.</p>
+<h2 id="två-minnessystem-med-olika-uppgifter">Två minnessystem med olika
+uppgifter</h2>
+<p><strong>[Forskning]</strong> CLT bygger på skillnaden mellan ett
+begränsat arbetsminne och ett långtidsminne som kan lagra organiserad
+kunskap i mycket stor omfattning. Begränsningen är särskilt viktig när
+vi behandlar ny information vars delar måste relateras till varandra.
+När kunskap har organiserats i långtidsminnet kan flera detaljer i
+stället uppfattas och användas som en mer sammanhållen
+struktur.<sup class="ref"><a href="#src-1">[1]</a></sup><sup class="ref"><a href="#src-2">[2]</a></sup></p>
+<p>Det förklarar en erfarenhet som annars kan se paradoxal ut. En
+nybörjare kan bli överväldigad av ett kopplingsschema med tio symboler.
+En elektriker kan se samma schema som några få funktionella enheter. Det
+synliga materialet är identiskt, men den kognitiva uppgiften är inte
+densamma.</p>
+<p>I CLT används ofta ordet schema för sådana organiserade
+kunskapsstrukturer. Ett schema är inte bara en lista av fakta. Det är
+ett mönster som gör att flera element kan behandlas som en meningsfull
+helhet. När elever lär sig multiplikationstabellen, kemiska
+reaktionsmönster eller hur argument och evidens hänger samman bygger de
+strukturer som senare frigör kapacitet för mer avancerade uppgifter.</p>
+<p><strong>[Tolkning]</strong> Det är därför missvisande att tala om en
+fast gräns för hur många saker en elev kan hantera. Vad som räknas som
+en sak beror på elevens kunskap och på vilka relationer uppgiften
+kräver. CLT handlar mindre om antalet synliga objekt än om antalet
+element som måste samordnas som separata delar.</p>
+<h2 id="element-interactivity-när-delarna-måste-mötas">Element
+interactivity, när delarna måste mötas</h2>
+<p>John Sweller använder begreppet element interactivity för att
+beskriva hur många informationsdelar som måste behandlas i relation till
+varandra för att uppgiften ska förstås eller
+lösas.<sup class="ref"><a href="#src-2">[2]</a></sup> Att lära sig en
+fristående glosa kan innebära låg interaktivitet. Att balansera en
+kemisk reaktionsformel kräver att flera ämnen, atomslag, koefficienter
+och bevarandelagar hålls samman.</p>
+<p>Interaktiviteten är inte en ren egenskap hos materialet. Tidigare
+kunskap förändrar den. En expert kan ha samlat flera relationer i ett
+enda schema, medan nybörjaren fortfarande måste behandla dem
+separat.</p>
+<p><strong>[Praktisk slutsats]</strong> Innan vi frågar om
+undervisningen skapar för hög belastning behöver vi därför specificera
+tre saker:</p>
+<ol type="1">
+<li>Vad ska eleven lära sig?</li>
+<li>Vilka nya relationer måste eleven förstå samtidigt?</li>
+<li>Vilka av dessa relationer har eleven redan organiserat i
+långtidsminnet?</li>
+</ol>
+<p>Utan ett tydligt lärandemål går det inte att avgöra vilken
+bearbetning som är nödvändig och vilken som är onödig.</p>
+<h2 id="tre-sorters-belastning-eller-kanske-två">Tre sorters belastning,
+eller kanske två</h2>
+<p>Den klassiska presentationen av CLT skiljer mellan intrinsic,
+extraneous och germane cognitive load. Indelningen är pedagogiskt
+användbar, men den ska inte behandlas som om tre klart åtskilda
+storheter kunde avläsas direkt i hjärnan.</p>
+<h3 id="intrinsic-cognitive-load">Intrinsic cognitive load</h3>
+<p><strong>[Forskning]</strong> Intrinsic load avser den belastning som
+följer av de relationer som själva lärandemålet kräver, i samspel med
+elevens tidigare
+kunskap.<sup class="ref"><a href="#src-1">[1]</a></sup><sup class="ref"><a href="#src-2">[2]</a></sup>
+Om målet är att förstå fotosyntesens nettoreaktion måste flera ämnen,
+energiomvandlingar och processrelationer samordnas. Denna komplexitet
+kan inte avlägsnas utan att man samtidigt förändrar vad eleven ska lära
+sig.</p>
+<p>Den kan däremot hanteras. Undervisningen kan bygga nödvändiga
+förkunskaper, dela upp en progression och låta vissa komponenter
+automatiseras innan helheten behandlas.</p>
+<h3 id="extraneous-cognitive-load">Extraneous cognitive load</h3>
+<p><strong>[Forskning]</strong> Extraneous load uppstår genom
+bearbetning som inte tjänar det aktuella lärandemålet. Det kan handla om
+att söka mellan en figur och en separat förklaring, hålla en lång
+muntlig instruktion i minnet eller tolka dekorativa detaljer som inte
+hjälper
+förståelsen.<sup class="ref"><a href="#src-1">[1]</a></sup><sup class="ref"><a href="#src-6">[6]</a></sup></p>
+<p>Extraneous betyder inte automatiskt irriterande, svårt eller
+omfattande. Samma information kan vara relevant för ett mål och
+ovidkommande för ett annat. En historisk utvikning kan fördjupa
+förståelsen i en vetenskapshistorisk lektion men störa när eleven
+försöker lära sig ett nytt beräkningsförfarande.</p>
+<h3 id="germane-cognitive-load">Germane cognitive load</h3>
+<p>I äldre framställningar beskrivs germane load som den mentala
+ansträngning som används för att bygga och automatisera scheman. Det har
+ofta lett till rådet att minska extraneous load, hantera intrinsic load
+och öka germane load.</p>
+<p><strong>[Forskning]</strong> Denna tredelning är omstridd. Kalyuga
+argumenterade för att germane load inte behöver vara en självständig,
+additiv belastningstyp utan kan förstås som resurser som ägnas åt den
+uppgiftsrelevanta
+komplexiteten.<sup class="ref"><a href="#src-3">[3]</a></sup> En
+systematisk metaanalys av frågeformulär fann tillfredsställande intern
+konsistens och visst stöd för en trefaktorsmodell, men också
+korrelationsmönster som försvårar en ren separation mellan intrinsic och
+extraneous load och utmanar antagandet att typerna enkelt
+adderas.<sup class="ref"><a href="#src-4">[4]</a></sup></p>
+<p><strong>[Tolkning]</strong> Det är därför säkrare att tala om
+produktiv, läranderelevant bearbetning än att behandla germane load som
+en separat mängd som alltid bör maximeras. Stor ansträngning är inte ett
+mål i sig. Frågan är om ansträngningen hjälper eleven att urskilja
+relationer, bygga kunskap och kunna använda den senare.</p>
+<h2 id="worked-examples-att-få-se-en-väg-genom-problemet">Worked
+examples, att få se en väg genom problemet</h2>
+<p>I en klassisk studie jämförde Sweller och Cooper traditionell
+problemlösning med studier av fullständigt lösta algebraexempel.
+Nybörjare som studerade worked examples använde mindre tid under
+inlärningen och löste senare liknande uppgifter snabbare och med färre
+fel.<sup class="ref"><a href="#src-5">[5]</a></sup></p>
+<p><strong>[Forskning]</strong> CLT:s förklaring är att konventionell
+problemlösning kan få nybörjaren att använda mycket kapacitet till
+sökstrategier. Ett genomarbetat exempel visar i stället problemets
+struktur och de steg som förbinder givna värden med
+lösningen.<sup class="ref"><a href="#src-1">[1]</a></sup><sup class="ref"><a href="#src-5">[5]</a></sup></p>
+<p>Ett worked example är inte bara en lärare som räknar snabbt på
+tavlan. Det är ett beständigt och inspekterbart exempel där eleven kan
+följa hela lösningsvägen. Effekten stärks när eleven får hjälp att
+uppmärksamma varför stegen följer på varandra och när exemplen senare
+övergår i successivt mer självständig problemlösning.</p>
+<p><strong>[Praktisk slutsats]</strong> För en ny procedur kan en
+progression bestå av:</p>
+<ol type="1">
+<li>Ett komplett, kommenterat exempel.</li>
+<li>Ett exempel där några steg behöver förklaras av eleven.</li>
+<li>Ett ofullständigt exempel där vissa steg fylls i.</li>
+<li>Självständig problemlösning med återkoppling.</li>
+</ol>
+<p>Detta är inte ett argument mot problemlösning. Det är ett argument
+mot att göra ostrukturerad sökning till nybörjarens huvudsakliga väg in
+i ett komplext område.</p>
+<h2 id="split-attention-när-integrationen-lämnas-åt-eleven">Split
+attention, när integrationen lämnas åt eleven</h2>
+<p>En bild och en text är inte automatiskt ett split attention problem.
+Problemet uppstår när två eller flera informationskällor är ömsesidigt
+beroende, men presenteras så att eleven själv måste söka och mentalt
+integrera dem.</p>
+<p><strong>[Forskning]</strong> En metaanalys av rumslig närhet och
+split attention omfattade 58 oberoende jämförelser och 2 426 deltagare.
+Integrerade presentationer hade en positiv genomsnittlig effekt på
+lärandet, g = 0,63, men effekten varierade med material och
+villkor.<sup class="ref"><a href="#src-6">[6]</a></sup></p>
+<p>Det är lätt att göra regeln alltför mekanisk. All närliggande
+information behöver inte slås samman. Om varje informationskälla kan
+förstås självständigt kan separeringen stödja jämförelse eller
+överblick. Integrering hjälper främst när eleven annars måste utföra en
+onödig sök och sammanfogningsuppgift.</p>
+<p><strong>[Praktisk slutsats]</strong> Placera en förklaring nära den
+del av figuren den förklarar. Gör kopplingar synliga. Men integrera inte
+så mycket att representationen blir tät, svårläst eller omöjlig att
+jämföra.</p>
+<h2 id="redundancy-när-mer-information-blir-mindre-hjälp">Redundancy,
+när mer information blir mindre hjälp</h2>
+<p>I vardagligt språk betyder redundans ofta upprepning. I CLT är
+begreppet snävare. Information är redundant när den inte behövs för
+förståelsen men ändå kräver bearbetning.</p>
+<p><strong>[Forskning]</strong> I vissa multimediala situationer har
+identisk talad och skriven teknisk text försämrat lärandet, särskilt när
+presentationen varit systemstyrd och
+tidsbegränsad.<sup class="ref"><a href="#src-7">[7]</a></sup> Men
+repetition är inte automatiskt skadlig. Den kan stödja orientering,
+tillgänglighet, minne eller ett nytt syfte. Senare forskning om flera
+externa representationer visar också att nyttan beror på om
+representationerna kompletterar varandra och på vilken
+integrationskostnad de
+skapar.<sup class="ref"><a href="#src-17">[17]</a></sup></p>
+<p>En lärare ska därför inte fråga om samma sak förekommer två gånger,
+utan om den andra representationen gör ett nytt arbete. En bild kan
+konkretisera en text. En rubrik kan organisera. En kort återblick kan
+återaktivera förkunskaper. Däremot kan dekorativa exempel, dubblerade
+instruktioner och uppläsning av all text konkurrera om uppmärksamheten
+utan att tillföra förståelse.</p>
+<h2 id="expertise-reversal-när-stödet-får-bäst-före-datum">Expertise
+reversal, när stödet får bäst före datum</h2>
+<p>Stöd som hjälper nybörjaren kan bli neutralt eller störande när
+elevens kunskap ökar. Det kallas expertise reversal effect.</p>
+<p><strong>[Forskning]</strong> Tidigare översikter beskrev hur
+vägledning kan ändra funktion när elevens ämnesspecifika schema
+utvecklas.<sup class="ref"><a href="#src-8">[8]</a></sup> En metaanalys
+publicerad 2025 bekräftade att effekten finns på gruppnivå och
+undersökte villkor som påverkar dess
+styrka.<sup class="ref"><a href="#src-18">[18]</a></sup> Det betyder
+inte att allt stöd förr eller senare blir skadligt. Det betyder att
+undervisningsdesign behöver vara adaptiv.</p>
+<p>Detta är ett av CLT:s viktigaste korrektiv mot universella
+checklistor. Ett komplett exempel kan vara avlastande för en nybörjare
+och redundant för en erfaren elev. En detaljerad figurförklaring kan
+vara nödvändig ena veckan och hindra självständig tolkning några veckor
+senare.</p>
+<p><strong>[Praktisk slutsats]</strong> Bedöm inte en undervisningsmetod
+som bra eller dålig utan att fråga för vem, för vilket innehåll och vid
+vilken tidpunkt i lärandet.</p>
+<h2 id="segmentering-pauser-som-bevarar-helheten">Segmentering, pauser
+som bevarar helheten</h2>
+<p>Segmentering innebär att en sammanhängande framställning delas i
+meningsfulla delar, ofta så att eleven kan styra övergången mellan
+dem.</p>
+<p><strong>[Forskning]</strong> En metaanalys av 56 undersökningar och
+88 parvisa jämförelser fann små till medelstora positiva effekter på
+retention och transfer. Segmentering minskade också rapporterad total
+belastning, men ökade tiden som användes för
+lärandet.<sup class="ref"><a href="#src-9">[9]</a></sup></p>
+<p>Mer segmentering är inte alltid bättre. Om varje mening blir ett eget
+steg kan sammanhanget splittras och arbetet förvandlas till en serie
+avbrott. Ett segment bör motsvara en begriplig tanke eller förändring i
+processen.</p>
+<p><strong>[Praktisk slutsats]</strong> Segmentera vid begreppsliga
+gränser, inte vid godtyckliga tidsintervall. Låt eleven kunna stanna,
+återvända och se hur delen hör ihop med helheten.</p>
+<h2
+id="modality-och-transient-information-talet-som-försvinner">Modality
+och transient information, talet som försvinner</h2>
+<p>Modality effect används ofta för resultat där en bild tillsammans med
+talad förklaring fungerar bättre än samma bild tillsammans med skriven
+text. En vanlig förklaring är att visuell och auditiv bearbetning delvis
+kan fördela belastningen mellan olika resurser.</p>
+<p><strong>[Forskning]</strong> En metaanalys fann en positiv
+genomsnittlig modality effect i de inkluderade multimediala studierna.
+Effekten var större vid material med hög element interactivity och vid
+systemstyrda presentationer, men flera moderatorresultat byggde på
+begränsat underlag.<sup class="ref"><a href="#src-10">[10]</a></sup></p>
+<p>Detta motiverar inte regeln att tal plus bild alltid är bäst. Tal är
+flyktigt. När en lång muntlig förklaring fortsätter måste tidigare delar
+hållas aktiva medan nya kommer in.</p>
+<p><strong>[Forskning]</strong> Leahy och Sweller jämförde diagram med
+talad respektive skriven förklaring. Vid den längre framställningen
+presterade elever bättre när texten låg kvar skriftligt. När texten
+kortades återkom den förväntade fördelen för tal. Forskarna tolkade
+mönstret som en transient information
+effect.<sup class="ref"><a href="#src-12">[12]</a></sup></p>
+<p><strong>[Tolkning]</strong> Modalitet kan alltså både avlasta och
+belasta. Tal kan minska visuell konkurrens men ökar kravet att minnas
+det som redan har sagts. Beständig text möjliggör återinspektion men kan
+konkurrera med diagrammet om visuell uppmärksamhet.</p>
+<p><strong>[Praktisk slutsats]</strong> Använd tal för att rikta
+uppmärksamheten och förklara en synlig struktur, men låt exakta
+instruktioner, begrepp och längre resonemang finnas kvar i beständig
+form.</p>
+<h2 id="self-explanation-när-eleven-måste-skapa-förbindelsen">Self
+explanation, när eleven måste skapa förbindelsen</h2>
+<p>Self explanation innebär att eleven själv formulerar varför ett steg
+är rimligt, hur två begrepp hänger samman eller vilken princip som
+förklarar ett resultat.</p>
+<p><strong>[Forskning]</strong> En metaanalys identifierade 69
+effektstorlekar från 64 forskningsrapporter och fann en positiv
+genomsnittlig effekt på lärande, g =
+0,55.<sup class="ref"><a href="#src-11">[11]</a></sup> Effekten beror på
+hur uppmaningen utformas, vilket innehåll som lärs och vilka
+förkunskaper eleven har.</p>
+<p>Det centrala är ordet själv. En ytterligare förklaring från läraren
+eller ett AI system är inte self explanation. Strategin kräver att
+eleven genererar en relation och därmed gör sin förståelse synlig för
+sig själv eller någon annan.</p>
+<p><strong>[Praktisk slutsats]</strong> Frågor som ”Varför följer detta
+steg?” eller ”Vad skulle förändras om villkoret togs bort?” kan vara mer
+värdefulla än uppmaningen ”Förklara mer”. Men frågorna ska placeras där
+de hjälper eleven att organisera kunskap, inte efter varje mening.</p>
+<h2 id="det-som-ofta-saknas-i-den-förenklade-clt-berättelsen">Det som
+ofta saknas i den förenklade CLT berättelsen</h2>
+<h3 id="motivation-är-inte-bara-ett-störningsmoment">Motivation är inte
+bara ett störningsmoment</h3>
+<p>CLT har främst fokuserat på informationsbearbetning, men elever är
+inte passiva processorer. De väljer vad de uppmärksammar, hur länge de
+försöker och om de uppfattar ett mål som meningsfullt.</p>
+<p><strong>[Forskning]</strong> En aktuell teoretisk syntes mellan CLT
+och självbestämmandeteorin visar att motivation både kan påverka hur
+resurser investeras och påverkas av undervisningens belastning och
+utformning.<sup class="ref"><a href="#src-14">[14]</a></sup> Motivation
+kan därför inte reduceras till extraneous load. En utmanande uppgift kan
+kräva stor ansträngning men ändå skapa uthållighet om eleven upplever
+kompetens, autonomi och mening.</p>
+<h3
+id="känslor-uppmärksamhet-och-trötthet-är-närliggande-men-inte-identiska">Känslor,
+uppmärksamhet och trötthet är närliggande men inte identiska</h3>
+<p>Stress, oro, sömnbrist, distraktion och mental trötthet kan förändra
+prestation och uppmärksamhet. De kan också påverka hur belastning
+upplevs. Men CLT är inte en fullständig teori om alla dessa processer.
+Att en elev verkar överväldigad visar inte i sig vilken belastningstyp
+som är hög eller varför.</p>
+<h3 id="lärande-är-inte-samma-sak-som-omedelbar-lätthet">Lärande är inte
+samma sak som omedelbar lätthet</h3>
+<p>En undervisningssituation kan kännas smidig utan att skapa hållbar
+kunskap. Omvänt kan produktiv återkallning, självförklaring och transfer
+kräva ansträngning. CLT innebär därför inte att läraren alltid ska
+minimera upplevd svårighet. Målet är att minska den bearbetning som inte
+tjänar lärandet och skapa utrymme för den bearbetning som gör det.</p>
+<p><strong>[Tolkning]</strong> En sammanfattning kan minska
+orienteringskostnaden utan att ge den förståelse som byggs när eleven
+följer en argumentation, relaterar belägg till slutsatser och själv
+rekonstruerar avgörande samband. Att korta en text är därför inte
+automatiskt att minska extraneous load. Om förkortningen tar bort den
+bearbetning som lärandemålet kräver har man förändrat uppgiften i
+stället för att förbättra dess utformning. Denna skillnad aktualiserades
+i det efterföljande poddtestet, men slutsatsen stöds här av artikelns
+forskningsunderlag om self explanation, lärandemål och produktiv
+bearbetning, inte av podden som evidens.</p>
+<h2 id="hur-vet-vi-hur-hög-belastningen-är">Hur vet vi hur hög
+belastningen är?</h2>
+<p>Cognitive load är en latent konstruktion. Den kan inte observeras
+direkt. Forskare använder bland annat självskattningar av mental
+ansträngning eller upplevd svårighet, prestation, tid, sekundära
+uppgifter, ögonrörelser och fysiologiska mått.</p>
+<p>Ingen metod ger ensam en fullständig bild.</p>
+<p><strong>[Forskning]</strong> Metaanalysen av fyra vanliga
+frågeformulär fann tillfredsställande intern konsistens, men mer blandad
+konstruktvaliditet. Särskilt positiva samband mellan skattad intrinsic
+och extraneous load var svåra att förena med en enkel additiv
+modell.<sup class="ref"><a href="#src-4">[4]</a></sup> En kritisk
+genomgång har också pekat på problem med att separera belastningstyper,
+upptäcka faktisk överbelastning och tolka
+självrapporter.<sup class="ref"><a href="#src-13">[13]</a></sup></p>
+<p>Mättidpunkten spelar roll. En studie från 2026 följde 360
+högstadieelever genom tre worked examples i kemi och mätte ansträngning,
+svårighet, intresse och självskattad förståelse vid upprepade
+tillfällen. Värdena förändrades under arbetets gång och representerades
+dåligt av ett enda
+medelvärde.<sup class="ref"><a href="#src-15">[15]</a></sup></p>
+<p><strong>[Tolkning]</strong> En enkät efter lektionen kan ge värdefull
+information, men den är inte ett direkt fönster in i arbetsminnet. En
+elev kan blanda ihop ämnets svårighet med presentationens kvalitet.
+Efterhandsbedömningen kan domineras av början, slutet eller den mest
+påfrestande delen.</p>
+<p><strong>[Praktisk slutsats]</strong> Om en undervisningsdesign ska
+utvärderas bör flera mått kombineras:</p>
+<ol type="1">
+<li>Vad lärde sig eleverna direkt?</li>
+<li>Vad kan de återkalla och använda senare?</li>
+<li>Hur lång tid tog arbetet?</li>
+<li>Vilka fel och strategier syntes under processen?</li>
+<li>Hur skattade eleverna svårighet och ansträngning vid relevanta
+tidpunkter?</li>
+</ol>
+<h2 id="en-teori-som-har-förändrats">En teori som har förändrats</h2>
+<p>CLT har inte varit statisk. När effekter inte har replikerats under
+vissa villkor har teorin utvecklat mer precisa antaganden om element
+interactivity, split attention, tidigare kunskap och
+informationsflyktighet.<sup class="ref"><a href="#src-16">[16]</a></sup></p>
+<p>Det kan tolkas på två sätt. Teorins förespråkare ser en produktiv
+forskningsutveckling där avvikande resultat leder till bättre
+specificerade mekanismer. Kritiker kan invända att en teori riskerar att
+bli svår att falsifiera om varje avvikelse förklaras genom ett nytt
+villkor.</p>
+<p><strong>[Forskning]</strong> De Jong framhöll flera problem:
+otydlighet i hur belastningstyper mäts, svårigheter att avgöra när
+överbelastning faktiskt har inträffat och risken att
+undervisningsrekommendationer härleds från mått som inte tydligt fångar
+de teoretiska
+konstruktionerna.<sup class="ref"><a href="#src-13">[13]</a></sup></p>
+<p>Detta gör inte CLT oanvändbar. Det innebär att styrkan ligger mer i
+väl avgränsade hypoteser och återkommande mönster än i en enkel
+totalförklaring av undervisning. Worked examples, integrerad information
+och anpassning till expertis kan ha starkt stöd utan att varje detalj i
+teorins belastningstaxonomi är slutgiltigt avgjord.</p>
+<h2 id="nio-saker-clt-inte-säger">Nio saker CLT inte säger</h2>
+<ol type="1">
+<li>CLT säger inte att all undervisning ska vara lätt.</li>
+<li>CLT säger inte att mental ansträngning är skadlig.</li>
+<li>CLT säger inte att problemlösning ska undvikas.</li>
+<li>CLT säger inte att elever alltid ska få fullständig vägledning.</li>
+<li>CLT säger inte att bilder alltid är bättre än text.</li>
+<li>CLT säger inte att tal alltid är bättre än skrift.</li>
+<li>CLT säger inte att upprepning alltid är redundant.</li>
+<li>CLT säger inte att ett självskattningsvärde mäter arbetsminnets
+belastning direkt.</li>
+<li>CLT är inte en fullständig teori om motivation, uppmärksamhet,
+känslor eller lärande.</li>
+</ol>
+<h2 id="en-försiktig-designkompass">En försiktig designkompass</h2>
+<p>CLT fungerar bäst som en kompass för frågor, inte som en checklista
+som automatiskt producerar god undervisning.</p>
+<ol type="1">
+<li><strong>Börja med lärandemålet.</strong> Det avgör vilken
+bearbetning som är relevant.</li>
+<li><strong>Kartlägg beroendena.</strong> Identifiera vilka nya element
+som måste förstås tillsammans.</li>
+<li><strong>Ta reda på förkunskaperna.</strong> Samma material innebär
+olika belastning för olika elever.</li>
+<li><strong>Visa kompletta vägar för nybörjare.</strong> Använd worked
+examples när sökandet annars skulle dominera.</li>
+<li><strong>Integrera ömsesidigt beroende information.</strong> Låt inte
+eleven göra onödigt detektivarbete mellan text och bild.</li>
+<li><strong>Kräv funktion av varje representation.</strong> Upprepning
+ska orientera, förklara, möjliggöra eller tillgängliggöra något.</li>
+<li><strong>Gör flyktig information återinspekterbar.</strong> Låt
+viktiga instruktioner och resonemang finnas kvar.</li>
+<li><strong>Segmentera efter mening.</strong> Pauser ska bevara, inte
+sönderdela, den konceptuella helheten.</li>
+<li><strong>Låt stödet avta.</strong> Anpassa vägledningen när elevens
+kunskap växer.</li>
+<li><strong>Be eleven skapa relationer.</strong> Använd sparsamma och
+välplacerade self explanation frågor.</li>
+<li><strong>Mät lärande, inte bara lätthet.</strong> Kombinera
+prestation, transfer, tid, process och upplevelse.</li>
+<li><strong>Behandla effekter som villkorade.</strong> Fråga alltid för
+vem, för vad och under vilka omständigheter.</li>
+<li><strong>Namnge mekanismen.</strong> Att kalla något CLT baserat
+räcker inte. Ange vilken onödig bearbetning som antas minska, vilket
+lärandemål som skyddas och vilka gränsvillkor som kan ändra
+effekten.</li>
+</ol>
+<h2 id="det-begränsade-arbetsminnets-radikala-budskap">Det begränsade
+arbetsminnets radikala budskap</h2>
+<p>CLT:s mest värdefulla idé är inte att människan har ett litet mentalt
+kärl som undervisningen måste fylla försiktigt. Den är att
+undervisningens form förändrar själva uppgiften eleven måste utföra.</p>
+<p>När texten ligger långt från figuren tillkommer en sökuppgift. När
+talet försvinner tillkommer en minnesuppgift. När nybörjaren lämnas med
+ett komplext problem tillkommer en sökstrategi. När experten tvingas
+läsa en förklaring som redan är organiserad i långtidsminnet tillkommer
+redundant bearbetning.</p>
+<p>God undervisningsdesign avlägsnar inte tänkandet. Den skyddar
+tänkandet från arbete som skymmer det som ska förstås.</p>
+<p>Samtidigt behöver teorin själv behandlas med den försiktighet den
+rekommenderar. Belastning är svår att mäta. Effekter beror på
+förkunskaper, material, tempo och mål. Motivation och känslor deltar i
+lärandet. En princip kan hjälpa i en situation och stjälpa i en
+annan.</p>
+<p>Det är därför CLT varken är ett recept eller en neuromyt. Det är en
+utvecklad, inflytelserik och fortfarande omdiskuterad
+undervisningsteori. Rätt använd hjälper den oss att ställa en precis
+fråga: Vilket mentalt arbete behöver eleven göra för att förstå detta,
+och vilket arbete har undervisningen råkat lägga ovanpå?</p>
+<section class="sources"><h2 id="källor">Källor</h2>
+<ol type="1">
+<li id="src-1">Sweller, J., van Merriënboer, J. J. G., och Paas, F. (2019).
+<em>Cognitive Architecture and Instructional Design: 20 Years
+Later</em>. Educational Psychology Review, 31, 261 till 292. <a
+href="https://doi.org/10.1007/s10648-019-09465-5">https://doi.org/10.1007/s10648-019-09465-5</a></li>
+<li id="src-2">Sweller, J. (2010). <em>Element Interactivity and Intrinsic,
+Extraneous, and Germane Cognitive Load</em>. Educational Psychology
+Review, 22, 123 till 138. <a
+href="https://doi.org/10.1007/s10648-010-9128-5">https://doi.org/10.1007/s10648-010-9128-5</a></li>
+<li id="src-3">Kalyuga, S. (2011). <em>Cognitive Load Theory: How Many Types of
+Load Does It Really Need?</em> Educational Psychology Review, 23, 1 till
+19. <a
+href="https://doi.org/10.1007/s10648-010-9150-7">https://doi.org/10.1007/s10648-010-9150-7</a></li>
+<li id="src-4">Krieglstein, F. med flera (2022). <em>A Systematic Meta-analysis of
+the Reliability and Validity of Subjective Cognitive Load Questionnaires
+in Experimental Multimedia Learning Research</em>. Educational
+Psychology Review, 34, 2485 till 2541. <a
+href="https://doi.org/10.1007/s10648-022-09683-4">https://doi.org/10.1007/s10648-022-09683-4</a></li>
+<li id="src-5">Sweller, J., och Cooper, G. A. (1985). <em>The Use of Worked
+Examples as a Substitute for Problem Solving in Learning Algebra</em>.
+Cognition and Instruction, 2, 59 till 89. <a
+href="https://doi.org/10.1207/s1532690xci0201_3">https://doi.org/10.1207/s1532690xci0201_3</a></li>
+<li id="src-6">Schroeder, N. L., och Cenkci, A. T. (2018). <em>Spatial Contiguity
+and Spatial Split-Attention Effects in Multimedia Learning Environments:
+a Meta-Analysis</em>. Educational Psychology Review, 30, 1 till 23. <a
+href="https://doi.org/10.1007/s10648-018-9435-9">https://doi.org/10.1007/s10648-018-9435-9</a></li>
+<li id="src-7">Kalyuga, S., Chandler, P., och Sweller, J. (2004). <em>When
+Redundant On-Screen Text in Multimedia Technical Instruction Can
+Interfere With Learning</em>. Human Factors, 46, 567 till 581. <a
+href="https://doi.org/10.1518/hfes.46.3.567.50405">https://doi.org/10.1518/hfes.46.3.567.50405</a></li>
+<li id="src-8">Kalyuga, S., Ayres, P., Chandler, P., och Sweller, J. (2003).
+<em>The Expertise Reversal Effect</em>. Educational Psychologist, 38, 23
+till 31. <a
+href="https://doi.org/10.1207/S15326985EP3801_4">https://doi.org/10.1207/S15326985EP3801_4</a></li>
+<li id="src-9">Rey, G. D. med flera (2019). <em>A Meta-analysis of the Segmenting
+Effect</em>. Educational Psychology Review, 31, 389 till 419. <a
+href="https://doi.org/10.1007/s10648-018-9456-4">https://doi.org/10.1007/s10648-018-9456-4</a></li>
+<li id="src-10">Ginns, P. (2005). <em>Meta-analysis of the Modality Effect</em>.
+Learning and Instruction, 15, 313 till 331. <a
+href="https://doi.org/10.1016/j.learninstruc.2005.07.001">https://doi.org/10.1016/j.learninstruc.2005.07.001</a></li>
+<li id="src-11">Bisra, K. med flera (2018). <em>Inducing Self-Explanation: a
+Meta-Analysis</em>. Educational Psychology Review, 30, 703 till 725. <a
+href="https://doi.org/10.1007/s10648-018-9434-x">https://doi.org/10.1007/s10648-018-9434-x</a></li>
+<li id="src-12">Leahy, W., och Sweller, J. (2011). <em>Cognitive Load Theory,
+Modality of Presentation and the Transient Information Effect</em>.
+Applied Cognitive Psychology, 25, 943 till 951. <a
+href="https://doi.org/10.1002/acp.1787">https://doi.org/10.1002/acp.1787</a></li>
+<li id="src-13">de Jong, T. (2010). <em>Cognitive Load Theory, Educational Research,
+and Instructional Design: Some Food for Thought</em>. Instructional
+Science, 38, 105 till 134. <a
+href="https://doi.org/10.1007/s11251-009-9110-0">https://doi.org/10.1007/s11251-009-9110-0</a></li>
+<li id="src-14">Evans, P., Vansteenkiste, M., Parker, P., Kingsford-Smith, A., och
+Zhou, S. (2024). <em>Cognitive Load Theory and Its Relationships with
+Motivation: a Self-Determination Theory Perspective</em>. Educational
+Psychology Review, 36, artikel 7. <a
+href="https://doi.org/10.1007/s10648-023-09841-2">https://doi.org/10.1007/s10648-023-09841-2</a></li>
+<li id="src-15">Schuessler, K., Koenen, J., Sumfleth, E., och Rost, M. (2026).
+<em>Variations in Repeated Measures of Cognitive Load and Interest
+During Complex Learning Tasks</em>. Educational Psychology Review, 38,
+artikel 7. <a
+href="https://doi.org/10.1007/s10648-025-10105-4">https://doi.org/10.1007/s10648-025-10105-4</a></li>
+<li id="src-16">Sweller, J. (2023). <em>The Development of Cognitive Load Theory:
+Replication Crises and Incorporation of Other Theories Can Lead to
+Theory Expansion</em>. Educational Psychology Review, 36. <a
+href="https://doi.org/10.1007/s10648-023-09817-2">https://doi.org/10.1007/s10648-023-09817-2</a></li>
+<li id="src-17">Rexigel, E., Kuhn, J., Becker, S., och Malone, S. (2024). <em>The
+More the Better? A Systematic Review and Meta-Analysis of the Benefits
+of More than Two External Representations in STEM Education</em>.
+Educational Psychology Review, 36, artikel 124. <a
+href="https://doi.org/10.1007/s10648-024-09958-y">https://doi.org/10.1007/s10648-024-09958-y</a></li>
+<li id="src-18">Tetzlaff, L., Simonsmeier, B. A., Peters, T., och Brod, G. (2025).
+<em>A Cornerstone of Adaptivity: A Meta-analysis of the Expertise
+Reversal Effect</em>. Learning and Instruction, 98, 102142. <a
+href="https://doi.org/10.1016/j.learninstruc.2025.102142">https://doi.org/10.1016/j.learninstruc.2025.102142</a></li>
+</ol></section>
+<h2 id="redaktionell-notering">Redaktionell notering</h2>
+<p>Denna version skrevs från den akademiska evidensbasen innan
+poddmaterialet användes. Ett separat eftertest mot <em>Fröjd's
+toolbox</em>, avsnitt 66, och <em>The Gray Area</em>, <em>We're
+postliterate</em>, dokumenterar därefter vilka perspektiv poddarna
+aktualiserade, vilka som redan täcktes och vilka som eventuellt
+motiverade tillägg efter separat vetenskaplig kontroll.</p>
+</article>
+</main>
+<footer>En <em>Exploration</em> · Förberedd för Explorations Library</footer>
+<script>
+const root=document.documentElement,article=document.getElementById('article'),status=document.getElementById('status');let scale=1,serif=true;const readPref=k=>{try{return localStorage.getItem(k)}catch{return null}},writePref=(k,v)=>{try{localStorage.setItem(k,v)}catch{}};const setScale=n=>{scale=Math.max(.82,Math.min(1.38,n));root.style.setProperty('--scale',scale);writePref('explorationsTextScale',String(scale))};document.getElementById('larger').onclick=()=>setScale(scale+.08);document.getElementById('smaller').onclick=()=>setScale(scale-.08);document.getElementById('reset').onclick=()=>{setScale(1);root.style.setProperty('--measure','740px');document.getElementById('width').value='740'};document.getElementById('font').onclick=e=>{serif=!serif;article.style.fontFamily=serif?"'Merriweather',Georgia,serif":"Inter,system-ui,sans-serif";e.currentTarget.textContent=serif?'Sans':'Serif'};const themeButton=document.getElementById('theme');themeButton.onclick=()=>{const mode=root.getAttribute('data-theme')||'auto',next=mode==='auto'?'light':mode==='light'?'dark':'auto';if(next==='auto')root.removeAttribute('data-theme');else root.dataset.theme=next;themeButton.textContent='Tema: '+next[0].toUpperCase()+next.slice(1)};document.getElementById('width').oninput=e=>root.style.setProperty('--measure',e.target.value+'px');document.getElementById('print').onclick=()=>print();const original=article.innerHTML;document.getElementById('search').addEventListener('input',e=>{const q=e.target.value.trim();article.innerHTML=original;if(!q){status.textContent='';return}const rx=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');let count=0;const walk=document.createTreeWalker(article,NodeFilter.SHOW_TEXT),nodes=[];while(walk.nextNode())if(!walk.currentNode.parentElement.closest('a,script,style')&&rx.test(walk.currentNode.data)){nodes.push(walk.currentNode);rx.lastIndex=0}nodes.forEach(n=>{const span=document.createElement('span');span.innerHTML=n.data.replace(rx,m=>{count++;return'<mark>'+m+'</mark>'});n.replaceWith(span)});status.textContent=count+' träff'+(count===1?'':'ar');article.querySelector('mark')?.scrollIntoView({behavior:'smooth',block:'center'})});const progress=()=>{const h=document.documentElement,m=h.scrollHeight-h.clientHeight;document.getElementById('progress').style.width=(m?100*h.scrollTop/m:0)+'%'};addEventListener('scroll',progress,{passive:true});addEventListener('resize',progress);progress();
+</script>
+<script type="module" src="../engagement/engagement.js?v=20260805-3" data-engagement-asset="runtime"></script>
+</body>
+</html>
