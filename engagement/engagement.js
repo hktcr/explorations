@@ -80,6 +80,8 @@ function decorateLibrary(model) {
   document.querySelectorAll(".article-card[data-exploration-id], .card[data-exploration-id]").forEach(card => {
     const article = articleForId(model, card.dataset.explorationId);
     if (!article) return;
+    const signals = getArticleSignals(article);
+    if (signals.showReadMarker) card.dataset.read = "true";
     const markers = markersFor(article);
     if (!markers.childElementCount) return;
     const meta = card.querySelector(".card-meta");
@@ -277,6 +279,7 @@ async function start() {
   const errors = validatePublicModel(model);
   if (errors.length) throw new Error(`Invalid engagement data: ${errors.join("; ")}`);
   decorateLibrary(model);
+  document.dispatchEvent(new CustomEvent("explorations:engagement-ready"));
   decorateArticle(model);
 }
 
