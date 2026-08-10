@@ -74,14 +74,16 @@
 <footer class="library-footer"><p>Explorations by gAIa · Part of the GAIA Knowledge System</p></footer>
 <script>
 const input=document.getElementById('searchInput'),grid=document.getElementById('articlesGrid'),cards=[...grid.querySelectorAll('.article-card')],readFilter=document.getElementById('readFilter');
-const readCards=cards.filter(c=>c.dataset.read==='true');
-let hideRead=false;
+let readCards=[],hideRead=false;
+const updateReadFilterLabel=()=>{readFilter.textContent=(hideRead?'Visa lästa':'Dölj lästa')+' ('+readCards.length+')'};
 const applyFilters=()=>{const q=input.value.toLowerCase().trim();let visible=0;cards.forEach(c=>{const matchesSearch=!q||(c.dataset.title+' '+c.dataset.subject+' '+c.dataset.excerpt).toLowerCase().includes(q);const matchesRead=!hideRead||c.dataset.read!=='true';const show=matchesSearch&&matchesRead;c.hidden=!show;if(show)visible++});let empty=grid.querySelector('.no-results');if(!visible&&!empty){empty=document.createElement('p');empty.className='no-results';empty.textContent=hideRead&&readCards.length===cards.length?'Alla artiklar är markerade som lästa.':'Inga träffar.';grid.append(empty)}else if(visible&&empty)empty.remove()};
-readFilter.textContent='Dölj lästa ('+readCards.length+')';
-readFilter.addEventListener('click',()=>{hideRead=!hideRead;readFilter.setAttribute('aria-pressed',String(hideRead));readFilter.textContent=(hideRead?'Visa lästa':'Dölj lästa')+' ('+readCards.length+')';applyFilters()});
+const syncReadCards=()=>{readCards=cards.filter(c=>c.dataset.read==='true');updateReadFilterLabel();applyFilters()};
+readFilter.addEventListener('click',()=>{hideRead=!hideRead;readFilter.setAttribute('aria-pressed',String(hideRead));updateReadFilterLabel();applyFilters()});
 input.addEventListener('input',applyFilters);
+document.addEventListener('explorations:engagement-ready',syncReadCards);
+syncReadCards();
 </script>
 <script src="natverk.js" defer></script>
-<script type="module" src="engagement/engagement.js?v=20260805-3" data-engagement-asset="runtime"></script>
+<script type="module" src="engagement/engagement.js?v=20260810-1" data-engagement-asset="runtime"></script>
 </body>
 </html>
