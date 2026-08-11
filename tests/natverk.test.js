@@ -40,6 +40,8 @@ test('publik HTML har tillgänglig panel och en enda sökcontroller', () => {
   assert.doesNotMatch(html, /input\.addEventListener\('input'/);
   assert.equal((js.match(/addEventListener\('input'/g) || []).length, 1);
   assert.match(js, /event\.detail === 0/);
+  assert.match(js, /function networkVisible\(\)/);
+  assert.match(js, /networkVisible\(\)\?' Välj en nod för att utforska\.':''/);
 });
 
 test('responsivitetskontraktet täcker telefon, surfplatta och desktop', () => {

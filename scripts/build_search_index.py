@@ -13,7 +13,7 @@ import re
 import unicodedata
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RELEASE = "20260811-network-3"
+DEFAULT_RELEASE = "20260811-network-4"
 ALLOWED_TYPES = {"same-phenomenon", "mechanism", "prerequisite", "method-evidence", "application", "contrast", "analogy"}
 STOPWORDS = set("a an and are as at be been by can could did do does for from had has have how i if in into is it its may more most no not of on one or our should so some than that the their them then there these they this those through to two under up was we were what when where which while who why will with would you your alla allt att av de den denna det detta en ett efter eller från för genom har här i ingen inte kan man med men mer mot när och om på som så till under ur vad var vara vi vid vilka vilken vilket vår våra är även över http https www doi org com source sources references read min exploration explorations".split())
 

@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  var RELEASE = '20260811-network-3';
+  var RELEASE = '20260811-network-4';
   var MIN_CHARS = 2;
   var TYPE_LABELS = {
     'same-phenomenon': 'Samma fenomen', mechanism: 'Mekanism', prerequisite: 'Förutsättning',
@@ -157,6 +157,8 @@
     var cardSlugs = cards.map(function (card) { return (card.getAttribute('href') || '').replace(/\/index\.html$/, ''); });
 
     function show(element, visible) { element.classList.toggle('dold', !visible); }
+    function networkVisible() { return !window.matchMedia('(hover:none), (pointer:coarse), (max-width:700px)').matches || document.body.classList.contains('visa-natverk'); }
+    function idleStatus() { return nodes.length+' essäer, '+edges.length+' granskade samband.'+(networkVisible()?' Välj en nod för att utforska.':''); }
     function readState() { var api = window.explorationsReadFilter; return api && api.getState ? api.getState() : {hideRead:false, slugs:[]}; }
     function hiddenAsRead(slug) { var state = readState(); return !!(state.hideRead && state.slugs.indexOf(slug) !== -1); }
     function color() { return getComputedStyle(document.documentElement).getPropertyValue('--network-accent').trim() || '#c0392b'; }
@@ -258,7 +260,7 @@
       var visible=0; cards.forEach(function (card) { var slug=(card.getAttribute('href')||'').replace(/\/index\.html$/,''); var showCard=!hiddenAsRead(slug); card.classList.toggle('dold',!showCard); card.hidden=!showCard; if(showCard)visible++; });
       var empty=grid.querySelector('.no-results'); if(!visible&&!empty){empty=document.createElement('p');empty.className='no-results';empty.textContent='Alla artiklar är markerade som lästa.';grid.appendChild(empty);} else if(visible&&empty)empty.remove();
     }
-    function resetSearch() { rawResults=[]; resultsBox.innerHTML=''; show(resultsBox,false); show(grid,true); applyReadFilterToCards(); clearSelection(); status.textContent=nodes.length+' essäer, '+edges.length+' granskade samband. Välj en nod för att utforska.'; }
+    function resetSearch() { rawResults=[]; resultsBox.innerHTML=''; show(resultsBox,false); show(grid,true); applyReadFilterToCards(); clearSelection(); status.textContent=idleStatus(); }
     function renderResults(results) {
       clearSelection(); results=results.filter(function (result) { return !hiddenAsRead(result.slug); }); rawResults=results; show(grid,false); show(resultsBox,true);
       Object.keys(nodeElements).forEach(function(slug){nodeElements[slug].classList.toggle('svag',!results.some(function(result){return result.slug===slug;}));});
@@ -273,8 +275,8 @@
     document.addEventListener('explorations:read-filter-change',function(){if(input.value.trim().length>=MIN_CHARS)runSearch();else applyReadFilterToCards();});
     document.addEventListener('keydown',function(event){if(event.key==='Escape'){if(selected)clearSelection();else if(input.value){input.value='';resetSearch();}}});
     if(panelBack)panelBack.addEventListener('click',function(){if(selected&&nodeElements[selected])nodeElements[selected].focus();});
-    if(toggle)toggle.addEventListener('click',function(){var active=document.body.classList.toggle('visa-natverk');toggle.setAttribute('aria-pressed',String(active));toggle.textContent=active?'Dölj nätverk':'Visa nätverk';if(active)startLayout();});
-    var resizeTimer; window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(startLayout,180);});
+    if(toggle)toggle.addEventListener('click',function(){var active=document.body.classList.toggle('visa-natverk');toggle.setAttribute('aria-pressed',String(active));toggle.textContent=active?'Dölj nätverk':'Visa nätverk';if(active)startLayout();else if(selected)clearSelection();if(input.value.trim().length<MIN_CHARS&&!selected)status.textContent=idleStatus();});
+    var resizeTimer; window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(function(){startLayout();if(input.value.trim().length<MIN_CHARS&&!selected)status.textContent=idleStatus();},180);});
 
     Promise.all([fetchJson('natverk-index.json'),fetchJson('relations-curated.json')]).then(function(data){
       var networkCheck=validateNetwork(data[0],cardSlugs), relationCheck=validateRelations(data[1],networkCheck.slugs||[]);
