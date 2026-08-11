@@ -1,4 +1,4 @@
-/* Reviewed relationship network. Release 20260811-network-2. */
+/* Reviewed relationship network. Release 20260811-network-3. */
 :root {
   --network-bg: var(--bg, #fcfcfc);
   --network-card: var(--card, #fff);
@@ -85,7 +85,10 @@
 @media (min-width:701px) and (hover:hover) and (pointer:fine) { #natverkVaxel { display:none; } }
 @media (hover:none), (pointer:coarse), (max-width:700px) {
   .natverk { display:none; }
+  .natverk-legend, .relationspanel { display:none; }
   body.visa-natverk .natverk { display:block; }
+  body.visa-natverk .natverk-legend { display:flex; }
+  body.visa-natverk .relationspanel { display:block; }
   #natverkVaxel { display:inline-flex; }
   .nod-etikett { display:none; max-width:9rem; white-space:normal; text-align:center; }
   .nod-vald .nod-etikett, .nod:focus-visible .nod-etikett { display:block; }

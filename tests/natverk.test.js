@@ -49,6 +49,8 @@ test('responsivitetskontraktet täcker telefon, surfplatta och desktop', () => {
   assert.match(css, /@media \(max-width:700px\)/);
   assert.match(css, /@media \(min-width:900px\)/);
   assert.match(css, /\(pointer:coarse\)/);
+  assert.match(css, /\.natverk-legend, \.relationspanel \{ display:none; \}/);
+  assert.match(css, /body\.visa-natverk \.relationspanel \{ display:block; \}/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /forced-colors/);
 });

@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  var RELEASE = '20260811-network-2';
+  var RELEASE = '20260811-network-3';
   var MIN_CHARS = 2;
   var TYPE_LABELS = {
     'same-phenomenon': 'Samma fenomen', mechanism: 'Mekanism', prerequisite: 'Förutsättning',

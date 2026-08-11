@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="explorations-network-release" content="20260811-network-2">
+<meta name="explorations-network-release" content="20260811-network-3">
 <title>Explorations: A Library of Deep Dives</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="natverk.css?v=20260811-network-2">
+<link rel="stylesheet" href="natverk.css?v=20260811-network-3">
 <style>
 :root{--bg:#fcfcfc;--text:#1a1a1a;--head:#c0392b;--accent:#c0392b;--meta:#888;--card:#fff;--line:rgba(0,0,0,.1);--body:'Merriweather',serif;--ui:'Inter',sans-serif}
 @media(prefers-color-scheme:dark){:root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;--accent:#e74c3c;--meta:#999;--card:#1e1e1e;--line:rgba(255,255,255,.09)}}
@@ -37,7 +37,7 @@
 </style>
 <link rel="stylesheet" href="engagement/engagement.css" data-engagement-asset="style">
 </head>
-<body data-network-release="20260811-network-2">
+<body data-network-release="20260811-network-3">
 <header class="library-header"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p></header>
 <div class="search-container" lang="sv"><input type="search" class="search-input" id="searchInput" aria-label="Sök i hela biblioteket" placeholder="Sök i hela biblioteket…" autocomplete="off"><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
 <div class="natverk-rad" lang="sv"><span id="natverkStatus" role="status" aria-live="polite"></span><button type="button" id="natverkVaxel" aria-pressed="false">Visa nätverk</button></div>
@@ -96,7 +96,7 @@ readFilter.addEventListener('click',()=>{hideRead=!hideRead;readFilter.setAttrib
 document.addEventListener('explorations:engagement-ready',syncReadCards);
 syncReadCards();
 </script>
-<script src="natverk.js?v=20260811-network-2" defer></script>
+<script src="natverk.js?v=20260811-network-3" defer></script>
 <script type="module" src="engagement/engagement.js?v=20260810-1" data-engagement-asset="runtime"></script>
 </body>
 </html>
