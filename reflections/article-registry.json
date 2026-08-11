@@ -280,6 +280,16 @@
       "toolbarSelector": ".tools",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#28",
+      "slug": "support-without-passivity",
+      "title": "Support without passivity",
+      "path": "support-without-passivity/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }

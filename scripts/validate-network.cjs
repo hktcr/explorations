@@ -1,0 +1,21 @@
+'use strict';
+const fs = require('node:fs');
+const path = require('node:path');
+const { RELEASE, validateNetwork, validateRelations, relationSignature } = require('../natverk.js');
+const root = path.resolve(__dirname, '..');
+const read = file => fs.readFileSync(path.join(root, file), 'utf8');
+const json = file => JSON.parse(read(file));
+const html = read('index.html');
+const cards = [...html.matchAll(/href="([^"#?]+)\/index\.html"[^>]*class="article-card"|class="article-card"[^>]*href="([^"#?]+)\/index\.html"/g)].map(match => match[1] || match[2]);
+const network = json('natverk-index.json'), relations = json('relations-curated.json'), search = json('sok-index.json');
+const networkResult = validateNetwork(network, cards), relationResult = validateRelations(relations, networkResult.slugs || []);
+const errors = [...networkResult.errors, ...relationResult.errors];
+if (relationSignature(network) !== relationSignature(relations)) errors.push('Relationsfilerna skiljer sig');
+if (network.contentHash !== search.contentHash) errors.push('Indexfilerna har olika contentHash');
+if (network.releaseId !== RELEASE || relations.releaseId !== RELEASE || search.releaseId !== RELEASE) errors.push('JSON-filerna har olika release');
+const searchSlugs = (search.artiklar || []).map(article => article.slug).sort();
+if (searchSlugs.join('|') !== cards.slice().sort().join('|')) errors.push('Sökindex och kort skiljer sig');
+if (!html.includes(`data-network-release="${RELEASE}"`)) errors.push('HTML saknar release');
+for (const asset of ['natverk.css', 'natverk.js']) if (!html.includes(`${asset}?v=${RELEASE}`)) errors.push(`${asset} saknar release`);
+if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
+else console.log(`Nätverket är giltigt: ${cards.length} essäer och ${relations.relations.length} granskade samband.`);

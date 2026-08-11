@@ -1,572 +1,539 @@
 {
-  "version": 1,
-  "byggd": "2026-08-09T09:58:33.816Z",
+  "schemaVersion": 2,
+  "releaseId": "20260811-network-2",
+  "generatorVersion": "2.1.0",
+  "contentHash": "fe35ea128dfbab38",
   "artiklar": [
     {
-      "slug": "adhd-explained",
-      "titel": "The Hunter’s Radar in a Factory World: What ADHD Really Is",
-      "amne": "EXP#7 • Neuroscience & Psychology",
-      "datum": "July 27, 2026",
-      "lastid": "≈ 16 min read",
-      "ord": 3637,
-      "avsnitt": 13,
-      "kallor": {
-        "totalt": 12,
-        "verifierade": 12
-      },
-      "nyckelord": [
-        "adhd",
-        "dopamine",
-        "prefrontal",
-        "executive",
-        "cortex",
-        "disorder"
-      ]
-    },
-    {
-      "slug": "agg-naring-och-myter",
-      "titel": "The Egg: Evolution's Survival Pill and Science's Greatest Misunderstanding",
-      "amne": "EXP#6 • Nutrition & Evolution",
-      "datum": "July 2026",
-      "lastid": "22 min",
-      "ord": 4540,
-      "avsnitt": 7,
-      "kallor": {
-        "totalt": 4,
-        "verifierade": 4
-      },
-      "nyckelord": [
-        "choline",
-        "cholesterol",
-        "lutein",
-        "dietary",
-        "microbiome",
-        "nutritional"
-      ]
-    },
-    {
-      "slug": "ai-environmental-impact",
-      "titel": "The Invisible Appetite: What Generative AI Really Costs the Planet",
-      "amne": "EXP#17 • Artificial Intelligence · Energy · Environment",
-      "datum": "July 30, 2026",
-      "lastid": "≈ 31 min read",
-      "ord": 5723,
-      "avsnitt": 42,
-      "kallor": {
-        "totalt": 21,
-        "verifierade": 21
-      },
-      "nyckelord": [
-        "centres",
-        "data-centre",
-        "service",
-        "electricity",
-        "cooling",
-        "procurement"
-      ]
-    },
-    {
-      "slug": "ai-in-education",
-      "titel": "The Architect and the Crutch: How Generative AI Is Reshaping Human Learning",
-      "amne": "EXP#14 • Education & Cognition",
-      "datum": "July 29, 2026",
-      "lastid": "≈ 22 min read",
-      "ord": 2364,
-      "avsnitt": 7,
-      "kallor": {
-        "totalt": 15,
-        "verifierade": 15
-      },
-      "nyckelord": [
-        "offloading",
-        "crutch",
-        "tutoring",
-        "mental",
-        "mastery",
-        "classroom"
-      ]
-    },
-    {
-      "slug": "ai-life-consciousness-system",
-      "titel": "The system that says “I”",
-      "amne": "EXP#26 • Artificial Intelligence • Systems • Consciousness",
-      "datum": "August 4, 2026",
-      "lastid": "≈ 43 min read",
-      "ord": 8436,
-      "avsnitt": 18,
-      "kallor": {
-        "totalt": 38,
-        "verifierade": 38
-      },
-      "nyckelord": [
-        "consciousness",
-        "intelligence",
-        "systemhood",
-        "agency",
-        "autopoiesis",
-        "functionalism"
-      ]
-    },
-    {
-      "slug": "assessment-validity-reliability",
-      "titel": "The Architecture of Judgment: Why Perfect Fairness in Testing is a Mathematical Utopia",
-      "amne": "EXP#10 • Psychometrics & Education",
-      "datum": "July 27, 2026",
-      "lastid": "15 min read",
-      "ord": 2499,
-      "avsnitt": 14,
-      "kallor": {
-        "totalt": 9,
-        "verifierade": 9
-      },
-      "nyckelord": [
-        "validity",
-        "fairness",
-        "psychometrics",
-        "item",
-        "goddard",
-        "reliability"
-      ]
-    },
-    {
-      "slug": "caesar-sallad",
-      "titel": "The Theatrical Illusion of the Caesar Salad",
-      "amne": "EXP#9 • Culinary History",
-      "datum": "July 27, 2026",
-      "lastid": "10 min",
-      "ord": 1376,
-      "avsnitt": 7,
-      "kallor": {
-        "totalt": 3,
-        "verifierade": 3
-      },
-      "nyckelord": [
-        "salad",
-        "caesar",
-        "cardini",
-        "dressing",
-        "anchovies",
-        "restaurant"
-      ]
-    },
-    {
-      "slug": "cellular-respiration-demystified",
-      "titel": "The Engine of Life: Demystifying Cellular Respiration",
-      "amne": "Cellular Biology",
-      "datum": "July 29, 2026",
-      "lastid": "≈ 18 min read",
-      "ord": 3313,
-      "avsnitt": 14,
-      "kallor": {
-        "totalt": 12,
-        "verifierade": 12
-      },
-      "nyckelord": [
-        "https",
-        "nadh",
-        "respiration",
-        "fadh",
-        "protons",
-        "phosphate"
-      ]
-    },
-    {
-      "slug": "climate-borders",
-      "titel": "The Border Does Not Stop the Climate",
-      "amne": "EXP#18 • Climate · Migration · Borders",
-      "datum": "July 31, 2026",
-      "lastid": "≈ 36 min read",
-      "ord": 6665,
-      "avsnitt": 15,
-      "kallor": {
-        "totalt": 34,
-        "verifierade": 34
-      },
-      "nyckelord": [
-        "mobility",
-        "refugee",
-        "ceuta",
-        "drought",
-        "asylum",
-        "evacuation"
-      ]
-    },
-    {
-      "slug": "cranberries",
-      "titel": "The Red Paradox: Cranberries, Historically and Today",
-      "amne": "EXP#16 • Food History · Nutrition · Evidence",
-      "datum": "July 30, 2026",
-      "lastid": "≈ 22 min read",
-      "ord": 1668,
-      "avsnitt": 21,
-      "kallor": {
-        "totalt": 10,
-        "verifierade": 10
-      },
-      "nyckelord": [
-        "cranberry",
-        "cranberries",
-        "fruit",
-        "sweetened",
-        "juice",
-        "berries"
-      ]
-    },
-    {
-      "slug": "dark-matter-dark-energy",
-      "titel": "The Unseen Architecture: Dark Matter, Dark Energy, and the Deepening Questions of Modern Cosmology",
-      "amne": "Cosmology & Astrophysics",
-      "datum": "July 29, 2026",
-      "lastid": "≈ 30 min read",
-      "ord": 2633,
-      "avsnitt": 22,
-      "kallor": {
-        "totalt": 16,
-        "verifierade": 16
-      },
-      "nyckelord": [
-        "cosmology",
-        "gravitational",
-        "particle",
-        "baryonic",
-        "lambda",
-        "galaxies"
-      ]
-    },
-    {
-      "slug": "digital-biome",
-      "titel": "The Digital Biome: Field Notes from an AI Ecologist",
-      "amne": "EXP#3 • Computer Science · Evolutionary Ecology",
-      "datum": "July 23, 2026",
-      "lastid": "35 min read",
-      "ord": 3246,
-      "avsnitt": 10,
-      "kallor": {
-        "totalt": 11,
-        "verifierade": 11
-      },
-      "nyckelord": [
-        "biome",
-        "algal",
-        "blooms",
-        "parasitism",
-        "unguided",
-        "synthetic"
-      ]
-    },
-    {
-      "slug": "disengaged-teen",
-      "titel": "The Obedient Student May Already Have Left",
-      "amne": "EXP#24 • Education · Motivation · Adolescence",
-      "datum": "August 3, 2026",
-      "lastid": "≈ 34 min read",
-      "ord": 7186,
-      "avsnitt": 17,
-      "kallor": {
-        "totalt": 27,
-        "verifierade": 27
-      },
-      "nyckelord": [
-        "engagement",
-        "agency",
-        "explorer",
-        "autonomy",
-        "motivation",
-        "adolescence"
-      ]
-    },
-    {
-      "slug": "djur-kloning",
-      "titel": "The Mother Without a Mate",
-      "amne": "Biology",
-      "datum": "",
-      "lastid": "",
-      "ord": 3068,
-      "avsnitt": 7,
-      "kallor": {
-        "totalt": 16,
-        "verifierade": 16
-      },
-      "nyckelord": [
-        "cloning",
-        "sexual",
-        "cloned",
-        "clone",
-        "komodo",
-        "asexual"
-      ]
-    },
-    {
-      "slug": "egg-coagulation-lab",
-      "titel": "The Thermal Ballet of Egg Proteins: Molecular Kinetics, Culinary Physics, and Pedagogical Inquiry",
-      "amne": "EXP#8 • Biochemistry & Science Education",
-      "datum": "July 27, 2026",
-      "lastid": "≈ 18 min read",
-      "ord": 2423,
-      "avsnitt": 11,
-      "kallor": {
-        "totalt": 13,
-        "verifierade": 13
-      },
-      "nyckelord": [
-        "denaturation",
-        "albumen",
-        "ovalbumin",
-        "coagulation",
-        "hydrophobic",
-        "ovotransferrin"
-      ]
-    },
-    {
-      "slug": "jotunheimen",
-      "titel": "The mountains are older than their shape",
-      "amne": "EXP#23 • Geology · Ecology · Culture",
-      "datum": "August 3, 2026",
-      "lastid": "≈ 19 min read",
-      "ord": 3687,
-      "avsnitt": 17,
-      "kallor": {
-        "totalt": 24,
-        "verifierade": 24
-      },
-      "nyckelord": [
-        "jotunheimen",
-        "geology",
-        "glaciers",
-        "mountains",
-        "archaeology",
-        "hiking"
-      ]
-    },
-    {
-      "slug": "krebs-cycle",
-      "titel": "The Invisible Engine: How Life Catches Fire",
-      "amne": "EXP#2 • Biochemistry · Evolutionary Biology",
-      "datum": "July 23, 2026",
-      "lastid": "≈ 28 min read",
-      "ord": 2943,
-      "avsnitt": 12,
-      "kallor": {
-        "totalt": 7,
-        "verifierade": 7
-      },
-      "nyckelord": [
-        "mitochondrial",
-        "citric",
-        "nadh",
-        "oxaloacetate",
-        "electrons",
-        "coenzyme"
-      ]
-    },
-    {
-      "slug": "muskoxen-norway",
-      "titel": "The Exile and the Emperor: How the Ice Age Muskox Returned to Norway",
-      "amne": "Ecology & Wildlife Management",
-      "datum": "July 28, 2026",
-      "lastid": "≈ 8 min",
-      "ord": 1188,
-      "avsnitt": 1,
-      "kallor": {
-        "totalt": 21,
-        "verifierade": 21
-      },
-      "nyckelord": [
-        "muskox",
-        "dovrefjell",
-        "herd",
-        "muskoxen",
-        "norwegian",
-        "qiviut"
-      ]
-    },
-    {
-      "slug": "nazca-lines",
-      "titel": "The Desert Was Meant to Be Walked",
-      "amne": "EXP#21 • Archaeology · Landscape · Belief",
-      "datum": "August 2, 2026",
-      "lastid": "≈ 29 min read",
-      "ord": 6616,
-      "avsnitt": 17,
-      "kallor": {
-        "totalt": 16,
-        "verifierade": 16
-      },
-      "nyckelord": [
-        "nazca",
-        "geoglyphs",
-        "ritual",
-        "landscape",
-        "water",
-        "archaeology"
-      ]
-    },
-    {
-      "slug": "nordkalotten-flyttfaglar-radar",
-      "titel": "The Invisible River: How Radar Revealed the High-Flying Nomads of the Arctic",
-      "amne": "EXP#4 • Biology",
-      "datum": "July 24, 2026",
-      "lastid": "≈ 8 min read",
-      "ord": 2408,
-      "avsnitt": 9,
-      "kallor": {
-        "totalt": 7,
-        "verifierade": 7
-      },
-      "nyckelord": [
-        "radar",
-        "birds",
-        "abisko",
-        "altitudes",
-        "arctic",
-        "circle"
-      ]
-    },
-    {
-      "slug": "octopus-intelligence",
-      "titel": "Nine Brains and a Dream",
-      "amne": "EXP#1 • Cognitive Science · Marine Biology",
-      "datum": "July 23, 2026",
+      "slug": "support-without-passivity",
+      "id": "EXP#28",
+      "titel": "Support without passivity",
+      "amne": "Education Instruction Student Agency Motivation Productive Failure Classroom Practice",
+      "excerpt": "How teachers can combine clear instruction with genuine student agency, without turning temporary classroom modes into fixed student types.",
+      "datum": "August 11, 2026",
       "lastid": "≈ 32 min read",
-      "ord": 2174,
-      "avsnitt": 11,
-      "kallor": {
-        "totalt": 7,
-        "verifierade": 7
-      },
+      "ord": 3813,
+      "avsnitt": 37,
       "nyckelord": [
-        "octopus",
-        "octopuses",
-        "sleep",
-        "neurons",
-        "cephalopod",
-        "handlers"
-      ]
-    },
-    {
-      "slug": "origin-of-life",
-      "titel": "The Long Dawn: How the Origin of Life Became a Science of Possible Worlds",
-      "amne": "EXP#15 • Origins of Life & Astrobiology",
-      "datum": "July 30, 2026",
-      "lastid": "≈ 30 min read",
-      "ord": 5662,
-      "avsnitt": 18,
-      "kallor": {
-        "totalt": 34,
-        "verifierade": 34
-      },
-      "nyckelord": [
-        "luca",
-        "vesicles",
-        "feedstocks",
-        "heredity",
-        "life's",
-        "polymers"
-      ]
-    },
-    {
-      "slug": "school-digitalisation",
-      "titel": "The Screen Was Not the Strategy",
-      "amne": "EXP#20 • Education · Technology · Policy",
-      "datum": "August 2, 2026",
-      "lastid": "≈ 31 min read",
-      "ord": 5787,
-      "avsnitt": 23,
-      "kallor": {
-        "totalt": 30,
-        "verifierade": 30
-      },
-      "nyckelord": [
-        "digitalisation",
-        "school",
-        "devices",
-        "teaching",
-        "screens",
-        "artificial-intelligence"
-      ]
-    },
-    {
-      "slug": "steel-cut-oat-porridge",
-      "titel": "The Jar That Cooks While You Travel",
-      "amne": "EXP#22 • Food · Nutrition · Travel",
-      "datum": "August 3, 2026",
-      "lastid": "≈ 31 min read",
-      "ord": 6131,
-      "avsnitt": 19,
-      "kallor": {
-        "totalt": 25,
-        "verifierade": 25
-      },
-      "nyckelord": [
-        "oats",
-        "beta-glucan",
-        "whole-grain",
-        "food-jar",
-        "porridge",
-        "nutrition"
-      ]
-    },
-    {
-      "slug": "utomjordisk-kunskap",
-      "titel": "The Anatomy of a Cosmic Secret: Why Hiding Extraterrestrial Contact is Mathematically Impossible",
-      "amne": "EXP#5 • SOCIOLOGY & EXTRATERRESTRIAL COVER-UPS",
-      "datum": "25 July 2026",
-      "lastid": "15 min read",
-      "ord": 1902,
-      "avsnitt": 11,
-      "kallor": {
-        "totalt": 4,
-        "verifierade": 4
-      },
-      "nyckelord": [
-        "cover-up",
-        "conspiracy",
-        "secret",
-        "extraterrestrial",
-        "secrecy",
-        "grimes"
-      ]
-    },
-    {
-      "slug": "what-is-sex",
-      "titel": "The Answer Depends on the Question",
-      "amne": "EXP#19 • Evolution · Development · Identity",
-      "datum": "August 1, 2026",
-      "lastid": "≈ 41 min read",
-      "ord": 7896,
-      "avsnitt": 39,
-      "kallor": {
-        "totalt": 64,
-        "verifierade": 64
-      },
-      "nyckelord": [
-        "sex",
-        "gametes",
-        "gender",
-        "hermaphroditism",
-        "intersex",
-        "reproduction"
+        "teacher",
+        "student",
+        "students",
+        "support",
+        "evidence",
+        "explanation"
       ]
     },
     {
       "slug": "before-particles-quantum-fields",
+      "id": "EXP#27",
       "titel": "Before particles: learning to see the world as quantum fields",
-      "amne": "EXP#27 • Quantum field theory • Fundamental interactions • Physics",
+      "amne": "Quantum field theory Fundamental interactions Particle physics Gauge theory Gravity",
+      "excerpt": "A field-first journey through particles, gauge structure, renormalisation, electromagnetism, the weak and strong interactions, and gravity's unfinished quantum story.",
       "datum": "August 9, 2026",
       "lastid": "≈ 41 min read",
-      "ord": 8027,
-      "avsnitt": 22,
-      "kallor": {
-        "totalt": 28,
-        "verifierade": 28
-      },
+      "ord": 5554,
+      "avsnitt": 45,
       "nyckelord": [
-        "quantum-fields",
-        "gauge-theory",
-        "electroweak",
-        "QCD",
-        "gravity",
-        "renormalisation"
+        "field",
+        "quantum",
+        "theory",
+        "gauge",
+        "fields",
+        "energy"
+      ]
+    },
+    {
+      "slug": "ai-life-consciousness-system",
+      "id": "EXP#26",
+      "titel": "The System That Says “I”",
+      "amne": "Artificial Intelligence Systems Consciousness Life Agency Intelligence Philosophy",
+      "excerpt": "Whether modern AI is intelligent, alive, agentic, or conscious, and why systemhood clarifies every question without settling any of them.",
+      "datum": "August 4, 2026",
+      "lastid": "≈ 43 min read",
+      "ord": 6599,
+      "avsnitt": 22,
+      "nyckelord": [
+        "system",
+        "consciousness",
+        "support",
+        "model",
+        "supports",
+        "exact"
+      ]
+    },
+    {
+      "slug": "djur-kloning",
+      "id": "EXP#25",
+      "titel": "The Mother Without a Mate",
+      "amne": "Genetics Evolutionary Biology Cloning Parthenogenesis Reproduction",
+      "excerpt": "Cloning, parthenogenesis, and the evolutionary strategies that allow reproduction without a mate.",
+      "datum": "July 2026",
+      "lastid": "≈ 16 min read",
+      "ord": 2004,
+      "avsnitt": 7,
+      "nyckelord": [
+        "genetic",
+        "cell",
+        "cloning",
+        "verified",
+        "evolutionary",
+        "egg"
+      ]
+    },
+    {
+      "slug": "disengaged-teen",
+      "id": "EXP#24",
+      "titel": "The Obedient Student May Already Have Left",
+      "amne": "Education Motivation Adolescence Agency Engagement AI Sweden",
+      "excerpt": "A critical exploration of The Disengaged Teen, its Passenger, Achiever, Resister, and Explorer modes, and what the evidence does and does not support.",
+      "datum": "August 3, 2026",
+      "lastid": "≈ 34 min read",
+      "ord": 4683,
+      "avsnitt": 23,
+      "nyckelord": [
+        "support",
+        "engagement",
+        "student",
+        "students",
+        "school",
+        "supports"
+      ]
+    },
+    {
+      "slug": "jotunheimen",
+      "id": "EXP#23",
+      "titel": "The mountains are older than their shape",
+      "amne": "Geology Ecology Glaciers Climate Archaeology Hiking Norway Jotunheimen",
+      "excerpt": "How ancient rock, moving ice, altitude, and human paths made Jotunheimen, and how to read the landscape before walking into it.",
+      "datum": "August 3, 2026",
+      "lastid": "≈ 19 min read",
+      "ord": 2940,
+      "avsnitt": 18,
+      "nyckelord": [
+        "route",
+        "jotunheimen",
+        "support",
+        "checked",
+        "glacier",
+        "identity"
+      ]
+    },
+    {
+      "slug": "steel-cut-oat-porridge",
+      "id": "EXP#22",
+      "titel": "The Jar That Cooks While You Travel",
+      "amne": "Food Nutrition Oats Whole Grain Travel Breakfast Porridge",
+      "excerpt": "How to make steel cut oats work in a 400 ml food jar, and why the best breakfast depends on texture, time, sweetness, protein, and heat.",
+      "datum": "August 3, 2026",
+      "lastid": "≈ 31 min read",
+      "ord": 4481,
+      "avsnitt": 27,
+      "nyckelord": [
+        "oats",
+        "water",
+        "jar",
+        "food",
+        "but",
+        "jam"
+      ]
+    },
+    {
+      "slug": "nazca-lines",
+      "id": "EXP#21",
+      "titel": "The Desert Was Meant to Be Walked",
+      "amne": "Archaeology Peru Landscape Ritual Geoglyphs",
+      "excerpt": "How the Nazca Lines were made, what they may have meant, and why the real mystery begins when we return from the sky to the ground.",
+      "datum": "August 2, 2026",
+      "lastid": "≈ 29 min read",
+      "ord": 3128,
+      "avsnitt": 18,
+      "nyckelord": [
+        "lines",
+        "ritual",
+        "support",
+        "water",
+        "line",
+        "figures"
+      ]
+    },
+    {
+      "slug": "school-digitalisation",
+      "id": "EXP#20",
+      "titel": "The Screen Was Not the Strategy",
+      "amne": "Education Technology Policy Digitalisation Artificial Intelligence Sweden",
+      "excerpt": "What school digitalisation achieved, why mass device rollouts disappointed, and what the evidence says about books, teacher capacity, and AI.",
+      "datum": "August 2, 2026",
+      "lastid": "≈ 31 min read",
+      "ord": 4650,
+      "avsnitt": 23,
+      "nyckelord": [
+        "digital",
+        "support",
+        "use",
+        "learning",
+        "supports",
+        "access"
+      ]
+    },
+    {
+      "slug": "what-is-sex",
+      "id": "EXP#19",
+      "titel": "The Answer Depends on the Question",
+      "amne": "Evolution Development Sex Gender Reproduction Animals",
+      "excerpt": "What sex is in humans and across animals, how common separate sexes are, and why two gamete roles do not require two permanent kinds of body.",
+      "datum": "August 1, 2026",
+      "lastid": "≈ 41 min read",
+      "ord": 6984,
+      "avsnitt": 39,
+      "nyckelord": [
+        "sex",
+        "identity",
+        "support",
+        "species",
+        "checked",
+        "supports"
+      ]
+    },
+    {
+      "slug": "climate-borders",
+      "id": "EXP#18",
+      "titel": "The Border Does Not Stop the Climate",
+      "amne": "Climate Migration Borders",
+      "excerpt": "Wildfire, drought, displacement, and the unequal promise of safe borders.",
+      "datum": "July 31, 2026",
+      "lastid": "≈ 36 min read",
+      "ord": 4392,
+      "avsnitt": 15,
+      "nyckelord": [
+        "climate",
+        "people",
+        "border",
+        "migration",
+        "movement",
+        "drought"
+      ]
+    },
+    {
+      "slug": "ai-environmental-impact",
+      "id": "EXP#17",
+      "titel": "The Invisible Appetite: What Generative AI Really Costs the Planet",
+      "amne": "Artificial Intelligence Energy Environment",
+      "excerpt": "What generative AI really costs the planet, what viral comparisons get wrong, and what may happen next.",
+      "datum": "July 30, 2026",
+      "lastid": "≈ 31 min read",
+      "ord": 4015,
+      "avsnitt": 42,
+      "nyckelord": [
+        "model",
+        "electricity",
+        "water",
+        "energy",
+        "data",
+        "demand"
+      ]
+    },
+    {
+      "slug": "cranberries",
+      "id": "EXP#16",
+      "titel": "The Red Paradox: Cranberries, Historically and Today",
+      "amne": "Food History Nutrition Evidence",
+      "excerpt": "A source-verified exploration of the cranberry as Indigenous food, modern commodity, whole fruit, sweetened product, and conditional preventive intervention.",
+      "datum": "July 30, 2026",
+      "lastid": "≈ 22 min read",
+      "ord": 1205,
+      "avsnitt": 21,
+      "nyckelord": [
+        "cranberry",
+        "cranberries",
+        "evidence",
+        "fruit",
+        "sugar",
+        "products"
+      ]
+    },
+    {
+      "slug": "origin-of-life",
+      "id": "EXP#15",
+      "titel": "The Long Dawn: How the Origin of Life Became a Science of Possible Worlds",
+      "amne": "Origins of Life Astrobiology",
+      "excerpt": "How did planetary chemistry become capable of heredity, selection, and evolution?",
+      "datum": "July 30, 2026",
+      "lastid": "≈ 30 min read",
+      "ord": 3794,
+      "avsnitt": 18,
+      "nyckelord": [
+        "life",
+        "rna",
+        "chemistry",
+        "but",
+        "must",
+        "first"
+      ]
+    },
+    {
+      "slug": "ai-in-education",
+      "id": "EXP#14",
+      "titel": "The Architect and the Crutch: How Generative AI Is Reshaping Human Learning",
+      "amne": "Education Cognition",
+      "excerpt": "How generative AI is reshaping human learning.",
+      "datum": "July 29, 2026",
+      "lastid": "≈ 22 min read",
+      "ord": 1674,
+      "avsnitt": 7,
+      "nyckelord": [
+        "students",
+        "cognitive",
+        "student",
+        "human",
+        "learning",
+        "generative"
+      ]
+    },
+    {
+      "slug": "cellular-respiration-demystified",
+      "id": "EXP#13",
+      "titel": "The Engine of Life: Demystifying Cellular Respiration",
+      "amne": "Cellular Biology",
+      "excerpt": "Demystifying cellular respiration.",
+      "datum": "July 29, 2026",
+      "lastid": "≈ 18 min read",
+      "ord": 1974,
+      "avsnitt": 13,
+      "nyckelord": [
+        "energy",
+        "atp",
+        "carbon",
+        "electrons",
+        "glucose",
+        "nadh"
+      ]
+    },
+    {
+      "slug": "dark-matter-dark-energy",
+      "id": "EXP#12",
+      "titel": "The Unseen Architecture: Dark Matter, Dark Energy, and Modern Cosmology",
+      "amne": "Cosmology Astrophysics",
+      "excerpt": "Dark matter, dark energy, and modern cosmology.",
+      "datum": "July 29, 2026",
+      "lastid": "≈ 30 min read",
+      "ord": 1840,
+      "avsnitt": 22,
+      "nyckelord": [
+        "dark",
+        "energy",
+        "matter",
+        "mass",
+        "text",
+        "universe"
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "id": "EXP#11",
+      "titel": "The Exile and the Emperor: How the Ice Age Muskox Returned to Norway",
+      "amne": "Ecology Wildlife",
+      "excerpt": "How the Ice Age muskox returned to Norway.",
+      "datum": "July 28, 2026",
+      "lastid": "≈ 8 min read",
+      "ord": 765,
+      "avsnitt": 1,
+      "nyckelord": [
+        "muskox",
+        "dovrefjell",
+        "modern",
+        "norwegian",
+        "herd",
+        "ice"
+      ]
+    },
+    {
+      "slug": "assessment-validity-reliability",
+      "id": "EXP#10",
+      "titel": "The Architecture of Judgment",
+      "amne": "Education Psychometrics",
+      "excerpt": "Why perfect fairness in testing is a mathematical utopia.",
+      "datum": "July 27, 2026",
+      "lastid": "≈ 15 min read",
+      "ord": 1565,
+      "avsnitt": 14,
+      "nyckelord": [
+        "test",
+        "validity",
+        "but",
+        "same",
+        "reliability",
+        "construct"
+      ]
+    },
+    {
+      "slug": "caesar-sallad",
+      "id": "EXP#9",
+      "titel": "The Theatrical Illusion of the Caesar Salad",
+      "amne": "Culinary History",
+      "excerpt": "The history of Caesar salad.",
+      "datum": "July 27, 2026",
+      "lastid": "≈ 10 min read",
+      "ord": 855,
+      "avsnitt": 7,
+      "nyckelord": [
+        "caesar",
+        "salad",
+        "cardini",
+        "leaves",
+        "oil",
+        "dressing"
+      ]
+    },
+    {
+      "slug": "egg-coagulation-lab",
+      "id": "EXP#8",
+      "titel": "The Thermal Ballet of Egg Proteins",
+      "amne": "Biochemistry Science Education",
+      "excerpt": "Molecular kinetics and culinary physics.",
+      "datum": "July 27, 2026",
+      "lastid": "≈ 18 min read",
+      "ord": 1335,
+      "avsnitt": 10,
+      "nyckelord": [
+        "egg",
+        "white",
+        "protein",
+        "thermal",
+        "temperature",
+        "water"
+      ]
+    },
+    {
+      "slug": "adhd-explained",
+      "id": "EXP#7",
+      "titel": "The Hunter’s Radar in a Factory World",
+      "amne": "Neuroscience Psychology",
+      "excerpt": "What ADHD really is.",
+      "datum": "July 27, 2026",
+      "lastid": "≈ 16 min read",
+      "ord": 2420,
+      "avsnitt": 13,
+      "nyckelord": [
+        "adhd",
+        "brain",
+        "dopamine",
+        "prefrontal",
+        "executive",
+        "clinical"
+      ]
+    },
+    {
+      "slug": "agg-naring-och-myter",
+      "id": "EXP#6",
+      "titel": "The Egg: Evolution's Survival Pill and Science's Greatest Misunderstanding",
+      "amne": "Nutrition Evolution",
+      "excerpt": "Evolution's survival pill and science's misunderstanding.",
+      "datum": "July 2026",
+      "lastid": "≈ 22 min read",
+      "ord": 2796,
+      "avsnitt": 7,
+      "nyckelord": [
+        "egg",
+        "cholesterol",
+        "human",
+        "but",
+        "dietary",
+        "body"
+      ]
+    },
+    {
+      "slug": "utomjordisk-kunskap",
+      "id": "EXP#5",
+      "titel": "The Anatomy of a Cosmic Secret",
+      "amne": "Sociology Extraterrestrial Cover-ups",
+      "excerpt": "Why hiding extraterrestrial contact is mathematically impossible.",
+      "datum": "July 25, 2026",
+      "lastid": "≈ 15 min read",
+      "ord": 1152,
+      "avsnitt": 11,
+      "nyckelord": [
+        "cover",
+        "government",
+        "conspiracy",
+        "secret",
+        "people",
+        "extraterrestrial"
+      ]
+    },
+    {
+      "slug": "nordkalotten-flyttfaglar-radar",
+      "id": "EXP#4",
+      "titel": "The Invisible River: How Radar Revealed Arctic Migration",
+      "amne": "Biology Migration Radar",
+      "excerpt": "How radar revealed Arctic migration.",
+      "datum": "July 24, 2026",
+      "lastid": "≈ 8 min read",
+      "ord": 1489,
+      "avsnitt": 9,
+      "nyckelord": [
+        "radar",
+        "birds",
+        "but",
+        "over",
+        "air",
+        "meters"
+      ]
+    },
+    {
+      "slug": "digital-biome",
+      "id": "EXP#3",
+      "titel": "The Digital Biome",
+      "amne": "Computer Science Evolutionary Ecology",
+      "excerpt": "Field notes from an AI ecologist.",
+      "datum": "July 23, 2026",
+      "lastid": "≈ 35 min read",
+      "ord": 2265,
+      "avsnitt": 10,
+      "nyckelord": [
+        "digital",
+        "human",
+        "models",
+        "data",
+        "model",
+        "artificial"
+      ]
+    },
+    {
+      "slug": "krebs-cycle",
+      "id": "EXP#2",
+      "titel": "The Invisible Engine: How Life Catches Fire",
+      "amne": "Biochemistry",
+      "excerpt": "How life catches fire.",
+      "datum": "July 23, 2026",
+      "lastid": "≈ 38 min read",
+      "ord": 1998,
+      "avsnitt": 12,
+      "nyckelord": [
+        "carbon",
+        "energy",
+        "cycle",
+        "atp",
+        "oxygen",
+        "high"
+      ]
+    },
+    {
+      "slug": "octopus-intelligence",
+      "id": "EXP#1",
+      "titel": "Nine Brains and a Dream",
+      "amne": "Cognitive Science Marine Biology",
+      "excerpt": "A deep dive into octopus intelligence.",
+      "datum": "July 23, 2026",
+      "lastid": "45 min read",
+      "ord": 1524,
+      "avsnitt": 11,
+      "nyckelord": [
+        "octopus",
+        "octopuses",
+        "brain",
+        "high",
+        "central",
+        "complex"
       ]
     }
   ],
@@ -574,668 +541,646 @@
     {
       "a": "cellular-respiration-demystified",
       "b": "krebs-cycle",
-      "vikt": 0.4351,
-      "termer": [
-        "nadh",
-        "mitochondrial",
-        "electrons",
-        "respiration",
-        "protons"
-      ]
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Båda essäerna förklarar cellandningens energiflöde. Den ena ger helheten, medan den andra fördjupar citronsyracykeln och dess koppling till elektrontransportkedjan.",
+      "terms": [
+        "cellandning",
+        "citronsyracykeln",
+        "NADH",
+        "ATP"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "agg-naring-och-myter",
-      "b": "steel-cut-oat-porridge",
-      "vikt": 0.241,
-      "termer": [
-        "nutrition",
-        "cholesterol",
-        "dietary"
-      ]
-    },
-    {
-      "a": "ai-in-education",
-      "b": "disengaged-teen",
-      "vikt": 0.238,
-      "termer": [
-        "learning",
-        "agency",
-        "students",
-        "thinking",
-        "AI"
-      ]
-    },
-    {
-      "a": "disengaged-teen",
-      "b": "school-digitalisation",
-      "vikt": 0.229,
-      "termer": [
-        "school",
-        "students",
-        "teaching",
-        "technology",
-        "agency"
-      ]
-    },
-    {
-      "a": "cranberries",
-      "b": "steel-cut-oat-porridge",
-      "vikt": 0.196,
-      "termer": [
-        "berries",
-        "fruit",
-        "sweetened"
-      ]
-    },
-    {
-      "a": "ai-environmental-impact",
-      "b": "climate-borders",
-      "vikt": 0.1891,
-      "termer": [
-        "emissions",
-        "uncertainty",
-        "temporary",
-        "choice",
-        "services"
-      ]
-    },
-    {
-      "a": "adhd-explained",
-      "b": "disengaged-teen",
-      "vikt": 0.174,
-      "termer": [
-        "attention",
-        "motivation",
-        "school",
-        "agency",
-        "executive"
-      ]
-    },
-    {
-      "a": "assessment-validity-reliability",
-      "b": "disengaged-teen",
-      "vikt": 0.162,
-      "termer": [
-        "assessment",
-        "measurement",
-        "grades",
-        "validity",
-        "students"
-      ]
+      "a": "cellular-respiration-demystified",
+      "b": "origin-of-life",
+      "status": "reviewed",
+      "type": "mechanism",
+      "reason": "Den moderna cellens membranbundna protongradient visar en utvecklad mekanism av samma slag som hypoteserna om tidiga geokemiska energigradienter försöker förklara uppkomsten av.",
+      "terms": [
+        "protongradient",
+        "membran",
+        "kemiosmos",
+        "energiomsättning"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
       "a": "krebs-cycle",
       "b": "origin-of-life",
-      "vikt": 0.154,
-      "termer": [
-        "hydrothermal",
-        "compartments",
-        "planetary",
-        "ocean",
-        "billion"
-      ]
+      "status": "reviewed",
+      "type": "mechanism",
+      "reason": "Essäerna möts i frågan om hur geokemiska reaktionsnätverk kan ha utvecklats till den organiserade kolmetabolism som senare liv använder.",
+      "terms": [
+        "metabolism",
+        "reaktionsnätverk",
+        "kolkemi",
+        "hydrotermala källor"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "ai-environmental-impact",
-      "b": "digital-biome",
-      "vikt": 0.1487,
-      "termer": [
-        "training",
-        "cooling",
-        "computation",
-        "electricity",
-        "hardware"
-      ]
-    },
-    {
-      "a": "ai-environmental-impact",
+      "a": "ai-life-consciousness-system",
       "b": "origin-of-life",
-      "vikt": 0.1459,
-      "termer": [
-        "inference",
-        "plausible",
-        "conditions",
-        "useful",
-        "materials"
-      ]
-    },
-    {
-      "a": "nazca-lines",
-      "b": "utomjordisk-kunskap",
-      "vikt": 0.126,
-      "termer": [
-        "extraterrestrial",
-        "evidence",
-        "mystery",
-        "explanation",
-        "sky"
-      ]
-    },
-    {
-      "a": "climate-borders",
-      "b": "origin-of-life",
-      "vikt": 0.1237,
-      "termer": [
-        "preserve",
-        "conditions",
-        "secure",
-        "already",
-        "route"
-      ]
-    },
-    {
-      "a": "ai-in-education",
-      "b": "digital-biome",
-      "vikt": 0.122,
-      "termer": [
-        "algorithmic",
-        "generative",
-        "automated",
-        "text",
-        "code"
-      ]
-    },
-    {
-      "a": "caesar-sallad",
-      "b": "steel-cut-oat-porridge",
-      "vikt": 0.121,
-      "termer": [
-        "food",
-        "meal",
-        "nutrition"
-      ]
-    },
-    {
-      "a": "agg-naring-och-myter",
-      "b": "krebs-cycle",
-      "vikt": 0.1173,
-      "termer": [
-        "dietary",
-        "acid",
-        "molecule",
-        "enzyme",
-        "cholesterol"
-      ]
-    },
-    {
-      "a": "ai-in-education",
-      "b": "assessment-validity-reliability",
-      "vikt": 0.1151,
-      "termer": [
-        "educational",
-        "students",
-        "schools",
-        "competence",
-        "knowledge"
-      ]
+      "status": "reviewed",
+      "type": "contrast",
+      "reason": "Artikeln om livets ursprung behandlar avgränsning, heredity och självunderhåll som biologiska problem. AI essän visar varför dagens språkmodeller inte utan vidare uppfyller dessa kriterier.",
+      "terms": [
+        "livsdefinition",
+        "självunderhåll",
+        "hereditet",
+        "systemgräns"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
       "a": "djur-kloning",
       "b": "origin-of-life",
-      "vikt": 0.1043,
-      "termer": [
-        "genes",
-        "genome",
-        "division",
-        "copy",
-        "reproduction"
-      ]
+      "status": "reviewed",
+      "type": "prerequisite",
+      "reason": "Kloning och partenogenes förutsätter redan etablerade celler, genom och reproduktionsmaskineri. Essän om livets ursprung undersöker hur sådana förutsättningar först kunde uppkomma.",
+      "terms": [
+        "reproduktion",
+        "genom",
+        "celldelning",
+        "hereditet"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "nazca-lines",
-      "b": "origin-of-life",
-      "vikt": 0.104,
-      "termer": [
-        "evidence",
-        "hypotheses",
-        "unknown",
-        "origins",
-        "inference"
-      ]
+      "a": "djur-kloning",
+      "b": "what-is-sex",
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Båda undersöker reproduktionens biologiska variation. Den ena fokuserar på kloning och partenogenes, medan den andra skiljer gametroller från permanenta kroppstyper.",
+      "terms": [
+        "reproduktion",
+        "partenogenes",
+        "gameter",
+        "evolution"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "agg-naring-och-myter",
-      "b": "digital-biome",
-      "vikt": 0.1022,
-      "termer": [
-        "feedback",
-        "ecological",
-        "ecosystem",
-        "ecosystems",
-        "akin"
-      ]
+      "a": "octopus-intelligence",
+      "b": "ai-life-consciousness-system",
+      "status": "reviewed",
+      "type": "contrast",
+      "reason": "Bläckfiskessän behandlar ett levande nervsystem med distribuerad kontroll och beteendeevidens. AI essän prövar varför språklig prestation inte ensam räcker som belägg för medvetande eller biologisk agens.",
+      "terms": [
+        "medvetande",
+        "distribuerad kontroll",
+        "beteendeevidens",
+        "agens"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "cellular-respiration-demystified",
-      "b": "origin-of-life",
-      "vikt": 0.1006,
-      "termer": [
-        "membrane",
-        "molecule",
-        "reactions",
-        "cellular",
-        "cycle"
-      ]
+      "a": "before-particles-quantum-fields",
+      "b": "dark-matter-dark-energy",
+      "status": "reviewed",
+      "type": "prerequisite",
+      "reason": "Fältessän ger den kvantfältteoretiska bakgrund som behövs för att förstå många kandidater till mörk materia och varför gravitationens kvantisering fortfarande är öppen.",
+      "terms": [
+        "kvantfält",
+        "partiklar",
+        "gravitation",
+        "mörk materia"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "cellular-respiration-demystified",
-      "b": "egg-coagulation-lab",
-      "vikt": 0.0979,
-      "termer": [
-        "verified",
-        "thermodynamic",
-        "acid",
-        "molecular",
-        "complexes"
-      ]
+      "a": "dark-matter-dark-energy",
+      "b": "utomjordisk-kunskap",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Båda skiljer observation från tolkning när det efterfrågade objektet inte kan observeras direkt. Kosmologin bygger sammanhängande inferenser från flera mätningar, medan sekretessessän granskar vad extraordinära påståenden skulle kräva för evidens.",
+      "terms": [
+        "indirekt evidens",
+        "alternativa förklaringar",
+        "mätning",
+        "inferens"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "disengaged-teen",
+      "b": "support-without-passivity",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Stödessän omsätter analysen av elevengagemang och tillfälliga deltagandelägen i en praktisk cykel för struktur, diagnostik och gradvis överfört ansvar.",
+      "terms": [
+        "elevengagemang",
+        "agens",
+        "gradvis ansvar",
+        "diagnostik"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "ai-in-education",
+      "b": "support-without-passivity",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Båda skiljer stödjande stöttning från passiviserande kognitiv avlastning och visar hur AI stöd kan utformas så att eleven fortfarande tänker och äger uppgiften.",
+      "terms": [
+        "stöttning",
+        "kognitiv avlastning",
+        "elevagens",
+        "AI stöd"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "school-digitalisation",
+      "b": "support-without-passivity",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Digitaliseringsessän visar att tillgång till verktyg inte i sig skapar lärande. Stödessän ger principer för hur verktyg kan ingå i tydlig undervisning utan att ersätta elevens aktivitet.",
+      "terms": [
+        "digitala verktyg",
+        "undervisningsdesign",
+        "elevaktivitet",
+        "lärarstöd"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
       "a": "adhd-explained",
-      "b": "ai-in-education",
-      "vikt": 0.0964,
-      "termer": [
-        "mental",
-        "classroom",
-        "adhd",
-        "cognitive",
-        "emotional"
-      ]
+      "b": "support-without-passivity",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "ADHD essän beskriver exekutiva och motivationella hinder. Stödessän ger en försiktig modell för att anpassa struktur utan att låsa eleven vid en typ eller sänka förväntningarna.",
+      "terms": [
+        "exekutiva funktioner",
+        "motivation",
+        "miljöanpassning",
+        "diagnostisk ödmjukhet"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "jotunheimen",
-      "b": "nazca-lines",
-      "vikt": 0.095,
-      "termer": [
-        "archaeology",
-        "landscape",
-        "walking",
-        "routes",
-        "water"
-      ]
+      "a": "egg-coagulation-lab",
+      "b": "support-without-passivity",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Ägglaborationen ger ett konkret fall där tydlig struktur, produktiv osäkerhet, observation och gradvis självständighet kan genomföras enligt stödessäns undervisningsmodell.",
+      "terms": [
+        "undersökande laboration",
+        "produktivt misslyckande",
+        "stöttning",
+        "elevansvar"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "ai-in-education",
+      "b": "disengaged-teen",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Båda undersöker elevagens och kognitivt arbete, särskilt risken att AI producerar synlig aktivitet eller färdiga svar utan att eleven utvecklar förståelse och självständighet.",
+      "terms": [
+        "elevagens",
+        "kognitivt arbete",
+        "AI",
+        "självständighet"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "ai-in-education",
+      "b": "school-digitalisation",
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Båda analyserar teknik i undervisning. Den ena fokuserar på generativ AI och lärande, medan den andra placerar AI i skolans bredare digitaliseringshistoria.",
+      "terms": [
+        "generativ AI",
+        "digitalisering",
+        "lärande",
+        "undervisningsdesign"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "ai-in-education",
+      "b": "assessment-validity-reliability",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "AI förändrar vilka prestationer ett prov eller en uppgift faktiskt mäter. Därför blir bedömningsessäens begrepp validitet, reliabilitet och autenticitet direkt tillämpliga.",
+      "terms": [
+        "validitet",
+        "reliabilitet",
+        "autentisk bedömning",
+        "AI genererad prestation"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "school-digitalisation",
+      "b": "assessment-validity-reliability",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Digitaliseringsreformer måste bedömas med tydliga utfallsmått och giltiga jämförelser. Det kopplar policyessäens evidensproblem till psykometrins analys av mätning och validitet.",
+      "terms": [
+        "validitet",
+        "utfallsmått",
+        "jämförbarhet",
+        "utvärdering"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "adhd-explained",
+      "b": "disengaged-teen",
+      "status": "reviewed",
+      "type": "contrast",
+      "reason": "Båda behandlar ojämnt engagemang och motivation, men kontrasten förhindrar att ett observerat deltagandemönster förväxlas med en neuropsykiatrisk diagnos.",
+      "terms": [
+        "motivation",
+        "engagemang",
+        "exekutiva funktioner",
+        "diagnostik"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
       "a": "agg-naring-och-myter",
       "b": "cranberries",
-      "vikt": 0.0946,
-      "termer": [
-        "nutritional",
-        "blood",
-        "tract",
-        "foods",
-        "cardiovascular"
-      ]
-    },
-    {
-      "a": "jotunheimen",
-      "b": "muskoxen-norway",
-      "vikt": 0.092,
-      "termer": [
-        "norway",
-        "mountains",
-        "wildlife",
-        "glacial",
-        "landscape"
-      ]
-    },
-    {
-      "a": "nazca-lines",
-      "b": "nordkalotten-flyttfaglar-radar",
-      "vikt": 0.092,
-      "termer": [
-        "birds",
-        "landscape",
-        "movement",
-        "view",
-        "remote-sensing"
-      ]
-    },
-    {
-      "a": "adhd-explained",
-      "b": "digital-biome",
-      "vikt": 0.0905,
-      "termer": [
-        "neural",
-        "digital",
-        "resource",
-        "network",
-        "mode"
-      ]
-    },
-    {
-      "a": "climate-borders",
-      "b": "nordkalotten-flyttfaglar-radar",
-      "vikt": 0.0851,
-      "termer": [
-        "migration",
-        "weather",
-        "north",
-        "farms",
-        "wind"
-      ]
-    },
-    {
-      "a": "climate-borders",
-      "b": "jotunheimen",
-      "vikt": 0.085,
-      "termer": [
-        "climate",
-        "glaciers",
-        "weather",
-        "retreat",
-        "water"
-      ]
-    },
-    {
-      "a": "climate-borders",
-      "b": "muskoxen-norway",
-      "vikt": 0.0849,
-      "termer": [
-        "climate",
-        "warming",
-        "adaptation",
-        "authorities",
-        "border"
-      ]
-    },
-    {
-      "a": "djur-kloning",
-      "b": "octopus-intelligence",
-      "vikt": 0.0844,
-      "termer": [
-        "biologists",
-        "reproduction",
-        "skin",
-        "somatic",
-        "males"
-      ]
-    },
-    {
-      "a": "nazca-lines",
-      "b": "digital-biome",
-      "vikt": 0.084,
-      "termer": [
-        "patterns",
-        "landscape",
-        "networks",
-        "interpretation",
-        "AI"
-      ]
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Båda granskar hur näringspåståenden förändras när ett helt livsmedel, en isolerad komponent, en bearbetad produkt och ett specifikt hälsoutfall blandas ihop.",
+      "terms": [
+        "nutritionsevidens",
+        "livsmedel",
+        "hälsopåståenden",
+        "produktform"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
       "a": "agg-naring-och-myter",
-      "b": "octopus-intelligence",
-      "vikt": 0.0827,
-      "termer": [
-        "pill",
-        "humans",
-        "digestive",
-        "brain",
-        "nerve"
-      ]
-    },
-    {
-      "a": "ai-environmental-impact",
-      "b": "assessment-validity-reliability",
-      "vikt": 0.0823,
-      "termer": [
-        "measurement",
-        "inference",
-        "looks",
-        "accuracy",
-        "reliability"
-      ]
-    },
-    {
-      "a": "egg-coagulation-lab",
-      "b": "krebs-cycle",
-      "vikt": 0.0818,
-      "termer": [
-        "acid",
-        "complexes",
-        "molecular",
-        "bonds",
-        "reverse"
-      ]
-    },
-    {
-      "a": "cranberries",
-      "b": "origin-of-life",
-      "vikt": 0.0813,
-      "termer": [
-        "products",
-        "drying",
-        "possibility",
-        "related",
-        "chemistry"
-      ]
-    },
-    {
-      "a": "nazca-lines",
-      "b": "climate-borders",
-      "vikt": 0.076,
-      "termer": [
-        "landscape",
-        "water",
-        "movement",
-        "borders",
-        "human"
-      ]
+      "b": "steel-cut-oat-porridge",
+      "status": "reviewed",
+      "type": "contrast",
+      "reason": "Essäerna jämför två frukostkomponenter med olika bidrag från protein, fett, kolin, fullkorn och betaglukan utan att utse ett universellt bästa livsmedel.",
+      "terms": [
+        "protein",
+        "kolin",
+        "fullkorn",
+        "betaglukan",
+        "frukost"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
       "a": "agg-naring-och-myter",
-      "b": "nordkalotten-flyttfaglar-radar",
-      "vikt": 0.0731,
-      "termer": [
-        "birds",
-        "bird",
-        "suddenly",
-        "ecological",
-        "daily"
-      ]
-    },
-    {
-      "a": "muskoxen-norway",
-      "b": "nordkalotten-flyttfaglar-radar",
-      "vikt": 0.0724,
-      "termer": [
-        "norway",
-        "circle",
-        "arctic",
-        "norwegian",
-        "meters"
-      ]
-    },
-    {
-      "a": "climate-borders",
-      "b": "utomjordisk-kunskap",
-      "vikt": 0.0716,
-      "termer": [
-        "government",
-        "surveillance",
-        "military",
-        "hide",
-        "security"
-      ]
-    },
-    {
-      "a": "ai-environmental-impact",
-      "b": "dark-matter-dark-energy",
-      "vikt": 0.0706,
-      "termer": [
-        "text",
-        "measurements",
-        "measurement",
-        "density",
-        "expansion"
-      ]
-    },
-    {
-      "a": "jotunheimen",
-      "b": "nordkalotten-flyttfaglar-radar",
-      "vikt": 0.07,
-      "termer": [
-        "birds",
-        "migration",
-        "mountains",
-        "weather",
-        "norway"
-      ]
-    },
-    {
-      "a": "nordkalotten-flyttfaglar-radar",
-      "b": "utomjordisk-kunskap",
-      "vikt": 0.0691,
-      "termer": [
-        "radar",
-        "altitudes",
-        "flying",
-        "blind",
-        "radars"
-      ]
-    },
-    {
-      "a": "assessment-validity-reliability",
-      "b": "dark-matter-dark-energy",
-      "vikt": 0.0663,
-      "termer": [
-        "validity",
-        "measurement",
-        "dark",
-        "curves",
-        "measuring"
-      ]
+      "b": "egg-coagulation-lab",
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Den ena artikeln behandlar äggets näringsmässiga och evolutionära funktion. Laborationsartikeln förklarar hur samma äggproteiner denaturerar och koagulerar vid uppvärmning.",
+      "terms": [
+        "ägg",
+        "protein",
+        "albumen",
+        "denaturering"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
       "a": "agg-naring-och-myter",
       "b": "caesar-sallad",
-      "vikt": 0.0639,
-      "termer": [
-        "yolk",
-        "culinary",
-        "prepared",
-        "bowl",
-        "staple"
-      ]
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Caesarsalladens äggula, dressing och serveringspraktik ger ett konkret kulinariskt sammanhang för äggessäens resonemang om näring, ingredienser och seglivade matmyter.",
+      "terms": [
+        "äggula",
+        "dressing",
+        "näring",
+        "matmyter"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
       "a": "caesar-sallad",
       "b": "egg-coagulation-lab",
-      "vikt": 0.0511,
-      "termer": [
-        "kitchen",
-        "yolk",
-        "culinary",
-        "properties",
-        "adding"
-      ]
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Dressingens äggula och emulsion ger en kulinarisk tillämpning av laborationsessäens molekylära förklaring av äggproteiner, fett och temperaturberoende struktur.",
+      "terms": [
+        "äggula",
+        "emulsion",
+        "äggproteiner",
+        "kulinarisk fysik"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "ai-life-consciousness-system",
-      "b": "disengaged-teen",
-      "vikt": 0.2305,
-      "termer": [
-        "agency",
-        "learning",
-        "report",
-        "supports",
-        "evidence"
-      ]
+      "a": "jotunheimen",
+      "b": "muskoxen-norway",
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Båda placerar norsk fjällnatur i ett samspel mellan istidshistoria, nutida ekologi, mänsklig rörelse och förvaltning, med Jotunheimen respektive Dovrefjell som fall.",
+      "terms": [
+        "norska fjäll",
+        "istid",
+        "ekologi",
+        "förvaltning"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "ai-life-consciousness-system",
-      "b": "ai-environmental-impact",
-      "vikt": 0.2226,
-      "termer": [
-        "model",
-        "models",
-        "electricity",
-        "training",
-        "service"
-      ]
+      "a": "jotunheimen",
+      "b": "nazca-lines",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Båda visar hur landskap måste läsas genom geologi, materiella spår och kroppslig rörelse på marken, inte enbart som en bild betraktad på avstånd.",
+      "terms": [
+        "landskapsarkeologi",
+        "vandring",
+        "rutter",
+        "materiella spår"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "ai-life-consciousness-system",
-      "b": "school-digitalisation",
-      "vikt": 0.2128,
-      "termer": [
-        "access",
-        "learning",
-        "evidence",
-        "feedback",
-        "paper"
-      ]
+      "a": "jotunheimen",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "status": "reviewed",
+      "type": "contrast",
+      "reason": "Båda behandlar hur höjd, vind och väder formar rörelse i nordliga landskap. Kontrasten mellan planerad mänsklig vandring och fåglars säsongsbundna migration visar varför processerna inte bör likställas.",
+      "terms": [
+        "fjäll",
+        "höjd",
+        "väder",
+        "vind",
+        "olika rörelseformer"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "ai-life-consciousness-system",
-      "b": "origin-of-life",
-      "vikt": 0.2115,
-      "termer": [
-        "life",
-        "organization",
-        "evidence",
-        "without",
-        "organized"
-      ]
+      "a": "climate-borders",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "status": "reviewed",
+      "type": "contrast",
+      "reason": "Båda behandlar migration under klimat och väderpåverkan. Kontrasten mellan fåglars flyttning och människors juridiskt reglerade rörlighet hindrar att processerna likställs.",
+      "terms": [
+        "migration",
+        "klimat",
+        "väder",
+        "juridiska gränser"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "ai-life-consciousness-system",
-      "b": "digital-biome",
-      "vikt": 0.1983,
-      "termer": [
-        "models",
-        "model",
-        "intelligence",
-        "artificial",
-        "human"
-      ]
+      "a": "climate-borders",
+      "b": "muskoxen-norway",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Myskoxens återintroduktion och värmestress ger ett konkret förvaltningsfall för klimatessäens frågor om anpassning, territorier, myndighetsansvar och rörelse.",
+      "terms": [
+        "klimatanpassning",
+        "värmestress",
+        "naturförvaltning",
+        "territorium"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "ai-life-consciousness-system",
-      "b": "ai-in-education",
-      "vikt": 0.1596,
-      "termer": [
-        "learning",
-        "cognitive",
-        "human",
-        "language",
-        "text"
-      ]
+      "a": "ai-environmental-impact",
+      "b": "climate-borders",
+      "status": "reviewed",
+      "type": "mechanism",
+      "reason": "Miljöartikeln beskriver energi, vatten och utsläpp från AI infrastrukturen som en materiell klimatpåverkan. Gränsartikeln följer hur klimatpåverkan kan bli ojämlik utsatthet, förflyttning och reglerad rörlighet.",
+      "terms": [
+        "klimatpåverkan",
+        "utsläpp",
+        "infrastruktur",
+        "förflyttning",
+        "ojämlikhet"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "before-particles-quantum-fields",
-      "b": "dark-matter-dark-energy",
-      "vikt": 0.318,
-      "termer": [
-        "quantum",
-        "fields",
-        "gravity",
-        "vacuum",
-        "energy"
-      ]
+      "a": "climate-borders",
+      "b": "jotunheimen",
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Jotunheimens glaciärreträtt och förändrade fjällmiljö ger ett lokalt landskapsfall för de bredare klimatförändringar och anpassningsproblem som klimat och gränsessäen behandlar.",
+      "terms": [
+        "glaciärreträtt",
+        "klimatförändring",
+        "fjällmiljö",
+        "anpassning"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "before-particles-quantum-fields",
-      "b": "origin-of-life",
-      "vikt": 0.132,
-      "termer": [
-        "emergence",
-        "scale",
-        "effective",
-        "organization",
-        "matter"
-      ]
+      "a": "nazca-lines",
+      "b": "utomjordisk-kunskap",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Nazca essän prövar markbundna arkeologiska förklaringar mot spektakulära utomjordiska påståenden. Sekretessessäen granskar vilken evidens och vilka institutionella villkor verklig kontakt skulle kräva.",
+      "terms": [
+        "utomjordisk hypotes",
+        "arkeologisk evidens",
+        "förklaringsprövning",
+        "extraordinära påståenden"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     },
     {
-      "a": "before-particles-quantum-fields",
+      "a": "nazca-lines",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Båda visar vad observation ovanifrån kan avslöja och varför fjärranalys måste förenas med markdata för att tolka rörelse, skala och landskapsmönster.",
+      "terms": [
+        "fjärranalys",
+        "radar",
+        "landskapsmönster",
+        "markdata"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "nordkalotten-flyttfaglar-radar",
+      "b": "utomjordisk-kunskap",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Flyttfågelstudien visar hur radarspår blir biologisk kunskap genom validering och tolkning. Det ger en konkret kontrast till hur enstaka radarekon används i påståenden om dolda farkoster.",
+      "terms": [
+        "radar",
+        "validering",
+        "spårdata",
+        "alternativa förklaringar"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "muskoxen-norway",
+      "b": "nordkalotten-flyttfaglar-radar",
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Båda undersöker nordliga djurpopulationer i relation till geografi, klimat och mänsklig övervakning, men på olika rumsliga skalor och med olika rörelsemönster.",
+      "terms": [
+        "nordlig ekologi",
+        "djurpopulationer",
+        "klimat",
+        "övervakning"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "digital-biome",
       "b": "ai-life-consciousness-system",
-      "vikt": 0.116,
-      "termer": [
-        "ontology",
-        "model",
-        "system",
-        "evidence",
-        "interpretation"
-      ]
+      "status": "reviewed",
+      "type": "analogy",
+      "reason": "Båda använder systemperspektiv för AI. Ekosystemanalogin synliggör återkoppling och nischer, men likheten upphör där: metaforen gör inte modeller levande, autonoma eller medvetna.",
+      "terms": [
+        "systemperspektiv",
+        "ekosystemmetafor",
+        "återkoppling",
+        "autonomi"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "ai-environmental-impact",
+      "b": "ai-life-consciousness-system",
+      "status": "reviewed",
+      "type": "prerequisite",
+      "reason": "Skillnaden mellan modell, körning, produkt och sociotekniskt system behövs för att miljöessäens energi, hårdvara och livscykelgränser ska tillskrivas rätt systemnivå.",
+      "terms": [
+        "systemgräns",
+        "modell",
+        "infrastruktur",
+        "livscykel",
+        "energi"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "ai-environmental-impact",
+      "b": "digital-biome",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Miljöartikeln mäter de materiella energi, vatten och hårdvaruflöden som ekosystemmetaforen beskriver som resursbegränsningar och infrastrukturella beroenden.",
+      "terms": [
+        "resursbegränsning",
+        "energi",
+        "vatten",
+        "hårdvara"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "digital-biome",
+      "b": "school-digitalisation",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Ekosystemperspektivet på AI ger ett sätt att analysera hur skolans tekniklandskap formas av plattformar, incitament, beroenden och återkoppling, inte bara av enskilda verktyg.",
+      "terms": [
+        "teknikekosystem",
+        "plattformar",
+        "beroenden",
+        "återkoppling"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "what-is-sex",
+      "b": "origin-of-life",
+      "status": "reviewed",
+      "type": "prerequisite",
+      "reason": "Sexuell reproduktion förutsätter redan celler, heredity och evolutionära populationer. Livets ursprungsessä beskriver de tidigare steg som måste finnas innan gametroller kan utvecklas.",
+      "terms": [
+        "hereditet",
+        "evolution",
+        "reproduktion",
+        "gameter"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
     }
   ]
 }

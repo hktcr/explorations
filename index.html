@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="explorations-network-release" content="20260811-network-2">
 <title>Explorations: A Library of Deep Dives</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="natverk.css">
+<link rel="stylesheet" href="natverk.css?v=20260811-network-2">
 <style>
 :root{--bg:#fcfcfc;--text:#1a1a1a;--head:#c0392b;--accent:#c0392b;--meta:#888;--card:#fff;--line:rgba(0,0,0,.1);--body:'Merriweather',serif;--ui:'Inter',sans-serif}
 @media(prefers-color-scheme:dark){:root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;--accent:#e74c3c;--meta:#999;--card:#1e1e1e;--line:rgba(255,255,255,.09)}}
@@ -36,12 +37,22 @@
 </style>
 <link rel="stylesheet" href="engagement/engagement.css" data-engagement-asset="style">
 </head>
-<body>
+<body data-network-release="20260811-network-2">
 <header class="library-header"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p></header>
-<div class="search-container"><input type="search" class="search-input" id="searchInput" placeholder="Sök i hela biblioteket…" autocomplete="off"><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
-<div class="natverk-rad"><span id="natverkStatus" role="status" aria-live="polite"></span><button type="button" id="natverkVaxel" aria-pressed="false">Visa nätverk</button></div>
-<section class="natverk" id="natverk" hidden><canvas id="natverkKanter" aria-hidden="true"></canvas><nav id="natverkNoder" aria-label="Släktskapsnätverk över biblioteket"></nav><div id="kanttips" role="tooltip" hidden></div></section>
-<div id="traffar" class="dold"></div>
+<div class="search-container" lang="sv"><input type="search" class="search-input" id="searchInput" aria-label="Sök i hela biblioteket" placeholder="Sök i hela biblioteket…" autocomplete="off"><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
+<div class="natverk-rad" lang="sv"><span id="natverkStatus" role="status" aria-live="polite"></span><button type="button" id="natverkVaxel" aria-pressed="false">Visa nätverk</button></div>
+<div class="natverk-legend" id="natverkLegend" lang="sv" aria-label="Förklaring till nätverket"><span><i class="legend-nod" aria-hidden="true"></i>Nod: essä</span><span><i class="legend-linje" aria-hidden="true"></i>Linje: granskat samband</span></div>
+<div class="natverk-layout" lang="sv">
+<section class="natverk" id="natverk" aria-label="Samband mellan essäer" hidden><canvas id="natverkKanter" aria-hidden="true"></canvas><nav id="natverkNoder" aria-label="Sambandsnätverk över biblioteket"></nav></section>
+<aside class="relationspanel" id="relationspanel" role="region" aria-label="Samband för vald essä" aria-describedby="relationspanelTom">
+<p class="relationspanel-tom" id="relationspanelTom">Välj en essä i nätverket för att se dess granskade samband.</p>
+<div id="relationspanelInnehall" hidden>
+<p class="relationspanel-amne" id="relationspanelAmne"></p><h2 id="relationspanelTitel" tabindex="-1">Vald essä</h2><p class="relationspanel-meta" id="relationspanelMeta"></p>
+<p class="relationspanel-ingress" id="relationspanelIngress"></p><p class="relationspanel-nyckelord" id="relationspanelNyckelord"></p>
+<h3 id="relationspanelRelationerTitel">Relaterade essäer</h3><ol class="relationspanel-lista" id="relationspanelLista" aria-labelledby="relationspanelRelationerTitel"></ol>
+<div class="relationspanel-atgarder"><a class="relationspanel-las" id="relationspanelLas" href="#">Läs essän</a><button type="button" class="relationspanel-tillbaka" id="relationspanelTillbaka">Tillbaka till vald nod</button></div>
+</div></aside></div>
+<div id="traffar" class="dold" lang="sv"></div>
 <div class="articles-grid" id="articlesGrid">
 <a data-exploration-id="EXP#28" href="support-without-passivity/index.html" class="article-card" data-subject="Education Instruction Student Agency Motivation Productive Failure Classroom Practice" data-title="Support without passivity" data-excerpt="How teachers can combine clear instruction with genuine student agency, without turning temporary classroom modes into fixed student types."><div class="card-subject"><span class="exp-id">EXP#28</span> • Education · Instruction · Student agency</div><h2 class="card-title">Support without passivity</h2><div class="card-meta">August 11, 2026 · ≈ 32 min read</div><p class="card-excerpt">How teachers can combine clear instruction with genuine student agency, without turning temporary classroom modes into fixed student types.</p><span class="card-link">Read →</span></a>
 <a data-exploration-id="EXP#27" href="before-particles-quantum-fields/index.html" class="article-card" data-subject="Quantum field theory Fundamental interactions Particle physics Gauge theory Gravity" data-title="Before particles" data-excerpt="A field-first journey through particles, gauge structure, renormalisation, electromagnetism, the weak and strong interactions, and gravity's unfinished quantum story."><div class="card-subject"><span class="exp-id">EXP#27</span> • Quantum field theory · Fundamental interactions · Physics</div><h2 class="card-title">Before particles: learning to see the world as quantum fields</h2><div class="card-meta">August 9, 2026 · ≈ 41 min read</div><p class="card-excerpt">A field-first journey through particles, gauge structure, renormalisation, electromagnetism, the weak and strong interactions, and gravity's unfinished quantum story.</p><span class="card-link">Read →</span></a>
@@ -74,18 +85,18 @@
 </div>
 <footer class="library-footer"><p>Explorations by gAIa · Part of the GAIA Knowledge System</p></footer>
 <script>
-const input=document.getElementById('searchInput'),grid=document.getElementById('articlesGrid'),cards=[...grid.querySelectorAll('.article-card')],readFilter=document.getElementById('readFilter');
+const grid=document.getElementById('articlesGrid'),cards=[...grid.querySelectorAll('.article-card')],readFilter=document.getElementById('readFilter');
 let readCards=[],hideRead=false;
 const updateReadFilterLabel=()=>{readFilter.textContent=(hideRead?'Visa lästa':'Dölj lästa')+' ('+readCards.length+')'};
-const applyFilters=()=>{const q=input.value.toLowerCase().trim();let visible=0;cards.forEach(c=>{const matchesSearch=!q||(c.dataset.title+' '+c.dataset.subject+' '+c.dataset.excerpt).toLowerCase().includes(q);const matchesRead=!hideRead||c.dataset.read!=='true';const show=matchesSearch&&matchesRead;c.hidden=!show;if(show)visible++});let empty=grid.querySelector('.no-results');if(!visible&&!empty){empty=document.createElement('p');empty.className='no-results';empty.textContent=hideRead&&readCards.length===cards.length?'Alla artiklar är markerade som lästa.':'Inga träffar.';grid.append(empty)}else if(visible&&empty)empty.remove()};
-const syncReadCards=()=>{readCards=cards.filter(c=>c.dataset.read==='true');updateReadFilterLabel();applyFilters()};
-readFilter.addEventListener('click',()=>{hideRead=!hideRead;readFilter.setAttribute('aria-pressed',String(hideRead));updateReadFilterLabel();applyFilters()});
-input.addEventListener('input',applyFilters);
+const readFilterState=()=>({hideRead,ids:readCards.map(c=>c.dataset.explorationId),slugs:readCards.map(c=>c.getAttribute('href').split('/')[0])});
+const notifyReadFilter=()=>document.dispatchEvent(new CustomEvent('explorations:read-filter-change',{detail:readFilterState()}));
+const syncReadCards=()=>{readCards=cards.filter(c=>c.dataset.read==='true');updateReadFilterLabel();notifyReadFilter()};
+window.explorationsReadFilter={getState:readFilterState,refresh:syncReadCards};
+readFilter.addEventListener('click',()=>{hideRead=!hideRead;readFilter.setAttribute('aria-pressed',String(hideRead));updateReadFilterLabel();notifyReadFilter()});
 document.addEventListener('explorations:engagement-ready',syncReadCards);
 syncReadCards();
 </script>
-<script src="natverk.js" defer></script>
+<script src="natverk.js?v=20260811-network-2" defer></script>
 <script type="module" src="engagement/engagement.js?v=20260810-1" data-engagement-asset="runtime"></script>
 </body>
 </html>
-

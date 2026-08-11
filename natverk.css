@@ -1,295 +1,106 @@
-/* ====================================================================
-   natverk.css — Explorations: slaktskapsnatverk och soktraffar
-   ====================================================================
-   Rev 2. Bygger vidare pa variablerna som redan finns i index.html.
-   Ingen egen fargskala, ingen egen typografi.
-   ==================================================================== */
+/* Reviewed relationship network. Release 20260811-network-2. */
+:root {
+  --network-bg: var(--bg, #fcfcfc);
+  --network-card: var(--card, #fff);
+  --network-text: var(--text, #1a1a1a);
+  --network-heading: var(--head, #c0392b);
+  --network-accent: var(--accent, #c0392b);
+  --network-muted: var(--meta, #777);
+  --network-border: var(--line, rgba(0,0,0,.12));
+  --network-ui: var(--ui, Inter, system-ui, sans-serif);
+  --network-body: var(--body, Merriweather, Georgia, serif);
+  --network-shadow: 0 8px 24px rgba(0,0,0,.1);
+  --network-hit: 44px;
+}
 
-/* ── Doljning ────────────────────────────────────────────────────── */
-
-/* Anvands i stallet for hidden-attributet. hidden ger display:none fran
-   webblasarens egen stilmall, och varje display-regel i sidans stilmall
-   vinner over den. Kortrutnatet har display:grid och korten display:flex,
-   sa hidden gjorde ingenting alls pa dem. */
 .dold { display: none !important; }
+.natverk-rad, .natverk-legend, .natverk-layout { width: min(100%, 1100px); margin-inline: auto; padding-inline: 1.5rem; }
+.natverk-rad { display:flex; align-items:center; justify-content:space-between; gap:1rem; min-height:44px; margin-bottom:.5rem; color:var(--network-muted); font: .8rem/1.5 var(--network-ui); }
+#natverkStatus { flex:1; }
+#natverkVaxel { min-height:44px; padding:.55rem .85rem; border:1px solid var(--network-border); border-radius:8px; background:var(--network-card); color:var(--network-muted); font:600 .8rem/1.2 var(--network-ui); cursor:pointer; }
+#natverkVaxel:hover, #natverkVaxel:focus-visible, #natverkVaxel[aria-pressed="true"] { border-color:var(--network-accent); color:var(--network-accent); }
+.natverk-legend { display:flex; flex-wrap:wrap; gap:.4rem 1rem; margin-bottom:.75rem; color:var(--network-muted); font:.72rem/1.4 var(--network-ui); }
+.natverk-legend span { display:inline-flex; align-items:center; gap:.4rem; }
+.legend-nod { width:.72rem; height:.72rem; border-radius:50%; background:var(--network-accent); }
+.legend-linje { width:1.4rem; height:2px; background:var(--network-accent); opacity:.55; }
+.natverk-layout { display:grid; grid-template-columns:minmax(0,1fr); gap:1rem; margin-bottom:2rem; }
+.natverk { position:relative; min-width:0; height:460px; overflow:hidden; border:1px solid var(--network-border); border-radius:12px; background:var(--network-bg); }
+.natverk[hidden] { display:none; }
+#natverkKanter, #natverkNoder { position:absolute; inset:0; }
+#natverkNoder { overflow:hidden; pointer-events:none; }
+#natverkKanter { pointer-events:none; }
 
-/* ── Natverkets yta ──────────────────────────────────────────────── */
+.nod { position:absolute; top:0; left:0; width:var(--network-hit); height:var(--network-hit); padding:0; border:0; border-radius:50%; background:transparent; color:var(--network-text); cursor:pointer; pointer-events:auto; touch-action:manipulation; transition:opacity .25s ease; }
+.nod-prick { position:absolute; top:50%; left:50%; width:28px; height:28px; border-radius:50%; background:var(--network-accent); opacity:.72; transform:translate(-50%,-50%); box-shadow:0 0 10px rgba(192,57,43,.22); transition:transform .2s ease, box-shadow .2s ease; }
+.nod-etikett { position:absolute; top:calc(50% + 24px); left:50%; max-width:15rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; transform:translateX(-50%); color:var(--network-muted); font:.7rem/1.3 var(--network-ui); pointer-events:none; }
+.nod:hover .nod-prick, .nod:focus-visible .nod-prick { transform:translate(-50%,-50%) scale(1.15); }
+.nod:focus-visible { outline:3px solid var(--network-accent); outline-offset:2px; }
+.nod.svag { opacity:.18; }
+.nod-vald .nod-prick { transform:translate(-50%,-50%) scale(1.25); box-shadow:0 0 0 3px var(--network-bg), 0 0 0 6px var(--network-accent); }
+.nod-vald .nod-etikett { color:var(--network-text); font-weight:600; }
+.nod-granne .nod-prick { box-shadow:0 0 0 2px var(--network-bg), 0 0 0 4px rgba(192,57,43,.45); }
 
-.natverk {
-  position: relative;
-  max-width: 1100px;
-  margin: 0 auto 2rem;
-  padding: 0 1.5rem;
-  height: 460px;
+.relationspanel { min-width:0; padding:1.25rem; border:1px solid var(--network-border); border-radius:12px; background:var(--network-card); color:var(--network-text); }
+.relationspanel-tom { margin:0; color:var(--network-muted); font:italic .9rem/1.6 var(--network-body); }
+.relationspanel-amne, .relationspanel-meta { margin:0 0 .4rem; color:var(--network-muted); font:.7rem/1.4 var(--network-ui); text-transform:uppercase; letter-spacing:.08em; }
+.relationspanel h2 { margin:.2rem 0 .5rem; color:var(--network-heading); font:700 1.25rem/1.35 var(--network-body); }
+.relationspanel h2:focus { outline:3px solid var(--network-accent); outline-offset:4px; }
+.relationspanel-ingress { margin:.6rem 0; font:.86rem/1.6 var(--network-body); }
+.relationspanel-nyckelord { margin:.5rem 0 1rem; color:var(--network-muted); font:.75rem/1.45 var(--network-ui); }
+.relationspanel h3 { margin:1rem 0 .65rem; font:600 .78rem/1.3 var(--network-ui); text-transform:uppercase; letter-spacing:.09em; }
+.relationspanel-lista { margin:0; padding-left:1.25rem; }
+.relationspanel-lista li { margin-bottom:.7rem; }
+.relationspanel-valj { width:100%; min-height:44px; padding:.7rem; border:1px solid var(--network-border); border-radius:8px; background:transparent; color:inherit; text-align:left; cursor:pointer; }
+.relationspanel-valj:hover, .relationspanel-valj:focus-visible { border-color:var(--network-accent); }
+.relationspanel-relationstyp, .relationspanel-relationstitel, .relationspanel-orsak, .relationspanel-termer { display:block; }
+.relationspanel-relationstyp { color:var(--network-accent); font:600 .63rem/1.3 var(--network-ui); letter-spacing:.08em; text-transform:uppercase; }
+.relationspanel-relationstitel { margin:.15rem 0 .25rem; font:600 .82rem/1.35 var(--network-ui); }
+.relationspanel-orsak { color:var(--network-text); font:.78rem/1.55 var(--network-body); }
+.relationspanel-termer { margin-top:.3rem; color:var(--network-muted); font:.7rem/1.4 var(--network-ui); }
+.relationspanel-utan-relationer { color:var(--network-muted); font:italic .8rem/1.5 var(--network-body); }
+.relationspanel-atgarder { display:flex; flex-wrap:wrap; gap:.65rem; margin-top:1rem; }
+.relationspanel-las, .relationspanel-tillbaka { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:.65rem .85rem; border:1px solid var(--network-accent); border-radius:8px; font:600 .8rem/1.2 var(--network-ui); text-decoration:none; cursor:pointer; }
+.relationspanel-las { background:var(--network-accent); color:#fff; }
+.relationspanel-tillbaka { background:transparent; color:var(--network-accent); }
+#natverkVaxel:focus-visible, .relationspanel a:focus-visible, .relationspanel button:focus-visible { outline:3px solid var(--network-accent); outline-offset:3px; }
+
+#traffar { max-width:740px; margin:0 auto; padding:0 1.5rem 5rem; }
+.ingen-traff { padding:2rem 0; color:var(--network-muted); text-align:center; font:italic .95rem/1.6 var(--network-body); }
+.traff { padding:1.25rem 1rem; margin:0 -1rem; border-bottom:1px solid var(--network-border); }
+.traff-titel { display:block; color:var(--network-heading); font:700 1.1rem/1.4 var(--network-body); text-decoration:none; }
+.traff-amne { display:block; margin-top:.25rem; color:var(--network-muted); font:.68rem/1.4 var(--network-ui); text-transform:uppercase; letter-spacing:.1em; }
+.traff-avsnitt { margin:.8rem 0 0; padding:0; list-style:none; }
+.traff-avsnitt li { margin-bottom:.45rem; }
+.traff-avsnitt a { display:block; padding:.5rem .7rem; border-left:2px solid var(--network-border); color:inherit; text-decoration:none; }
+.traff-avsnitt a:hover, .traff-avsnitt a:focus-visible { border-left-color:var(--network-accent); background:rgba(192,57,43,.04); }
+.traff-rubrik { display:block; margin-bottom:.15rem; font:600 .76rem/1.4 var(--network-ui); }
+.traff-utdrag { display:block; color:var(--network-muted); font:.83rem/1.6 var(--network-body); }
+.traff-utdrag mark { background:rgba(192,57,43,.16); color:var(--network-text); }
+
+@media (min-width:900px) {
+  .natverk-layout { grid-template-columns:minmax(0,2fr) minmax(280px,1fr); }
+  .natverk { height:520px; }
+  .relationspanel { max-height:520px; overflow:auto; }
 }
-
-.natverk[hidden] { display: none; }
-
-#natverkKanter {
-  position: absolute;
-  inset: 0 1.5rem;
-  pointer-events: auto;
+@media (min-width:701px) and (hover:hover) and (pointer:fine) { #natverkVaxel { display:none; } }
+@media (hover:none), (pointer:coarse), (max-width:700px) {
+  .natverk { display:none; }
+  body.visa-natverk .natverk { display:block; }
+  #natverkVaxel { display:inline-flex; }
+  .nod-etikett { display:none; max-width:9rem; white-space:normal; text-align:center; }
+  .nod-vald .nod-etikett, .nod:focus-visible .nod-etikett { display:block; }
 }
-
-#natverkNoder {
-  position: absolute;
-  inset: 0 1.5rem;
-  pointer-events: none;
+@media (max-width:700px) {
+  .natverk-rad, .natverk-legend, .natverk-layout { padding-inline:1rem; }
+  .natverk { height:390px; }
+  .relationspanel { padding:1rem; }
+  .relationspanel-atgarder { flex-direction:column; }
+  .relationspanel-las, .relationspanel-tillbaka { width:100%; }
 }
-
-/* ── Noderna ─────────────────────────────────────────────────────── */
-
-.nod {
-  --d: 24px;
-  --gloed: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--d);
-  height: var(--d);
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  pointer-events: auto;
-  will-change: transform;
-  transition: opacity 0.3s ease;
+@media (max-width:390px) {
+  .natverk-rad { align-items:flex-start; flex-direction:column; }
+  #natverkVaxel { width:100%; justify-content:center; }
+  .natverk { height:360px; }
 }
-
-.nod-prick {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--accent-color);
-  opacity: calc(0.45 + 0.55 * var(--gloed));
-  box-shadow: 0 0 calc(4px + 14px * var(--gloed))
-              rgba(192, 57, 43, calc(0.15 + 0.55 * var(--gloed)));
-  transition: opacity 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.nod-etikett {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  letter-spacing: 0.02em;
-  color: var(--meta-color);
-  pointer-events: none;
-  transition: color 0.3s ease, opacity 0.3s ease;
-}
-
-.nod:hover .nod-prick,
-.nod:focus-visible .nod-prick { transform: scale(1.18); }
-
-.nod:hover .nod-etikett,
-.nod:focus-visible .nod-etikett,
-.nod-vald .nod-etikett { color: var(--text-color); }
-
-.nod:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 6px;
-  border-radius: 50%;
-}
-
-.nod.svag { opacity: 0.28; }
-.nod.svag .nod-etikett { opacity: 0.6; }
-
-/* Vald nod. Ersatter den gamla satellitkransen: klick pekar nu in i
-   traffistan i stallet for att lagga lankrutor ovanpa natverket. */
-.nod-vald .nod-prick {
-  transform: scale(1.3);
-  box-shadow: 0 0 0 3px var(--bg-color), 0 0 0 5px var(--accent-color);
-}
-
-.nod-vald .nod-etikett { font-weight: 600; }
-
-/* ── Statusrad, vaxel och kanttips ───────────────────────────────── */
-
-.natverk-rad {
-  max-width: 1100px;
-  margin: 0 auto 1rem;
-  padding: 0 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  line-height: 1.5;
-  color: var(--meta-color);
-  min-height: 2.4em;
-}
-
-#natverkStatus { flex: 1; }
-
-#natverkVaxel {
-  flex: none;
-  border: 1px solid var(--card-border);
-  border-radius: 6px;
-  background: none;
-  color: var(--meta-color);
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  padding: 0.3rem 0.7rem;
-  cursor: pointer;
-}
-
-#natverkVaxel[aria-pressed="true"] {
-  border-color: var(--accent-color);
-  color: var(--accent-color);
-}
-
-#kanttips {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  max-width: 260px;
-  padding: 0.35rem 0.6rem;
-  border-radius: 6px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  box-shadow: var(--card-shadow);
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  line-height: 1.4;
-  color: var(--text-color);
-  pointer-events: none;
-}
-
-#kanttips::before {
-  content: "Delad vokabulär";
-  display: block;
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--meta-color);
-  margin-bottom: 0.15rem;
-}
-
-#kanttips[hidden] { display: none; }
-
-/* ── Traffistan ──────────────────────────────────────────────────── */
-
-#traffar {
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 0 1.5rem 5rem;
-}
-
-.ingen-traff {
-  font-family: var(--font-body);
-  font-style: italic;
-  color: var(--meta-color);
-  text-align: center;
-  padding: 2rem 0;
-}
-
-.traff {
-  padding: 1.25rem 1rem;
-  margin: 0 -1rem;
-  border-bottom: 1px solid var(--card-border);
-  border-left: 2px solid transparent;
-  border-radius: 4px;
-  scroll-margin-top: 30vh;
-  transition: background 0.4s ease, border-left-color 0.4s ease;
-}
-
-.traff-vald {
-  background: rgba(192, 57, 43, 0.05);
-  border-left-color: var(--accent-color);
-}
-
-.traff:focus { outline: none; }
-
-.traff-titel {
-  font-family: var(--font-body);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--heading-color);
-  text-decoration: none;
-  display: block;
-}
-
-.traff-titel:hover { opacity: 0.75; }
-
-.traff-amne {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--meta-color);
-  margin-top: 0.25rem;
-}
-
-.traff-avsnitt {
-  list-style: none;
-  margin: 0.9rem 0 0;
-  padding: 0;
-}
-
-.traff-avsnitt li { margin-bottom: 0.5rem; }
-
-.traff-avsnitt a {
-  display: block;
-  padding: 0.5rem 0.75rem;
-  border-left: 2px solid var(--card-border);
-  color: inherit;
-  text-decoration: none;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-
-.traff-avsnitt a:hover {
-  border-left-color: var(--accent-color);
-  background: rgba(192, 57, 43, 0.04);
-}
-
-.traff-rubrik {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-color);
-  margin-bottom: 0.2rem;
-}
-
-.traff-utdrag {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  line-height: 1.65;
-  color: var(--meta-color);
-}
-
-.traff-utdrag mark {
-  background: rgba(192, 57, 43, 0.18);
-  color: var(--text-color);
-  border-radius: 2px;
-  padding: 0 1px;
-}
-
-/* ── Mobil: natverket bakom en vaxel, traffistan forst ───────────── */
-
-@media (max-width: 700px) {
-  .natverk { display: none; height: 380px; }
-  body.visa-natverk .natverk { display: block; }
-  .nod-etikett { font-size: 0.65rem; }
-}
-
-@media (min-width: 701px) {
-  #natverkVaxel { display: none; }
-}
-
-/* ── Respekt for reducerad rorelse ───────────────────────────────── */
-
-@media (prefers-reduced-motion: reduce) {
-  .nod, .nod-prick, .nod-etikett, .traff {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-  }
-}
+@media (prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+@media (forced-colors:active) { .nod-prick { border:2px solid ButtonText; } .nod-vald .nod-prick { outline:3px solid Highlight; } }
