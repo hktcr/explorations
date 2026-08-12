@@ -6,6 +6,7 @@ const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const json = file => JSON.parse(read(file));
 const html = read('index.html');
+const networkHtml = read('natverk/index.html');
 const cards = [...html.matchAll(/href="([^"#?]+)\/index\.html"[^>]*class="article-card"|class="article-card"[^>]*href="([^"#?]+)\/index\.html"/g)].map(match => match[1] || match[2]);
 const network = json('natverk-index.json'), relations = json('relations-curated.json'), search = json('sok-index.json');
 const networkResult = validateNetwork(network, cards), relationResult = validateRelations(relations, networkResult.slugs || []);
@@ -15,7 +16,9 @@ if (network.contentHash !== search.contentHash) errors.push('Indexfilerna har ol
 if (network.releaseId !== RELEASE || relations.releaseId !== RELEASE || search.releaseId !== RELEASE) errors.push('JSON-filerna har olika release');
 const searchSlugs = (search.artiklar || []).map(article => article.slug).sort();
 if (searchSlugs.join('|') !== cards.slice().sort().join('|')) errors.push('Sökindex och kort skiljer sig');
-if (!html.includes(`data-network-release="${RELEASE}"`)) errors.push('HTML saknar release');
-for (const asset of ['natverk.css', 'natverk.js']) if (!html.includes(`${asset}?v=${RELEASE}`)) errors.push(`${asset} saknar release`);
+if (!html.includes(`data-network-release="${RELEASE}"`) || !networkHtml.includes(`data-network-release="${RELEASE}"`)) errors.push('HTML saknar release');
+if (!html.includes(`natverk.css?v=${RELEASE}`) || !html.includes(`bibliotek.js?v=${RELEASE}`)) errors.push('Bibliotekets resurser saknar release');
+for (const asset of ['natverk.css', 'natverk.js']) if (!networkHtml.includes(`${asset}?v=${RELEASE}`)) errors.push(`${asset} saknar release på nätverkssidan`);
+if (!html.includes('href="natverk/"')) errors.push('Biblioteket saknar länk till nätverkssidan');
 if (errors.length) { console.error(errors.join('\n')); process.exitCode = 1; }
 else console.log(`Nätverket är giltigt: ${cards.length} essäer och ${relations.relations.length} granskade samband.`);

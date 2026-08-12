@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fcfcfc">
+<title>Nodnätverk · Explorations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../natverk.css?v=20260812-network-5">
+</head>
+<body class="natverk-sida" data-network-release="20260812-network-5" data-root="../">
+<header class="natverk-huvud">
+  <a class="natverk-stang" href="../" aria-label="Tillbaka till Explorations">← Explorations</a>
+  <div>
+    <h1>Nodnätverket</h1>
+    <p id="natverkStatus" role="status" aria-live="polite">Laddar essäer och granskade samband…</p>
+  </div>
+  <button class="natverk-aterstall" id="natverkAterstall" type="button">Visa hela nätverket</button>
+</header>
+<main class="natverk-arbetsyta">
+  <section class="natverk-graf" id="natverk" aria-label="Samband mellan Explorations essäer">
+    <canvas id="natverkKanter" aria-hidden="true"></canvas>
+    <nav id="natverkNoder" aria-label="Noder i sambandsnätverket"></nav>
+    <div class="natverk-legend" aria-label="Förklaring">
+      <span><i class="legend-nod" aria-hidden="true"></i>Essä</span>
+      <span><i class="legend-linje" aria-hidden="true"></i>Granskat samband</span>
+    </div>
+  </section>
+  <aside class="natverk-sidebar" aria-label="Tillgängliga essäer och information">
+    <section class="essa-väljare" aria-labelledby="essaListaTitel">
+      <div class="sidebar-rubrik">
+        <div><p class="overline">Navigera</p><h2 id="essaListaTitel">Tillgängliga essäer</h2></div>
+        <span id="essaAntal">28</span>
+      </div>
+      <label class="essa-sok">
+        <span class="visuellt-dold">Sök bland essäerna</span>
+        <input id="essaSok" type="search" placeholder="Sök titel eller ämne…" autocomplete="off">
+      </label>
+      <ol class="essa-lista" id="essaLista"></ol>
+    </section>
+    <section class="relationspanel" id="relationspanel" aria-labelledby="relationspanelTitel">
+      <p class="relationspanel-tom" id="relationspanelTom">Välj en essä i listan eller en nod för att se information och granskade samband.</p>
+      <div id="relationspanelInnehall" hidden>
+        <p class="relationspanel-amne" id="relationspanelAmne"></p>
+        <h2 id="relationspanelTitel" tabindex="-1">Vald essä</h2>
+        <p class="relationspanel-meta" id="relationspanelMeta"></p>
+        <p class="relationspanel-ingress" id="relationspanelIngress"></p>
+        <p class="relationspanel-nyckelord" id="relationspanelNyckelord"></p>
+        <h3 id="relationspanelRelationerTitel">Granskade samband</h3>
+        <ol class="relationspanel-lista" id="relationspanelLista" aria-labelledby="relationspanelRelationerTitel"></ol>
+        <a class="relationspanel-las" id="relationspanelLas" href="#">Läs essän</a>
+      </div>
+    </section>
+  </aside>
+</main>
+<script src="../natverk.js?v=20260812-network-5" defer></script>
+</body>
+</html>

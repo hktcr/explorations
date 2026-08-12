@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="explorations-network-release" content="20260811-network-4">
+<meta name="explorations-network-release" content="20260812-network-5">
 <title>Explorations: A Library of Deep Dives</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="natverk.css?v=20260811-network-4">
+<link rel="stylesheet" href="natverk.css?v=20260812-network-5">
 <style>
 :root{--bg:#fcfcfc;--text:#1a1a1a;--head:#c0392b;--accent:#c0392b;--meta:#888;--card:#fff;--line:rgba(0,0,0,.1);--body:'Merriweather',serif;--ui:'Inter',sans-serif}
 @media(prefers-color-scheme:dark){:root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;--accent:#e74c3c;--meta:#999;--card:#1e1e1e;--line:rgba(255,255,255,.09)}}
@@ -37,21 +37,10 @@
 </style>
 <link rel="stylesheet" href="engagement/engagement.css" data-engagement-asset="style">
 </head>
-<body data-network-release="20260811-network-4">
+<body data-network-release="20260812-network-5">
 <header class="library-header"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p></header>
 <div class="search-container" lang="sv"><input type="search" class="search-input" id="searchInput" aria-label="Sök i hela biblioteket" placeholder="Sök i hela biblioteket…" autocomplete="off"><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
-<div class="natverk-rad" lang="sv"><span id="natverkStatus" role="status" aria-live="polite"></span><button type="button" id="natverkVaxel" aria-pressed="false">Visa nätverk</button></div>
-<div class="natverk-legend" id="natverkLegend" lang="sv" aria-label="Förklaring till nätverket"><span><i class="legend-nod" aria-hidden="true"></i>Nod: essä</span><span><i class="legend-linje" aria-hidden="true"></i>Linje: granskat samband</span></div>
-<div class="natverk-layout" lang="sv">
-<section class="natverk" id="natverk" aria-label="Samband mellan essäer" hidden><canvas id="natverkKanter" aria-hidden="true"></canvas><nav id="natverkNoder" aria-label="Sambandsnätverk över biblioteket"></nav></section>
-<aside class="relationspanel" id="relationspanel" role="region" aria-label="Samband för vald essä" aria-describedby="relationspanelTom">
-<p class="relationspanel-tom" id="relationspanelTom">Välj en essä i nätverket för att se dess granskade samband.</p>
-<div id="relationspanelInnehall" hidden>
-<p class="relationspanel-amne" id="relationspanelAmne"></p><h2 id="relationspanelTitel" tabindex="-1">Vald essä</h2><p class="relationspanel-meta" id="relationspanelMeta"></p>
-<p class="relationspanel-ingress" id="relationspanelIngress"></p><p class="relationspanel-nyckelord" id="relationspanelNyckelord"></p>
-<h3 id="relationspanelRelationerTitel">Relaterade essäer</h3><ol class="relationspanel-lista" id="relationspanelLista" aria-labelledby="relationspanelRelationerTitel"></ol>
-<div class="relationspanel-atgarder"><a class="relationspanel-las" id="relationspanelLas" href="#">Läs essän</a><button type="button" class="relationspanel-tillbaka" id="relationspanelTillbaka">Tillbaka till vald nod</button></div>
-</div></aside></div>
+<div class="natverk-rad" lang="sv"><span id="natverkStatus">28 essäer, 40 granskade samband.</span><a id="natverkOppna" href="natverk/">Visa nätverket</a></div>
 <div id="traffar" class="dold" lang="sv"></div>
 <div class="articles-grid" id="articlesGrid">
 <a data-exploration-id="EXP#28" href="support-without-passivity/index.html" class="article-card" data-subject="Education Instruction Student Agency Motivation Productive Failure Classroom Practice" data-title="Support without passivity" data-excerpt="How teachers can combine clear instruction with genuine student agency, without turning temporary classroom modes into fixed student types."><div class="card-subject"><span class="exp-id">EXP#28</span> • Education · Instruction · Student agency</div><h2 class="card-title">Support without passivity</h2><div class="card-meta">August 11, 2026 · ≈ 32 min read</div><p class="card-excerpt">How teachers can combine clear instruction with genuine student agency, without turning temporary classroom modes into fixed student types.</p><span class="card-link">Read →</span></a>
@@ -96,7 +85,7 @@ readFilter.addEventListener('click',()=>{hideRead=!hideRead;readFilter.setAttrib
 document.addEventListener('explorations:engagement-ready',syncReadCards);
 syncReadCards();
 </script>
-<script src="natverk.js?v=20260811-network-4" defer></script>
+<script src="bibliotek.js?v=20260812-network-5" defer></script>
 <script type="module" src="engagement/engagement.js?v=20260810-1" data-engagement-asset="runtime"></script>
 </body>
 </html>

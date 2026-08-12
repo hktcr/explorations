@@ -32,16 +32,22 @@ test('validatorerna stoppar stale data och ogranskade relationer', () => {
   assert.equal(validateRelations(relations, ['a','b']).valid, false);
 });
 
-test('publik HTML har tillgänglig panel och en enda sökcontroller', () => {
+test('biblioteket öppnar en separat tillgänglig nätverkssida', () => {
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const networkHtml = fs.readFileSync(path.join(root, 'natverk/index.html'), 'utf8');
   const js = fs.readFileSync(path.join(root, 'natverk.js'), 'utf8');
+  const libraryJs = fs.readFileSync(path.join(root, 'bibliotek.js'), 'utf8');
   assert.match(html, /aria-label="Sök i hela biblioteket"/);
-  assert.match(html, /id="relationspanelTitel" tabindex="-1"/);
+  assert.match(html, /id="natverkOppna" href="natverk\/"/);
+  assert.doesNotMatch(html, /id="natverkNoder"/);
+  assert.match(networkHtml, /class="natverk-arbetsyta"/);
+  assert.match(networkHtml, /id="essaLista"/);
+  assert.match(networkHtml, /id="relationspanelTitel" tabindex="-1"/);
   assert.doesNotMatch(html, /input\.addEventListener\('input'/);
-  assert.equal((js.match(/addEventListener\('input'/g) || []).length, 1);
+  assert.equal((libraryJs.match(/input\.addEventListener\('input'/g) || []).length, 1);
   assert.match(js, /event\.detail === 0/);
-  assert.match(js, /function networkVisible\(\)/);
-  assert.match(js, /networkVisible\(\)\?' Välj en nod för att utforska\.':''/);
+  assert.match(js, /function focusSelected\(node\)/);
+  assert.match(js, /listElements\[node\.slug\]\.scrollIntoView/);
 });
 
 test('responsivitetskontraktet täcker telefon, surfplatta och desktop', () => {
@@ -49,10 +55,10 @@ test('responsivitetskontraktet täcker telefon, surfplatta och desktop', () => {
   assert.match(css, /--network-hit:\s*44px/);
   assert.match(css, /@media \(max-width:390px\)/);
   assert.match(css, /@media \(max-width:700px\)/);
-  assert.match(css, /@media \(min-width:900px\)/);
+  assert.match(css, /@media \(max-width:1023px\)/);
   assert.match(css, /\(pointer:coarse\)/);
-  assert.match(css, /\.natverk-legend, \.relationspanel \{ display:none; \}/);
-  assert.match(css, /body\.visa-natverk \.relationspanel \{ display:block; \}/);
+  assert.match(css, /grid-template-columns:minmax\(0,1fr\) clamp\(330px,29vw,440px\)/);
+  assert.match(css, /\.essa-lista \{ max-height:34dvh/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /forced-colors/);
 });
