@@ -9,7 +9,7 @@ jobs:
         with: {node-version: 22}
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: python3 scripts/build_search_index.py --release 20260811-network-2
+      - run: python3 scripts/build_search_index.py
       - run: git diff --exit-code -- natverk-index.json sok-index.json
       - run: node scripts/validate-network.cjs
       - run: node --test
