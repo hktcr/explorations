@@ -1,9 +1,28 @@
 {
   "schemaVersion": 2,
-  "releaseId": "20260812-network-5",
+  "releaseId": "20260814-network-6",
   "generatorVersion": "2.1.0",
-  "contentHash": "fe35ea128dfbab38",
+  "contentHash": "01349cea1ed941bd",
   "artiklar": [
+    {
+      "slug": "instructional-material-architecture",
+      "id": "EXP#29",
+      "titel": "One Road, Many Handrails",
+      "amne": "Education Cognitive Science Instructional Design Differentiation Cognitive Load",
+      "excerpt": "How to build grade 8 science materials that guide novices, preserve depth, support access and remain sustainable for the teacher.",
+      "datum": "August 14, 2026",
+      "lastid": "≈ 33 min read",
+      "ord": 3593,
+      "avsnitt": 27,
+      "nyckelord": [
+        "students",
+        "teacher",
+        "support",
+        "but",
+        "route",
+        "core"
+      ]
+    },
     {
       "slug": "support-without-passivity",
       "id": "EXP#28",
@@ -1177,6 +1196,22 @@
         "evolution",
         "reproduktion",
         "gameter"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "instructional-material-architecture",
+      "b": "assessment-validity-reliability",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Läromedelsessän rekommenderar gemensamma mål, begrepp och bedömningslogik när stöd och fördjupning varierar. Bedömningsessän förklarar varför dessa gemensamma ankare behövs för giltiga och jämförbara slutsatser om elevkunnande.",
+      "terms": [
+        "bedömningslogik",
+        "validitet",
+        "differentiering",
+        "jämförbarhet"
       ],
       "reviewer": "gAIa VEP",
       "reviewedAt": "2026-08-11T21:00:00+02:00",

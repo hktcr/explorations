@@ -290,6 +290,16 @@
       "toolbarSelector": ".tools",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#29",
+      "slug": "instructional-material-architecture",
+      "title": "One Road, Many Handrails",
+      "path": "instructional-material-architecture/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }

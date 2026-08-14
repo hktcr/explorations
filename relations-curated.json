@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "releaseId": "20260812-network-5",
+  "releaseId": "20260814-network-6",
   "reviewedAt": "2026-08-11T21:00:00+02:00",
   "reviewer": "gAIa VEP",
   "relations": [
@@ -43,6 +43,7 @@
     {"a":"ai-environmental-impact","b":"ai-life-consciousness-system","status":"reviewed","type":"prerequisite","reason":"Skillnaden mellan modell, körning, produkt och sociotekniskt system behövs för att miljöessäens energi, hårdvara och livscykelgränser ska tillskrivas rätt systemnivå.","terms":["systemgräns","modell","infrastruktur","livscykel","energi"]},
     {"a":"ai-environmental-impact","b":"digital-biome","status":"reviewed","type":"application","reason":"Miljöartikeln mäter de materiella energi, vatten och hårdvaruflöden som ekosystemmetaforen beskriver som resursbegränsningar och infrastrukturella beroenden.","terms":["resursbegränsning","energi","vatten","hårdvara"]},
     {"a":"digital-biome","b":"school-digitalisation","status":"reviewed","type":"application","reason":"Ekosystemperspektivet på AI ger ett sätt att analysera hur skolans tekniklandskap formas av plattformar, incitament, beroenden och återkoppling, inte bara av enskilda verktyg.","terms":["teknikekosystem","plattformar","beroenden","återkoppling"]},
-    {"a":"what-is-sex","b":"origin-of-life","status":"reviewed","type":"prerequisite","reason":"Sexuell reproduktion förutsätter redan celler, heredity och evolutionära populationer. Livets ursprungsessä beskriver de tidigare steg som måste finnas innan gametroller kan utvecklas.","terms":["hereditet","evolution","reproduktion","gameter"]}
+    {"a":"what-is-sex","b":"origin-of-life","status":"reviewed","type":"prerequisite","reason":"Sexuell reproduktion förutsätter redan celler, heredity och evolutionära populationer. Livets ursprungsessä beskriver de tidigare steg som måste finnas innan gametroller kan utvecklas.","terms":["hereditet","evolution","reproduktion","gameter"]},
+    {"a":"instructional-material-architecture","b":"assessment-validity-reliability","status":"reviewed","type":"application","reason":"Läromedelsessän rekommenderar gemensamma mål, begrepp och bedömningslogik när stöd och fördjupning varierar. Bedömningsessän förklarar varför dessa gemensamma ankare behövs för giltiga och jämförbara slutsatser om elevkunnande.","terms":["bedömningslogik","validitet","differentiering","jämförbarhet"]}
   ]
 }
