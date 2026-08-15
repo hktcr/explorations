@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const VERSION = "20260812-ultimate-1";
+  const VERSION = "20260815-mobile-reader-panel-1";
   const SEARCH_HIGHLIGHT = "explorations-reader-search";
   const STORAGE = {
     theme: "explorationsReadingTheme",
@@ -367,18 +367,34 @@
   };
 
   const installProgress = () => {
-    let progress = document.querySelector(".progress, #progress");
-    if (!progress) {
-      progress = document.createElement("div");
-      document.body.prepend(progress);
-    }
-    progress.classList.add("xr-reader-progress");
-    progress.setAttribute("aria-hidden", "true");
+    document.querySelectorAll(".progress, #progress").forEach(legacy => {
+      legacy.classList.add("xr-reader-progress-legacy");
+      legacy.setAttribute("aria-hidden", "true");
+    });
+    const progress = document.createElement("input");
+    progress.className = "xr-reader-progress";
+    progress.type = "range";
+    progress.min = "0";
+    progress.max = "1000";
+    progress.step = "1";
+    progress.value = "0";
+    progress.setAttribute("aria-label", "Läsposition");
+    document.body.prepend(progress);
     const update = () => {
-      const page = document.documentElement;
+      const page = document.scrollingElement || document.documentElement;
       const maximum = page.scrollHeight - page.clientHeight;
-      progress.style.width = `${maximum > 0 ? 100 * page.scrollTop / maximum : 0}%`;
+      const fraction = maximum > 0 ? Math.min(1, Math.max(0, page.scrollTop / maximum)) : 0;
+      const percentage = Math.round(fraction * 100);
+      progress.value = String(Math.round(fraction * 1000));
+      progress.style.setProperty("--reader-progress", `${fraction * 100}%`);
+      progress.setAttribute("aria-valuetext", `${percentage} procent`);
     };
+    progress.addEventListener("input", () => {
+      const page = document.scrollingElement || document.documentElement;
+      const maximum = Math.max(0, page.scrollHeight - page.clientHeight);
+      page.scrollTo({ top: maximum * Number(progress.value) / 1000, behavior: "auto" });
+      update();
+    });
     addEventListener("scroll", update, { passive: true });
     addEventListener("resize", update, { passive: true });
     update();
@@ -418,6 +434,7 @@
 
   const openPanel = () => {
     controls.panel.hidden = false;
+    controls.panel.setAttribute("aria-modal", String(matchMedia("(max-width: 700px)").matches));
     controls.trigger.setAttribute("aria-expanded", "true");
     document.body.classList.add("xr-reader-panel-open");
     requestAnimationFrame(() => {
@@ -448,7 +465,7 @@
       <section class="reader-settings__panel" id="readerSettingsPanel" role="dialog" aria-modal="false" aria-label="Läsverktyg" hidden>
         <header class="reader-settings__header">
           <h2 class="reader-settings__heading">Läsverktyg</h2>
-          <button class="reader-settings__close" type="button" aria-label="Stäng läsverktygen">Stäng</button>
+          <button class="reader-settings__close" type="button" aria-label="Stäng läsverktygen">×</button>
         </header>
         <div class="reader-settings__search-row">
           <label for="readerArticleSearch">Sök i essän</label>
@@ -604,4 +621,275 @@
   };
   if (typeof systemTheme.addEventListener === "function") systemTheme.addEventListener("change", followSystemTheme);
   else if (typeof systemTheme.addListener === "function") systemTheme.addListener(followSystemTheme);
+})();
+
+(() => {
+  "use strict";
+
+  const root = document.documentElement;
+  const STORAGE_KEY = "explorationsReadingFocusPreferences";
+  const POSITIONS = new Set(["top-left", "top-right", "bottom-left", "bottom-right"]);
+  const state = {
+    active: false,
+    expired: false,
+    endAt: null,
+    interval: null,
+    preference: null
+  };
+  let ui = null;
+
+  const readPreference = () => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      return {
+        minutes: Math.min(240, Math.max(1, Math.round(Number(parsed?.minutes) || 20))),
+        visible: parsed?.visible !== false,
+        position: POSITIONS.has(parsed?.position) ? parsed.position : "bottom-right"
+      };
+    } catch {
+      return { minutes: 20, visible: true, position: "bottom-right" };
+    }
+  };
+
+  const writePreference = preference => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(preference));
+    } catch {
+      // Fokuspasset fortsätter även när webbläsarlagring inte är tillgänglig.
+    }
+  };
+
+  const pagePosition = () => {
+    const scroller = document.scrollingElement || document.documentElement;
+    const maximum = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+    return { scroller, maximum, fraction: maximum ? scroller.scrollTop / maximum : 0 };
+  };
+
+  const preserveReadingPosition = change => {
+    const before = pagePosition();
+    change();
+    requestAnimationFrame(() => {
+      const after = pagePosition();
+      after.scroller.scrollTop = before.fraction * after.maximum;
+      dispatchEvent(new Event("scroll"));
+    });
+  };
+
+  const showDialog = dialog => {
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+  };
+
+  const closeDialog = dialog => {
+    if (typeof dialog.close === "function") dialog.close();
+    else dialog.removeAttribute("open");
+  };
+
+  const formatClock = totalSeconds => {
+    const seconds = Math.max(0, Math.ceil(Number(totalSeconds) || 0));
+    const minutes = Math.floor(seconds / 60);
+    return `${String(minutes).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
+  };
+
+  const syncTimerVisibility = () => {
+    ui.timer.hidden = !state.active || !state.preference.visible;
+    ui.timer.dataset.position = state.preference.position;
+    ui.timerToggle.textContent = state.preference.visible ? "Dölj timer" : "Visa timer";
+    ui.timerToggle.setAttribute("aria-pressed", String(state.preference.visible));
+  };
+
+  const finishTimer = () => {
+    if (!state.active || state.expired) return;
+    state.expired = true;
+    clearInterval(state.interval);
+    state.interval = null;
+    ui.timer.textContent = "00:00";
+    ui.extendMinutes.value = "5";
+    showDialog(ui.finishedDialog);
+    requestAnimationFrame(() => ui.extendMinutes.focus());
+  };
+
+  const tick = () => {
+    if (!state.active || !Number.isFinite(state.endAt)) return;
+    const remaining = Math.max(0, Math.ceil((state.endAt - Date.now()) / 1000));
+    ui.timer.textContent = formatClock(remaining);
+    ui.timer.setAttribute("aria-label", `Återstående lästid ${formatClock(remaining)}`);
+    if (remaining <= 0) finishTimer();
+  };
+
+  const leaveFocus = () => {
+    if (!state.active) return;
+    preserveReadingPosition(() => {
+      state.active = false;
+      state.expired = false;
+      state.endAt = null;
+      clearInterval(state.interval);
+      state.interval = null;
+      root.dataset.readerFocus = "false";
+      ui.timer.hidden = true;
+      closeDialog(ui.finishedDialog);
+    });
+    ui.launcher.focus({ preventScroll: true });
+  };
+
+  const startFocus = () => {
+    const minutes = Math.min(240, Math.max(1, Math.round(Number(ui.minutes.value) || 20)));
+    const position = POSITIONS.has(ui.position.value) ? ui.position.value : "bottom-right";
+    state.preference = { minutes, visible: ui.showTimer.checked, position };
+    writePreference(state.preference);
+    state.active = true;
+    state.expired = false;
+    state.endAt = Date.now() + minutes * 60 * 1000;
+    clearInterval(state.interval);
+    state.interval = setInterval(tick, 250);
+    closeDialog(ui.setupDialog);
+    preserveReadingPosition(() => {
+      root.dataset.readerFocus = "true";
+      syncTimerVisibility();
+    });
+    tick();
+    ui.exit.focus({ preventScroll: true });
+  };
+
+  const extendFocus = () => {
+    const minutes = Math.min(240, Math.max(1, Math.round(Number(ui.extendMinutes.value) || 5)));
+    state.expired = false;
+    state.endAt = Date.now() + minutes * 60 * 1000;
+    closeDialog(ui.finishedDialog);
+    clearInterval(state.interval);
+    state.interval = setInterval(tick, 250);
+    tick();
+    ui.timerToggle.focus({ preventScroll: true });
+  };
+
+  const openSetup = () => {
+    state.preference = readPreference();
+    ui.minutes.value = String(state.preference.minutes);
+    ui.showTimer.checked = state.preference.visible;
+    ui.position.value = state.preference.position;
+    showDialog(ui.setupDialog);
+    requestAnimationFrame(() => ui.minutes.focus());
+  };
+
+  const install = () => {
+    if (ui) return true;
+    const wrapper = document.querySelector(".reader-settings");
+    if (!document.body || !wrapper) return false;
+
+    const launcher = document.createElement("button");
+    launcher.className = "reader-focus-launcher";
+    launcher.type = "button";
+    launcher.textContent = "Fokus";
+    wrapper.appendChild(launcher);
+
+    const setupDialog = document.createElement("dialog");
+    setupDialog.className = "reader-focus-dialog";
+    setupDialog.lang = "sv";
+    setupDialog.innerHTML = `
+      <form class="reader-focus-dialog__inner" method="dialog">
+        <h2>Fokuserad läsning</h2>
+        <p>Dölj sidans verktyg och läs ostört. Timern fortsätter även när den är dold.</p>
+        <div class="reader-focus-dialog__fields">
+          <label class="reader-focus-dialog__field">Lästid i minuter<input data-focus-minutes type="number" min="1" max="240" step="1" inputmode="numeric"></label>
+          <label class="reader-focus-dialog__field">Timerns placering<select data-focus-position>
+            <option value="top-left">Uppe till vänster</option>
+            <option value="top-right">Uppe till höger</option>
+            <option value="bottom-left">Nere till vänster</option>
+            <option value="bottom-right">Nere till höger</option>
+          </select></label>
+        </div>
+        <label class="reader-focus-dialog__check"><input data-focus-visible type="checkbox">Visa timern under läsningen</label>
+        <div class="reader-focus-dialog__actions"><button type="button" data-focus-cancel>Avbryt</button><button type="submit" data-primary="true">Starta fokus</button></div>
+      </form>`;
+    document.body.appendChild(setupDialog);
+
+    const finishedDialog = document.createElement("dialog");
+    finishedDialog.className = "reader-focus-dialog";
+    finishedDialog.lang = "sv";
+    finishedDialog.innerHTML = `
+      <form class="reader-focus-dialog__inner" method="dialog">
+        <h2>Lästiden är slut</h2>
+        <p>Du kan förlänga lästiden med valfritt antal minuter eller avsluta fokusläget.</p>
+        <div class="reader-focus-dialog__extend">
+          <label class="reader-focus-dialog__field">Förläng med minuter<input data-focus-extend type="number" min="1" max="240" step="1" inputmode="numeric" value="5"></label>
+          <button type="submit" data-primary="true">Förläng</button>
+        </div>
+        <div class="reader-focus-dialog__actions"><button type="button" data-focus-finish>Avsluta fokus</button></div>
+      </form>`;
+    document.body.appendChild(finishedDialog);
+
+    const hud = document.createElement("div");
+    hud.className = "reader-focus-hud";
+    hud.lang = "sv";
+    hud.setAttribute("aria-label", "Fokuserad läsning");
+    hud.innerHTML = '<button type="button" data-focus-exit>Lämna fokus</button><button type="button" data-focus-timer-toggle aria-pressed="true">Dölj timer</button>';
+    document.body.appendChild(hud);
+
+    const timer = document.createElement("button");
+    timer.className = "reader-focus-timer";
+    timer.type = "button";
+    timer.lang = "sv";
+    timer.hidden = true;
+    timer.textContent = "20:00";
+    document.body.appendChild(timer);
+
+    state.preference = readPreference();
+    ui = {
+      launcher,
+      setupDialog,
+      finishedDialog,
+      minutes: setupDialog.querySelector("[data-focus-minutes]"),
+      position: setupDialog.querySelector("[data-focus-position]"),
+      showTimer: setupDialog.querySelector("[data-focus-visible]"),
+      extendMinutes: finishedDialog.querySelector("[data-focus-extend]"),
+      exit: hud.querySelector("[data-focus-exit]"),
+      timerToggle: hud.querySelector("[data-focus-timer-toggle]"),
+      timer
+    };
+
+    launcher.addEventListener("click", openSetup);
+    setupDialog.querySelector("form").addEventListener("submit", event => {
+      event.preventDefault();
+      startFocus();
+    });
+    setupDialog.querySelector("[data-focus-cancel]").addEventListener("click", () => closeDialog(setupDialog));
+    finishedDialog.querySelector("form").addEventListener("submit", event => {
+      event.preventDefault();
+      extendFocus();
+    });
+    finishedDialog.querySelector("[data-focus-finish]").addEventListener("click", leaveFocus);
+    finishedDialog.addEventListener("cancel", event => event.preventDefault());
+    ui.exit.addEventListener("click", leaveFocus);
+    ui.timerToggle.addEventListener("click", () => {
+      state.preference.visible = !state.preference.visible;
+      writePreference(state.preference);
+      syncTimerVisibility();
+    });
+    timer.addEventListener("click", () => {
+      state.preference.visible = false;
+      writePreference(state.preference);
+      syncTimerVisibility();
+      ui.timerToggle.focus({ preventScroll: true });
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) tick();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape" || !state.active || finishedDialog.open) return;
+      event.preventDefault();
+      leaveFocus();
+    });
+    return true;
+  };
+
+  const start = () => {
+    if (install()) return;
+    const observer = new MutationObserver(() => {
+      if (install()) observer.disconnect();
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  };
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, { once: true });
+  else start();
 })();
