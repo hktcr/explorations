@@ -1,9 +1,28 @@
 {
   "schemaVersion": 2,
-  "releaseId": "20260814-network-6",
+  "releaseId": "20260817-network-7",
   "generatorVersion": "2.1.0",
-  "contentHash": "01349cea1ed941bd",
+  "contentHash": "864ab8a394cb654f",
   "artiklar": [
+    {
+      "slug": "the-frame-that-gives-time-back",
+      "id": "EXP#30",
+      "titel": "The Frame That Gives Time Back",
+      "amne": "Media Photography Video Perception Attention Memory Documentation Accessibility Archives Art",
+      "excerpt": "Why video's rise does not make the still image obsolete, and how motion and persistence serve different kinds of understanding.",
+      "datum": "August 17, 2026",
+      "lastid": "≈ 31 min read",
+      "ord": 3727,
+      "avsnitt": 16,
+      "nyckelord": [
+        "video",
+        "still",
+        "image",
+        "photograph",
+        "because",
+        "moving"
+      ]
+    },
     {
       "slug": "instructional-material-architecture",
       "id": "EXP#29",
@@ -570,7 +589,7 @@
         "ATP"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -586,7 +605,7 @@
         "energiomsättning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -602,7 +621,7 @@
         "hydrotermala källor"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -618,7 +637,7 @@
         "systemgräns"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -634,7 +653,7 @@
         "hereditet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -650,7 +669,7 @@
         "evolution"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -666,7 +685,7 @@
         "agens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -682,7 +701,7 @@
         "mörk materia"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -698,7 +717,7 @@
         "inferens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -714,7 +733,7 @@
         "diagnostik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -730,7 +749,7 @@
         "AI stöd"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -746,7 +765,7 @@
         "lärarstöd"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -762,7 +781,7 @@
         "diagnostisk ödmjukhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -778,7 +797,7 @@
         "elevansvar"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -794,7 +813,7 @@
         "självständighet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -810,7 +829,7 @@
         "undervisningsdesign"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -826,7 +845,7 @@
         "AI genererad prestation"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -842,7 +861,7 @@
         "utvärdering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -858,7 +877,7 @@
         "diagnostik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -874,7 +893,7 @@
         "produktform"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -891,7 +910,7 @@
         "frukost"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -907,7 +926,7 @@
         "denaturering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -923,7 +942,7 @@
         "matmyter"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -939,7 +958,7 @@
         "kulinarisk fysik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -955,7 +974,7 @@
         "förvaltning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -971,7 +990,7 @@
         "materiella spår"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -988,7 +1007,7 @@
         "olika rörelseformer"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1004,7 +1023,7 @@
         "juridiska gränser"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1020,7 +1039,7 @@
         "territorium"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1037,7 +1056,7 @@
         "ojämlikhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1053,7 +1072,7 @@
         "anpassning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1069,7 +1088,7 @@
         "extraordinära påståenden"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1085,7 +1104,7 @@
         "markdata"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1101,7 +1120,7 @@
         "alternativa förklaringar"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1117,7 +1136,7 @@
         "övervakning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1133,7 +1152,7 @@
         "autonomi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1150,7 +1169,7 @@
         "energi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1166,7 +1185,7 @@
         "hårdvara"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1182,7 +1201,7 @@
         "återkoppling"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1198,7 +1217,7 @@
         "gameter"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     },
     {
@@ -1214,7 +1233,40 @@
         "jämförbarhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-11T21:00:00+02:00",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "the-frame-that-gives-time-back",
+      "b": "school-digitalisation",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Båda skiljer ett mediums egenskaper från lärande eller värde som utfall. Den nya essän granskar stillbild och video, medan digitaliseringsessän visar samma behov av uppgiftsnära jämförelser i skolans teknikdebatt.",
+      "terms": [
+        "mediejämförelse",
+        "lärande",
+        "uppgiftsmatchning",
+        "digitalisering"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "the-frame-that-gives-time-back",
+      "b": "assessment-validity-reliability",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Stillbildsessäen visar att uppmärksamhet, igenkänning, förståelse och räckvidd är olika utfall. Bedömningsessän ger den allmänna mätlogiken bakom kravet att inte behandla skilda mått som samma värde.",
+      "terms": [
+        "mätvaliditet",
+        "uppmärksamhet",
+        "minne",
+        "räckvidd",
+        "värde"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
       "vikt": 1
     }
   ]

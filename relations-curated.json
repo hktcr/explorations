@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "releaseId": "20260814-network-6",
-  "reviewedAt": "2026-08-11T21:00:00+02:00",
+  "releaseId": "20260817-network-7",
+  "reviewedAt": "2026-08-17T11:20:00+02:00",
   "reviewer": "gAIa VEP",
   "relations": [
     {"a":"cellular-respiration-demystified","b":"krebs-cycle","status":"reviewed","type":"same-phenomenon","reason":"Båda essäerna förklarar cellandningens energiflöde. Den ena ger helheten, medan den andra fördjupar citronsyracykeln och dess koppling till elektrontransportkedjan.","terms":["cellandning","citronsyracykeln","NADH","ATP"]},
@@ -44,6 +44,8 @@
     {"a":"ai-environmental-impact","b":"digital-biome","status":"reviewed","type":"application","reason":"Miljöartikeln mäter de materiella energi, vatten och hårdvaruflöden som ekosystemmetaforen beskriver som resursbegränsningar och infrastrukturella beroenden.","terms":["resursbegränsning","energi","vatten","hårdvara"]},
     {"a":"digital-biome","b":"school-digitalisation","status":"reviewed","type":"application","reason":"Ekosystemperspektivet på AI ger ett sätt att analysera hur skolans tekniklandskap formas av plattformar, incitament, beroenden och återkoppling, inte bara av enskilda verktyg.","terms":["teknikekosystem","plattformar","beroenden","återkoppling"]},
     {"a":"what-is-sex","b":"origin-of-life","status":"reviewed","type":"prerequisite","reason":"Sexuell reproduktion förutsätter redan celler, heredity och evolutionära populationer. Livets ursprungsessä beskriver de tidigare steg som måste finnas innan gametroller kan utvecklas.","terms":["hereditet","evolution","reproduktion","gameter"]},
-    {"a":"instructional-material-architecture","b":"assessment-validity-reliability","status":"reviewed","type":"application","reason":"Läromedelsessän rekommenderar gemensamma mål, begrepp och bedömningslogik när stöd och fördjupning varierar. Bedömningsessän förklarar varför dessa gemensamma ankare behövs för giltiga och jämförbara slutsatser om elevkunnande.","terms":["bedömningslogik","validitet","differentiering","jämförbarhet"]}
+    {"a":"instructional-material-architecture","b":"assessment-validity-reliability","status":"reviewed","type":"application","reason":"Läromedelsessän rekommenderar gemensamma mål, begrepp och bedömningslogik när stöd och fördjupning varierar. Bedömningsessän förklarar varför dessa gemensamma ankare behövs för giltiga och jämförbara slutsatser om elevkunnande.","terms":["bedömningslogik","validitet","differentiering","jämförbarhet"]},
+    {"a":"the-frame-that-gives-time-back","b":"school-digitalisation","status":"reviewed","type":"method-evidence","reason":"Båda skiljer ett mediums egenskaper från lärande eller värde som utfall. Den nya essän granskar stillbild och video, medan digitaliseringsessän visar samma behov av uppgiftsnära jämförelser i skolans teknikdebatt.","terms":["mediejämförelse","lärande","uppgiftsmatchning","digitalisering"]},
+    {"a":"the-frame-that-gives-time-back","b":"assessment-validity-reliability","status":"reviewed","type":"method-evidence","reason":"Stillbildsessäen visar att uppmärksamhet, igenkänning, förståelse och räckvidd är olika utfall. Bedömningsessän ger den allmänna mätlogiken bakom kravet att inte behandla skilda mått som samma värde.","terms":["mätvaliditet","uppmärksamhet","minne","räckvidd","värde"]}
   ]
 }

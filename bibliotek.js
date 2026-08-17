@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var RELEASE = '20260814-network-6';
+  var RELEASE = '20260817-network-7';
   var MIN_CHARS = 2;
 
   function normalize(value) {
@@ -127,7 +127,7 @@
       show(resultsBox, false);
       show(grid, true);
       applyReadFilter();
-      status.textContent = '29 essäer, 41 granskade samband.';
+      status.textContent = '30 essäer, 43 granskade samband.';
     }
     function renderResults(results) {
       results = results.filter(function (result) { return !hiddenAsRead(result.slug); });

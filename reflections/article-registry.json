@@ -300,6 +300,16 @@
       "toolbarSelector": ".tools",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#30",
+      "slug": "the-frame-that-gives-time-back",
+      "title": "The Frame That Gives Time Back",
+      "path": "the-frame-that-gives-time-back/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".tools",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }
