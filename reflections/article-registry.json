@@ -310,6 +310,16 @@
       "toolbarSelector": ".tools",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#31",
+      "slug": "photography-and-reality",
+      "title": "When editing makes a photograph more true",
+      "path": "photography-and-reality/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }

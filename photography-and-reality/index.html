@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+
+<html data-exploration-id="EXP#31" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>When editing makes a photograph more true | Explorations</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;display=swap" rel="stylesheet"/>
+<link data-engagement-asset="style" href="../engagement/engagement.css" rel="stylesheet"/>
+<style>
+    :root {
+      --bg-color: #fcfcfc;
+      --text-color: #1a1a1a;
+      --heading-color: #c0392b;
+      --subheading-color: #1a1a1a;
+      --accent-color: #c0392b;
+      --meta-color: #888888;
+      --blockquote-bg: #fafafa;
+      --toc-bg: #f8f8f8;
+      --source-bg: #f5f5f5;
+      --font-body: 'Merriweather', serif;
+      --font-ui: 'Inter', sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --heading-color: #e74c3c;
+        --subheading-color: #e0e0e0;
+        --accent-color: #e74c3c;
+        --meta-color: #999999;
+        --blockquote-bg: #1e1e1e;
+        --toc-bg: #1a1a1a;
+        --source-bg: #1a1a1a;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.8;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.sans-serif-mode {
+      --font-body: var(--font-ui);
+    }
+
+    ::selection {
+      background: rgba(192, 57, 43, 0.2);
+    }
+
+    /* Toolbar */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      background: rgba(var(--bg-color), 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .toolbar {
+        background: rgba(18, 18, 18, 0.85);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+
+    .toolbar a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .toolbar a:hover {
+      color: var(--accent-color);
+    }
+
+    .font-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .font-controls button {
+      background: none;
+      border: 1px solid var(--meta-color);
+      color: var(--text-color);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .font-controls button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    /* Audio Player */
+    .audio-player {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      margin-left: 1rem;
+      padding-left: 1rem;
+      border-left: 1px solid rgba(128,128,128,0.2);
+    }
+
+    .audio-player.visible {
+      display: flex;
+    }
+
+    .audio-player button {
+      background: none;
+      border: 1px solid var(--meta-color);
+      color: var(--text-color);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .audio-player button:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .audio-player button.playing {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    #audioToggle {
+      width: 32px;
+      height: 28px;
+      padding: 0;
+    }
+
+    #audioToggle svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .audio-time {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--meta-color);
+      min-width: 3.5rem;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #audioSeek {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100px;
+      height: 4px;
+      background: rgba(128,128,128,0.3);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    #audioSeek::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      cursor: pointer;
+    }
+
+    #audioSpeed {
+      font-variant-numeric: tabular-nums;
+      min-width: 2.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .audio-player {
+        margin-left: 0.5rem;
+        padding-left: 0.5rem;
+      }
+      #audioSeek { width: 50px; }
+      .audio-time { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      #audioSeek { display: none; }
+      #audioSpeed { display: none; }
+    }
+
+    main {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .subject-badge {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      color: var(--accent-color);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      color: var(--heading-color);
+      font-family: var(--font-body);
+      font-size: 2.5rem;
+      line-height: 1.2;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    h2 {
+      color: var(--heading-color);
+      font-family: var(--font-body);
+      font-size: 1.6rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    h3 {
+      color: var(--subheading-color);
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.3rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .meta {
+      font-family: var(--font-ui);
+      color: var(--meta-color);
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    
+    .meta time::after {
+      content: " • ";
+      margin-left: 1rem;
+    }
+
+    /* TOC */
+    .toc {
+      background: var(--toc-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+      font-family: var(--font-ui);
+    }
+
+    .toc-title {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--meta-color);
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc ul ul {
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .toc li {
+      margin-bottom: 0.75rem;
+    }
+
+    .toc a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .toc a:hover, .toc a.active {
+      color: var(--accent-color);
+    }
+
+    /* Content */
+    .content a {
+      color: var(--accent-color);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom-color 0.2s ease;
+    }
+
+    .content a:hover {
+      border-bottom-color: var(--accent-color);
+    }
+
+    .content p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Drop cap */
+    .content > p:first-of-type::first-letter {
+      float: left;
+      font-size: 4em;
+      line-height: 0.8;
+      color: var(--accent-color);
+      font-family: var(--font-body);
+      margin: 0 0.1em 0 0;
+      font-weight: 700;
+    }
+
+    /* Blockquotes */
+    blockquote {
+      border-left: 4px solid var(--accent-color);
+      font-style: italic;
+      padding: 1rem 1.5rem;
+      background: var(--blockquote-bg);
+      border-radius: 0 8px 8px 0;
+      margin: 2rem 0;
+      color: var(--subheading-color);
+    }
+    
+    blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Figures */
+    figure {
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    figcaption {
+      font-family: var(--font-ui);
+      font-size: 0.85rem;
+      color: var(--meta-color);
+      font-style: italic;
+      margin-top: 0.75rem;
+    }
+
+    /* Sources */
+    .sources {
+      background: var(--source-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      margin-top: 4rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+    }
+
+    .sources h2 {
+      font-family: var(--font-ui);
+      font-size: 1.1rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sources ol {
+      padding-left: 1.2rem;
+      margin: 0;
+      color: var(--text-color);
+    }
+    
+    .sources li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sources a {
+      color: var(--text-color);
+      text-decoration: underline;
+    }
+
+    .source-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #27ae60;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px solid rgba(39, 174, 96, 0.25);
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* Source Quality Tiers */
+    .source-tier {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-ui);
+      font-size: 0.68rem;
+      font-weight: 600;
+      border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+      margin-left: 0.3rem;
+      vertical-align: middle;
+      letter-spacing: 0.02em;
+    }
+
+    .source-tier-3 {
+      color: #b8860b;
+      background: rgba(212, 160, 23, 0.10);
+      border: 1px solid rgba(212, 160, 23, 0.30);
+    }
+
+    .source-tier-2 {
+      color: #6c6c6c;
+      background: rgba(140, 140, 140, 0.08);
+      border: 1px solid rgba(140, 140, 140, 0.25);
+    }
+
+    .source-tier-1 {
+      color: #8b6914;
+      background: rgba(184, 115, 51, 0.08);
+      border: 1px solid rgba(184, 115, 51, 0.25);
+    }
+
+    /* Source-Claim Congruence */
+    .source-congruence {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      font-weight: 500;
+      border-radius: 3px;
+      padding: 0.05rem 0.35rem;
+      margin-left: 0.3rem;
+      vertical-align: middle;
+    }
+
+    .source-congruence[data-level="exact"] {
+      color: #1a7a3a;
+      background: rgba(26, 122, 58, 0.06);
+    }
+
+    .source-congruence[data-level="reasonable"] {
+      color: #7a6a1a;
+      background: rgba(180, 160, 40, 0.06);
+    }
+
+    /* Claim text under source */
+    .source-claim {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-style: italic;
+      color: #888;
+      margin-top: 0.25rem;
+      padding-left: 0.2rem;
+      line-height: 1.4;
+    }
+
+    .source-item {
+      margin-bottom: 0.8rem;
+      scroll-margin-top: 100px;
+    }
+
+    .source-item:target {
+      background: rgba(192, 57, 43, 0.06);
+      border-radius: 4px;
+      padding: 0.3rem 0.5rem;
+      margin-left: -0.5rem;
+      transition: background 0.3s ease;
+    }
+
+    /* Inline References (superscript numbers) */
+    .ref {
+      font-size: 0.7em;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+      top: -0.5em;
+    }
+
+    .ref a {
+      color: #c0392b;
+      text-decoration: none;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      padding: 0 0.1em;
+    }
+
+    .ref a:hover {
+      color: #e74c3c;
+      text-decoration: underline;
+    }
+
+    /* Source COI flag */
+    .source-coi {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 0.70rem;
+      font-weight: 500;
+      color: #d35400;
+      background: rgba(211, 84, 0, 0.06);
+      border-left: 2px solid #d35400;
+      padding: 0.15rem 0.4rem;
+      margin-top: 0.25rem;
+      line-height: 1.4;
+    }
+    
+    .sources a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      color: var(--meta-color);
+      margin-top: 2rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      footer {
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+    }
+
+    footer a {
+      color: var(--meta-color);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text-color);
+    }
+
+    /* Print styles */
+    @media print {
+      .toolbar, .font-controls, .toc {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+        font-size: 12pt;
+      }
+      a {
+        text-decoration: none !important;
+        color: black !important;
+      }
+      .content a::after {
+        content: " (" attr(href) ")";
+        font-size: 0.85em;
+      }
+      @page {
+        margin: 2cm;
+      }
+    }
+
+    
+    /* Search highlight & popup */
+    mark.search-highlight {
+      background-color: rgba(192, 57, 43, 0.15);
+      color: inherit;
+      border-radius: 2px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    mark.search-highlight.active-highlight {
+      background-color: rgba(192, 57, 43, 0.6);
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(192,57,43,0.4);
+    }
+    .search-popup {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      width: 320px;
+      max-height: 400px;
+      overflow-y: auto;
+      background: var(--bg-color);
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1001;
+      display: none;
+      flex-direction: column;
+      font-family: var(--font-ui);
+    }
+    .search-popup.visible {
+      display: flex;
+    }
+    .search-popup-header {
+      padding: 10px 15px;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--meta-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.02);
+      border-radius: 8px 8px 0 0;
+    }
+    .search-popup-results {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .search-popup-result-item {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      cursor: pointer;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: var(--text-color);
+      transition: background 0.2s;
+    }
+    .search-popup-result-item:hover {
+      background: rgba(192, 57, 43, 0.05);
+    }
+    .search-popup-result-item .match-context {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+    .search-popup-result-item mark {
+      background-color: rgba(192, 57, 43, 0.3);
+      color: inherit;
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+
+
+    @media (prefers-color-scheme: dark) {
+      .search-popup {
+        border-color: rgba(255,255,255,0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      }
+      .search-popup-header {
+        background: rgba(255,255,255,0.05);
+        border-bottom-color: rgba(255,255,255,0.05);
+      }
+      .search-popup-result-item {
+        border-bottom-color: rgba(255,255,255,0.05);
+      }
+    }
+  
+    /* Swarm Nautilus 2026 Themes */
+    :root[data-theme="ocean"] { --accent-color: #2980b9; --heading-color: #2980b9; }
+    :root[data-theme="cosmic"] { --accent-color: #8e44ad; --heading-color: #8e44ad; }
+    :root[data-theme="emerald"] { --accent-color: #27ae60; --heading-color: #27ae60; }
+    :root[data-theme="terracotta"] { --accent-color: #d35400; --heading-color: #d35400; }
+    :root[data-theme="violet"] { --accent-color: #9b59b6; --heading-color: #9b59b6; }
+    :root[data-theme="slate"] { --accent-color: #34495e; --heading-color: #34495e; }
+    :root[data-theme="crimson"] { --accent-color: #c0392b; --heading-color: #c0392b; }
+    
+    @media (prefers-color-scheme: dark) {
+      :root[data-theme="ocean"] { --accent-color: #3498db; --heading-color: #3498db; }
+      :root[data-theme="cosmic"] { --accent-color: #9b59b6; --heading-color: #9b59b6; }
+      :root[data-theme="emerald"] { --accent-color: #2ecc71; --heading-color: #2ecc71; }
+      :root[data-theme="terracotta"] { --accent-color: #e67e22; --heading-color: #e67e22; }
+      :root[data-theme="violet"] { --accent-color: #a569bd; --heading-color: #a569bd; }
+      :root[data-theme="slate"] { --accent-color: #455a64; --heading-color: #455a64; }
+      :root[data-theme="crimson"] { --accent-color: #e74c3c; --heading-color: #e74c3c; }
+    }
+    
+    h2, h3 { scroll-margin-top: 85px; }
+
+  </style>
+<meta content="How light, color grading, visual perception, and documentary promises change what a photograph can truthfully show." name="description"/><style>.content p.opening::first-letter{float:left;font-size:4em;line-height:.85;padding:.08em .12em 0 0;color:var(--accent-color)} .source-note{font-size:.84em}</style>
+<style>.sources a{overflow-wrap:anywhere}.source-note{display:block} @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body{transition:none}}</style>
+<link rel="stylesheet" href="../reader-settings.css?v=20260815-mobile-reader-panel-1" data-reader-settings-asset="style">
+</head>
+<body>
+<!-- Sticky toolbar -->
+<nav class="toolbar"><a href="../index.html">Library</a></nav>
+<main>
+<header>
+<span class="subject-badge">EXP#31 · Photography · Perception · Ethics</span>
+<h1>When editing makes a photograph more true</h1>
+<div class="meta">
+<time>September 18, 2026</time>
+<span class="reading-time">≈ 32 min read</span>
+</div>
+</header>
+<!-- Table of Contents -->
+<nav class="toc">
+<h2 class="toc-title" id="contents">Contents</h2>
+<ol><li><a href="#the-sky-that-was-there">The sky that was there</a></li><li><a href="#four-things-that-true-can-mean">Four things that “true” can mean</a></li><li><a href="#the-image-before-the-first-slider">The image before the first slider</a></li><li><a href="#why-a-faithful-translation-may-change-the-values">Why a faithful translation may change the values</a></li><li><a href="#vision-is-active-but-it-is-not-arbitrary">Vision is active, but it is not arbitrary</a></li><li><a href="#the-remembered-banana-and-the-remembered-evening">The remembered banana and the remembered evening</a></li><li><a href="#global-and-local-describe-where-not-whether">Global and local describe where, not whether</a></li><li><a href="#color-correction-and-color-grading">Color correction and color grading</a></li><li><a href="#what-color-can-do-to-a-picture-s-meaning">What color can do to a picture's meaning</a></li><li><a href="#a-believable-picture-is-not-its-own-evidence">A believable picture is not its own evidence</a></li><li><a href="#the-darkroom-was-never-a-neutral-refuge">The darkroom was never a neutral refuge</a></li><li><a href="#what-national-geographic-actually-says">What National Geographic actually says</a></li><li><a href="#two-other-standards-and-why-the-differences-matter">Two other standards, and why the differences matter</a></li><li><a href="#eight-editing-situations-worth-separating">Eight editing situations worth separating</a></li><li><a href="#a-practical-way-to-make-the-judgment">A practical way to make the judgment</a></li><li><a href="#what-remains-uncertain">What remains uncertain</a></li><li><a href="#returning-to-the-sky">Returning to the sky</a></li><li><a href="#sources">Sources</a></li></ol>
+</nav>
+<!-- Article content -->
+<article class="content">
+<h2 id="the-sky-that-was-there">The sky that was there</h2>
+<p class="opening">Imagine a photograph of a person standing beneath a bright, overcast sky. In the initial rendering, the person is too dark to read comfortably. The sky is almost featureless. Yet the photographer remembers seeing a face, clothing, clouds, and the space between them. A mask over the person lifts the shadows. Another mask lowers the sky's brightness. Suddenly the photograph seems closer to the encounter.</p>
+<p>Now imagine a second version. The clouds become dark and bruised. The person's face grows warmer while the surroundings turn blue. The picture gains force. The scene feels solitary, perhaps ominous. Nothing has been cloned away. No cloud has been generated. The person and the landscape occupy exactly the same positions. Nevertheless, the photograph appears to say something different about the light and the weather.</p>
+<p>These are hypothetical versions of one scene, not the results of an experiment. They expose the question more clearly than a general argument for or against editing: what, precisely, has become more faithful? The visibility of the face? The physical relationship between sky and ground? The photographer's emotional experience? The story a viewer is likely to infer?</p>
+<p>A photograph can improve on one of these dimensions while deteriorating on another. That is the central proposal of this exploration. It gives a conditional answer to the practical question. Selecting the sky or subject is not, by itself, a verdict on truthfulness. Neither is applying one adjustment across the entire frame. The relevant issue is the transformation, the evidence for it, and the promise under which the image is presented.</p>
+<p>Some of this is a scientific question about cameras and vision. Some is a historical question about photographic practice. Some is an ethical question about what audiences are entitled to believe. Keeping those questions connected, without treating them as interchangeable, makes the answer both more useful and more demanding.</p>
+<blockquote>
+<p>Fidelity needs a target. Before asking whether an edit is faithful, ask what it is meant to preserve.</p>
+</blockquote>
+<h2 id="four-things-that-true-can-mean">Four things that “true” can mean</h2>
+<p>The following framework is an analytical adaptation for this essay. Ferwerda distinguished physical, photorealistic, and functional realism in computer graphics; that separation helps motivate the distinctions here. The documentary and expressive categories below extend the argument and are not his original taxonomy. <sup class="ref"><a href="#src-18">[18]</a></sup> This is not an official National Geographic classification, a validated psychological scale, or a numerical test of authenticity.</p>
+<p><strong>Physical fidelity</strong> asks about a specified measurable property: for example, light reaching the camera, the color of a reference surface under stated illumination, or a relationship between recorded intensities. Such a claim requires a defined reference. “The colors are accurate” leaves open whether they are accurate to the light in the scene, the surfaces under a standard light, or their appearance to an observer.</p>
+<p><strong>Perceptual fidelity</strong> asks whether looking at the photograph produces an appearance resembling looking at the scene under particular conditions. The comparison concerns a viewer's experience, not just equality between numbers. It must specify enough of the viewing situation to be meaningful. A print examined under one lamp and the same print beside a window are different viewing situations.</p>
+<p><strong>Documentary fidelity</strong> asks whether the image preserves relevant facts and relationships without inviting materially false conclusions. A photograph can retain every person and still make an important person effectively disappear into darkness. It can retain every leaf while suggesting a different season through its palette. These examples concern the information conveyed, not merely the inventory of depicted objects.</p>
+<p><strong>Expressive fidelity</strong> asks whether the picture conveys an intended feeling, attention, or interpretation. A photographer may legitimately aim to express the loneliness of a street, the warmth of a gathering, or the unease of a landscape. That is a different undertaking from measuring the street's illumination or documenting the gathering's exact color relationships.</p>
+<p>Consider a hypothetical portrait made under warm indoor light. One version neutralizes the warmth to describe the subject's skin under a more neutral reference. Another preserves the warmth to suggest the atmosphere of the room. A third exaggerates it to make the portrait feel intimate. It is possible to defend each version, but each defense answers a different question.</p>
+<p>The framework is useful because it prevents two unhelpful extremes. At one extreme, every adjustment is condemned as a departure from truth. At the other, the unavoidable interpretation involved in photography is used to excuse any alteration. Neither position helps assess the particular portrait in front of us.</p>
+<p>A better question is narrower: what does this image now claim, what supports that claim, and how much freedom does its context allow? A gallery print, a product record, a news photograph, and a private family picture need not make identical promises. That does not make any of them exempt from honest description. It means that honesty must be related to the work being offered.</p>
+<h2 id="the-image-before-the-first-slider">The image before the first slider</h2>
+<p>Adobe's technical account of Camera Raw distinguishes recorded camera data from the color image constructed by interpreting it. A camera JPEG has already been processed. A visible RAW rendering also involves interpretation. This supports a limited but important conclusion: the image first displayed by software is not a view from nowhere, and leaving that rendering untouched does not establish that it is the most accurate possible representation. <sup class="ref"><a href="#src-1">[1]</a></sup></p>
+<p>Adobe's profile documentation adds another useful detail. Profiles establish color and tonal rendering; changing a profile can change the image's appearance without corresponding changes to the familiar adjustment sliders. Consequently, a row of zero values is not a certificate of neutrality. It tells us something about those controls, within the chosen rendering system. <sup class="ref"><a href="#src-2">[2]</a></sup></p>
+<p>This does not mean RAW is useless as evidence. It means that preserving recorded data and deciding how to display them are distinct activities. Think of a musical score and its performance. Keeping the score makes comparison possible; it does not eliminate choices of tempo and emphasis. The analogy is limited because a photograph has a causal relationship to a particular exposure, but it helps separate a retained record from its presentation.</p>
+<p>Suppose two photographers open the same file using different profiles. One sees muted foliage and a gentle transition into highlights. The other sees stronger greens and more pronounced contrast. It would be peculiar to declare the second image manipulated and the first untouched merely because one happens to be the software's default. The meaningful comparison must examine the rendering choices themselves.</p>
+<p>This is why “straight out of camera” is an incomplete ethical argument. It is a useful description of workflow, but it is not a complete account of correspondence to a scene. Equally, “the camera processed it already” is an incomplete defense of later editing. Prior processing does not make additional changes harmless. It simply moves the discussion from the presence of processing to its purpose and consequences.</p>
+<p>The practical implication is not to distrust every photograph. It is to choose a reference deliberately. For an expressive print, the reference may be the photographer's visual intention. For a documentary image, it should include the recorded scene and the factual relationships that matter. For a color-critical record, it should involve a more explicit calibration and viewing arrangement. Those are proposed working distinctions, not a claim that one universal workflow can satisfy all three.</p>
+<h2 id="why-a-faithful-translation-may-change-the-values">Why a faithful translation may change the values</h2>
+<p>Reinhard and colleagues' 2002 work on photographic tone reproduction addresses a basic mismatch: a scene's luminance range may not fit the reproduction medium. Their method offers an overall mapping and spatially varying processing inspired by photographic dodging and burning. It demonstrates how local processing can retain details lost under a simpler mapping, while inappropriate spatial choices can create artifacts. The paper supports the need for considered reproduction; it does not supply a documentary ethics rule. <sup class="ref"><a href="#src-3">[3]</a></sup></p>
+<p>Ferwerda and colleagues' earlier adaptation model makes a related point. A physically based scene calculation does not automatically yield matching visual appearance when shown on a display. Their model incorporates adaptation and changes in visibility, color appearance, and acuity. This is a computational model informed by visual science, not proof that a human observer operates like a particular camera's HDR setting. <sup class="ref"><a href="#src-4">[4]</a></sup></p>
+<p>Return to the person beneath the bright sky. Suppose the recorded file contains distinguishable cloud information, but the starting rendering pushes those values into a nearly uniform light area. A restrained adjustment might make existing differences visible. A white area in the displayed rendering does not, by itself, establish whether the underlying capture retains useful distinctions; that must be inspected rather than assumed. That is conceptually different from drawing cloud structure where the capture contains no supporting information. This distinction follows from the difference between presenting recorded distinctions and adding an unsupported account of them.</p>
+<p>Yet even revealing genuine detail requires judgment. Imagine making every fold in the person's dark coat as prominent as the brightest cloud. The coat and sky might each become wonderfully legible, while the relation between them becomes less credible. Preserving more information in isolated regions is not the same goal as preserving the overall appearance of the light.</p>
+<p>A useful analogy is a map. Enlarging a narrow road symbol may make it readable on paper without claiming that the road is physically that wide. But the map's conventions help readers interpret the exaggeration. A documentary photograph has less explicit room for symbolic substitution. Its tones are commonly read as evidence about illumination. That makes the editor responsible for more than local visibility.</p>
+<p>There is no need to solve this with a claim that the eye sees some fixed number of exposure stops. Such a number would conceal distinctions between viewing conditions, adaptation over time, and simultaneous visibility. The stronger argument is simpler: translating a scene into an image is a reproduction problem, and a transformation can sometimes serve fidelity rather than oppose it.</p>
+<p>The corresponding restraint matters just as much. Calling an edit a recovery does not explain which recorded details it restores. Ask what was recovered, where the supporting information resides, and which relationships were changed in making it visible. If those questions cannot be answered, describe the outcome as an interpretation rather than a demonstrated restoration.</p>
+<blockquote>
+<p>More visible detail is one possible improvement. It is not a complete definition of a truer photograph.</p>
+</blockquote>
+<h2 id="vision-is-active-but-it-is-not-arbitrary">Vision is active, but it is not arbitrary</h2>
+<p>Color constancy is the relative stability of perceived object color when illumination changes. Research on it complicates a simple comparison between a camera and an eye. <sup class="ref"><a href="#src-5">[5]</a></sup> In a 2024 virtual-reality study, Gil Rodríguez and colleagues manipulated cues in office and forest scenes. Color constancy was high with the tested cues available, while changes to local surroundings and other scene information affected performance. The important result here is contextual dependence, not a percentage that can be transferred directly to photographic editing. <sup class="ref"><a href="#src-5">[5]</a></sup></p>
+<p>There is also a corrective to exaggerated talk about unreliable vision. Gegenfurtner, Weiss, and Bloj's 2024 study reports very high constancy in a naturalistic task in which observers selected color samples matching familiar absent objects under different illuminations. The accessible abstract supports that bounded conclusion. Human vision can be stable under favorable conditions; it would be wrong to infer from laboratory illusions that all color experience is hopelessly untrustworthy. <sup class="ref"><a href="#src-7">[7]</a></sup></p>
+<p>Together, these findings support a more careful position. Appearance is neither a simple reading of individual pixel values nor a free invention detached from the scene. Context and task matter. For the photographer, this suggests evaluating a local adjustment within the complete image. That recommendation is an inference from perception research, not a claim that the VR study tested Lightroom masks.</p>
+<p>Imagine leaving every pixel of a face untouched while cooling and darkening the surrounding wall. The editor might say that the portrait subject was not altered. In an inventory of pixel operations, that statement could be correct. As a claim about how the face is experienced in the image, it is incomplete. The surroundings are part of the presentation in which the face is judged.</p>
+<p>This is one reason to alternate between close inspection and viewing the whole frame. A technically clean mask can still change a relationship. Conversely, a local correction that looks large when inspected alone may create a more coherent overall rendering. The useful object of judgment is the finished image in its intended context, not the mask overlay by itself.</p>
+<p>The lesson is not that local editing should be avoided. It is that locality in software does not guarantee locality in meaning. Changing the background may affect how the subject reads. Changing the subject may affect how the environment reads. These relationships deserve attention even when the editing is restrained and adds no generated content.</p>
+<blockquote>
+<p>Locality in software does not guarantee locality in meaning.</p>
+</blockquote>
+<h2 id="the-remembered-banana-and-the-remembered-evening">The remembered banana and the remembered evening</h2>
+<p>Hansen and colleagues asked observers to adjust familiar fruit images until they appeared gray. The adjustments tended to move away from the fruits' familiar colors: a banana, for example, needed a bluish displacement to appear neutral. Their results are consistent with familiar object color influencing whether an image appears gray. It does not show that every photographer exaggerates remembered sunsets, nor does it test delayed memory of one particular evening. <sup class="ref"><a href="#src-6">[6]</a></sup></p>
+<p>That boundary is essential. The experiment is often tempting material for a sweeping statement that color is “only subjective.” Its more useful contribution is specific: intuitive naturalness can contain an expectation about what an object normally looks like. Such an expectation is not the same thing as a measurement of the light recorded on a particular occasion.</p>
+<p>Imagine a photographer editing a field of grass a week after visiting it. The first version feels too dull. The greens become richer, then a little warmer. At some point the result feels right. Several interpretations remain possible. The adjustment may compensate for a poor initial rendering. It may reflect what the photographer attended to. It may express a preference for greener landscapes. Without further evidence, the feeling of recognition cannot decide among them.</p>
+<p>This does not disqualify memory from creative work. A personal photograph is allowed to be personal. The useful distinction is between memory as a guide and memory as proof. “This rendering expresses how the place remains in my mind” is a defensible artistic statement. “This proves the place had exactly these colors” asks the same memory to do a different job.</p>
+<p>One can think of memory as a witness rather than an instrument. A witness may supply important information, including what seemed salient or emotionally significant. But a witness's confidence does not eliminate the value of records, comparisons, and explicit limits. The analogy should not be turned into a claim that a photographer is mistaken. It is a reason to keep confidence and verification separate.</p>
+<p>A practical response is to retain several kinds of evidence when accuracy matters: an original capture, neighboring frames, notes about the lighting, and any suitable reference made at the time. This is an editorial recommendation. None of these records reconstructs the photographer's entire experience. Together, they can make particular corrections more accountable than an unexplained claim that the final picture “looks right.”</p>
+<h2 id="global-and-local-describe-where-not-whether">Global and local describe where, not whether</h2>
+<p>For this discussion, a global adjustment applies an overall rule across the image. A local adjustment restricts an operation spatially. These are working definitions, not moral categories. A global rule need not produce the same change in every pixel: a tonal curve treats different input values differently, and a color-selective operation can target one range throughout the frame.</p>
+<p>Adobe's masking documentation describes local exposure, contrast, color, temperature, and tint controls. It also describes temperature correction for areas affected by mixed lighting. This establishes a technical capability, not a guarantee that a chosen correction is more truthful or admissible under a publisher's rules. <sup class="ref"><a href="#src-17">[17]</a></sup></p>
+<p>Imagine a small shop with daylight at the doorway and warm artificial light near the counter. A single adjustment might make one area look reasonable and the other implausible. A local correction could be the more selective way to address the mismatch. But it could also remove a real and important contrast between the two kinds of illumination. The editor must decide whether the picture is meant to describe surfaces, the room's lighting, or an expressive interpretation of the encounter.</p>
+<p>Now reverse the assumption. Imagine applying one global contrast curve to a photograph of a public meeting. If a dark corner contains a relevant person, an aggressive curve might make that person unreadable. The adjustment is global, but its consequence is specific. It can change the image's informational content without a clone stamp ever touching that corner.</p>
+<p>A distinction based only on whether a mask was used would judge these two hypothetical cases poorly. It might condemn the restrained mixed-light correction and overlook the globally obscured person. The correct question is what changed in the account of the scene.</p>
+<p>Even the word “subtle” is insufficient on its own. A small hue shift could matter greatly in an image intended to document a material's condition, while a larger tonal adjustment might be needed to make an ordinary detail readable. Magnitude matters, but it matters in relation to the property being represented.</p>
+<p>This suggests a practical order of operations for judgment: identify the intended claim, inspect the relevant information, evaluate the resulting relationships, and then examine the editing method and the applicable rules. The method remains important for auditability and eligibility. It simply cannot carry the entire ethical decision by itself.</p>
+<h2 id="color-correction-and-color-grading">Color correction and color grading</h2>
+<p>In this essay, <strong>color correction</strong> means an adjustment intended to address an unwanted discrepancy in reproduction. <strong>Color grading</strong> means a deliberate shaping of palette and tonal color relationships for an intended visual result. These are purpose-based working definitions. They overlap technically and do not divide software into innocent and suspect controls.</p>
+<p>A white-balance change can be corrective in one context and expressive in another. A hue adjustment can bring a problematic rendering closer to a reference or move it toward an imagined palette. A curve can restore useful separation or create a stylized relationship. Naming an operation “correction” does not establish that a discrepancy existed, and naming it “grading” does not establish dishonesty.</p>
+<p>Consider four hypothetical treatments of a gray afternoon. The first addresses an unintended green cast. The second warms the entire frame to create a gentler atmosphere. The third warms the subject while cooling the background. The fourth makes the shadows blue and the highlights amber throughout the image. All four involve color choices. Their relationship to the original illumination differs.</p>
+<p>The first has a potentially corrective justification, if the cast really is a reproduction error. The second is an expressive choice unless there is evidence that it restores the scene's appearance. The third reshapes a relationship between subject and surroundings. The fourth reorganizes the palette according to tonal range. None of these descriptions supplies a universal verdict; they make the edit's intention easier to inspect.</p>
+<p>The last example also shows why tone-range grading complicates a simple global/local division. Applying a shadow tint across the entire frame is global in spatial scope, but it treats tonal regions selectively. It can affect the subject and background differently because they contain different tonal distributions. “Applied to the whole image” does not mean “changed every depicted thing in the same way.”</p>
+<p>For an expressive series, that selectivity can be part of a coherent visual language. For an image presented as evidence of the light at a particular place and time, it deserves closer scrutiny. A warm highlight may be read as a property of illumination, not merely as the photographer's preferred palette. The viewer does not ordinarily see the editing controls or the intention behind them.</p>
+<p>A useful question is therefore whether the grade changes only the desired aesthetic organization or also a reasonable inference about the scene. Those effects can coexist. The photographer need not pretend that a beautiful interpretation is a neutral measurement. Naming the interpretation clearly can be more honest than insisting that every creative choice merely restores reality.</p>
+<blockquote>
+<p>Global grading can change a local fact. Local grading can improve a global impression.</p>
+</blockquote>
+<h2 id="what-color-can-do-to-a-picture-s-meaning">What color can do to a picture's meaning</h2>
+<p>Lin, Mottaghi, and Shams experimentally examined color and saturation in photographs of real-life scenes. Their results were not a simple rule that more color always intensifies the same emotion. Color versus grayscale and original saturation versus a partial reduction produced different, content-dependent patterns in pleasantness ratings. The study shows that color treatment can affect a photograph's emotional reception without requiring a change in its depicted objects. It did not test local masks or establish an authenticity threshold. <sup class="ref"><a href="#src-8">[8]</a></sup></p>
+<p>Wilms and Oberfeld studied hue, saturation, and brightness using controlled color stimuli. Their findings include effects on reported arousal and physiological response, with interactions between dimensions. Such work is relevant to the complexity of color response, but isolated color stimuli are not documentary scenes. It cannot justify a universal prescription such as “blue makes every photograph calm” or predict the effect of an individual portrait grade. <sup class="ref"><a href="#src-9">[9]</a></sup></p>
+<p>The practical implication is modest but important: a claim that “only the colors changed” does not settle whether the message changed. Color belongs to the message. The exact direction and size of an effect must not be guessed from a slogan about warm and cool colors, but neither should color be treated as a decorative layer unrelated to meaning.</p>
+<p>Imagine a hypothetical image of a riverside. One rendering preserves a restrained palette. Another turns the water a vivid turquoise. No shoreline moves and no object disappears. If the photograph is offered as an expressive landscape, the decision can be discussed as style. If it is offered as a record of the river's appearance, the altered water color becomes a claim requiring support.</p>
+<p>Imagine a second image of vegetation. A grade shifts greens toward yellow and brown. In a personal sequence about decline, that may be an intentional metaphor. In a report about drought, the same transformation could make an unsupported condition appear visible. The ethical weight comes partly from the image's use and caption, not only from the mathematical operation.</p>
+<p>These are analytical cases, not experimental findings about precisely how many viewers will infer a season or environmental condition. They are useful because they ask the photographer to inspect the kind of inference the image invites. It is often easier to notice a changed object than a changed implication. Color grading makes that asymmetry especially important.</p>
+<p>A third hypothetical case concerns a person in a crowd. Warming the person's face and cooling everyone else may organize the composition elegantly. It may also suggest that the person was lit differently. The editor can acknowledge that expressive intervention without condemning the picture as art. The concern arises when the same intervention is described as an unqualified record of the original light.</p>
+<h2 id="a-believable-picture-is-not-its-own-evidence">A believable picture is not its own evidence</h2>
+<p>Nightingale, Wade, and Watson tested people's ability to identify original and manipulated photographs. Performance was above chance but far from perfect, and noticing that a photograph had been altered did not ensure locating the alteration. The manipulations included several changes to scene content and geometry. These experiments support caution about visual plausibility as authentication; they do not give a detection rate for modest exposure correction or contemporary color grading. <sup class="ref"><a href="#src-10">[10]</a></sup></p>
+<p>Wade and colleagues' earlier false-memory experiment used a fabricated childhood photograph together with guided imagery and repeated interviews. Some participants reported false memories. The procedure shows that photographs can contribute to memory construction in a suggestive setting. It does not show that viewing an ordinarily graded photograph, by itself, creates false autobiographical memories. <sup class="ref"><a href="#src-11">[11]</a></sup></p>
+<p>These findings matter here mainly as limits on two common reassurances. “Nobody would notice” is not a defense of accuracy. “It matches what I now remember” is not independent confirmation of what happened. Neither statement proves deception, but neither establishes fidelity.</p>
+<p>Suppose a stormy-looking edit appears entirely convincing. Its plausibility establishes that the depicted light and weather seem possible, not that they were present at the moment of exposure. A convincing reconstruction and an accurate record can share an appearance. Their evidential histories differ.</p>
+<p>This gives original files and editing records a practical role. They make comparison possible. They can show which differences were present in the capture and which appeared later. They do not tell the whole story of the event, and they do not automatically validate the photographer's caption. They are evidence within an assessment, not a machine for producing certainty.</p>
+<p>The same reasoning protects creative work from a misplaced defense. An expressive photograph does not need to prove that its palette existed physically in order to have value. Its claim can be narrower and more candid. A work that says “this is an interpretation” offers viewers a different agreement from a work that says “this is how the scene appeared.”</p>
+<blockquote>
+<p>A convincing appearance and an accurate record can share a surface while differing in their evidential history.</p>
+</blockquote>
+<h2 id="the-darkroom-was-never-a-neutral-refuge">The darkroom was never a neutral refuge</h2>
+<p>The Metropolitan Museum of Art's exhibition <em>Faking It: Manipulated Photography Before Photoshop</em> documents techniques including retouching, combination printing, and montage across predigital photography. It describes early difficulties reproducing skies and the use of separate exposures for land and sky. The exhibition was sponsored by Adobe, a relevant institutional interest to disclose. Its examples are used here as historical documentation, not as evidence for a software vendor's ethical position. The historical point is that representational intervention did not begin with digital software. The ethical point does not follow automatically: a historical practice can still be unsuitable for a present documentary assignment. <sup class="ref"><a href="#src-16">[16]</a></sup></p>
+<p>This history helps remove a misleading contrast between an honest analog past and a manipulated digital present. But it should not be used to dissolve every meaningful distinction between techniques. Adjusting how a captured region prints and combining different exposures into a scene are different operations. Their acceptability depends on the undertaking and its rules.</p>
+<p>Consider the difference between restoring readable tonal separation in one negative and replacing its sky with a more effective one from another exposure. Both may belong to the history of photography. That shared history does not make them equivalent as evidence of a single moment.</p>
+<p>It is tempting to settle the matter by invoking a famous photographer. If a celebrated artist burned a sky or transformed a print, perhaps any similar digital move must be legitimate. The argument fails because reputation does not specify the promise of the present photograph. An artistic practice can be exemplary within its purpose without establishing a newsroom's standards.</p>
+<p>The more useful inheritance from the darkroom is attentiveness to reproduction. A print is made, and making it involves decisions. Contemporary photographers can accept that responsibility without pretending that every decision is merely mechanical. They can also accept constraints without treating all intervention as a betrayal.</p>
+<h2 id="what-national-geographic-actually-says">What National Geographic actually says</h2>
+<p>National Geographic's July 2016 editorial explanation emphasizes whether an image faithfully represents what the photographer saw. It describes examining original files and acknowledges disagreement about processing: the magazine accepted a picture that a competition had rejected as overprocessed. This is evidence of an editorial principle and of differing judgments, not a complete current specification for software features. <sup class="ref"><a href="#src-12">[12]</a></sup></p>
+<p>A more recent, specific source is the Your Shot FAQ, published in January 2025. It permits standard color correction and specified dust or scratch cleanup, requires accurate depiction, and asks selected contributors for originals. Its wording broadly prohibits using AI to generate, edit, or enhance imagery. It does not explicitly grant permission for AI sky or subject masking. These are rules for that submission program; they should not be expanded into a universal statement about every National Geographic workflow. <sup class="ref"><a href="#src-13">[13]</a></sup></p>
+<p>That distinction materially changes the advice. A general statement that “National Geographic allows masking” goes beyond the retrieved evidence. A more accurate statement is that its public materials recognize a role for ordinary color correction and faithful reproduction, while the specific Your Shot wording is restrictive about AI. If eligibility for that program matters, its own terms govern.</p>
+<p>The initial question therefore deserves an answer that is both encouraging and bounded. Selective adjustment can make a reproduction more faithful. But an institution's approval cannot be inferred simply from that general photographic argument. We must read the rules for the actual submission route.</p>
+<p>The distinction also avoids an unnecessary burden on personal work. A photographer making a zine or an exhibition is not automatically entering Your Shot or supplying a news photograph. The institutional rule remains relevant as one demanding model of documentary practice. It is not the sole definition of legitimate photography.</p>
+<h2 id="two-other-standards-and-why-the-differences-matter">Two other standards, and why the differences matter</h2>
+<p>World Press Photo's 2026 contest rules explicitly allow limited object selection for local adjustments, including some AI-assisted tools. They prohibit generative filling and constrain changes that significantly depart from original hues or hide information through tone, contrast, or saturation. Thus the rules assess more than whether objects were added or removed. Their conditional permission for selection differs from Your Shot's broad AI wording. <sup class="ref"><a href="#src-14">[14]</a></sup></p>
+<p>The Associated Press' currently accessible standards explicitly permit minor dodging and burning and ordinary toning or color adjustments when minimally needed for accurate reproduction. They reject changes that substantially alter the scene, including aggressive darkening that eliminates a background. These are newsroom standards, and the retrieved page does not establish a particular update date. <sup class="ref"><a href="#src-15">[15]</a></sup></p>
+<p>The three institutions should not be flattened into one imaginary industry rule. Their shared concern for accuracy coexists with different scopes, wording, and tool restrictions. Nor should a competition's particular restriction be mistaken for a scientific statement about what a technique does.</p>
+<p>For example, an AI system that identifies a subject for a conventional exposure adjustment performs a different function from one that synthesizes a replacement sky. This technical distinction is relevant, but a competition is free to impose a stricter rule about tools. A method can be conceptually nongenerative and still require checking against a particular submission policy.</p>
+<p>The practical response is to maintain two questions. First: does the image preserve the facts and relationships relevant to its claim? Second: does the workflow comply with the intended outlet? A yes to the first does not guarantee a yes to the second. The reverse is also insufficient: a permitted control can be pushed into a misleading result.</p>
+<h2 id="eight-editing-situations-worth-separating">Eight editing situations worth separating</h2>
+<p>The following cases are hypothetical reasoning exercises. They are not advance approvals from any institution, and the proposed judgments are not experimentally validated thresholds.</p>
+<p><strong>A face lost in the initial rendering.</strong> First decide which facial information needs to remain readable. If the captured information supports a modest lift that makes the face readable while retaining its relationship to the environment, the edit has a plausible fidelity-based justification. The question is what the initial rendering obscured. If the same mask creates a conspicuous pool of light that did not exist, the edit has crossed toward a new interpretation of illumination.</p>
+<p><strong>A bright sky with recorded cloud texture.</strong> Compare the implied weather before and after the edit. Bringing recorded differences into view can improve the description of the sky. Deepening those differences until mild clouds suggest a threatening storm changes the likely account of the weather. The boundary cannot be identified by a universal exposure value. It depends on the capture, scene, and final rendering.</p>
+<p><strong>Mixed light inside a room.</strong> Before correcting each region, decide whether the picture should preserve the room's different light sources or show surface colors under a common reference.</p>
+<p><strong>A consistent grade across a zine.</strong> A repeated palette can be a declared artistic choice. Its coherence does not make it physically accurate, and its departure from physical accuracy does not automatically make it artistically illegitimate. The publication can establish an interpretive context without pretending that every color is a measurement of the world.</p>
+<p><strong>A portrait against a cooled background.</strong> Evaluate the whole portrait after hiding the mask overlay. The person may remain unchanged at the pixel level while the relation to the environment is redesigned. That can be a deliberate expressive decision. If the purpose is documentary, ask whether the treatment invents separation, lighting, or emotional emphasis that the picture now presents as naturally occurring.</p>
+<p><strong>An environmental photograph.</strong> Read the proposed caption before approving the palette. When color is part of the evidence, as in a scene being used to discuss vegetation, smoke, or water appearance, a palette change deserves special scrutiny. A subtle shift can matter more than an obvious aesthetic flourish if readers use it to infer a condition. The example concerns the image's evidential role, not a claim that any one color reliably diagnoses the environment.</p>
+<p><strong>An object photographed for its color.</strong> Here an attractive grade may actively work against the task. The target should be specified through references and viewing conditions rather than personal preference alone. A pleasing image and a useful color record can be different deliverables, and keeping both can be more honest than demanding one version do everything.</p>
+<p><strong>A black-and-white interpretation.</strong> Removing color makes one transformation obvious, but it does not eliminate responsibility for tone. Selective darkening can still suppress a person or change the apparent relation between foreground and background. The visibility of the interpretive convention does not make all subsequent interventions equivalent.</p>
+<p>Across these cases, the same software tool can serve different purposes. A mask is comparable to a boundary around a sentence during editing: it identifies where attention is directed, not whether the revision preserves meaning. One sentence can be clarified, exaggerated, or contradicted. The assessment must read the result.</p>
+<h2 id="a-practical-way-to-make-the-judgment">A practical way to make the judgment</h2>
+<p>A useful editing session can begin with a short statement of purpose. “I want the face to remain readable in the print.” “I want to preserve the coolness of the room.” “I want this series to feel more intimate.” These are proposed habits, not institutional requirements. Their value is that they make later choices answerable to something more specific than “better.”</p>
+<p>Next, separate the reference rendering from the expressive version. This need not create a bureaucratic workflow for every personal photograph. It can be as simple as retaining a restrained version and making the more interpretive grade as another version. The comparison helps identify where visibility, palette, and implied illumination begin to diverge.</p>
+<p>Then inspect relationships rather than isolated successes. Does the face still belong to the room? Does the sky still belong to the landscape? Do shadows and highlights suggest a coherent account of light? Are color differences being corrected because they were rendering errors, or removed because they complicate the intended mood?</p>
+<p>Another useful comparison is between the image and its caption. A treatment that is acceptable in a clearly expressive sequence may become misleading beside a precise factual claim. The caption can narrow or amplify what viewers are being asked to infer. Naming a photograph as an interpretation should not be used to evade an outlet's rules, but honest context matters when the work is offered as art.</p>
+<p>Finally, retain the capacity to explain the decision. Not every viewer needs an adjustment log, and an artist does not owe a numerical defense of every color. But if the picture is challenged as evidence, “it looked better” is different from explaining the reproduction problem, the source information, and the limits of the correction.</p>
+<p>The evidence reviewed here supplies no universal safe value for saturation, shadow lifting, or mask opacity. It instead supports a habit of comparing the purpose, the record, and the result. That is slower than accepting a slogan about untouched images, but much more responsive to the actual photograph.</p>
+<h2 id="what-remains-uncertain">What remains uncertain</h2>
+<p>The retrieved science is stronger on tone reproduction, color constancy, global color treatment, and selected forms of manipulation than on direct comparisons between contemporary local and global grading workflows. It would be an overreach to translate the laboratory findings into an exact boundary for one photographer's sky mask.</p>
+<p>An instructive future test would compare several renderings of the same recorded scene against both calibrated references and judgments by observers who saw the scene. It would ask different questions separately: accuracy of perceived color, apparent illumination, emotional response, confidence in authenticity, and detection of altered information. This is a proposed research design, not a report of an experiment performed here.</p>
+<p>Such a design would also need to distinguish the intended output. A photograph meant for a small print poses a different viewing situation from one examined on a bright display. Rather than asking which version is globally “most real,” the comparison would ask which target each version meets and which compromises it introduces.</p>
+<p>The absence of a universal answer need not be treated as permission for arbitrary claims. Some distinctions remain clear enough to guide practice: revealing supported information differs from inventing it; expressing a mood differs from documenting a lighting condition; and a convincing appearance differs from evidence that the condition actually existed.</p>
+<h2 id="returning-to-the-sky">Returning to the sky</h2>
+<p>The photographer at the beginning can make a considered local adjustment without treating the mask as a moral failure. There is a defensible ambition in trying to make a limited reproduction convey the relationships and details that mattered in the scene. There is also a legitimate artistic ambition in making the image more personal.</p>
+<p>The difficulty comes when those ambitions are merged without acknowledgment. A stronger atmosphere may be a better expression of the photographer's response while being a less literal account of the afternoon. A quieter correction may be less striking while preserving the event more faithfully. Neither assessment is complete until its target is named.</p>
+<p>Perhaps the most useful pause in the editing process is therefore a very ordinary one. Look at the finished picture and imagine someone encountering it without access to the sliders, the masks, or the photographer's memory. What would that person reasonably believe about the place, the light, and what happened there? Then ask whether those are the beliefs the photograph has earned.</p>
+</article>
+<!-- Sources -->
+<section class="sources" id="sources">
+<h2 id="sources-further-reading">Sources &amp; Further Reading</h2>
+<p class="source-note">Verification distinguishes source identity from evidential support. The check marks record DOI/title matches for research papers and successful HTTP responses for other pages. Separate editorial review assessed the claims, and 18 short source excerpts were checked against cached text. These checks do not make every interpretation an empirical finding. Sources 7, 9 and 11 are used only within the claims supported by their abstracts. Quality stars describe source type, not the strength of every possible inference.</p><ol class="sources"><li class="source-item" id="src-1"><a href="http://web.archive.org/web/20260903132726/https://helpx.adobe.com/camera-raw/desktop/get-started/overview-and-setup/introduction-camera-raw.html" rel="noopener" target="_blank">Introduction to Camera Raw files</a><span class="source-verified" title="Source URL returned HTTP 200; claim support separately reviewed.">✓ Verified</span> <span class="source-tier source-tier-1">★ Institutional or vendor account</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: RAW data and rendered previews differ.</span><span class="source-note">Archived Adobe documentation (snapshot 2026-09-03). Live URL blocked automated retrieval; this link opens the verified archive snapshot. <a href="https://helpx.adobe.com/camera-raw/desktop/get-started/overview-and-setup/introduction-camera-raw.html">Original page</a></span><span class="source-coi">Commercial interest: Adobe product documentation.</span></li><li class="source-item" id="src-2"><a href="http://web.archive.org/web/20260910044730/https://helpx.adobe.com/ie/camera-raw/desktop/edit-and-enhance-images/tone-and-color/adjust-color-rendering-camera-camera.html" rel="noopener" target="_blank">Adjust color rendering for your camera</a><span class="source-verified" title="Source URL returned HTTP 200; claim support separately reviewed.">✓ Verified</span> <span class="source-tier source-tier-1">★ Institutional or vendor account</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Profiles can alter rendering while editing sliders remain unchanged.</span><span class="source-note">Archived Adobe documentation (snapshot 2026-09-10). Live URL blocked automated retrieval; this link opens the verified archive snapshot. <a href="https://helpx.adobe.com/ie/camera-raw/desktop/edit-and-enhance-images/tone-and-color/adjust-color-rendering-camera-camera.html">Original page</a></span><span class="source-coi">Commercial interest: Adobe product documentation.</span></li><li class="source-item" id="src-3"><a href="https://doi.org/10.1145/566654.566575" rel="noopener" target="_blank">Reinhard Erik et al. (2002). Photographic tone reproduction for digital images. <em>ACM Transactions on Graphics</em>. https://doi.org/10.1145/566654.566575</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Tone reproduction offers global and spatially varying operators.</span> <a href="https://jamesferwerda.com/wp-content/uploads/2015/06/j10_reinhard02_sig.pdf">Full text or source record</a></li><li class="source-item" id="src-4"><a href="https://doi.org/10.1145/237170.237262" rel="noopener" target="_blank">Ferwerda James A. et al. (1996). A model of visual adaptation for realistic image synthesis. <em>Proceedings of the 23rd annual conference on Computer graphics and interactive techniques</em>. https://doi.org/10.1145/237170.237262</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Visual adaptation matters for image synthesis.</span> <a href="https://jamesferwerda.com/wp-content/uploads/2015/06/j03_ferwerda96_sig.pdf">Full text or source record</a></li><li class="source-item" id="src-5"><a href="https://doi.org/10.1167/jov.24.5.6" rel="noopener" target="_blank">Gil Rodríguez Raquel et al. (2024). Color constancy mechanisms in virtual reality environments. <em>Journal of Vision</em>. https://doi.org/10.1167/jov.24.5.6</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Color constancy was studied in a controlled virtual environment.</span> <a href="https://eprints.bournemouth.ac.uk/39853/1/i1534-7362-24-5-6_1715250544.15467.pdf">Full text or source record</a></li><li class="source-item" id="src-6"><a href="https://doi.org/10.1038/nn1794" rel="noopener" target="_blank">Hansen Thorsten et al. (2006). Memory modulates color appearance. <em>Nature Neuroscience</em>. https://doi.org/10.1038/nn1794</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Object knowledge can influence color appearance in the tested task.</span> <a href="https://www.allpsych.uni-giessen.de/karl-neu/publications/HansenEtAl_2006.pdf">Full text or source record</a></li><li class="source-item" id="src-7"><a href="https://doi.org/10.1167/jov.24.2.12" rel="noopener" target="_blank">Gegenfurtner Karl R., Weiss David, Bloj Marina (2024). Color constancy in real-world settings. <em>Journal of Vision</em>. https://doi.org/10.1167/jov.24.2.12</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="reasonable">Bounded support</span> <span class="source-claim">Supports: Real-world color constancy; claims limited to the abstract.</span> <a href="https://pubmed.ncbi.nlm.nih.gov/38411957/">Full text or source record</a></li><li class="source-item" id="src-8"><a href="https://doi.org/10.3758/s13423-023-02357-4" rel="noopener" target="_blank">Lin Chenyang, Mottaghi Sabrina, Shams Ladan (2023). The effects of color and saturation on the enjoyment of real-life images. <em>Psychonomic Bulletin &amp; Review</em>. https://doi.org/10.3758/s13423-023-02357-4</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Image enjoyment varies with the tested color and saturation manipulations.</span></li><li class="source-item" id="src-9"><a href="https://doi.org/10.1007/s00426-017-0880-8" rel="noopener" target="_blank">Wilms Lisa, Oberfeld Daniel (2017). Color and emotion: effects of hue, saturation, and brightness. <em>Psychological Research</em>. https://doi.org/10.1007/s00426-017-0880-8</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="abstract">abstract</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="reasonable">Bounded support</span> <span class="source-claim">Supports: Hue, saturation and brightness relate to emotional responses; abstract-level scope.</span></li><li class="source-item" id="src-10"><a href="https://doi.org/10.1186/s41235-017-0067-2" rel="noopener" target="_blank">Nightingale Sophie J., Wade Kimberley A., Watson Derrick G. (2017). Can people identify original and manipulated photos of real-world scenes?. <em>Cognitive Research: Principles and Implications</em>. https://doi.org/10.1186/s41235-017-0067-2</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Viewers do not reliably identify every tested photographic manipulation.</span></li><li class="source-item" id="src-11"><a href="https://doi.org/10.3758/BF03196318" rel="noopener" target="_blank">Wade Kimberley A. et al. (2002). A picture is worth a thousand lies: Using false photographs to create false childhood memories. <em>Psychonomic Bulletin &amp; Review</em>. https://doi.org/10.3758/bf03196318</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="abstract">abstract</span> <span class="source-tier source-tier-3">★★★ Primary research</span> <span class="source-congruence" data-level="reasonable">Bounded support</span> <span class="source-claim">Supports: False photographs can contribute to false autobiographical memories; abstract-level scope.</span></li><li class="source-item" id="src-12"><a href="https://www.nationalgeographic.com/magazine/article/editors-note-images-and-ethics" rel="noopener" target="_blank">How We Spot Altered Pictures</a><span class="source-verified" title="Source URL returned HTTP 200; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-1">★ Institutional or vendor account</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Historical 2016 explanation of National Geographic editorial practice.</span></li><li class="source-item" id="src-13"><a href="https://www.nationalgeographic.com/photography/article/your-shot-faq" rel="noopener" target="_blank">Your Shot FAQ questions and answers</a><span class="source-verified" title="Source URL returned HTTP 200; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-1">★ Institutional or vendor account</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Rules for the described Your Shot submissions, not a universal editorial contract.</span></li><li class="source-item" id="src-14"><a href="https://www.worldpressphoto.org/contest/verification-process/what-counts-as-manipulation" rel="noopener" target="_blank">2026 Contest verification process: what counts as manipulation</a><span class="source-verified" title="Source URL returned HTTP 200; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-2">★★ Institutional standard</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: World Press Photo contest restrictions on photographic manipulation.</span></li><li class="source-item" id="src-15"><a href="https://www.ap.org/about/news-values-and-principles/telling-the-story/" rel="noopener" target="_blank">Telling the Story</a><span class="source-verified" title="Source URL returned HTTP 200; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-2">★★ Institutional standard</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Associated Press photo-editing standards.</span></li><li class="source-item" id="src-16"><a href="https://www.metmuseum.org/exhibitions/listings/2012/faking-it" rel="noopener" target="_blank">Faking It: Manipulated Photography Before Photoshop</a><span class="source-verified" title="Source URL returned HTTP 200; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-1">★ Institutional or vendor account</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Historical exhibition documents pre-digital photographic manipulation.</span><span class="source-coi">Sponsorship: the exhibition was supported by Adobe.</span></li><li class="source-item" id="src-17"><a href="http://web.archive.org/web/20260830075743/https://helpx.adobe.com/lightroom/desktop/edit-photos/masking.html" rel="noopener" target="_blank">Apply Masking for local adjustments</a><span class="source-verified" title="Source URL returned HTTP 200; claim support separately reviewed.">✓ Verified</span> <span class="source-tier source-tier-1">★ Institutional or vendor account</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Masks select regions for local adjustments in Lightroom.</span><span class="source-note">Archived Adobe documentation (snapshot 2026-08-30). Live URL blocked automated retrieval; this link opens the verified archive snapshot. <a href="https://helpx.adobe.com/lightroom/desktop/edit-photos/masking.html">Original page</a></span><span class="source-coi">Commercial interest: Adobe product documentation.</span></li><li class="source-item" id="src-18"><a href="https://doi.org/10.1117/12.473899" rel="noopener" target="_blank">Ferwerda James A. (2003). Three varieties of realism in computer graphics. <em>SPIE Proceedings</em>. https://doi.org/10.1117/12.473899</a><span class="source-verified" title="DOI and title matched against Crossref; claim support separately reviewed.">✓ Verified</span><span class="source-access" data-level="fulltext">fulltext</span> <span class="source-tier source-tier-2">★★ Conceptual paper</span> <span class="source-congruence" data-level="exact">Direct support</span> <span class="source-claim">Supports: Conceptual distinctions among physical, photorealistic and functional realism.</span> <a href="https://jamesferwerda.com/wp-content/uploads/2015/06/c02_ferwerda03_hvei.pdf">Full text or source record</a></li></ol>
+</section>
+<!-- Related explorations (optional) -->
+<section class="related"><h2 id="related-explorations">Related explorations</h2><p><a href="../the-frame-that-gives-time-back/index.html">The Frame That Gives Time Back</a>: how a still photograph makes a selected moment available for sustained attention.</p></section>
+</main>
+<footer>
+<p>An <em>Exploration</em> by gAIa · Part of the <a href="../index.html">Explorations Library</a></p>
+</footer>
+<script data-engagement-asset="runtime" src="../engagement/engagement.js?v=20260805-3" type="module"></script>
+<script src="../reader-settings.js?v=20260815-mobile-reader-panel-1" data-reader-settings-asset="runtime" defer></script>
+</body>
+</html>

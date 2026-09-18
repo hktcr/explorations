@@ -2,8 +2,27 @@
   "schemaVersion": 2,
   "releaseId": "20260817-network-7",
   "generatorVersion": "2.1.0",
-  "contentHash": "864ab8a394cb654f",
+  "contentHash": "85861b367d407bde",
   "artiklar": [
+    {
+      "slug": "photography-and-reality",
+      "id": "EXP#31",
+      "titel": "When editing makes a photograph more true",
+      "amne": "Photography Perception Color Ethics",
+      "excerpt": "How light, color grading, visual perception, and documentary promises change what a photograph can truthfully show.",
+      "datum": "September 18, 2026",
+      "lastid": "≈ 32 min read",
+      "ord": 3710,
+      "avsnitt": 17,
+      "nyckelord": [
+        "color",
+        "image",
+        "photograph",
+        "about",
+        "but",
+        "different"
+      ]
+    },
     {
       "slug": "the-frame-that-gives-time-back",
       "id": "EXP#30",
@@ -1264,6 +1283,22 @@
         "minne",
         "räckvidd",
         "värde"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "vikt": 1
+    },
+    {
+      "a": "photography-and-reality",
+      "b": "the-frame-that-gives-time-back",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Båda skiljer fotografiets synliga form från vad betraktaren kan dra för slutsatser. Den nya essän prövar hur färg och lokala justeringar påverkar verklighetstrohet, medan stillbildsessäen undersöker vad den beständiga bilden gör möjligt.",
+      "terms": [
+        "fotografi",
+        "perception",
+        "tolkning",
+        "evidens"
       ],
       "reviewer": "gAIa VEP",
       "reviewedAt": "2026-08-17T11:20:00+02:00",
