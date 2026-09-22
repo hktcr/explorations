@@ -56,10 +56,10 @@ function collectStringValues(value, strings = []) {
 }
 
 describe("artikelregistret", () => {
-  test("innehåller exakt EXP#1 till EXP#32 utan duplicerade identiteter", async () => {
+  test("innehåller exakt EXP#1 till EXP#33 utan duplicerade identiteter", async () => {
     const registry = await json("reflections/article-registry.json");
     assert.equal(registry.schemaVersion, 1);
-    assert.equal(registry.articles.length, 32);
+    assert.equal(registry.articles.length, 33);
 
     const ids = registry.articles.map(article => article.id);
     const slugs = registry.articles.map(article => article.slug);
@@ -69,7 +69,7 @@ describe("artikelregistret", () => {
     assert.deepEqual(duplicateValues(paths), []);
     assert.deepEqual(
       [...ids].sort((left, right) => Number(left.slice(4)) - Number(right.slice(4))),
-      Array.from({ length: 32 }, (_, index) => `EXP#${index + 1}`)
+      Array.from({ length: 33 }, (_, index) => `EXP#${index + 1}`)
     );
 
     registry.articles.forEach(article => {
@@ -94,7 +94,7 @@ describe("artikelregistret", () => {
       .map(attributes)
       .filter(attrs => hasClass(attrs, "article-card") && attrs["data-exploration-id"]);
 
-    assert.equal(cards.length, 32);
+    assert.equal(cards.length, 33);
     assert.deepEqual(duplicateValues(cards.map(card => card["data-exploration-id"])), []);
     assert.deepEqual(duplicateValues(cards.map(card => card.href)), []);
 

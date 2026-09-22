@@ -330,6 +330,16 @@
       "toolbarSelector": ".toolbar",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#33",
+      "slug": "fitness-and-possibility",
+      "title": "What the Search Makes Possible",
+      "path": "fitness-and-possibility/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }

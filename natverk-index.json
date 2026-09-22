@@ -2,8 +2,27 @@
   "schemaVersion": 2,
   "releaseId": "20260817-network-7",
   "generatorVersion": "2.1.0",
-  "contentHash": "ad004bd3e8605161",
+  "contentHash": "0585e15e53ac354c",
   "artiklar": [
+    {
+      "slug": "fitness-and-possibility",
+      "id": "EXP#33",
+      "titel": "What the Search Makes Possible",
+      "amne": "Evolution Fitness Artificial Intelligence Agents Search Possibility",
+      "excerpt": "How goals, discovered opportunities and the methods that survive a search can reshape what AI agents do next.",
+      "datum": "September 22, 2026",
+      "lastid": "≈ 33 min read",
+      "ord": 3785,
+      "avsnitt": 14,
+      "nyckelord": [
+        "fitness",
+        "work",
+        "useful",
+        "model",
+        "procedure",
+        "system"
+      ]
+    },
     {
       "slug": "hugging-face-incident",
       "id": "EXP#32",
@@ -1351,6 +1370,23 @@
         "systemgräns",
         "agens",
         "medvetande"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-09-22",
+      "vikt": 1
+    },
+    {
+      "a": "fitness-and-possibility",
+      "b": "hugging-face-incident",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Den nya essän prövar fitness, handlingsmöjligheter och bevarade metoder som tolkningsram. Incidentessän ger samma händelses kronologi och evidens; analogin ersätter inte fallbeläggen.",
+      "terms": [
+        "AI-agenter",
+        "Hugging Face",
+        "mål",
+        "möjligheter",
+        "evidens"
       ],
       "reviewer": "gAIa VEP",
       "reviewedAt": "2026-09-22",
