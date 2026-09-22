@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "releaseId": "20260817-network-7",
-  "reviewedAt": "2026-08-17T11:20:00+02:00",
+  "reviewedAt": "2026-09-22",
   "reviewer": "gAIa VEP",
   "relations": [
     {"a":"cellular-respiration-demystified","b":"krebs-cycle","status":"reviewed","type":"same-phenomenon","reason":"Båda essäerna förklarar cellandningens energiflöde. Den ena ger helheten, medan den andra fördjupar citronsyracykeln och dess koppling till elektrontransportkedjan.","terms":["cellandning","citronsyracykeln","NADH","ATP"]},
@@ -47,6 +47,8 @@
     {"a":"instructional-material-architecture","b":"assessment-validity-reliability","status":"reviewed","type":"application","reason":"Läromedelsessän rekommenderar gemensamma mål, begrepp och bedömningslogik när stöd och fördjupning varierar. Bedömningsessän förklarar varför dessa gemensamma ankare behövs för giltiga och jämförbara slutsatser om elevkunnande.","terms":["bedömningslogik","validitet","differentiering","jämförbarhet"]},
     {"a":"the-frame-that-gives-time-back","b":"school-digitalisation","status":"reviewed","type":"method-evidence","reason":"Båda skiljer ett mediums egenskaper från lärande eller värde som utfall. Den nya essän granskar stillbild och video, medan digitaliseringsessän visar samma behov av uppgiftsnära jämförelser i skolans teknikdebatt.","terms":["mediejämförelse","lärande","uppgiftsmatchning","digitalisering"]},
     {"a":"the-frame-that-gives-time-back","b":"assessment-validity-reliability","status":"reviewed","type":"method-evidence","reason":"Stillbildsessäen visar att uppmärksamhet, igenkänning, förståelse och räckvidd är olika utfall. Bedömningsessän ger den allmänna mätlogiken bakom kravet att inte behandla skilda mått som samma värde.","terms":["mätvaliditet","uppmärksamhet","minne","räckvidd","värde"]},
-    {"a":"photography-and-reality","b":"the-frame-that-gives-time-back","status":"reviewed","type":"method-evidence","reason":"Båda skiljer fotografiets synliga form från vad betraktaren kan dra för slutsatser. Den nya essän prövar hur färg och lokala justeringar påverkar verklighetstrohet, medan stillbildsessäen undersöker vad den beständiga bilden gör möjligt.","terms":["fotografi","perception","tolkning","evidens"]}
+    {"a":"photography-and-reality","b":"the-frame-that-gives-time-back","status":"reviewed","type":"method-evidence","reason":"Båda skiljer fotografiets synliga form från vad betraktaren kan dra för slutsatser. Den nya essän prövar hur färg och lokala justeringar påverkar verklighetstrohet, medan stillbildsessäen undersöker vad den beständiga bilden gör möjligt.","terms":["fotografi","perception","tolkning","evidens"]},
+    {"a":"hugging-face-incident","b":"digital-biome","status":"reviewed","type":"application","reason":"Incidentessän prövar ekosystemanalogin mot dokumenterade delade resurser och agentinteraktioner, utan att göra dem till biologiskt liv.","terms":["agentinteraktion","delade resurser","ekosystemanalogi","systemgräns"]},
+    {"a":"hugging-face-incident","b":"ai-life-consciousness-system","status":"reviewed","type":"method-evidence","reason":"Incidentessän använder skillnaden mellan modell, körning och interagerande system och avgränsar vad beteendeloggar kan visa om agens och medvetande.","terms":["modell","agentkörning","systemgräns","agens","medvetande"]}
   ]
 }

@@ -66,7 +66,7 @@ test('responsivitetskontraktet täcker telefon, surfplatta och desktop', () => {
 test('den publicerade grafen har högst fem samband per nod och inga isolerade noder', () => {
   const network = JSON.parse(fs.readFileSync(path.join(root, 'natverk-index.json'), 'utf8'));
   const degree = {}; network.kanter.forEach(edge => { degree[edge.a]=(degree[edge.a]||0)+1; degree[edge.b]=(degree[edge.b]||0)+1; });
-  assert.equal(network.artiklar.length, 31); assert.equal(network.kanter.length, 44);
+  assert.equal(network.artiklar.length, 32); assert.equal(network.kanter.length, 46);
   network.artiklar.forEach(article => assert.ok(degree[article.slug] >= 1 && degree[article.slug] <= 5));
   assert.deepEqual([...new Set(network.kanter.map(edge => edge.status))], ['reviewed']);
 });

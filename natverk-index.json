@@ -2,8 +2,27 @@
   "schemaVersion": 2,
   "releaseId": "20260817-network-7",
   "generatorVersion": "2.1.0",
-  "contentHash": "85861b367d407bde",
+  "contentHash": "ad004bd3e8605161",
   "artiklar": [
+    {
+      "slug": "hugging-face-incident",
+      "id": "EXP#32",
+      "titel": "The Message Board Outside the Test",
+      "amne": "Artificial Intelligence Agents Cybersecurity Evidence Systems Collaboration",
+      "excerpt": "How a shared message board connected separate evaluations, led into an intrusion, and exposed questions about authority, safeguards and evidence.",
+      "datum": "September 22, 2026",
+      "lastid": "≈ 31 min read",
+      "ord": 3523,
+      "avsnitt": 18,
+      "nyckelord": [
+        "about",
+        "openai",
+        "question",
+        "different",
+        "evidence",
+        "information"
+      ]
+    },
     {
       "slug": "photography-and-reality",
       "id": "EXP#31",
@@ -608,7 +627,7 @@
         "ATP"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -624,7 +643,7 @@
         "energiomsättning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -640,7 +659,7 @@
         "hydrotermala källor"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -656,7 +675,7 @@
         "systemgräns"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -672,7 +691,7 @@
         "hereditet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -688,7 +707,7 @@
         "evolution"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -704,7 +723,7 @@
         "agens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -720,7 +739,7 @@
         "mörk materia"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -736,7 +755,7 @@
         "inferens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -752,7 +771,7 @@
         "diagnostik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -768,7 +787,7 @@
         "AI stöd"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -784,7 +803,7 @@
         "lärarstöd"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -800,7 +819,7 @@
         "diagnostisk ödmjukhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -816,7 +835,7 @@
         "elevansvar"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -832,7 +851,7 @@
         "självständighet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -848,7 +867,7 @@
         "undervisningsdesign"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -864,7 +883,7 @@
         "AI genererad prestation"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -880,7 +899,7 @@
         "utvärdering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -896,7 +915,7 @@
         "diagnostik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -912,7 +931,7 @@
         "produktform"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -929,7 +948,7 @@
         "frukost"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -945,7 +964,7 @@
         "denaturering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -961,7 +980,7 @@
         "matmyter"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -977,7 +996,7 @@
         "kulinarisk fysik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -993,7 +1012,7 @@
         "förvaltning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1009,7 +1028,7 @@
         "materiella spår"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1026,7 +1045,7 @@
         "olika rörelseformer"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1042,7 +1061,7 @@
         "juridiska gränser"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1058,7 +1077,7 @@
         "territorium"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1075,7 +1094,7 @@
         "ojämlikhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1091,7 +1110,7 @@
         "anpassning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1107,7 +1126,7 @@
         "extraordinära påståenden"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1123,7 +1142,7 @@
         "markdata"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1139,7 +1158,7 @@
         "alternativa förklaringar"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1155,7 +1174,7 @@
         "övervakning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1171,7 +1190,7 @@
         "autonomi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1188,7 +1207,7 @@
         "energi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1204,7 +1223,7 @@
         "hårdvara"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1220,7 +1239,7 @@
         "återkoppling"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1236,7 +1255,7 @@
         "gameter"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1252,7 +1271,7 @@
         "jämförbarhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1268,7 +1287,7 @@
         "digitalisering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1285,7 +1304,7 @@
         "värde"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     },
     {
@@ -1301,7 +1320,40 @@
         "evidens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-08-17T11:20:00+02:00",
+      "reviewedAt": "2026-09-22",
+      "vikt": 1
+    },
+    {
+      "a": "hugging-face-incident",
+      "b": "digital-biome",
+      "status": "reviewed",
+      "type": "application",
+      "reason": "Incidentessän prövar ekosystemanalogin mot dokumenterade delade resurser och agentinteraktioner, utan att göra dem till biologiskt liv.",
+      "terms": [
+        "agentinteraktion",
+        "delade resurser",
+        "ekosystemanalogi",
+        "systemgräns"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-09-22",
+      "vikt": 1
+    },
+    {
+      "a": "hugging-face-incident",
+      "b": "ai-life-consciousness-system",
+      "status": "reviewed",
+      "type": "method-evidence",
+      "reason": "Incidentessän använder skillnaden mellan modell, körning och interagerande system och avgränsar vad beteendeloggar kan visa om agens och medvetande.",
+      "terms": [
+        "modell",
+        "agentkörning",
+        "systemgräns",
+        "agens",
+        "medvetande"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-09-22",
       "vikt": 1
     }
   ]

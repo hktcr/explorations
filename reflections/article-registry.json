@@ -320,6 +320,16 @@
       "toolbarSelector": ".toolbar",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#32",
+      "slug": "hugging-face-incident",
+      "title": "The Message Board Outside the Test",
+      "path": "hugging-face-incident/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }
