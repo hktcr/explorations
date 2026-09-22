@@ -1,8 +1,8 @@
 (() => {
   "use strict";
 
-  const VERSION = "20260922-focus-score-2";
-  const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260922-focus-score-2", document.currentScript.src).href;
+  const VERSION = "20260922-focus-score-3";
+  const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260922-focus-score-3", document.currentScript.src).href;
   let readingMedia = null;
   let panelInvoker = null;
   const SEARCH_HIGHLIGHT = "explorations-reader-search";

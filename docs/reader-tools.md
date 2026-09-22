@@ -51,7 +51,8 @@ Bas/puls, mjuka plock, flöjtklang, klockklang och en trestämmig klangbotten de
 samma tonskala. Ingen VävR-motor eller ljudbibliotek laddas.
 
 `reader-focus-media.mjs` följer läspositionen. `reader-score-analysis.mjs` gör
-lokal analys och `reader-music-plan.mjs` skapar en liten notplan som
+lokal analys, `reader-motif-grammar.mjs` genererar teman och
+`reader-music-plan.mjs` skapar en liten notplan som
 `reader-soundscape.mjs` spelar. Dessa är delar av samma gemensamma läslager.
 
 Analysen är en regelbaserad musikalisk tolkning med svensk/engelsk ordlista,
@@ -77,7 +78,17 @@ har en marginal. Grundtonen och dokumentmotivet är stabila oavsett startpositio
 ### Melodisk form (VEP-förbättring 2026-09-22)
 
 En åttataktsbåge ger presentation, svar, varsam variation och hemkomst eller
-öppet avslut. Den bygger på ett dokumentmotiv. Textens menings-/styckelängd,
+öppet avslut. Temat genereras ur dokumentets identitet med begränsade intervall
+och en övervikt av stegvis rörelse; det väljs inte ur en lista med färdiga melodier.
+Tre tonankare håller ihop grundtemat. En kort dokumentstabil öppningscell hörs
+i början av bågen, medan avsnittets innehåll och bågens löpnummer utvecklar
+övriga tonvägar, rytmer, harmoniska vägar och instrumentens svar. Samma
+dokument, avsnitt och förlopp ger reproducerbart resultat. Variationsrymden är
+stor men ändlig; ingen garanti om evig unikhet eller musikalisk smak ges.
+Avsnittsidentiteten följer innehållet, inte styckets löpnummer. En ändrad
+dokumentversion kan därför få ett nytt grundtema.
+
+Textens menings-/styckelängd,
 avsnittsprofil, citat/slut och läsvila påverkar luft, artikulation och avslut.
 Plocket lämnar avsiktliga luckor åt två korta flöjtsvar i varannan takt.
 En lågmäld klockaccent kan komma i slutet av hela bågen. Genomgångstoner är
@@ -102,6 +113,9 @@ pågående fras med tidsbaserad utjämning. Befintlig uppläsning dämpar musikv
 - Högst två planerade takter och 64 nothändelser. Planer ersätts och släpps;
   ingen växande not-/scrollhistorik. Dessa JavaScript-objekt har ingen påstådd
   exakt heapstorlek. Media har högst en timer för scrollstabilisering/läsvila.
+- Temageneratorn använder en fast sökrymd (8 toner, 10 skalsteg och tre
+  språngbudgetar) och små tillfälliga arrayer. Ingen melodikatalog, växande
+  temahistorik eller extra ljudnod behövs när nya teman utvecklas.
 - Filtermål uppdateras högst en gång per slag och bara vid relevant skillnad;
   framtida automation ersätts med kontinuitetsbevarande omplanering där API finns.
 - Kort fördröjning med begränsad återkoppling; inga samplings-/reverbbuffertar.
@@ -120,6 +134,9 @@ Node-tester täcker textstruktur/negation/budget, musikaliska planer och verklig
 scheduler/notmetoder med kontrollerade ljudparametrar, alla tolv riktade
 modebyten vid fyra ackordpositioner, padkontinuitet, temporeservationer och
 asynkrona motor-/UI-race. De portabla testerna kräver inga extra paket.
+Variation provas på de faktiska ton-/rytmhändelserna efter ackordanpassning,
+liksom återkommande hörbar öppningscell, avsnittspåverkan, tillitsdämpning
+och mycket sena frascykler. Signatur-ID räknas inte som melodisk variation.
 
 Chrome-prov omfattar alla 32 essäer, 390/768/1024/1440 px, 18 val av
 progressstorlek/placering, touch, mörkt tema, reducerad rörelse, Escape och

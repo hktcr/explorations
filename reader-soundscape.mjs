@@ -1,10 +1,10 @@
 /* Explorations reading music: local analysis, an eight-bar motif and a fixed graph.
  * Inspired by VävR Hard Fork Fable 5.1.1. No samples or per-note audio nodes.
  */
-import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-score-2';
-import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260922-focus-score-2';
-export * from './reader-score-analysis.mjs?v=20260922-focus-score-2';
-export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260922-focus-score-2';
+import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-score-3';
+import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260922-focus-score-3';
+export * from './reader-score-analysis.mjs?v=20260922-focus-score-3';
+export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260922-focus-score-3';
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const midi = n => 440 * 2 ** ((n - 69) / 12);
 

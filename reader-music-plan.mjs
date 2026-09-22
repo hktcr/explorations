@@ -1,9 +1,15 @@
 /* A small score, not an audio graph. Two bars are planned at a time. */
-import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-score-2';
+import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-score-3';
+import { developTheme } from './reader-motif-grammar.mjs?v=20260922-focus-score-3';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-const MOTIFS = [[0, 2, 4], [0, 4, 2], [2, 1, 0], [4, 2, 0]];
-const PROGRESSION = [0, 0, 5, 5, 3, 4, 4, 0];
+const mixSeed = value => {
+  value = Math.imul(value ^ value >>> 16, 0x45d9f3b);
+  value = Math.imul(value ^ value >>> 16, 0x45d9f3b);
+  return (value ^ value >>> 16) >>> 0;
+};
+const stepTime = (step, beat) => (Math.floor(step / 2) * .5 + (step % 2 ? .26 : 0)) * beat;
+const choose = (items, seed) => items[(seed >>> 0) % items.length];
 
 export function scaleTone(tonic, mode, degree) {
   const scale = MODES[mode] || MODES.dorian;
@@ -45,44 +51,73 @@ const nearChord = (pitch, chord, min = 60, max = 88) => {
 };
 
 export function planBar({ bar, beat, tonic, mode, motifSeed = 0, profile = {}, pivot = false }) {
-  const phase = ((bar % 8) + 8) % 8;
-  const degree = PROGRESSION[phase];
+  const phase = ((bar % 8) + 8) % 8, cycle = Math.floor(bar / 8);
+  const sectionSeed = profile.sectionSeed ?? motifSeed;
+  const stamp = mixSeed((motifSeed >>> 0) ^ Math.imul(sectionSeed >>> 0, 0x9e3779b1) ^ Math.imul(cycle + 1, 0x85ebca6b));
+  const theme = developTheme({ documentSeed: motifSeed, sectionSeed, cycle, profile });
+  const energy = clamp(profile.energy ?? .32, 0, 1);
+  const air = clamp(profile.phraseSpace ?? .25, 0, 1);
+  const thought = clamp(profile.thought ?? .3, 0, 1);
+  const valence = (profile.valence || 0) * clamp(profile.confidence ?? .5, 0, 1);
+  // Functional destinations, with related routes selected by document/section
+  // and phrase cycle. Every chord is still derived from the active mode.
+  const progression = [0, choose([0, 0, 5], stamp), choose([3, 5, 1], stamp >>> 3),
+    choose(thought > .55 ? [1, 3, 5] : [3, 5, 0], stamp >>> 6),
+    choose(valence < -.2 ? [5, 3, 1] : [3, 1, 5], stamp >>> 9),
+    choose(energy > .55 ? [4, 4, 1] : [3, 4, 5], stamp >>> 12),
+    choose([4, 3, 4], stamp >>> 15), 0];
+  const degree = progression[phase];
   const chord = pivot ? [tonic, tonic + 7, tonic + 12] : chordPitches(tonic, mode, degree);
   const events = [];
   const add = (step, voice, pitch, duration, level, attack, role) => events.push({ step, voice, pitch, duration, level, attack, role });
-  // A pivot starts on the common tonic; the new bass waits for the old pad release.
   const bass = pivot ? tonic - 12 : scaleTone(tonic, mode, degree) - 12;
-  for (const step of pivot ? [8] : [4, 10]) add(step, 3, bass, beat * 1.25, .105, .045, 'bass');
+  const bassSteps = pivot ? [8] : air > .65 ? [4] : choose([[4, 10], [4, 11]], stamp + phase);
+  for (const step of bassSteps) add(step, 3, bass, beat * 1.25, .09 + energy * .025, .045, 'bass');
   if (pivot) return { bar, beat, chord, events };
 
-  const energy = clamp(profile.energy ?? .32, 0, 1);
-  const air = clamp(profile.phraseSpace ?? .25, 0, 1);
-  const sparse = air > .52 || profile.words > 100 || profile.readingRest;
+  const sparse = air > .58 || theme.density < .3 || profile.readingRest;
   const answering = phase % 2 === 1;
-  const rhythm = answering ? (sparse ? [0] : [0, 4]) : (sparse ? [0, 6] : [0, 4, 8]);
-  const motif = MOTIFS[(motifSeed >>> 0) % MOTIFS.length];
-  let lastPitch = tonic + 12;
+  const rhythmSeed = mixSeed(stamp ^ Math.imul(phase + 1, 0x27d4eb2d) ^ theme.rhythm[phase]);
+  const opening = phase === 0;
+  const rhythm = opening ? [0, 4, 8] : answering
+    ? (sparse ? [0] : choose([[0, 4], [0, 5]], rhythmSeed))
+    : (sparse ? choose([[0, 6], [0, 8]], rhythmSeed) : choose([[0, 4, 8], [0, 5, 9], [0, 6, 10]], rhythmSeed));
+  const registerShift = Math.sign(theme.registerOffset) * 2;
+  let lastPitch = tonic + 12, leadEnd = 0;
   rhythm.forEach((step, i) => {
-    // A / A' / B / A'': retain the contour, vary one arrival in the middle.
-    let melodicDegree = motif[i % 3] + 7;
-    if (phase === 4 || phase === 5) melodicDegree += i === rhythm.length - 1 ? 1 : 0;
-    if (phase >= 6 && i === rhythm.length - 1) melodicDegree = 7 + (profile.cadence >= .5 ? 0 : 4);
+    // Unfold all eight theme degrees across the phrase; three document anchors
+    // survive section and cycle development inside the generator.
+    const index = (phase * 2 + i) % theme.degrees.length;
+    let melodicDegree = opening ? theme.openingDegrees[i] + 7 : clamp(theme.degrees[index] + 7 + registerShift, 5, 16);
+    if (phase === 7 && i === rhythm.length - 1) melodicDegree = profile.cadence >= .5 ? 7 : 11;
     let pitch = scaleTone(tonic, mode, melodicDegree);
-    if (i === 0 || i === rhythm.length - 1) pitch = nearChord(pitch, chord, tonic + 10, tonic + 24);
+    // Present the document's opening cell before adapting its final arrival.
+    // This keeps the audible identity intact through chord projection elsewhere.
+    if ((!opening && i === 0) || i === rhythm.length - 1) pitch = nearChord(pitch, chord, tonic + 8, tonic + 28);
+    // Intentional late ornaments may rest, while the first and last anchors remain.
+    if (!opening && i > 0 && i < rhythm.length - 1 && index === theme.restIndex) return;
+    const weight = opening ? theme.openingRhythm[i] : theme.rhythm[index];
+    const duration = beat * (sparse ? 1.25 + weight * .06 : .72 + weight * .1);
     lastPitch = pitch;
-    add(step, 4 + i % 2, pitch, beat * (sparse ? 1.5 : 1.15), .06 + energy * .024, .018, 'pluck');
+    leadEnd = Math.max(leadEnd, stepTime(step, beat) + duration);
+    add(step, 4 + i % 2, pitch, duration, .052 + energy * .03 + (i === 0 ? .004 : 0), .018, 'pluck');
   });
   if (answering) {
-    // Reply to the lead's last actual pitch. The lead is silent for the reply.
-    const direction = motif[2] >= motif[0] ? -2 : 2;
-    const reply = nearChord(lastPitch + direction, chord, tonic + 10, tonic + 24);
-    const landing = phase === 7 ? tonic + (profile.cadence >= .5 ? 12 : 19) : nearChord(reply - 2, chord, tonic + 10, tonic + 24);
-    add(9, 6, reply, beat * .75, .036, Math.min(.18, beat * .3), 'flute');
-    add(13, 7, landing, beat * .6, .03, Math.min(.16, beat * .25), 'flute');
+    const motion = theme.contour[(phase * 2 + 1) % theme.contour.length] || 1;
+    const direction = theme.answerShape === 'echo' ? 0 : theme.answerShape === 'contrary' ? -motion * 2 : theme.answerShape === 'arc' ? 2 : -2;
+    const reply = nearChord(lastPitch + direction, chord, tonic + 8, tonic + 28);
+    const landing = phase === 7 ? tonic + (profile.cadence >= .5 ? 12 : 19)
+      : nearChord(reply + (theme.answerShape === 'arc' ? -2 : direction), chord, tonic + 8, tonic + 28);
+    const firstStep = [9, 10, 11].find(step => step >= 9 + rhythmSeed % 3 && stepTime(step, beat) >= leadEnd + beat * .08) ?? 11;
+    const duration = Math.min(beat * .8, stepTime(13, beat) - stepTime(firstStep, beat) - beat * .14);
+    if (!sparse || phase === 3 || phase === 7) add(firstStep, 6, reply, duration, .029 + energy * .009, Math.min(.15, duration * .4), 'flute');
+    add(13, 7, landing, beat * (.5 + theme.rhythm[phase] * .03), .027 + (profile.space ?? .22) * .007, .11, 'flute');
   }
-  // One optional, quiet structural accent per whole phrase, on a shared tone.
-  if (phase === 7 && profile.cadence >= .65 && !profile.readingRest) add(14, 8, tonic + 24, beat * 1.5, .022, .025, 'bell');
-  if (energy > .55 && !sparse && !answering) add(0, 10, bass - 12, .18, .034, .015, 'pulse');
+  // The bell marks occasional structural arrivals; it does not narrate every paragraph.
+  if ((phase === 7 && profile.cadence >= .65 || phase === 3 && profile.role === 'quote') && !profile.readingRest && (stamp % 3 !== 0)) {
+    add(14, 8 + cycle % 2, tonic + (profile.space > .6 ? 31 : 24), beat * 1.3, .019 + energy * .008, .025, 'bell');
+  }
+  if (energy > .55 && !sparse && !answering && (stamp + phase) % 3) add(0, 10, bass - 12, .18, .032, .015, 'pulse');
   events.sort((a, b) => a.step - b.step || a.voice - b.voice);
   return { bar, beat, chord, events };
 }

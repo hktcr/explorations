@@ -64,10 +64,10 @@ test('explicit Swedish and English forms preserve cue direction without broad st
 });
 
 test('blending keeps the current block identity while interpolating only cue values', () => {
-  const element = {}, current = { ...describeText('hope'), element, seed: 12, words: 90, role: 'quote', sectionId: 2, cadence: .6 };
-  const next = { ...describeText('war'), element: {}, seed: 99, words: 101, role: 'table', sectionId: 3, cadence: .1 };
+  const element = {}, current = { ...describeText('hope'), element, seed: 12, words: 90, role: 'quote', sectionId: 2, sectionSeed: 34107, cadence: .6 };
+  const next = { ...describeText('war'), element: {}, seed: 99, words: 101, role: 'table', sectionId: 3, sectionSeed: 70132, cadence: .1 };
   const mixed = blendProfiles(current, next, .25);
-  for (const key of ['element', 'seed', 'words', 'role', 'sectionId', 'cadence']) assert.equal(mixed[key], current[key]);
+  for (const key of ['element', 'seed', 'words', 'role', 'sectionId', 'sectionSeed', 'cadence']) assert.equal(mixed[key], current[key]);
   assert.equal(mixed.valence, current.valence * .75 + next.valence * .25);
 });
 
@@ -135,6 +135,11 @@ test('neighbour smoothing is symmetric rather than feeding processed profiles in
 test('block, section and character budgets hold, single-block truncation is disclosed and abort is honoured', async () => {
   const many = await analyseDocument(article(...Array.from({ length: MAX_BLOCKS + 2 }, () => el('h2', 'A'))), 'Report');
   assert.equal(many.blocks.length, MAX_BLOCKS); assert.equal(many.sections.length, MAX_BLOCKS); assert.equal(many.limited, true);
+  for (const block of many.blocks) {
+    assert.ok(Number.isInteger(block.sectionSeed) && block.sectionSeed >= 0 && block.sectionSeed <= 0xffffffff);
+    assert.equal(block.sectionSeed, many.sections[block.sectionId].sectionSeed);
+    assert.equal('text' in block, false); assert.equal('tokens' in block, false);
+  }
   const large = await analyseDocument(article(...Array.from({ length: 50 }, () => el('p', 'word '.repeat(3200)))), 'Report');
   assert.ok(large.characters <= MAX_CHARACTERS); assert.equal(large.limited, true);
   const one = await analyseDocument(article(el('p', 'word '.repeat(5000))), 'Report');
@@ -148,4 +153,21 @@ test('document motif seed is reproducible and profile output stays finite for em
   const a = await analyseDocument(root, 'Report'), b = await analyseDocument(root, 'Report');
   assert.equal(a.global.seed, b.global.seed);
   for (const profile of [a.global, ...a.blocks, ...a.sections]) for (const value of Object.values(numeric(profile))) assert.ok(Number.isFinite(value));
+});
+
+test('section seeds follow actual section content within a document, not position or mood bins', async () => {
+  const firstText = 'A copper vessel stands beside a wooden table.';
+  const secondText = 'A silver vessel stands beside a wooden table.';
+  assert.deepEqual(numeric(describeText(firstText)), numeric(describeText(secondText)));
+  const root = article(el('h2', 'Vessels'), el('p', firstText),
+    el('h2', 'Vessels'), el('p', secondText),
+    el('h2', 'Vessels'), el('p', firstText));
+  const a = await analyseDocument(root, 'A report'), b = await analyseDocument(root, 'A report');
+  assert.deepEqual(a.sections.map(section => section.sectionSeed), b.sections.map(section => section.sectionSeed));
+  assert.equal(a.sections[0].sectionSeed, a.sections[2].sectionSeed, 'same content at another position retains identity');
+  assert.notEqual(a.sections[0].sectionSeed, a.sections[1].sectionSeed, 'different text with the same cue values has another identity');
+  for (const block of a.blocks) assert.equal(block.sectionSeed, a.sections[block.sectionId].sectionSeed);
+  const anotherDocument = await analyseDocument(root, 'Another report');
+  assert.notEqual(a.global.seed, anotherDocument.global.seed);
+  assert.notEqual(a.sections[0].sectionSeed, anotherDocument.sections[0].sectionSeed, 'the document seed also participates');
 });

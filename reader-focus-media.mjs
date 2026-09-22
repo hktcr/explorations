@@ -1,4 +1,4 @@
-import { analyseDocument, ReadingOrchestra, MODE_LABELS, BLOCK_SKIP, readingFraction, blendProfiles } from './reader-soundscape.mjs?v=20260922-focus-score-2';
+import { analyseDocument, ReadingOrchestra, MODE_LABELS, BLOCK_SKIP, readingFraction, blendProfiles } from './reader-soundscape.mjs?v=20260922-focus-score-3';
 
 const STORAGE = 'explorationsFocusMediaV1';
 const SIZES = ['small', 'medium', 'large'];
@@ -117,7 +117,7 @@ export function installReadingMedia({ article, panel, progress }, {
       valence: mixed.valence, energy: mixed.energy, space: mixed.space, thought: mixed.thought,
       mode: mixed.mode, seed: block.seed, motifSeed: score.global.seed,
       words: block.words, heading: block.heading, role: block.role, sectionId: block.sectionId,
-      sectionProgress: block.sectionProgress, cadence: block.cadence, confidence: block.confidence,
+      sectionSeed: block.sectionSeed, sectionProgress: block.sectionProgress, cadence: block.cadence, confidence: block.confidence,
       phraseSpace: Math.min(1, (block.phraseSpace || 0) + (resting ? .12 : 0)), tonic: score.global.tonic
     };
   };

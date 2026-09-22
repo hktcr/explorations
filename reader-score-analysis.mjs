@@ -153,8 +153,14 @@ export async function analyseDocument(article, title = '', signal) {
   const global = blendProfiles(meanProfile(aggregate, titleProfile), titleProfile, .18);
   global.seed = fingerprint(title.slice(0, MAX_BLOCK_CHARACTERS) + ':' + blocks.map(block => block.seed).join(','));
   global.tonic = [48, 50, 52, 53, 55, 57][global.seed % 6];
-  const sectionProfiles = sections.map(part => ({ id: part.id, start: part.start, end: part.end,
-    ...blendProfiles(meanProfile(part, titleProfile), global, .15) }));
+  const sectionProfiles = sections.map(part => {
+    // Content identity within this document, independent of position or mood bins.
+    // Mix existing uint32 block hashes; no source text or extra sequence is retained.
+    let sectionSeed = fingerprint(`section:${global.seed}`);
+    for (let i = part.start; i <= part.end; i++) sectionSeed = Math.imul(sectionSeed ^ blocks[i].seed, 16777619) >>> 0;
+    return { id: part.id, start: part.start, end: part.end, sectionSeed,
+      ...blendProfiles(meanProfile(part, titleProfile), global, .15) };
+  });
   // Read only original profiles. Never feed an already smoothed predecessor back.
   const originals = blocks.map(block => ({ ...block }));
   for (const part of sectionProfiles) {
@@ -170,7 +176,7 @@ export async function analyseDocument(article, title = '', signal) {
         : clamp((wordsBefore + (block.heading ? 0 : block.words * .5)) / Math.max(1, part.words));
       Object.assign(block, blendProfiles(global, local, .78), {
         element: original.element, words: original.words, seed: original.seed, heading: original.heading,
-        role: original.role, sectionId: part.id, sectionProgress: progress,
+        role: original.role, sectionId: part.id, sectionSeed: part.sectionSeed, sectionProgress: progress,
         cadence: block.heading ? .2 : i === part.end ? .85 : block.role === 'quote' ? .6 : .12
       });
       block.phraseSpace = clamp(block.phraseSpace + (block.role === 'quote' ? .12 : 0) + (i === part.end && !block.heading ? .1 : 0));
