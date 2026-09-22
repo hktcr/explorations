@@ -1,111 +1,12 @@
-/* Explorations: a bounded, local reading score. Musical interpretation, not sentiment fact.
- * Inspiration: VävR Hard Fork reborn Fable 5.1.1 (motivic identity, harmonic worlds,
- * shared harmony and strict resource budgets), plus melodic answering voices.
- * No VävR engine, sample library, network analysis or per-note audio nodes are loaded.
+/* Explorations reading music: local analysis, an eight-bar motif and a fixed graph.
+ * Inspired by VävR Hard Fork Fable 5.1.1. No samples or per-note audio nodes.
  */
-export const MODES = Object.freeze({
-  major: [0, 2, 4, 5, 7, 9, 11], minor: [0, 2, 3, 5, 7, 8, 10],
-  dorian: [0, 2, 3, 5, 7, 9, 10], lydian: [0, 2, 4, 6, 7, 9, 11]
-});
-export const MODE_LABELS = { major: 'dur', minor: 'moll', dorian: 'dorisk', lydian: 'lydisk' };
-export const MAX_BLOCKS = 1600;
-export const MAX_CHARACTERS = 600000;
+import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-score-2';
+import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260922-focus-score-2';
+export * from './reader-score-analysis.mjs?v=20260922-focus-score-2';
+export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260922-focus-score-2';
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
-const words = text => text.toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
-const dictionary = entries => new Set(entries.split(' '));
-const lexicon = {
-  light: dictionary('hope hopeful joy love care trust possibility possibilities discovery discover beauty beautiful recovery recover freedom success resilient wonder creative creativity connection healing compassion hopp glädje kärlek omsorg tillit möjlighet upptäckt skönhet återhämtning frihet läkning gemenskap'),
-  dark: dictionary('loss grief death dying violence war failure failed fear harm harmful suffering pain abuse danger crisis threat threats attack attacks breach exploit intrusion injustice loneliness doubt sorrow förlust sorg död våld krig rädsla skada lidande smärta hot kris intrång orättvisa ensamhet'),
-  motion: dictionary('urgent sudden rapidly rapid conflict change changes action struggle acceleration attack breakthrough transformation tension quickly urgency plötsligt snabbt konflikt förändring handling kamp genombrott omvandling spänning'),
-  space: dictionary('ocean sea sky stars space universe silence memory memories landscape night dream dreams time distance forest nature light consciousness hav himmel stjärnor rymd universum tystnad minne landskap natt dröm tid skog natur ljus medvetande'),
-  reason: dictionary('evidence research study studies analysis data method methods theory experiment results system systems model models probability however uncertainty question questions argument philosophy evidence forskning studie analys metod teori resultat modell osäkerhet fråga argument filosofi')
-};
-const negations = dictionary('not no never without neither inte ingen aldrig utan inga inget');
-
-export function fingerprint(text) {
-  let hash = 2166136261;
-  for (let i = 0; i < text.length; i++) hash = Math.imul(hash ^ text.charCodeAt(i), 16777619);
-  return hash >>> 0;
-}
-
-export function describeText(text) {
-  const tokens = words(text.slice(0, 16000));
-  const counts = { light: 0, dark: 0, motion: 0, space: 0, reason: 0 };
-  tokens.forEach((word, i) => {
-    const negated = tokens.slice(Math.max(0, i - 3), i).some(t => negations.has(t));
-    for (const key of Object.keys(counts)) {
-      if (lexicon[key].has(word)) counts[key] += negated ? -.45 : 1;
-    }
-  });
-  const mass = Math.max(3, Math.sqrt(tokens.length) * .65);
-  return {
-    valence: clamp((counts.light - counts.dark) / mass, -1, 1),
-    energy: clamp(.32 + counts.motion / mass * .3 + Math.min(3, (text.match(/!/g) || []).length) * .035),
-    space: clamp(.22 + counts.space / mass * .45),
-    thought: clamp(.3 + counts.reason / mass * .45 + Math.min(4, (text.match(/\?/g) || []).length) * .04),
-    words: tokens.length, seed: fingerprint(text)
-  };
-}
-
-export function modeFor(profile) {
-  if (profile.valence < -.13) return 'minor';
-  if (profile.valence > .18) return profile.space > .5 ? 'lydian' : 'major';
-  return profile.space > .56 ? 'lydian' : 'dorian';
-}
-
-export function blendProfiles(a, b, weight) {
-  const out = { ...b };
-  for (const key of ['valence', 'energy', 'space', 'thought']) out[key] = a[key] * (1 - weight) + b[key] * weight;
-  out.mode = modeFor(out);
-  return out;
-}
-
-export const BLOCK_SKIP = 'nav,footer,aside,script,style,[data-xr-reader-ui],[data-engagement-asset],.references,.sources,.source-item,.bibliography,.toc,#toc,.table-of-contents,#references,#sources,.related-essays';
-
-// Bound the element references and retained profiles; text is discarded after each chunk.
-export async function analyseDocument(article, title = '', signal) {
-  const blocks = [];
-  const walker = article.ownerDocument.createTreeWalker(article, 1);
-  let element, characters = 0, heading = describeText(title), processed = 0;
-  const aggregate = { valence: 0, energy: 0, space: 0, thought: 0, words: 0, seed: fingerprint(title) };
-  while ((element = walker.nextNode()) && blocks.length < MAX_BLOCKS && characters < MAX_CHARACTERS) {
-    if (signal?.aborted) throw new DOMException('Analysis cancelled', 'AbortError');
-    if (!element.matches('h1,h2,h3,h4,p,li,blockquote,pre') || element.closest(BLOCK_SKIP)) continue;
-    if (element.matches('li,blockquote') && element.querySelector('p,li')) continue;
-    const text = (element.textContent || '').trim().slice(0, Math.min(16000, MAX_CHARACTERS - characters));
-    if (text.length < 15) continue;
-    characters += text.length;
-    const raw = describeText(text);
-    const isHeading = /^H[1-4]$/.test(element.tagName);
-    if (isHeading) heading = raw;
-    const profile = blendProfiles(raw, heading, isHeading ? 0 : .2);
-    const weight = Math.min(180, raw.words) * (isHeading ? 2 : 1);
-    for (const key of ['valence', 'energy', 'space', 'thought']) aggregate[key] += raw[key] * weight;
-    aggregate.words += weight;
-    blocks.push({ element, ...profile, words: raw.words, seed: raw.seed, heading: isHeading });
-    if (++processed % 24 === 0) await new Promise(resolve => setTimeout(resolve, 0));
-  }
-  for (const key of ['valence', 'energy', 'space', 'thought']) aggregate[key] = aggregate.words ? aggregate[key] / aggregate.words : describeText(title)[key];
-  const global = blendProfiles(aggregate, describeText(title), .18);
-  global.seed = fingerprint(title + ':' + blocks.map(b => b.seed).join(','));
-  global.tonic = [48, 50, 52, 53, 55, 57][global.seed % 6];
-  blocks.forEach((block, i) => {
-    let local = blendProfiles(block, blocks[Math.max(0, i - 1)], .15);
-    local = blendProfiles(local, blocks[Math.min(blocks.length - 1, i + 1)], .15);
-    Object.assign(block, blendProfiles(global, local, .72), { element: block.element, words: block.words, seed: block.seed, heading: block.heading });
-  });
-  return { global, blocks, limited: blocks.length === MAX_BLOCKS || characters >= MAX_CHARACTERS };
-}
-
-export function readingFraction(top, bottom, viewport, scrollY, offset = 80) {
-  const start = Math.max(0, top - offset);
-  const end = Math.max(start, bottom - viewport + 28);
-  if (end <= start) return bottom <= scrollY + viewport ? 1 : 0;
-  return clamp((scrollY - start) / (end - start));
-}
-
 const midi = n => 440 * 2 ** ((n - 69) / 12);
-const MOTIFS = [[0, 2, 4, 3, 2, 0, 1, 4], [0, 4, 5, 4, 2, 1, 2, 0], [2, 3, 4, 6, 5, 4, 2, 1], [4, 2, 1, 0, 2, 4, 3, 0]];
 
 // Fixed pool: 3 pad + bass + 2 pluck + 2 flute + 2 bell + pulse = 11 sources.
 // One scheduler, <=4 steps/tick, 120 ms lookahead, no per-note nodes or retained history.
@@ -122,6 +23,8 @@ export class ReadingOrchestra {
     this.volume = .25;
     this.ducked = false;
     this.step = 0;
+    this.plans = [];
+    this.closeFailed = false;
   }
 
   async start(profile) {
@@ -135,6 +38,14 @@ export class ReadingOrchestra {
       this.lastModeBar = -4;
       this.pivotBar = -1;
       this.targetSince = ctx.currentTime;
+      this.candidateMode = profile.mode;
+      this.candidateSince = ctx.currentTime;
+      this.current.motifSeed = profile.motifSeed ?? profile.seed;
+      this.plans = [];
+      this.lastAt = null;
+      this.padPitches = null;
+      this.lastFilter = null;
+      this.closeFailed = false;
       this.step = 0;
       this.buildGraph();
       await ctx.resume();
@@ -146,6 +57,8 @@ export class ReadingOrchestra {
       this.timer = setInterval(() => this.tick(), 40);
       return true;
     } catch (error) {
+      // A rejected old resume must not shut down a newer session.
+      if (this.generation !== generation || this.context !== ctx) return false;
       await this.stop(true);
       throw error;
     }
@@ -182,15 +95,30 @@ export class ReadingOrchestra {
 
   setTarget(profile) {
     if (!this.context || !profile) return;
-    if (profile.seed !== this.target.seed) this.targetSince = this.context.currentTime;
-    this.target = { ...profile, tonic: this.current.tonic };
+    if (!this.current || this.closing) return;
+    let candidate = MODES[profile.mode] ? profile.mode : this.mode;
+    // Cue coverage is not semantic certainty. Weak evidence and values close
+    // to a boundary may colour the sound without repeatedly changing its mode.
+    if (Number.isFinite(profile.confidence) && profile.confidence < .1) candidate = this.mode;
+    if (candidate === 'dorian') {
+      if (this.mode === 'minor' && profile.valence < -.09) candidate = 'minor';
+      if (this.mode === 'major' && profile.valence > .13) candidate = 'major';
+      if (this.mode === 'lydian' && profile.space > .52 && profile.valence >= -.09) candidate = 'lydian';
+    }
+    if (candidate !== this.candidateMode) {
+      this.candidateMode = candidate;
+      this.candidateSince = this.context.currentTime;
+    }
+    this.targetSince = this.candidateSince;
+    this.target = { ...profile, mode: candidate, tonic: this.current.tonic, motifSeed: this.current.motifSeed };
   }
 
   setVolume(value) {
     this.volume = clamp(Number(value) || 0);
     if (this.master && !this.closing) {
       const time = this.context.currentTime;
-      this.master.gain.cancelScheduledValues(time);
+      if (this.master.gain.cancelAndHoldAtTime) this.master.gain.cancelAndHoldAtTime(time);
+      else this.master.gain.cancelScheduledValues(time);
       this.master.gain.setTargetAtTime(this.volume * (this.ducked ? .22 : 1), time, .3);
     }
   }
@@ -199,7 +127,7 @@ export class ReadingOrchestra {
 
   note(index, pitch, at, duration, level, attack = .03) {
     const voice = this.voices[index];
-    if (!voice || at < voice.until) return;
+    if (!voice || at + 1e-7 < voice.until) return false;
     const gain = voice.gain.gain;
     gain.cancelScheduledValues(at);
     gain.setValueAtTime(0, at);
@@ -209,61 +137,101 @@ export class ReadingOrchestra {
     gain.exponentialRampToValueAtTime(.0001, at + duration);
     gain.setValueAtTime(0, at + duration + .01);
     voice.until = at + duration + .02;
+    return true;
   }
 
-  pads(at, root, scale, pivot) {
-    const chord = pivot ? [0, 7, 12] : [0, scale[2], 7];
-    chord.forEach((degree, i) => {
+  padLevel(voice, at) {
+    const points = voice.envelope;
+    if (!points?.length) return 0;
+    if (at <= points[0][0]) return points[0][1];
+    for (let i = 1; i < points.length; i++) {
+      if (at <= points[i][0]) {
+        const [t0, v0] = points[i - 1], [t1, v1] = points[i];
+        return v0 + (v1 - v0) * (at - t0) / Math.max(.0001, t1 - t0);
+      }
+    }
+    return points.at(-1)[1];
+  }
+
+  pads(at, pitches) {
+    const chord = voiceLeading(this.padPitches, pitches);
+    const level = .032 + this.current.space * .012;
+    chord.forEach((pitch, i) => {
       const voice = this.voices[i], gain = voice.gain.gain;
+      if (voice.pitch === pitch && Math.abs((voice.level || 0) - level) < .001) return;
+      const from = this.padLevel(voice, at);
       gain.cancelScheduledValues(at);
-      gain.setValueAtTime(voice.level, at);
-      gain.linearRampToValueAtTime(0, at + .9);
-      voice.oscillator.frequency.cancelScheduledValues(at);
-      voice.oscillator.frequency.setValueAtTime(midi(root + degree), at + .92);
-      voice.level = .034 + this.current.space * .016;
-      gain.linearRampToValueAtTime(voice.level, at + 2.2);
+      gain.setValueAtTime(from, at);
+      if (voice.pitch === pitch) {
+        gain.linearRampToValueAtTime(level, at + .7);
+        voice.envelope = [[at, from], [at + .7, level]];
+      } else {
+        // Hold exact zero around the frequency change; never retune on an attack.
+        gain.linearRampToValueAtTime(0, at + .32);
+        gain.setValueAtTime(0, at + .36);
+        voice.oscillator.frequency.cancelScheduledValues(at);
+        voice.oscillator.frequency.setValueAtTime(midi(pitch), at + .34);
+        gain.linearRampToValueAtTime(level, at + 1.25);
+        voice.envelope = [[at, from], [at + .32, 0], [at + .36, 0], [at + 1.25, level]];
+      }
+      voice.pitch = pitch;
+      voice.level = level;
     });
+    this.padPitches = chord;
+  }
+
+  planPair(bar, at) {
+    const p = this.current;
+    const candidate = this.candidateMode ?? this.target.mode;
+    const since = this.candidateSince ?? this.targetSince ?? 0;
+    let pivot = false;
+    if (candidate !== this.mode && MODES[candidate] && bar - this.lastModeBar >= 2 && at - since >= 1.5) {
+      this.mode = candidate;
+      this.lastModeBar = bar;
+      this.pivotBar = bar;
+      pivot = true;
+    }
+    // Lock time and role decisions for two bars. Later tempo targets cannot
+    // move an already reserved attack earlier and break the voice budget.
+    const beat = 60 / clamp(82 + p.energy * 30 - p.thought * 8, 74, 112);
+    const profile = { ...this.target, energy: p.energy, space: p.space, thought: p.thought };
+    const motifSeed = p.motifSeed ?? p.seed;
+    this.plans = [0, 1].map(offset => planBar({ bar: bar + offset, beat, tonic: p.tonic, mode: this.mode, motifSeed, profile, pivot: pivot && offset === 0 }));
+    if (this.plans.reduce((count, plan) => count + plan.events.length, 0) > 64) throw new Error('Reading score exceeded its event budget');
   }
 
   schedule(at) {
     const step = this.step % 16, bar = Math.floor(this.step / 16);
     const p = this.current;
-    for (const key of ['energy', 'space', 'thought', 'valence']) p[key] += (this.target[key] - p[key]) * .028;
-    if (step === 0 && this.target.mode !== this.mode && bar - this.lastModeBar >= 2 && at - this.targetSince >= 1.5) {
-      this.mode = this.target.mode; this.lastModeBar = bar; this.pivotBar = bar;
+    const dt = this.lastAt == null ? 0 : Math.max(0, at - this.lastAt);
+    const mix = 1 - Math.exp(-dt / 2.5);
+    for (const key of ['energy', 'space', 'thought', 'valence']) p[key] += (this.target[key] - p[key]) * mix;
+    this.lastAt = at;
+    if (!this.plans.length || (step === 0 && !this.plans.some(plan => plan.bar === bar))) this.planPair(bar, at);
+    const plan = this.plans.find(plan => plan.bar === bar);
+    if (step === 0) this.pads(at, plan.chord);
+    // At most four filter updates per bar; replace future automation rather
+    // than accumulating an event on every sixteenth note indefinitely.
+    if (step % 4 === 0) {
+      const frequency = 1500 + p.energy * 1500 + p.space * 650;
+      if (this.lastFilter == null || Math.abs(frequency - this.lastFilter) > 4) {
+        const parameter = this.filter.frequency;
+        if (parameter.cancelAndHoldAtTime) parameter.cancelAndHoldAtTime(at);
+        else parameter.cancelScheduledValues(at);
+        parameter.setTargetAtTime(frequency, at, 1.2);
+        this.lastFilter = frequency;
+      }
     }
-    const pivot = this.pivotBar === bar;
-    const scale = MODES[this.mode] || MODES.dorian;
-    const progression = [0, 5, 3, 4];
-    const chordDegree = progression[Math.floor(bar / 2) % progression.length];
-    const root = p.tonic + scale[chordDegree];
-    const tone = degree => p.tonic + scale[((degree % 7) + 7) % 7] + 12 * Math.floor(degree / 7);
-    const beat = 60 / (82 + p.energy * 30 - p.thought * 8);
-    this.filter.frequency.setTargetAtTime(1500 + p.energy * 1800 + p.space * 700, at, 2);
-    if (step === 0) this.pads(at, root, [0, 0, scale[(chordDegree + 2) % 7] + (chordDegree + 2 >= 7 ? 12 : 0) - scale[chordDegree]], pivot);
-    if (step === 0 || step === 8 || (step === 11 && p.energy > .58)) this.note(3, root - 12, at, beat * 1.35, .12, .04);
-    if ([0, 8].includes(step) && p.energy > .38) this.note(10, root - 24, at, .2, .055, .012);
-    const motif = MOTIFS[p.seed % MOTIFS.length];
-    const longParagraph = this.target.words > 100;
-    const rhythm = longParagraph ? [0, 6, 10] : [0, 3, 6, 10, 14];
-    if (!pivot && rhythm.includes(step)) {
-      const index = rhythm.indexOf(step);
-      const variation = bar % 8 >= 4 ? 1 : 0;
-      const degree = motif[(index + Math.floor(bar / 2)) % motif.length] + variation;
-      this.note(4 + index % 2, tone(degree + 7), at, beat * 1.25, .065 + p.energy * .03, .012);
+    for (const event of plan.events) {
+      if (event.step !== step) continue;
+      this.note(event.voice, event.pitch, at, event.duration, event.level, event.attack);
     }
-    // Answer the motif with breath and space; both instruments share the same harmony.
-    if (!pivot && bar % 4 >= 2 && [2, 9].includes(step)) {
-      const degree = motif[(bar + (step === 9 ? 2 : 0)) % motif.length];
-      this.note(6 + (step === 9 ? 1 : 0), tone(degree + 7), at, beat * (longParagraph ? 2.5 : 1.8), .043, .3);
-    }
-    if (!pivot && step === 12 && (bar % 4 === 3 || (this.target.heading && bar % 2 === 1))) this.note(8 + bar % 2, tone(chordDegree + 14), at, beat * 2.7, .045, .018);
     this.step++;
-    return beat / 4 * (step % 2 ? .96 : 1.04);
+    return plan.beat / 4 * (step % 2 ? .96 : 1.04);
   }
 
   tick() {
-    if (!this.context || this.closing || this.context.state !== 'running') return;
+    if (!this.context || !this.current || this.closing || this.closeFailed || this.context.state !== 'running') return;
     const now = this.context.currentTime;
     if (this.nextAt < now - .12) this.nextAt = now + .04; // Never replay a backlog after throttling.
     let count = 0;
@@ -286,19 +254,36 @@ export class ReadingOrchestra {
         this.finishStop = null;
         for (const voice of this.voices) { try { voice.oscillator.stop(); } catch {} }
         for (const node of this.nodes) { try { node.disconnect(); } catch {} }
-        this.nodes.length = 0; this.voices.length = 0;
-        this.context = null; this.master = null; this.filter = null; this.current = null; this.target = null;
-        Promise.resolve(ctx.close()).catch(() => {}).then(resolve);
+        this.nodes.length = 0; this.voices.length = 0; this.plans.length = 0;
+        this.master = null; this.filter = null; this.current = null; this.target = null;
+        this.padPitches = null;
+        // Retain ownership until close really succeeds. A failed close blocks
+        // allocation of a second context and remains visible in diagnostics/UI.
+        let closing;
+        try { closing = ctx.close(); } catch (error) { closing = Promise.reject(error); }
+        Promise.resolve(closing).then(() => {
+          this.context = null; this.closeFailed = false;
+        }, () => {
+          this.closeFailed = ctx.state !== 'closed';
+          this.context = this.closeFailed ? ctx : null;
+        }).then(resolve);
       };
-      if (immediate || ctx.state !== 'running') this.finishStop();
+      if (immediate || ctx.state !== 'running' || !master) this.finishStop();
       else {
-        master.gain.cancelScheduledValues(ctx.currentTime);
-        master.gain.setTargetAtTime(0, ctx.currentTime, .07);
+        const now = ctx.currentTime;
+        if (master.gain.cancelAndHoldAtTime) master.gain.cancelAndHoldAtTime(now);
+        else master.gain.cancelScheduledValues(now);
+        master.gain.setTargetAtTime(0, now, .07);
         this.shutdownTimer = setTimeout(() => this.finishStop?.(), 350);
       }
     }).finally(() => { this.closing = null; });
     return this.closing;
   }
 
-  stats() { return { contexts: Number(Boolean(this.context)), sources: this.voices.length, nodes: this.nodes.length, schedulers: Number(this.timer !== null), closing: Boolean(this.closing), step: this.step, mode: this.mode }; }
+  stats() {
+    return { contexts: Number(Boolean(this.context)), sources: this.voices.length, nodes: this.nodes.length,
+      schedulers: Number(this.timer !== null), closing: Boolean(this.closing), closeFailed: this.closeFailed,
+      plannedEvents: this.plans.reduce((count, plan) => count + plan.events.length, 0),
+      step: this.step, mode: this.mode };
+  }
 }
