@@ -1,7 +1,10 @@
 (() => {
   "use strict";
 
-  const VERSION = "20260815-mobile-reader-panel-1";
+  const VERSION = "20260922-focus-score-1";
+  const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260922-focus-score-1", document.currentScript.src).href;
+  let readingMedia = null;
+  let panelInvoker = null;
   const SEARCH_HIGHLIGHT = "explorations-reader-search";
   const STORAGE = {
     theme: "explorationsReadingTheme",
@@ -380,24 +383,7 @@
     progress.value = "0";
     progress.setAttribute("aria-label", "Läsposition");
     document.body.prepend(progress);
-    const update = () => {
-      const page = document.scrollingElement || document.documentElement;
-      const maximum = page.scrollHeight - page.clientHeight;
-      const fraction = maximum > 0 ? Math.min(1, Math.max(0, page.scrollTop / maximum)) : 0;
-      const percentage = Math.round(fraction * 100);
-      progress.value = String(Math.round(fraction * 1000));
-      progress.style.setProperty("--reader-progress", `${fraction * 100}%`);
-      progress.setAttribute("aria-valuetext", `${percentage} procent`);
-    };
-    progress.addEventListener("input", () => {
-      const page = document.scrollingElement || document.documentElement;
-      const maximum = Math.max(0, page.scrollHeight - page.clientHeight);
-      page.scrollTo({ top: maximum * Number(progress.value) / 1000, behavior: "auto" });
-      update();
-    });
-    addEventListener("scroll", update, { passive: true });
-    addEventListener("resize", update, { passive: true });
-    update();
+    return progress;
   };
 
   const syncToolbarOffset = toolbar => {
@@ -412,7 +398,7 @@
 
   const placePanel = () => {
     if (!controls || controls.panel.hidden || matchMedia("(max-width: 700px)").matches) return;
-    const triggerRect = controls.trigger.getBoundingClientRect();
+    const triggerRect = (panelInvoker || controls.trigger).getBoundingClientRect();
     const panelRect = controls.panel.getBoundingClientRect();
     const margin = 12;
     const left = Math.max(margin, Math.min(innerWidth - panelRect.width - margin, triggerRect.right - panelRect.width));
@@ -429,10 +415,11 @@
     controls.panel.hidden = true;
     controls.trigger.setAttribute("aria-expanded", "false");
     document.body.classList.remove("xr-reader-panel-open");
-    if (returnFocus) controls.trigger.focus();
+    if (returnFocus) (panelInvoker || controls.trigger).focus();
   };
 
-  const openPanel = () => {
+  const openPanel = (invoker = controls.trigger) => {
+    panelInvoker = invoker;
     controls.panel.hidden = false;
     controls.panel.setAttribute("aria-modal", String(matchMedia("(max-width: 700px)").matches));
     controls.trigger.setAttribute("aria-expanded", "true");
@@ -450,6 +437,7 @@
     applyLineLength(null);
     applyFont("serif");
     applyTheme("auto");
+    readingMedia?.reset();
     controls.search.value = "";
     clearSearch();
     controls.liveStatus.textContent = "Läsinställningarna är återställda";
@@ -546,6 +534,17 @@
       audioStatus: wrapper.querySelector(".reader-settings__audio-status")
     };
 
+    controls.panel.dataset.xrReaderUi = VERSION;
+    controls.panel.lang = "sv";
+    document.body.append(controls.panel);
+    document.addEventListener("xr-open-reading-tools", event => openPanel(event.detail));
+    controls.panel.addEventListener("keydown", event => {
+      if (event.key !== "Tab") return;
+      const items = [...controls.panel.querySelectorAll("button,input,select,[tabindex]")].filter(el => !el.disabled && el.getClientRects().length);
+      const first = items[0], last = items.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
     controls.trigger.addEventListener("click", event => {
       event.stopPropagation();
       if (controls.panel.hidden) openPanel();
@@ -565,7 +564,8 @@
     controls.resetAll.addEventListener("click", resetAll);
     document.addEventListener("click", () => closePanel());
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && !controls.panel.hidden) {
+        event.stopImmediatePropagation();
         if (controls.search.value) {
           controls.search.value = "";
           clearSearch();
@@ -599,7 +599,13 @@
     document.body.classList.add("xr-reader-ready");
     root.dataset.readerVersion = VERSION;
     applySavedPreferences();
-    installProgress();
+    const progress = installProgress();
+    import(mediaModuleUrl).then(module => {
+      readingMedia = module.installReadingMedia({ article: content, panel: controls.panel, progress });
+    }).catch(() => {
+      progress.hidden = true;
+      controls.liveStatus.textContent = "Läsprogress och läsmusik kunde inte laddas. Ladda om sidan för att försöka igen.";
+    });
     installAudio();
     syncToolbarOffset(toolbar);
     return true;
@@ -726,6 +732,7 @@
       clearInterval(state.interval);
       state.interval = null;
       root.dataset.readerFocus = "false";
+      document.dispatchEvent(new CustomEvent("xr-focus-change", { detail: false }));
       ui.timer.hidden = true;
       closeDialog(ui.finishedDialog);
     });
@@ -745,6 +752,7 @@
     closeDialog(ui.setupDialog);
     preserveReadingPosition(() => {
       root.dataset.readerFocus = "true";
+      document.dispatchEvent(new CustomEvent("xr-focus-change", { detail: true }));
       syncTimerVisibility();
     });
     tick();
@@ -822,7 +830,7 @@
     hud.className = "reader-focus-hud";
     hud.lang = "sv";
     hud.setAttribute("aria-label", "Fokuserad läsning");
-    hud.innerHTML = '<button type="button" data-focus-exit>Lämna fokus</button><button type="button" data-focus-timer-toggle aria-pressed="true">Dölj timer</button>';
+    hud.innerHTML = '<button type="button" data-focus-exit>Lämna fokus</button><button type="button" data-focus-timer-toggle aria-pressed="true">Dölj timer</button><button type="button" data-focus-tools>Läsverktyg</button>';
     document.body.appendChild(hud);
 
     const timer = document.createElement("button");
@@ -859,6 +867,10 @@
     });
     finishedDialog.querySelector("[data-focus-finish]").addEventListener("click", leaveFocus);
     finishedDialog.addEventListener("cancel", event => event.preventDefault());
+    hud.querySelector("[data-focus-tools]").addEventListener("click", event => {
+      event.stopPropagation();
+      document.dispatchEvent(new CustomEvent("xr-open-reading-tools", { detail: event.currentTarget }));
+    });
     ui.exit.addEventListener("click", leaveFocus);
     ui.timerToggle.addEventListener("click", () => {
       state.preference.visible = !state.preference.visible;
@@ -875,7 +887,7 @@
       if (!document.hidden) tick();
     });
     document.addEventListener("keydown", event => {
-      if (event.key !== "Escape" || !state.active || finishedDialog.open) return;
+      if (event.key !== "Escape" || !state.active || finishedDialog.open || document.body.classList.contains("xr-reader-panel-open")) return;
       event.preventDefault();
       leaveFocus();
     });

@@ -646,3 +646,52 @@ html[data-reader-focus="true"] main {
     max-width: none !important;
   }
 }
+
+/* Focus progress shares the article theme and the existing accessible reading slider. */
+html[data-reader-focus="true"] .xr-reader-progress {
+  --focus-bar-width: 104px;
+  --focus-bar-height: 3px;
+  inset: auto !important;
+  left: 50% !important;
+  bottom: max(8px, env(safe-area-inset-bottom)) !important;
+  transform: translateX(-50%);
+  width: min(var(--focus-bar-width), calc(100vw - 32px)) !important;
+  height: 28px !important;
+  filter: drop-shadow(0 1px 2px var(--reader-panel-bg));
+}
+html[data-reader-focus="true"] .xr-reader-progress[data-focus-size="medium"] { --focus-bar-width: 164px; --focus-bar-height: 5px; }
+html[data-reader-focus="true"] .xr-reader-progress[data-focus-size="large"] { --focus-bar-width: 232px; --focus-bar-height: 7px; }
+html[data-reader-focus="true"] .xr-reader-progress[data-focus-position="top"] { top: max(-9px, env(safe-area-inset-top)) !important; bottom: auto !important; }
+html[data-reader-focus="true"] .xr-reader-progress[data-focus-position$="left"] { left: max(16px, env(safe-area-inset-left)) !important; transform: none; }
+html[data-reader-focus="true"] .xr-reader-progress[data-focus-position$="right"] { left: auto !important; right: max(16px, env(safe-area-inset-right)) !important; transform: none; }
+html[data-reader-focus="true"] .xr-reader-progress[data-focus-position^="top-"] { top: max(62px, calc(env(safe-area-inset-top) + 48px)) !important; bottom: auto !important; }
+html[data-reader-focus="true"] .xr-reader-progress[data-focus-position^="bottom-"] { bottom: max(59px, calc(env(safe-area-inset-bottom) + 45px)) !important; }
+html[data-reader-focus="true"] .xr-reader-progress::-webkit-slider-runnable-track { height: var(--focus-bar-height); }
+html[data-reader-focus="true"] .xr-reader-progress::-webkit-slider-thumb { width: 8px; height: 8px; margin-top: calc((var(--focus-bar-height) - 8px) / 2); box-shadow: none; }
+html[data-reader-focus="true"] .xr-reader-progress::-moz-range-track,
+html[data-reader-focus="true"] .xr-reader-progress::-moz-range-progress { height: var(--focus-bar-height); }
+.xr-reader-progress[hidden] { display: none !important; }
+.reader-settings__panel { z-index: 2200; }
+.reader-media-settings fieldset { min-width: 0; margin: .9rem 0; padding: .7rem 0 0; border: 0; border-top: 1px solid var(--reader-panel-line); }
+.reader-media-settings legend { padding: 0 .4rem 0 0; font-weight: 700; }
+.reader-media-fields { display: grid; grid-template-columns: .8fr 1.4fr; gap: .6rem; margin-top: .65rem; }
+.reader-media-fields label { display: grid; gap: .3rem; }
+.reader-media-fields select { min-width: 0; width: 100%; min-height: 44px; border: 1px solid var(--reader-panel-line); border-radius: 8px; background: var(--reader-panel-bg); color: var(--reader-panel-text); padding: .4rem; font: 500 13px var(--reader-ui-font); }
+.reader-media-check { display: flex; align-items: center; gap: .5rem; min-height: 40px; }
+.reader-media-check input { width: 18px; height: 18px; accent-color: var(--reader-panel-accent); }
+.reader-media-volume { display: flex; align-items: center; gap: .55rem; margin-top: .75rem; }
+.reader-media-volume input { min-width: 0; flex: 1; accent-color: var(--reader-panel-accent); }
+.reader-media-volume output { min-width: 40px; font-variant-numeric: tabular-nums; }
+.reader-media-status { margin: .7rem 0 .3rem; font-size: 12px; }
+.reader-media-hint { margin: .25rem 0; color: var(--reader-panel-muted); font-size: 11px; line-height: 1.5; }
+.reader-settings__panel button[aria-pressed="true"] { border-color: var(--reader-panel-accent) !important; }
+.reader-settings__panel :is(button,input,select):focus-visible { outline: 2px solid var(--reader-panel-accent); outline-offset: 3px; }
+.reader-focus-hud { width: max-content; max-width: calc(100vw - 24px); }
+.reader-focus-hud button { white-space: nowrap; }
+@media (forced-colors: active) {
+  .xr-reader-progress { forced-color-adjust: auto; }
+  .reader-media-fields select { border-color: CanvasText; }
+}
+@media print { .reader-settings__panel { display: none !important; } }
+
+.reader-settings__panel, .reader-settings__panel * { box-sizing: border-box; }
