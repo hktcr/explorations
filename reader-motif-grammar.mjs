@@ -82,28 +82,43 @@ function melodicPath(landmarks, preferred, rng) {
 const contourOf = degrees => degrees.slice(1).map((degree, i) => Math.sign(degree - degrees[i]));
 const signatureOf = (degrees, rhythm) => hash('melodic-content-v1', ...degrees, ...rhythm);
 
-export function generateTheme(documentSeed = 0) {
+export function generateTheme(documentSeed = 0, documentProfile = {}) {
+  // Global character changes musical weights, never the random seed. Missing
+  // features have neutral deltas, preserving the original seed-only grammar.
+  const energy = unit(documentProfile.energy, .32) - .32;
+  const space = unit(documentProfile.space, .22) - .22;
+  const thought = unit(documentProfile.thought, .3) - .3;
+  const air = unit(documentProfile.phraseSpace, .25) - .25;
+  const confidence = unit(documentProfile.confidence, .5);
+  const valence = Number.isFinite(documentProfile.valence) ? clamp(documentProfile.valence, -1, 1) * confidence : 0;
+  const words = Number.isFinite(documentProfile.words) ? Math.max(0, documentProfile.words) : 0;
+  const length = clamp(Math.log2(1 + words / 80) / 6, 0, 1);
+  const drawClass = (draw, bias) => Math.floor(clamp(draw + bias, 0, 1 - Number.EPSILON) * 3);
   const rng = random(hash('document-theme-v1', documentSeed));
-  const beginning = Math.floor(rng() * 3) * 2;
-  const direction = rng() < .5 ? -1 : 1;
-  const middle = clamp(beginning + direction * (2 + Math.floor(rng() * 2)), LOW, 7);
-  const ending = Math.floor(rng() * 3) * 2;
+  const beginning = drawClass(rng(), valence * .05 + energy * .06 - thought * .03) * 2;
+  const direction = rng() < .5 - valence * .25 - energy * .15 + thought * .1 ? -1 : 1;
+  const span = 2 + Number(rng() + space * .2 - thought * .12 >= .5);
+  const middle = clamp(beginning + direction * span, LOW, 7);
+  const ending = drawClass(rng(), valence * .1 + energy * .08 - thought * .1 - air * .06) * 2;
   const landmarks = { 0: beginning, 3: middle, 7: ending };
   const preferred = Array.from({ length: LENGTH }, (_, index) => {
     const left = index <= 3 ? 0 : 3, right = index <= 3 ? 3 : 7;
     const progress = (index - left) / (right - left);
-    return landmarks[left] + (landmarks[right] - landmarks[left]) * progress + (rng() - .5) * 2;
+    const jitter = clamp(2 + energy * .8 - thought * .6 + space * .3, 1, 3);
+    const arc = Math.sin(progress * Math.PI) * (valence * .6 + energy * .45 + space * .2);
+    return landmarks[left] + (landmarks[right] - landmarks[left]) * progress + (rng() - .5) * jitter + arc;
   });
   const degrees = melodicPath(landmarks, preferred, rng);
   const rhythm = Array.from({ length: LENGTH }, (_, index) => {
-    const value = rng();
-    return ANCHORS.includes(index) ? 2 + Math.floor(value * 3) : 1 + Math.floor(value * 3);
+    const breathing = air * .45 + thought * .28 + length * .25 + space * .2 - energy * .45;
+    const weight = drawClass(rng(), breathing * .5);
+    return (ANCHORS.includes(index) ? 2 : 1) + weight;
   });
   return { degrees, anchorIndices: [...ANCHORS], rhythm, signature: signatureOf(degrees, rhythm) };
 }
 
-export function developTheme({ documentSeed = 0, sectionSeed = 0, cycle = 0, profile = {} } = {}) {
-  const theme = generateTheme(documentSeed);
+export function developTheme({ documentSeed = 0, documentProfile = {}, sectionSeed = 0, cycle = 0, profile = {} } = {}) {
+  const theme = generateTheme(documentSeed, documentProfile);
   const stableCycle = Number.isFinite(cycle) ? Math.max(0, Math.floor(cycle)) : 0;
   const sectionRng = random(hash('section-development-v1', documentSeed, sectionSeed));
   const rng = random(hash('phrase-development-v1', documentSeed, sectionSeed, stableCycle));

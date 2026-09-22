@@ -1,8 +1,8 @@
 (() => {
   "use strict";
 
-  const VERSION = "20260922-focus-score-3";
-  const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260922-focus-score-3", document.currentScript.src).href;
+  const VERSION = "20260922-focus-ipad-1";
+  const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260922-focus-ipad-1", document.currentScript.src).href;
   let readingMedia = null;
   let panelInvoker = null;
   const SEARCH_HIGHLIGHT = "explorations-reader-search";
@@ -369,6 +369,53 @@
     return toolbar;
   };
 
+  // One composited surface for reading overlays. Size it to the visible viewport,
+  // including Safari's moving browser chrome and pinch zoom, without polling.
+  const installViewport = () => {
+    const viewport = document.createElement("div");
+    viewport.id = "readerViewport";
+    viewport.className = "xr-reader-viewport";
+    document.body.appendChild(viewport);
+    const visual = window.visualViewport;
+    let frame = null, attached = false, previous = "";
+    const update = () => {
+      frame = null;
+      const layoutWidth = root.clientWidth || innerWidth;
+      const layoutHeight = root.clientHeight || innerHeight;
+      const width = Math.min(visual?.width || layoutWidth, layoutWidth);
+      const height = Math.min(visual?.height || layoutHeight, layoutHeight);
+      const left = Math.max(0, Math.min(visual?.offsetLeft || 0, layoutWidth - width));
+      const top = Math.max(0, Math.min(visual?.offsetTop || 0, layoutHeight - height));
+      const next = [width, height, left, top].join(",");
+      if (next === previous) return;
+      previous = next;
+      viewport.style.width = `${width}px`;
+      viewport.style.height = `${height}px`;
+      viewport.style.setProperty("--reader-viewport-left", `${left}px`);
+      viewport.style.setProperty("--reader-viewport-top", `${top}px`);
+    };
+    const schedule = () => { if (frame === null) frame = requestAnimationFrame(update); };
+    const attach = () => {
+      if (attached) return;
+      attached = true;
+      addEventListener("resize", schedule, { passive: true });
+      visual?.addEventListener("resize", schedule, { passive: true });
+      visual?.addEventListener("scroll", schedule, { passive: true });
+      update();
+    };
+    addEventListener("pagehide", () => {
+      attached = false;
+      removeEventListener("resize", schedule);
+      visual?.removeEventListener("resize", schedule);
+      visual?.removeEventListener("scroll", schedule);
+      if (frame !== null) cancelAnimationFrame(frame);
+      frame = null;
+    });
+    addEventListener("pageshow", attach);
+    attach();
+    return viewport;
+  };
+
   const installProgress = () => {
     document.querySelectorAll(".progress, #progress").forEach(legacy => {
       legacy.classList.add("xr-reader-progress-legacy");
@@ -382,7 +429,7 @@
     progress.step = "1";
     progress.value = "0";
     progress.setAttribute("aria-label", "Läsposition");
-    document.body.prepend(progress);
+    installViewport().appendChild(progress);
     return progress;
   };
 
@@ -831,7 +878,7 @@
     hud.lang = "sv";
     hud.setAttribute("aria-label", "Fokuserad läsning");
     hud.innerHTML = '<button type="button" data-focus-exit>Lämna fokus</button><button type="button" data-focus-timer-toggle aria-pressed="true">Dölj timer</button><button type="button" data-focus-tools>Läsverktyg</button>';
-    document.body.appendChild(hud);
+    (document.getElementById("readerViewport") || document.body).appendChild(hud);
 
     const timer = document.createElement("button");
     timer.className = "reader-focus-timer";
@@ -839,7 +886,7 @@
     timer.lang = "sv";
     timer.hidden = true;
     timer.textContent = "20:00";
-    document.body.appendChild(timer);
+    (document.getElementById("readerViewport") || document.body).appendChild(timer);
 
     state.preference = readPreference();
     ui = {

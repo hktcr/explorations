@@ -1,15 +1,15 @@
 /* Explorations reading music: local analysis, an eight-bar motif and a fixed graph.
  * Inspired by VävR Hard Fork Fable 5.1.1. No samples or per-note audio nodes.
  */
-import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-score-3';
-import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260922-focus-score-3';
-export * from './reader-score-analysis.mjs?v=20260922-focus-score-3';
-export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260922-focus-score-3';
+import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-ipad-1';
+import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260922-focus-ipad-1';
+export * from './reader-score-analysis.mjs?v=20260922-focus-ipad-1';
+export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260922-focus-ipad-1';
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const midi = n => 440 * 2 ** ((n - 69) / 12);
 
 // Fixed pool: 3 pad + bass + 2 pluck + 2 flute + 2 bell + pulse = 11 sources.
-// One scheduler, <=4 steps/tick, 120 ms lookahead, no per-note nodes or retained history.
+// One scheduler, <=4 steps/tick, 240 ms lookahead, no per-note nodes or retained history.
 export class ReadingOrchestra {
   constructor(contextFactory = () => new (globalThis.AudioContext || globalThis.webkitAudioContext)()) {
     this.contextFactory = contextFactory;
@@ -47,6 +47,9 @@ export class ReadingOrchestra {
       this.lastFilter = null;
       this.closeFailed = false;
       this.step = 0;
+      this.recoveryUntil = 0;
+      this.pendingPadRecovery = false;
+      this.skippedSteps = 0;
       this.buildGraph();
       await ctx.resume();
       if (this.generation !== generation || this.context !== ctx) return false;
@@ -78,7 +81,7 @@ export class ReadingOrchestra {
     // Short bounded delay, no convolution buffers and no unbounded feedback tail.
     const delay = this.node(ctx.createDelay(.8)); delay.delayTime.value = .37;
     const feedback = this.node(ctx.createGain()); feedback.gain.value = .22;
-    const wet = this.node(ctx.createGain()); wet.gain.value = .18;
+    const wet = this.node(ctx.createGain()); wet.gain.value = .09;
     filter.connect(delay); delay.connect(feedback); feedback.connect(delay); delay.connect(wet); wet.connect(master);
     const colours = ['triangle', 'sine', 'triangle', 'triangle', 'pluck', 'pluck', 'flute', 'flute', 'bell', 'bell', 'sine'];
     const spectra = { pluck: [0, 1, .32, .13, .06, .025], flute: [0, 1, .09, .2, .025, .04], bell: [0, 1, .035, .21, .02, .07] };
@@ -180,12 +183,12 @@ export class ReadingOrchestra {
     this.padPitches = chord;
   }
 
-  planPair(bar, at) {
+  planPair(bar, at, { beat: lockedBeat, holdMode = false } = {}) {
     const p = this.current;
     const candidate = this.candidateMode ?? this.target.mode;
     const since = this.candidateSince ?? this.targetSince ?? 0;
     let pivot = false;
-    if (candidate !== this.mode && MODES[candidate] && bar - this.lastModeBar >= 2 && at - since >= 1.5) {
+    if (!holdMode && candidate !== this.mode && MODES[candidate] && bar - this.lastModeBar >= 2 && at - since >= 1.5) {
       this.mode = candidate;
       this.lastModeBar = bar;
       this.pivotBar = bar;
@@ -193,14 +196,16 @@ export class ReadingOrchestra {
     }
     // Lock time and role decisions for two bars. Later tempo targets cannot
     // move an already reserved attack earlier and break the voice budget.
-    const beat = 60 / clamp(82 + p.energy * 30 - p.thought * 8, 74, 112);
-    const profile = { ...this.target, energy: p.energy, space: p.space, thought: p.thought };
+    const desiredTempo = clamp(82 + p.energy * 30 - p.thought * 8, 74, 112);
+    const previousTempo = this.plans.length ? 60 / this.plans.at(-1).beat : desiredTempo;
+    const beat = lockedBeat ?? 60 / clamp(desiredTempo, previousTempo - 3, previousTempo + 3);
+    const profile = { ...this.target, energy: p.energy, space: p.space, thought: p.thought, valence: p.valence };
     const motifSeed = p.motifSeed ?? p.seed;
-    this.plans = [0, 1].map(offset => planBar({ bar: bar + offset, beat, tonic: p.tonic, mode: this.mode, motifSeed, profile, pivot: pivot && offset === 0 }));
+    this.plans = [0, 1].map(offset => planBar({ bar: bar + offset, beat, tonic: p.tonic, mode: this.mode, motifSeed, documentProfile: p.documentProfile, profile, pivot: pivot && offset === 0 }));
     if (this.plans.reduce((count, plan) => count + plan.events.length, 0) > 64) throw new Error('Reading score exceeded its event budget');
   }
 
-  schedule(at) {
+  schedule(at, checkDeadline = false) {
     const step = this.step % 16, bar = Math.floor(this.step / 16);
     const p = this.current;
     const dt = this.lastAt == null ? 0 : Math.max(0, at - this.lastAt);
@@ -209,6 +214,9 @@ export class ReadingOrchestra {
     this.lastAt = at;
     if (!this.plans.length || (step === 0 && !this.plans.some(plan => plan.bar === bar))) this.planPair(bar, at);
     const plan = this.plans.find(plan => plan.bar === bar);
+    // Planning is normally tiny, but may be interrupted by the browser. Leave
+    // this attack unscheduled if its safety margin expired during planning.
+    if (checkDeadline && at < this.context.currentTime + .02) return 0;
     if (step === 0) this.pads(at, plan.chord);
     // At most four filter updates per bar; replace future automation rather
     // than accumulating an event on every sixteenth note indefinitely.
@@ -223,19 +231,46 @@ export class ReadingOrchestra {
       }
     }
     for (const event of plan.events) {
-      if (event.step !== step) continue;
+      if (event.step !== step || at < (this.recoveryUntil || 0)) continue;
       this.note(event.voice, event.pitch, at, event.duration, event.level, event.attack);
     }
     this.step++;
-    return plan.beat / 4 * (step % 2 ? .96 : 1.04);
+    return plan.beat / 4;
   }
 
   tick() {
     if (!this.context || !this.current || this.closing || this.closeFailed || this.context.state !== 'running') return;
     const now = this.context.currentTime;
-    if (this.nextAt < now - .12) this.nextAt = now + .04; // Never replay a backlog after throttling.
+    const safeAt = now + .02;
+    if (this.nextAt < safeAt) {
+      // Keep the existing beat grid and skip missed attacks analytically. Never
+      // submit notes in the past or replay a catch-up queue after a scroll stall.
+      const previousBar = Math.floor((this.step - 1) / 16);
+      const beat = this.plans.at(-1)?.beat ?? 60 / 90;
+      const skipped = Math.ceil((safeAt - this.nextAt) / (beat / 4));
+      this.step += skipped;
+      this.skippedSteps = (this.skippedSteps || 0) + skipped;
+      this.nextAt += skipped * beat / 4;
+      const bar = Math.floor(this.step / 16);
+      if (!this.plans.some(plan => plan.bar === bar)) this.planPair(bar - bar % 2, this.nextAt, { beat, holdMode: true });
+      if (bar !== previousBar) {
+        this.pendingPadRecovery = true;
+      }
+    }
+    // Re-read after recovery planning. A missed deadline is retried by the next
+    // ordinary tick, retaining pad recovery without allocating a retry timer.
+    if (this.nextAt < this.context.currentTime + .02) return;
+    if (this.pendingPadRecovery) {
+      if (this.step % 16 !== 0) this.pads(this.nextAt, this.plans.find(plan => plan.bar === Math.floor(this.step / 16)).chord);
+      this.recoveryUntil = this.nextAt + .37;
+      this.pendingPadRecovery = false;
+    }
     let count = 0;
-    while (this.nextAt < now + .12 && count++ < 4) this.nextAt += this.schedule(this.nextAt);
+    while (this.nextAt < now + .24 && count++ < 4) {
+      const interval = this.schedule(this.nextAt, true);
+      if (!interval) break;
+      this.nextAt += interval;
+    }
   }
 
   stop(immediate = false) {

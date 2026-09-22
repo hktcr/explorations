@@ -67,7 +67,7 @@ tolkas fel. Ingen text skickas till en tjänst och ingen råtext sparas i analys
 Max 1 600 block/avsnitt, 600 000 tecken totalt och 16 000 tecken per block
 analyseras; trunkering ger en synlig begränsningsnotis.
 
-Läspositionen tas vid 38 procent av skärmhöjden. Tomrum hör till föregående
+Läspositionen tas vid 38 procent av den synliga skärmytan, inklusive visualViewport-förskjutning vid zoom eller ändrade webbläsarverktygsfält. Tomrum hör till föregående
 textregion, och grannblandning passerar inte avsnittsgränser. Snabb scrollning
 samlar mål tills positionen varit stilla i 220 ms. Efter åtta sekunders läsvila
 kan nästa fras få lite mer andrum; det är ingen mätning av faktisk läshastighet.
@@ -80,7 +80,7 @@ har en marginal. Grundtonen och dokumentmotivet är stabila oavsett startpositio
 En åttataktsbåge ger presentation, svar, varsam variation och hemkomst eller
 öppet avslut. Temat genereras ur dokumentets identitet med begränsade intervall
 och en övervikt av stegvis rörelse; det väljs inte ur en lista med färdiga melodier.
-Tre tonankare håller ihop grundtemat. En kort dokumentstabil öppningscell hörs
+Dokumentets globala ordsignaler, energi, rymd, eftertänksamhet, längd och frasutrymme påverkar dessutom grundtemats tonvägar, ankare och rytmviktning. Den numeriska dokumentprofilen förblir stabil under läsningen; det aktuella avsnittets profil påverkar utvecklingen separat. Tre tonankare håller ihop grundtemat. En kort dokumentstabil öppningscell hörs
 i början av bågen, medan avsnittets innehåll och bågens löpnummer utvecklar
 övriga tonvägar, rytmer, harmoniska vägar och instrumentens svar. Samma
 dokument, avsnitt och förlopp ger reproducerbart resultat. Variationsrymden är
@@ -93,6 +93,8 @@ avsnittsprofil, citat/slut och läsvila påverkar luft, artikulation och avslut.
 Plocket lämnar avsiktliga luckor åt två korta flöjtsvar i varannan takt.
 En lågmäld klockaccent kan komma i slutet av hela bågen. Genomgångstoner är
 tillåtna, men viktiga ankomster relateras till ackordet.
+
+Basen ger ett regelbundet stöd på slag två och fyra. En mjuk puls på slag ett och tre får textstyrd styrka, utan slumpmässig släckning mellan takter. Energi betonar plocket; rymd och eftertänksamhet betonar flöjtsvar. Rymd, citat och avslut påverkar klockaccenter. Instrumentpaletten är fast, medan aktivitet och inbördes nivåer varierar. Sextondelarna är raka och tempo får förändras högst tre BPM per tvåtaktspar. Det korta ekot har sänkts för att inte konkurrera lika mycket med pulsen.
 
 Alla tre ackordtoner härleds ur vald skala. Gemensamma padtoner hålls kvar,
 och övriga får närliggande ackordläge. Frekvensbyte sker i en verklig nollplatå.
@@ -108,8 +110,8 @@ pågående fras med tidsbaserad utjämning. Befintlig uppläsning dämpar musikv
 
 - Ingen AudioContext före användarstart. Högst en aktiv eller stängande context.
 - Exakt 11 återanvända oscillatorer och 40 ljudnoder; inga nya noder per ton.
-- En scheduler på 40 ms, 120 ms ljudframförhållning, högst fyra steg per körning.
-  Försenade steg hoppas över; ingen upphämtningskö byggs efter throttling.
+- En scheduler på 40 ms, 240 ms ljudframförhållning, högst fyra steg per körning.
+  Anslag läggs minst 20 ms framåt. Försenade steg hoppas över analytiskt på befintlig slaggrid; ingen upphämtningskö byggs efter throttling. Vid ett passerat planpar återställs två begränsade planer med fryst tempo och tonkön. Efter en missad taktgräns får klangbotten först en kort övergång innan nästa anslag.
 - Högst två planerade takter och 64 nothändelser. Planer ersätts och släpps;
   ingen växande not-/scrollhistorik. Dessa JavaScript-objekt har ingen påstådd
   exakt heapstorlek. Media har högst en timer för scrollstabilisering/läsvila.
@@ -127,6 +129,12 @@ pågående fras med tidsbaserad utjämning. Befintlig uppläsning dämpar musikv
   den tysta contextens ägarskap, ny start spärras och UI ber om omladdning.
 - Vid pagehide avbryts analys, geometri/referenser töms och ResizeObserver
   kopplas loss. BFCache-återkomst analyserar om och väntar på nytt startklick.
+
+### Fasta överlägg på iPad
+
+Klocka, fokusknappar och progress ligger i ett gemensamt fast lager. Lagret följer visualViewport och samlar viewport-händelser till högst en väntande bildruta, utan polling. Lyssnare och väntande bildruta kopplas bort vid pagehide och återställs en gång vid pageshow. Artikeln kan fortfarande scrollas och pekas genom den genomskinliga ytan. Blur- och drop-shadow-filter har tagits bort från överläggen; progress i överkantens mitt ligger under fokusknapparna. Utskrift döljer hela lagret.
+
+Rent scrolltest i WebKit återskapade inte Håkans fysiska iPad-fel. Korrigeringen adresserar möjliga renderings- och viewportorsaker; fysisk bekräftelse är en separat kontroll.
 
 ### Kontroller och deras räckvidd
 

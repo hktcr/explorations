@@ -18,7 +18,7 @@ const options = overrides => ({ bar: 0, beat: 60 / 90, tonic: 48, mode: 'dorian'
 const plan = overrides => planBar(options(overrides));
 const eventsOf = (score, role) => score.events.filter(event => event.role === role);
 // These tests inspect the score and voice reservations, not perceptual quality.
-const stepTime = (step, beat) => (Math.floor(step / 2) * .5 + (step % 2 ? .26 : 0)) * beat;
+const stepTime = (step, beat) => step * beat / 4;
 const startTime = (bar, event, beat) => bar * 4 * beat + stepTime(event.step, beat);
 
 test('scale degrees retain the mode through octave boundaries and negative degrees', () => {
@@ -230,7 +230,7 @@ test('the actual scheduler keeps each tempo pair intact and admits every planned
       heardModes.add(engine.mode);
     }
     assert.equal(engine.plans, pair, 'a new text target must not replace a reserved pair');
-    assert.ok(Math.abs(interval - pairBeat / 4 * (index % 2 ? .96 : 1.04)) < 1e-10);
+    assert.ok(Math.abs(interval - pairBeat / 4) < 1e-10);
     assert.ok(engine.plans.reduce((sum, bar) => sum + bar.events.length, 0) <= 64);
     at += interval;
   }

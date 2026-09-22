@@ -153,3 +153,88 @@ test('the opening cell retains document identity through section and cycle chang
     }
   }
 });
+
+test('seed-only calls retain the published theme content when no document profile is supplied', () => {
+  const original = [
+    [0, [4, 5, 6, 6, 5, 5, 4, 2], [3, 3, 1, 4, 1, 3, 1, 2], 328884543],
+    [42, [4, 7, 6, 6, 5, 4, 5, 2], [2, 2, 2, 3, 1, 2, 2, 4], 3495811839],
+    [12345, [4, 5, 2, 2, 4, 3, 2, 2], [4, 1, 2, 4, 3, 1, 1, 2], 3584058357]
+  ];
+  for (const [seed, degrees, rhythm, signature] of original) {
+    assert.deepEqual(generateTheme(seed), { degrees, rhythm, signature, anchorIndices: [0, 3, 7] });
+    assert.deepEqual(generateTheme(seed, {}), generateTheme(seed));
+  }
+});
+
+test('global document character changes actual pitches, rhythm and anchor choices with the same seeds', () => {
+  const features = [
+    ['valence', { valence: -.8, confidence: 1 }, { valence: .8, confidence: 1 }, 75],
+    ['energy', { energy: .1 }, { energy: .9 }, 75],
+    ['space', { space: .1 }, { space: .9 }, 60],
+    ['thought', { thought: .1 }, { thought: .9 }, 65],
+    ['phraseSpace', { phraseSpace: .1 }, { phraseSpace: .9 }, 75],
+    ['length', { words: 10 }, { words: 4000 }, 70]
+  ];
+  for (const [feature, low, high, minimumChanges] of features) {
+    let contentChanges = 0, pitchChanges = 0, anchorChanges = 0;
+    for (let documentSeed = 0; documentSeed < 100; documentSeed++) {
+      const first = generateTheme(documentSeed, low), second = generateTheme(documentSeed, high);
+      contentChanges += Number(fingerprint(first) !== fingerprint(second));
+      pitchChanges += Number(first.degrees.join(',') !== second.degrees.join(','));
+      anchorChanges += Number(first.anchorIndices.some(index => first.degrees[index] !== second.degrees[index]));
+    }
+    assert.ok(contentChanges >= minimumChanges, `${feature} changes only ${contentChanges} of 100 actual themes`);
+    if (feature === 'valence') {
+      assert.ok(pitchChanges >= 75, 'valence must affect melody, not only identifiers or metadata');
+      assert.ok(anchorChanges >= 40, 'the global character must help shape the document landmarks');
+    }
+  }
+});
+
+test('a stable global profile gives the same opening cell across local sections, cycles and emotional changes', () => {
+  const documentProfile = Object.freeze({ energy: .4, thought: .75, space: .8, phraseSpace: .65, valence: -.5, confidence: .8, words: 1200 });
+  const snapshot = { ...documentProfile };
+  const localProfiles = [profile, { energy: .9, space: .1, thought: .1, valence: 1, confidence: 1 }, { energy: .1, space: .9, thought: 1, valence: -1, confidence: 1 }];
+  for (const documentSeed of [0, 15, 54321]) {
+    const base = generateTheme(documentSeed, documentProfile);
+    for (const sectionSeed of [0, 1, 900]) for (const cycle of [0, 1, 7, 9999]) for (const localProfile of localProfiles) {
+      const input = { documentSeed, documentProfile, sectionSeed, cycle, profile: localProfile };
+      const variant = developTheme(input);
+      assert.deepEqual(variant.openingDegrees, base.degrees.slice(0, 3));
+      assert.deepEqual(variant.openingRhythm, base.rhythm.slice(0, 3));
+      for (const index of base.anchorIndices) assert.equal(variant.degrees[index], base.degrees[index]);
+      assert.deepEqual(developTheme(input), variant);
+    }
+  }
+  assert.deepEqual(documentProfile, snapshot);
+});
+
+test('zero global confidence removes valence bias without removing structural document character', () => {
+  const shared = { energy: .2, thought: .8, space: .75, phraseSpace: .7, words: 1800, confidence: 0 };
+  for (const documentSeed of [0, 1, 42, 54321]) {
+    const dark = { ...shared, valence: -1 }, bright = { ...shared, valence: 1 };
+    assert.deepEqual(generateTheme(documentSeed, dark), generateTheme(documentSeed, bright));
+    assert.deepEqual(
+      developTheme({ documentSeed, documentProfile: dark, sectionSeed: 7, cycle: 10, profile }),
+      developTheme({ documentSeed, documentProfile: bright, sectionSeed: 7, cycle: 10, profile })
+    );
+  }
+});
+
+test('global-profile extremes preserve stepwise motion, bounded jumps and developed landmarks', () => {
+  const documentProfiles = [
+    { energy: 1, space: 1, thought: 0, phraseSpace: 0, valence: 1, confidence: 1, words: 80 },
+    { energy: 0, space: 0, thought: 1, phraseSpace: 1, valence: -1, confidence: 1, words: 600000 },
+    { energy: 0, space: 1, thought: 0, phraseSpace: .9, valence: -1, confidence: 1, words: 1000 },
+    { energy: Infinity, space: NaN, thought: -.5, phraseSpace: 2, valence: .8, confidence: 0, words: -200 }
+  ];
+  for (let documentSeed = 0; documentSeed < 64; documentSeed++) for (const documentProfile of documentProfiles) {
+    const base = generateTheme(documentSeed, documentProfile);
+    assertMelodicBounds(base);
+    for (const cycle of [0, 1000]) {
+      const variant = developTheme({ documentSeed, documentProfile, sectionSeed: 31337, cycle, profile });
+      assertMelodicBounds(variant);
+      for (const index of base.anchorIndices) assert.equal(variant.degrees[index], base.degrees[index]);
+    }
+  }
+});

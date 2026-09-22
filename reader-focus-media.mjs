@@ -1,4 +1,4 @@
-import { analyseDocument, ReadingOrchestra, MODE_LABELS, BLOCK_SKIP, readingFraction, blendProfiles } from './reader-soundscape.mjs?v=20260922-focus-score-3';
+import { analyseDocument, ReadingOrchestra, MODE_LABELS, BLOCK_SKIP, readingFraction, blendProfiles } from './reader-soundscape.mjs?v=20260922-focus-ipad-1';
 
 const STORAGE = 'explorationsFocusMediaV1';
 const SIZES = ['small', 'medium', 'large'];
@@ -46,7 +46,9 @@ export function installReadingMedia({ article, panel, progress }, {
   let frame = 0, ranges = [], geometryDirty = true, currentIndex = -1, abort = null;
   let readingStart = 0, readingEnd = 0;
   let operation = 0, readingTimer = null, movingQuickly = false, resting = false;
-  let previousScroll = { y: scrollY, at: now() }, latestScroll = previousScroll;
+  const readingViewport = () => ({ top: scrollY + (window.visualViewport?.offsetTop || 0),
+    height: window.visualViewport?.height || innerHeight });
+  let previousScroll = { y: readingViewport().top, at: now() }, latestScroll = previousScroll;
   let lastMotionAt = latestScroll.at;
 
   const clearReadingTimer = () => { clearTimeout(readingTimer); readingTimer = null; };
@@ -100,7 +102,8 @@ export function installReadingMedia({ article, panel, progress }, {
   };
   const profileAt = () => {
     if (!score?.blocks.length) return score?.global;
-    const line = scrollY + innerHeight * .38;
+    const viewport = readingViewport();
+    const line = viewport.top + viewport.height * .38;
     let low = 0, high = ranges.length;
     // Choose the last anchor already reached. Whitespace and an unanalysed
     // region belong to the preceding text, never a future section.
@@ -125,7 +128,8 @@ export function installReadingMedia({ article, panel, progress }, {
     frame = 0;
     if (disposed) return;
     if (geometryDirty) measure();
-    const fraction = readingFraction(readingStart, readingEnd, innerHeight, scrollY);
+    const viewport = readingViewport();
+    const fraction = readingFraction(readingStart, readingEnd, viewport.height, viewport.top);
     progress.value = String(Math.round(fraction * 1000));
     progress.style.setProperty('--reader-progress', `${fraction * 100}%`);
     progress.setAttribute('aria-valuetext', `${Math.round(fraction * 100)} procent av lästexten`);
@@ -137,11 +141,11 @@ export function installReadingMedia({ article, panel, progress }, {
   const onScroll = () => {
     if (disposed) return;
     previousScroll = latestScroll;
-    latestScroll = { y: scrollY, at: now() };
+    latestScroll = { y: readingViewport().top, at: now() };
     const distance = Math.abs(latestScroll.y - previousScroll.y);
     if (distance) {
       const elapsed = Math.max(16, latestScroll.at - previousScroll.at);
-      movingQuickly = movingQuickly || distance / elapsed > .7 || distance > innerHeight * .2;
+      movingQuickly = movingQuickly || distance / elapsed > .7 || distance > readingViewport().height * .2;
       resting = false; lastMotionAt = latestScroll.at;
       clearReadingTimer();
       if (active) readingTimer = setTimeout(() => {
@@ -189,12 +193,15 @@ export function installReadingMedia({ article, panel, progress }, {
     try {
       if (geometryDirty) measure();
       engine.volume = preferences.volume / 100;
-      const started = await engine.start({ ...score.global, ...profileAt(), motifSeed: score.global.seed });
+      const started = await engine.start({ ...score.global, ...profileAt(), motifSeed: score.global.seed,
+        documentProfile: { valence: score.global.valence, energy: score.global.energy, space: score.global.space,
+          thought: score.global.thought, confidence: score.global.confidence, phraseSpace: score.global.phraseSpace,
+          words: score.global.words } });
       if (owner !== operation) return;
       if (!started || disposed || document.hidden) { await stop(true); return; }
       active = true;
       movingQuickly = false; lastMotionAt = now();
-      previousScroll = latestScroll = { y: scrollY, at: lastMotionAt };
+      previousScroll = latestScroll = { y: readingViewport().top, at: lastMotionAt };
       waitForReadingRest(); schedule();
       engine.duck([...document.querySelectorAll('audio')].some(audio => !audio.paused));
       status.textContent = `Musiken följer läsningen. Grundkaraktär: ${MODE_LABELS[score.global.mode]}.`;
@@ -215,8 +222,8 @@ export function installReadingMedia({ article, panel, progress }, {
   progress.addEventListener('input', () => {
     if (geometryDirty) measure();
     const start = Math.max(0, readingStart - 80);
-    const end = Math.max(start, readingEnd - innerHeight + 28);
-    window.scrollTo({ top: start + (end - start) * Number(progress.value) / 1000, behavior: 'instant' });
+    const end = Math.max(start, readingEnd - readingViewport().height + 28);
+    window.scrollTo({ top: start + (end - start) * Number(progress.value) / 1000 - (window.visualViewport?.offsetTop || 0), behavior: 'instant' });
     onScroll();
   });
   const onFocus = event => {
@@ -235,11 +242,13 @@ export function installReadingMedia({ article, panel, progress }, {
     disposed = false; resize.observe(article);
     // Own the previous close even if its promise settles after BFCache return.
     void stop(true, 'Starta läsmusik för att fortsätta.');
-    previousScroll = latestScroll = { y: scrollY, at: now() };
+    previousScroll = latestScroll = { y: readingViewport().top, at: now() };
     prepare(); invalidate();
   };
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', invalidate, { passive: true });
+  window.visualViewport?.addEventListener('resize', invalidate, { passive: true });
+  window.visualViewport?.addEventListener('scroll', onScroll, { passive: true });
   addEventListener('pagehide', onPageHide);
   addEventListener('pageshow', onPageShow);
   document.addEventListener('visibilitychange', onVisibility);
