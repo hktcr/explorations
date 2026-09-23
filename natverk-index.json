@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "releaseId": "20260817-network-7",
   "generatorVersion": "2.1.0",
-  "contentHash": "0585e15e53ac354c",
+  "contentHash": "47d1340366b4bd52",
   "artiklar": [
     {
       "slug": "fitness-and-possibility",
@@ -11,16 +11,16 @@
       "amne": "Evolution Fitness Artificial Intelligence Agents Search Possibility",
       "excerpt": "How goals, discovered opportunities and the methods that survive a search can reshape what AI agents do next.",
       "datum": "September 22, 2026",
-      "lastid": "≈ 33 min read",
-      "ord": 3785,
-      "avsnitt": 14,
+      "lastid": "revised September 23 · ≈ 40 min read",
+      "ord": 4598,
+      "avsnitt": 17,
       "nyckelord": [
         "fitness",
         "work",
-        "useful",
+        "system",
+        "agents",
         "model",
-        "procedure",
-        "system"
+        "useful"
       ]
     },
     {
