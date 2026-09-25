@@ -1,8 +1,8 @@
 (() => {
   "use strict";
 
-  const VERSION = "20260925-music-colours-1";
-  const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260925-music-colours-1", document.currentScript.src).href;
+  const VERSION = "20260925-music-timing-1";
+  const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260925-music-timing-1", document.currentScript.src).href;
   let readingMedia = null;
   let panelInvoker = null;
   const SEARCH_HIGHLIGHT = "explorations-reader-search";

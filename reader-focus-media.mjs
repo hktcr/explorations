@@ -1,4 +1,4 @@
-import { analyseDocument, ReadingOrchestra, MODE_LABELS, BLOCK_SKIP, readingFraction, blendProfiles } from './reader-soundscape.mjs?v=20260925-music-colours-1';
+import { analyseDocument, ReadingOrchestra, MODE_LABELS, BLOCK_SKIP, readingFraction, blendProfiles } from './reader-soundscape.mjs?v=20260925-music-timing-1';
 
 const STORAGE = 'explorationsFocusMediaV1';
 const SIZES = ['small', 'medium', 'large'];

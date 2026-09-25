@@ -1,15 +1,19 @@
 /* Explorations reading music: local analysis, an eight-bar motif and a fixed graph.
  * Inspired by VävR Hard Fork Fable 5.1.1. No samples or per-note audio nodes.
  */
-import { MODES } from './reader-score-analysis.mjs?v=20260925-music-colours-1';
-import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260925-music-colours-1';
-export * from './reader-score-analysis.mjs?v=20260925-music-colours-1';
-export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260925-music-colours-1';
+import { MODES } from './reader-score-analysis.mjs?v=20260925-music-timing-1';
+import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260925-music-timing-1';
+export * from './reader-score-analysis.mjs?v=20260925-music-timing-1';
+export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260925-music-timing-1';
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const midi = n => 440 * 2 ** ((n - 69) / 12);
+const SCHEDULE_AHEAD = 1;
+const MAX_STEPS_PER_TICK = 8;
 
 // Fixed pool: 3 pad + bass + 2 pluck + 2 flute + 2 bell + pulse + 2 keys + 2 strings = 15 sources.
-// One scheduler, <=4 steps/tick, 240 ms lookahead, no per-note nodes or retained history.
+// One scheduler, <=8 steps/tick, 1 s lookahead, no per-note nodes or retained history.
+// AudioParam automation keeps playing while the page's main thread is briefly
+// busy. Eight steps can fill the whole horizon even at the maximum 112 BPM.
 export class ReadingOrchestra {
   constructor(contextFactory = () => new (globalThis.AudioContext || globalThis.webkitAudioContext)()) {
     this.contextFactory = contextFactory;
@@ -271,7 +275,7 @@ export class ReadingOrchestra {
       this.pendingPadRecovery = false;
     }
     let count = 0;
-    while (this.nextAt < now + .24 && count++ < 4) {
+    while (this.nextAt < now + SCHEDULE_AHEAD && count++ < MAX_STEPS_PER_TICK) {
       const interval = this.schedule(this.nextAt, true);
       if (!interval) break;
       this.nextAt += interval;
@@ -324,6 +328,6 @@ export class ReadingOrchestra {
     return { contexts: Number(Boolean(this.context)), sources: this.voices.length, nodes: this.nodes.length,
       schedulers: Number(this.timer !== null), closing: Boolean(this.closing), closeFailed: this.closeFailed,
       plannedEvents: this.plans.reduce((count, plan) => count + plan.events.length, 0),
-      step: this.step, mode: this.mode };
+      step: this.step, mode: this.mode, skippedSteps: this.skippedSteps || 0 };
   }
 }

@@ -43,9 +43,9 @@ function fixture(overrides={}) {
   e.mode=e.candidateMode=e.current.mode;e.candidateSince=0;e.lastModeBar=-4;e.nextAt=.06;e.buildGraph();
   const schedules=[],pads=[],notes=[],pairs=[];
   const schedule=e.schedule.bind(e),pad=e.pads.bind(e),note=e.note.bind(e),pair=e.planPair.bind(e);
-  e.schedule=at=>{schedules.push({step:e.step,at,now:context.currentTime});return schedule(at);};
+  e.schedule=(at,checkDeadline)=>{schedules.push({step:e.step,at,now:context.currentTime});return schedule(at,checkDeadline);};
   e.pads=(at,chord)=>{pads.push({step:e.step,at,chord:[...chord]});return pad(at,chord);};
-  e.note=(...args)=>{const admitted=note(...args);notes.push({at:args[2],step:e.step,admitted});return admitted;};
+  e.note=(...args)=>{const admitted=note(...args);notes.push({voice:args[0],pitch:args[1],at:args[2],step:e.step,admitted});return admitted;};
   e.planPair=(...args)=>{pairs.push({bar:args[0],at:args[1],options:args[2]});return pair(...args);};
   const clear=()=>{calls.length=0;schedules.length=0;pads.length=0;notes.length=0;pairs.length=0;};
   const prime=step=>{while(e.step<step){context.currentTime=e.nextAt;e.nextAt+=e.schedule(e.nextAt);}clear();};
@@ -56,7 +56,7 @@ test('40, 119 and 121 ms late ticks never submit an AudioParam time before their
   for(const lateness of [.04,.119,.121]){
     const f=fixture();f.prime(4);f.context.currentTime=f.e.nextAt+lateness;
     const safe=f.context.currentTime+.02;f.e.tick();
-    assert.ok(f.schedules.length>0&&f.schedules.length<=4);
+    assert.ok(f.schedules.length>0&&f.schedules.length<=8);
     assert.ok(f.schedules.every(s=>s.at+1e-10>=safe));
     assert.ok(f.calls.every(c=>c.at+1e-10>=c.now+.02),'all parameter events and cancellations must use future times');
     assert.equal(f.e.plans.length,2);assert.equal(f.audit.nodes,52);assert.equal(f.audit.oscillators,15);
@@ -73,7 +73,7 @@ test('catch-up crosses step and pair boundaries without losing the current pad o
     const mode=f.e.mode;assert.doesNotThrow(()=>f.e.tick());
     assert.equal(f.schedules[0].step,landStep);
     assert.ok(Math.abs(f.schedules[0].at-expectedAt)<1e-8,'retain elapsed beat phase instead of anchoring to now');
-    assert.ok(f.schedules.length<=4);assert.ok(f.pairs.length<=1,'skip old pairs analytically');
+    assert.ok(f.schedules.length<=8);assert.ok(f.pairs.length<=1,'skip old pairs analytically');
     assert.equal(f.e.plans.length,2);assert.ok(f.e.plans.some(p=>p.bar===Math.floor(landStep/16)));
     assert.ok(f.e.plans.every(p=>p.beat===beat),'recovery must keep the reserved tempo');
     assert.equal(f.e.mode,mode,'recovery must not apply a candidate mode');
@@ -98,12 +98,12 @@ test('recovery at bar zero keeps the zero-gain retune plateau when the new text 
   assert.ok(retunes>0,'fixture must actually retune moved voices');
 });
 
-test('a normal running tick fills the 240 ms horizon with at most four straight sixteenth steps',()=>{
+test('a normal running tick fills the one-second horizon with at most eight straight sixteenth steps',()=>{
   const f=fixture({energy:1,thought:0});f.prime(5);f.context.currentTime=f.e.nextAt-.021;
   const at=f.e.nextAt,unit=f.e.plans[0].beat/4;f.e.tick();
-  assert.ok(f.schedules.length>=1&&f.schedules.length<=4);
+  assert.ok(f.schedules.length>=1&&f.schedules.length<=8);
   f.schedules.forEach((s,i)=>assert.ok(Math.abs(s.at-at-i*unit)<1e-10));
-  assert.ok(f.schedules.every(s=>s.at<f.context.currentTime+.24));
+  assert.ok(f.schedules.every(s=>s.at<f.context.currentTime+1));
   assert.ok(f.notes.every(note=>note.admitted));
 });
 
@@ -115,7 +115,7 @@ test('a slow recovery-plan calculation rechecks the audio clock before submittin
     f.e.planPair=function(...args){const result=planPair.apply(this,args);f.context.currentTime+=.03;return result;};
     f.e.tick();
     assert.ok(f.calls.every(c=>c.at+1e-10>=c.now+.02),'audio time can advance while the new plan is calculated');
-    assert.ok(f.schedules.length<=4);assert.equal(f.e.plans.length,2);
+    assert.ok(f.schedules.length<=8);assert.equal(f.e.plans.length,2);
     // Deferring a tick is safe only if recovery later restores the missed pad.
     f.context.currentTime+=.04;f.e.tick();
     assert.ok(f.pads.length>0,'a deferred partial-bar recovery must not lose its pending pad change');
@@ -155,4 +155,47 @@ test('regular bass and pulse keep their phases while text changes their weight a
   assert.ok(mean(forceful,'bass')>mean(reflective,'bass'));
   const pivot=planBar({bar:2,beat:60/90,tonic:48,mode:'minor',pivot:true,profile});
   assert.deepEqual(pivot.events.map(e=>[e.role,e.step]),[['bass',8]]);
+});
+
+// Compare actual admitted notes, not just safe timestamps: an engine that
+// silently skips attacks can meet every deadline and still sound broken.
+function runDelayed(stall, overrides = {}) {
+  const f = fixture(overrides);
+  const blocks = [3.02, 7.03, 11.04, 15.01, 19.02, 23.03, 27.01];
+  for (let i = 0; i <= 800; i++) {
+    const now = i * .04;
+    if (blocks.some(at => now >= at && now < at + stall)) continue;
+    f.context.currentTime = now;
+    f.e.tick();
+  }
+  return f;
+}
+
+test('foreground stalls up to 850 ms preserve every score attack on the original audio clock', () => {
+  for (const mode of ['major', 'minor', 'dorian', 'lydian']) {
+    for (const tempo of [{energy: 0, thought: 1}, {energy: 1, thought: 0}]) {
+      const profile = {mode, ...tempo};
+      const signature = f => f.notes.filter(n => n.at < 30).map(({voice,pitch,step,at,admitted}) => ({voice,pitch,step,at,admitted}));
+      const reference = signature(runDelayed(0, profile));
+      for (const stall of [.16, .35, .5, .65, .85]) {
+        const f = runDelayed(stall, profile);
+        assert.deepEqual(signature(f), reference, `${mode} / ${stall}s must not skip or shift notes`);
+        assert.equal(f.e.stats().skippedSteps, 0);
+        assert.ok(f.notes.every(n => n.admitted));
+        assert.equal(f.audit.nodes, 52); assert.equal(f.audit.oscillators, 15);
+        assert.equal(f.e.plans.length, 2); assert.ok(f.e.stats().plannedEvents <= 64);
+      }
+    }
+  }
+});
+
+test('stalls beyond the buffer recover without late automation or a burst of overdue notes', () => {
+  const f = runDelayed(1.5);
+  assert.ok(f.e.stats().skippedSteps > 0, 'must expose overruns instead of hiding them');
+  assert.ok(f.calls.every(c => c.at + 1e-10 >= c.now + .02));
+  const ticks = new Map();
+  for (const s of f.schedules) ticks.set(s.now, (ticks.get(s.now) || 0) + 1);
+  assert.ok([...ticks.values()].every(count => count <= 8));
+  assert.ok(f.notes.every(n => n.admitted));
+  assert.equal(f.audit.nodes, 52); assert.equal(f.e.plans.length, 2);
 });

@@ -1,6 +1,6 @@
 /* A small score, not an audio graph. Two bars are planned at a time. */
-import { MODES } from './reader-score-analysis.mjs?v=20260925-music-colours-1';
-import { developTheme } from './reader-motif-grammar.mjs?v=20260925-music-colours-1';
+import { MODES } from './reader-score-analysis.mjs?v=20260925-music-timing-1';
+import { developTheme } from './reader-motif-grammar.mjs?v=20260925-music-timing-1';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const mixSeed = value => {

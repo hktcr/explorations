@@ -110,7 +110,12 @@ pågående fras med tidsbaserad utjämning. Befintlig uppläsning dämpar musikv
 
 - Ingen AudioContext före användarstart. Högst en aktiv eller stängande context.
 - Exakt 15 återanvända oscillatorer och 52 ljudnoder; inga nya noder per ton.
-- En scheduler på 40 ms, 240 ms ljudframförhållning, högst fyra steg per körning.
+- En scheduler på 40 ms, en sekund ljudframförhållning, högst åtta steg per körning.
+  Ljudklockan spelar redan schemalagda toner medan sidans huvudtråd är upptagen.
+  Framtida text-/tempobyten kan därför höras upp till cirka en sekund senare;
+  volym, stopp och fokusavslut går direkt till ljudmotorn. Längre avbrott hoppar
+  över försenade toner utan att spela en upphämtningssvärm. `stats().skippedSteps`
+  redovisar sådana överkörningar utan att spara historik.
   Anslag läggs minst 20 ms framåt. Försenade steg hoppas över analytiskt på befintlig slaggrid; ingen upphämtningskö byggs efter throttling. Vid ett passerat planpar återställs två begränsade planer med fryst tempo och tonkön. Efter en missad taktgräns får klangbotten först en kort övergång innan nästa anslag.
 - Högst två planerade takter och 64 nothändelser. Planer ersätts och släpps;
   ingen växande not-/scrollhistorik. Dessa JavaScript-objekt har ingen påstådd
@@ -176,3 +181,15 @@ drivrutins- eller långtidsläckor. Fysisk Safari/iPad och mänsklig jämförand
 lyssningsacceptans återstår och är inte påstådda PASS.
 
 Web Audio-livscykel: https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/close
+
+
+### Fördröjningsprov 2026-09-25
+
+Den tidigare framförhållningen på 240 ms kunde tappa toner vid simulerade
+huvudtrådsstopp på 350 ms, även i en synlig flik. Kontinuitetstester jämför nu
+varje faktiskt schemalagd ton och dess ljudtid mot en ostörd referens under
+upprepade stopp på 160–850 ms, i alla lägen och vid tempoområdets ändpunkter.
+Avbrott på 1,5 sekunder provar fortsatt säker återhämtning. Detta belägger en
+sårbarhet och dess rättelse; det fastställer inte orsaken till varje upplevd
+rytmisk ojämnhet. Melodins avsiktliga synkoper och pauser finns kvar.
+Schemaläggningsprincip: https://web.dev/articles/audio-scheduling .
