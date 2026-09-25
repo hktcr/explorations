@@ -1,14 +1,14 @@
 /* Explorations reading music: local analysis, an eight-bar motif and a fixed graph.
  * Inspired by VävR Hard Fork Fable 5.1.1. No samples or per-note audio nodes.
  */
-import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-ipad-1';
-import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260922-focus-ipad-1';
-export * from './reader-score-analysis.mjs?v=20260922-focus-ipad-1';
-export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260922-focus-ipad-1';
+import { MODES } from './reader-score-analysis.mjs?v=20260925-music-colours-1';
+import { planBar, voiceLeading } from './reader-music-plan.mjs?v=20260925-music-colours-1';
+export * from './reader-score-analysis.mjs?v=20260925-music-colours-1';
+export { scaleTone, chordPitches, voiceLeading, planBar } from './reader-music-plan.mjs?v=20260925-music-colours-1';
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const midi = n => 440 * 2 ** ((n - 69) / 12);
 
-// Fixed pool: 3 pad + bass + 2 pluck + 2 flute + 2 bell + pulse = 11 sources.
+// Fixed pool: 3 pad + bass + 2 pluck + 2 flute + 2 bell + pulse + 2 keys + 2 strings = 15 sources.
 // One scheduler, <=4 steps/tick, 240 ms lookahead, no per-note nodes or retained history.
 export class ReadingOrchestra {
   constructor(contextFactory = () => new (globalThis.AudioContext || globalThis.webkitAudioContext)()) {
@@ -83,8 +83,8 @@ export class ReadingOrchestra {
     const feedback = this.node(ctx.createGain()); feedback.gain.value = .22;
     const wet = this.node(ctx.createGain()); wet.gain.value = .09;
     filter.connect(delay); delay.connect(feedback); feedback.connect(delay); delay.connect(wet); wet.connect(master);
-    const colours = ['triangle', 'sine', 'triangle', 'triangle', 'pluck', 'pluck', 'flute', 'flute', 'bell', 'bell', 'sine'];
-    const spectra = { pluck: [0, 1, .32, .13, .06, .025], flute: [0, 1, .09, .2, .025, .04], bell: [0, 1, .035, .21, .02, .07] };
+    const colours = ['triangle', 'sine', 'triangle', 'triangle', 'pluck', 'pluck', 'flute', 'flute', 'bell', 'bell', 'sine', 'keys', 'keys', 'strings', 'strings'];
+    const spectra = { pluck: [0, 1, .32, .13, .06, .025], flute: [0, 1, .09, .2, .025, .04], bell: [0, 1, .035, .21, .02, .07], keys: [0, 1, .48, .12, .04, .12, .015], strings: [0, 1, .38, .23, .16, .1, .065, .035] };
     const waves = Object.fromEntries(Object.entries(spectra).map(([name, partials]) => [name, ctx.createPeriodicWave(new Float32Array(partials.length), new Float32Array(partials))]));
     colours.forEach((type, i) => {
       const oscillator = this.node(ctx.createOscillator());
@@ -92,7 +92,7 @@ export class ReadingOrchestra {
       const gain = this.node(ctx.createGain()); gain.gain.value = 0;
       const pan = this.node(ctx.createStereoPanner()); pan.pan.value = i < 3 ? (i - 1) * .3 : ((i % 2) * 2 - 1) * .22;
       oscillator.connect(gain); gain.connect(pan); pan.connect(bus); oscillator.start();
-      this.voices.push({ oscillator, gain, level: 0, until: 0 });
+      this.voices.push({ oscillator, gain, instrument: type, level: 0, until: 0 });
     });
   }
 
@@ -137,6 +137,11 @@ export class ReadingOrchestra {
     voice.oscillator.frequency.cancelScheduledValues(at);
     voice.oscillator.frequency.setValueAtTime(midi(pitch), at);
     gain.linearRampToValueAtTime(level, at + attack);
+    // Breath/bow tones need a held body; plucks/keys keep their decaying attack.
+    // The release still ends inside the score's original voice reservation.
+    if (voice.instrument === 'flute' || voice.instrument === 'strings') {
+      gain.linearRampToValueAtTime(level * .78, at + duration * .58);
+    }
     gain.exponentialRampToValueAtTime(.0001, at + duration);
     gain.setValueAtTime(0, at + duration + .01);
     voice.until = at + duration + .02;

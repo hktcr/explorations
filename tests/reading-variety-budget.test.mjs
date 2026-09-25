@@ -12,13 +12,13 @@ const profiles = [
   { energy: .4, thought: .6, space: .4, valence: 0, confidence: .1, phraseSpace: .4, cadence: .5, words: 100, sectionProgress: .5, role: 'table' },
   { energy: .8, thought: .2, space: .7, valence: -.6, confidence: .9, phraseSpace: .53, cadence: .7, words: 101, sectionProgress: .75, role: 'paragraph' }
 ];
-const allowedVoices = { bass: [3], pluck: [4, 5], flute: [6, 7], bell: [8, 9], pulse: [10] };
+const allowedVoices = { bass: [3], lead: [4, 5, 6, 7, 11, 12, 13, 14], answer: [4, 5, 6, 7, 11, 12], bell: [8, 9], pulse: [10] };
 const defaults = { bar: 0, beat: 60 / 90, tonic: 48, mode: 'dorian', motifSeed: 42,
   profile: { ...profiles[1], energy: .6, valence: 0, sectionSeed: 777, seed: 9 } };
 const pc = pitch => ((pitch % 12) + 12) % 12;
 const phraseSignature = (motifSeed, cycle, profile = defaults.profile) => JSON.stringify(
   Array.from({ length: 8 }, (_, phase) => planBar({ ...defaults, motifSeed, bar: cycle * 8 + phase, profile }).events
-    .filter(event => event.role === 'pluck' || event.role === 'flute')
+    .filter(event => event.role === 'lead' || event.role === 'answer')
     .map(event => [event.role, event.step, event.pitch, Number((event.duration / defaults.beat).toFixed(6))]))
 );
 
@@ -70,7 +70,7 @@ test('actual melodic phrases vary across cycles and more than four document iden
 
 test('the audible opening cell keeps document identity through sections and phrase development', () => {
   const opening = (seed, cycle, sectionSeed) => planBar({ ...defaults, motifSeed: seed, bar: cycle * 8,
-    profile: { ...defaults.profile, sectionSeed } }).events.filter(event => event.role === 'pluck')
+    profile: { ...defaults.profile, sectionSeed } }).events.filter(event => event.role === 'lead')
     .map(event => [event.step, event.pitch, event.duration]);
   for (const seed of edgeSeeds) {
     const expected = opening(seed, 0, 0);
@@ -140,15 +140,35 @@ test('the real graph and scheduler admit every varied note while retaining two p
         assert.equal(engine.plans.length, 2);
         assert.equal(engine.plans[0].beat, engine.plans[1].beat);
         assert.ok(engine.stats().plannedEvents <= 64);
-        assert.equal(engine.stats().nodes, 40); assert.equal(engine.stats().sources, 11);
+        assert.equal(engine.stats().nodes, 52); assert.equal(engine.stats().sources, 15);
         assert.ok(interval > 0 && Number.isFinite(interval));
         at += interval;
       }
       assert.ok(attempted > 1000);
       assert.equal(admitted, attempted, `${initialMode} seed ${edgeSeeds[seedIndex]} dropped ${attempted - admitted} notes`);
-      assert.equal(audit.nodes, 40); assert.equal(audit.sources, 11); assert.equal(audit.waves, 3);
+      assert.equal(audit.nodes, 52); assert.equal(audit.sources, 15); assert.equal(audit.waves, 5);
     } finally { await engine.stop(true); }
-    assert.equal(audit.stopped, 11); assert.equal(audit.disconnected, 40); assert.equal(audit.closed, 1);
+    assert.equal(audit.stopped, 15); assert.equal(audit.disconnected, 52); assert.equal(audit.closed, 1);
     assert.equal(engine.stats().contexts, 0); assert.equal(engine.stats().plannedEvents, 0);
+  }
+});
+
+test('four consecutive phrases visit distinct lead timbres with fixed pools and unchanged opening notes', () => {
+  const pools = { pluck: [4, 5], flute: [6, 7], keys: [11, 12], strings: [13, 14] };
+  for (const motifSeed of edgeSeeds) {
+    const leaders = new Set();
+    for (let cycle = 0; cycle < 4; cycle++) {
+      const colours = new Set();
+      for (let phase = 0; phase < 8; phase++) {
+        const score = planBar({ ...defaults, motifSeed, bar: cycle * 8 + phase });
+        for (const event of score.events.filter(e => ['lead', 'answer'].includes(e.role))) {
+          assert.ok(pools[event.instrument].includes(event.voice));
+          if (event.role === 'lead') colours.add(event.instrument);
+        }
+      }
+      assert.equal(colours.size, 1, 'hold the lead timbre for a whole phrase');
+      leaders.add([...colours][0]);
+    }
+    assert.deepEqual([...leaders].sort(), ['flute', 'keys', 'pluck', 'strings']);
   }
 });

@@ -59,7 +59,7 @@ test('40, 119 and 121 ms late ticks never submit an AudioParam time before their
     assert.ok(f.schedules.length>0&&f.schedules.length<=4);
     assert.ok(f.schedules.every(s=>s.at+1e-10>=safe));
     assert.ok(f.calls.every(c=>c.at+1e-10>=c.now+.02),'all parameter events and cancellations must use future times');
-    assert.equal(f.e.plans.length,2);assert.equal(f.audit.nodes,40);assert.equal(f.audit.oscillators,11);
+    assert.equal(f.e.plans.length,2);assert.equal(f.audit.nodes,52);assert.equal(f.audit.oscillators,15);
   }
 });
 
@@ -79,7 +79,7 @@ test('catch-up crosses step and pair boundaries without losing the current pad o
     assert.equal(f.e.mode,mode,'recovery must not apply a candidate mode');
     assert.ok(f.pads.some(p=>p.at+1e-8>=expectedAt),'missed bar-zero pad must be restored');
     assert.ok(f.e.recoveryUntil>=expectedAt+.36);
-    assert.equal(f.audit.nodes,40);assert.equal(f.audit.oscillators,11);
+    assert.equal(f.audit.nodes,52);assert.equal(f.audit.oscillators,15);
     assert.ok(f.e.stats().plannedEvents<=64);
   }
 });
@@ -150,8 +150,8 @@ test('regular bass and pulse keep their phases while text changes their weight a
   const make=p=>planBar({bar:1,beat:60/90,tonic:48,mode:'dorian',motifSeed:1,profile:{...profile,...p}});
   const forceful=make({energy:.9,thought:.1,space:.1}),reflective=make({energy:.4,thought:.9,space:.9});
   const mean=(p,role)=>{const events=p.events.filter(e=>e.role===role);return events.reduce((sum,e)=>sum+e.level,0)/events.length;};
-  assert.ok(mean(forceful,'pluck')>mean(reflective,'pluck'));
-  assert.ok(mean(reflective,'flute')>mean(forceful,'flute'));
+  assert.ok(mean(forceful,'lead')>mean(reflective,'lead'));
+  assert.ok(mean(reflective,'answer')>mean(forceful,'answer'));
   assert.ok(mean(forceful,'bass')>mean(reflective,'bass'));
   const pivot=planBar({bar:2,beat:60/90,tonic:48,mode:'minor',pivot:true,profile});
   assert.deepEqual(pivot.events.map(e=>[e.role,e.step]),[['bass',8]]);

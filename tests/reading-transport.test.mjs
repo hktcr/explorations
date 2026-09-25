@@ -16,7 +16,7 @@ function engine(mode = 'dorian') {
   e.context = { currentTime: 0, state: 'running' };
   e.current = { ...profile, mode }; e.target = { ...e.current }; e.mode = mode;
   e.lastModeBar = -4; e.candidateMode = mode; e.candidateSince = 0;
-  e.voices = Array.from({length: 11}, () => ({ oscillator: { frequency: parameter() }, gain: { gain: parameter() }, until: 0, level: 0 }));
+  e.voices = Array.from({length: 15}, () => ({ oscillator: { frequency: parameter() }, gain: { gain: parameter() }, until: 0, level: 0 }));
   e.filter = { frequency: parameter() };
   return e;
 }

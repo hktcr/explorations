@@ -1,4 +1,4 @@
-import { analyseDocument, ReadingOrchestra, MODE_LABELS, BLOCK_SKIP, readingFraction, blendProfiles } from './reader-soundscape.mjs?v=20260922-focus-ipad-1';
+import { analyseDocument, ReadingOrchestra, MODE_LABELS, BLOCK_SKIP, readingFraction, blendProfiles } from './reader-soundscape.mjs?v=20260925-music-colours-1';
 
 const STORAGE = 'explorationsFocusMediaV1';
 const SIZES = ['small', 'medium', 'large'];
@@ -32,7 +32,7 @@ export function installReadingMedia({ article, panel, progress }, {
       <button type="button" data-music-toggle aria-pressed="false" disabled>Förbereder läsmusik…</button>
       <label class="reader-media-volume">Volym <input type="range" min="0" max="100" step="1" data-music-volume aria-label="Musikvolym"><output data-music-volume-value></output></label>
       <p class="reader-media-status" data-music-status role="status">Läser dokumentets karaktär…</p>
-      <p class="reader-media-hint">Musiken följer texten där du läser. Starta med knappen; vid sidbyte eller dold flik stannar den.</p>
+      <p class="reader-media-hint">Musiken följer texten och fortsätter när du byter flik. Syntflöjt, elpiano, stråkklang och mjuka plock turas om. Stäng av med knappen; lämnar du sidan stannar musiken.</p>
     </fieldset>`;
   panel.insertBefore(group, panel.querySelector('.reader-settings__actions'));
   const toggle = group.querySelector('[data-music-toggle]');
@@ -55,10 +55,10 @@ export function installReadingMedia({ article, panel, progress }, {
   // Settle and reading-rest share one replaceable timer; no scroll history is retained.
   const waitForReadingRest = () => {
     clearReadingTimer();
-    if (!active || disposed) return;
+    if (!active || disposed || document.hidden) return;
     readingTimer = setTimeout(() => {
       readingTimer = null;
-      if (!active || disposed) return;
+      if (!active || disposed || document.hidden) return;
       resting = true; schedule();
     }, Math.max(0, 8000 - (now() - lastMotionAt)));
   };
@@ -126,7 +126,7 @@ export function installReadingMedia({ article, panel, progress }, {
   };
   const update = () => {
     frame = 0;
-    if (disposed) return;
+    if (disposed || document.hidden) return;
     if (geometryDirty) measure();
     const viewport = readingViewport();
     const fraction = readingFraction(readingStart, readingEnd, viewport.height, viewport.top);
@@ -136,10 +136,10 @@ export function installReadingMedia({ article, panel, progress }, {
     const profile = profileAt();
     if (active && !movingQuickly && profile) engine.setTarget(profile);
   };
-  const schedule = () => { if (!frame && !disposed) frame = requestAnimationFrame(update); };
+  const schedule = () => { if (!frame && !disposed && !document.hidden) frame = requestAnimationFrame(update); };
   const invalidate = () => { geometryDirty = true; schedule(); };
   const onScroll = () => {
-    if (disposed) return;
+    if (disposed || document.hidden) return;
     previousScroll = latestScroll;
     latestScroll = { y: readingViewport().top, at: now() };
     const distance = Math.abs(latestScroll.y - previousScroll.y);
@@ -150,7 +150,7 @@ export function installReadingMedia({ article, panel, progress }, {
       clearReadingTimer();
       if (active) readingTimer = setTimeout(() => {
         readingTimer = null;
-        if (!active || disposed) return;
+        if (!active || disposed || document.hidden) return;
         movingQuickly = false; schedule(); waitForReadingRest();
       }, 220);
     }
@@ -198,13 +198,13 @@ export function installReadingMedia({ article, panel, progress }, {
           thought: score.global.thought, confidence: score.global.confidence, phraseSpace: score.global.phraseSpace,
           words: score.global.words } });
       if (owner !== operation) return;
-      if (!started || disposed || document.hidden) { await stop(true); return; }
+      if (!started || disposed) { await stop(true); return; }
       active = true;
       movingQuickly = false; lastMotionAt = now();
       previousScroll = latestScroll = { y: readingViewport().top, at: lastMotionAt };
       waitForReadingRest(); schedule();
       engine.duck([...document.querySelectorAll('audio')].some(audio => !audio.paused));
-      status.textContent = `Musiken följer läsningen. Grundkaraktär: ${MODE_LABELS[score.global.mode]}.`;
+      status.textContent = `Musiken spelar, även i andra flikar. Grundkaraktär: ${MODE_LABELS[score.global.mode]}.`;
     } catch {
       if (owner !== operation) return;
       await stop(true, 'Ljudet kunde inte starta. Försök med Starta läsmusik igen.');
@@ -230,7 +230,16 @@ export function installReadingMedia({ article, panel, progress }, {
     sync(); invalidate();
     if (!event.detail) void stop();
   };
-  const onVisibility = () => { if (document.hidden) void stop(true, 'Pausad när fliken doldes. Starta läsmusik för att fortsätta.'); };
+  const onVisibility = () => {
+    // A tab switch is not a stop command. Keep the score evolving from the
+    // last reading position; pause only DOM work and reading-rest inference.
+    clearReadingTimer();
+    cancelAnimationFrame(frame); frame = 0;
+    if (disposed || document.hidden) return;
+    movingQuickly = false; resting = false; lastMotionAt = now();
+    previousScroll = latestScroll = { y: readingViewport().top, at: lastMotionAt };
+    invalidate(); waitForReadingRest();
+  };
   const onNarration = event => { if (event.target.tagName === 'AUDIO') engine.duck([...document.querySelectorAll('audio')].some(audio => !audio.paused)); };
   const onPageHide = () => {
     disposed = true; abort?.abort(); cancelAnimationFrame(frame); frame = 0; resize.disconnect();

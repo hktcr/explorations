@@ -95,8 +95,7 @@ for (const outcome of ['resolve', 'reject']) test(`a stale ${outcome} cannot sto
   const old = deferred(), h = harness(t, { startQueue: [old] }); await h.flush();
   const first = h.control('music-toggle').emit('click'); await h.flush();
   assert.equal(h.controller.stats().busy, true);
-  h.document.hidden = true; await h.document.emit('visibilitychange'); await h.flush();
-  h.document.hidden = false;
+  await h.document.emit('xr-focus-change', { detail: false }); await h.flush();
   await h.control('music-toggle').emit('click'); await h.flush();
   const status = h.control('music-status').textContent, stops = h.engine.stops;
   if (outcome === 'resolve') old.resolve(true); else old.reject(new Error('old resume failed'));
@@ -109,7 +108,7 @@ for (const outcome of ['resolve', 'reject']) test(`a stale ${outcome} cannot sto
 test('an older stop completion cannot unlock or overwrite a later stop', async t => {
   const first = deferred(), second = deferred(), h = harness(t, { stopQueue: [first, second] }); await h.flush();
   await h.control('music-toggle').emit('click'); await h.flush();
-  h.document.hidden = true; void h.document.emit('visibilitychange');
+  void h.control('music-toggle').emit('click');
   void h.document.emit('xr-focus-change', { detail: false });
   first.resolve(); await h.flush();
   assert.equal(h.controller.stats().busy, true); assert.equal(h.control('music-toggle').disabled, true);
@@ -171,8 +170,34 @@ test('progress reaches a final table beyond the analysis cap, excludes reference
 test('failed context closure stays visible and prevents another start', async t => {
   const h = harness(t); await h.flush(); await h.control('music-toggle').emit('click'); await h.flush();
   h.engine.closeFailed = true;
-  h.document.hidden = true; await h.document.emit('visibilitychange'); await h.flush();
+  await h.document.emit('xr-focus-change', { detail: false }); await h.flush();
   assert.match(h.control('music-status').textContent, /ljudmotorn kunde inte stängas/);
   assert.equal(h.control('music-toggle').disabled, true);
   await h.control('music-toggle').emit('click'); assert.equal(h.engine.starts.length, 1);
+});
+
+
+test('tab switches preserve playback and freeze reading work, returning does not restart audio', async t => {
+  const h = harness(t); await h.flush(); await h.control('music-toggle').emit('click'); await h.flush();
+  const starts = h.engine.starts.length, stops = h.engine.stops, targets = h.engine.targets.length;
+  h.document.hidden = true; await h.document.emit('visibilitychange'); await h.flush();
+  assert.equal(h.controller.stats().active, true); assert.equal(h.timers.size, 0);
+  await h.scroll(700); await h.advance(60000);
+  assert.equal(h.engine.targets.length, targets); assert.equal(h.engine.stops, stops);
+  h.document.hidden = false; await h.document.emit('visibilitychange'); await h.flush();
+  assert.equal(h.engine.starts.length, starts); assert.equal(h.engine.stops, stops);
+  assert.equal(h.controller.stats().active, true); assert.equal(h.engine.targets.at(-1).seed, 104);
+  await h.control('music-toggle').emit('click'); await h.flush();
+  assert.equal(h.controller.stats().active, false); assert.equal(h.engine.stops, stops + 1);
+});
+
+test('a start clicked before a tab switch may finish while hidden without being cancelled', async t => {
+  const resume = deferred(), h = harness(t, { startQueue: [resume] }); await h.flush();
+  const starting = h.control('music-toggle').emit('click'); await h.flush();
+  h.document.hidden = true; await h.document.emit('visibilitychange'); await h.flush();
+  resume.resolve(true); await starting; await h.flush();
+  assert.equal(h.controller.stats().active, true); assert.equal(h.engine.stops, 0);
+  assert.equal(h.timers.size, 0);
+  await h.window.emit('pagehide'); await h.flush();
+  assert.equal(h.controller.stats().active, false); assert.equal(h.engine.stops, 1);
 });

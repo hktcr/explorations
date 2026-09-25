@@ -13,7 +13,7 @@ const profiles = [
   { energy: .8, space: .3, thought: .2, valence: .7, words: 30, cadence: .2, confidence: .8, role: 'heading', heading: true, seed: 789 },
   { energy: .32, space: .22, thought: .3, valence: 0, words: 101, cadence: .2, confidence: .1, role: 'quote', heading: false, seed: 987 }
 ];
-const allowedVoices = { bass: [3], pluck: [4, 5], flute: [6, 7], bell: [8, 9], pulse: [10] };
+const allowedVoices = { bass: [3], lead: [4, 5, 6, 7, 11, 12, 13, 14], answer: [4, 5, 6, 7, 11, 12], bell: [8, 9], pulse: [10] };
 const options = overrides => ({ bar: 0, beat: 60 / 90, tonic: 48, mode: 'dorian', motifSeed: 0, profile: profiles[0], pivot: false, ...overrides });
 const plan = overrides => planBar(options(overrides));
 const eventsOf = (score, role) => score.events.filter(event => event.role === role);
@@ -80,8 +80,8 @@ test('the eight-bar score stays diatonic, finite and inside the agreed event and
       for (const score of pair) {
         assert.equal(score.chord.length, 3);
         assert.ok(score.chord.every(pitch => MODES[mode].includes(pc(pitch - 48))));
-        assert.ok(eventsOf(score, 'pluck').length <= 3);
-        assert.ok(eventsOf(score, 'flute').length <= 2);
+        assert.ok(eventsOf(score, 'lead').length <= 3);
+        assert.ok(eventsOf(score, 'answer').length <= 2);
         let lastStep = -1;
         for (const event of score.events) {
           assert.ok(Number.isInteger(event.step) && event.step >= 0 && event.step < 16);
@@ -107,11 +107,11 @@ test('all planned pluck and flute notes fit their existing pools across bar and 
       const profile = profilePattern[Math.floor(bar / 2) % profilePattern.length];
       const score = plan({ bar, beat, mode, motifSeed, profile });
       for (const event of score.events) {
-        if (!['pluck', 'flute'].includes(event.role)) continue;
+        if (!['lead', 'answer'].includes(event.role)) continue;
         const at = startTime(bar, event, beat);
         assert.ok(at + 1e-9 >= (until.get(event.voice) ?? 0), `${mode} seed ${motifSeed}: ${event.role} voice ${event.voice} still busy at bar ${bar} step ${event.step}`);
         until.set(event.voice, at + event.duration + .02);
-        if (event.role === 'pluck') {
+        if (event.role === 'lead') {
           const absoluteStep = bar * 16 + event.step;
           assert.ok(absoluteStep - previousPluckStep >= 4, 'pluck gestures need deliberate breathing room');
           previousPluckStep = absoluteStep;
@@ -124,7 +124,7 @@ test('all planned pluck and flute notes fit their existing pools across bar and 
 test('flute responses have space after the lead and finish before the next bar', () => {
   for (const beat of beats) for (const profile of profiles) for (let bar = 1; bar < 8; bar += 2) {
     const score = plan({ bar, beat, profile });
-    const lead = eventsOf(score, 'pluck'), replies = eventsOf(score, 'flute');
+    const lead = eventsOf(score, 'lead'), replies = eventsOf(score, 'answer');
     assert.ok(lead.length > 0 && replies.length > 0);
     const leadEnd = Math.max(...lead.map(event => stepTime(event.step, beat) + event.duration));
     for (const event of replies) {
@@ -138,8 +138,8 @@ test('the final phrase can close on the tonic or stay open on its fifth', () => 
   for (const mode of modes) for (const motifSeed of seeds) for (const tonic of [48, 53, 57]) {
     const closed = plan({ bar: 7, tonic, mode, motifSeed, profile: { ...profiles[0], cadence: .8 } });
     const open = plan({ bar: 7, tonic, mode, motifSeed, profile: { ...profiles[0], cadence: .2 } });
-    assert.equal(eventsOf(closed, 'flute').at(-1).pitch, tonic + 12);
-    assert.equal(eventsOf(open, 'flute').at(-1).pitch, tonic + 19);
+    assert.equal(eventsOf(closed, 'answer').at(-1).pitch, tonic + 12);
+    assert.equal(eventsOf(open, 'answer').at(-1).pitch, tonic + 19);
     assert.ok(sortedClasses(closed.chord).includes(pc(tonic)));
     assert.ok(sortedClasses(open.chord).includes(pc(tonic + 7)));
   }
@@ -147,10 +147,10 @@ test('the final phrase can close on the tonic or stay open on its fifth', () => 
 
 test('the phrase develops its gesture instead of repeating the same melodic bar eight times', () => {
   for (const motifSeed of seeds) {
-    const gestures = Array.from({ length: 8 }, (_, bar) => eventsOf(plan({ bar, motifSeed }), 'pluck').map(event => event.pitch));
+    const gestures = Array.from({ length: 8 }, (_, bar) => eventsOf(plan({ bar, motifSeed }), 'lead').map(event => event.pitch));
     assert.ok(gestures.every(gesture => gesture.length > 0));
     assert.ok(new Set(gestures.map(gesture => JSON.stringify(gesture))).size >= 2);
-    assert.ok(eventsOf(plan({ bar: 0, motifSeed }), 'flute').length < eventsOf(plan({ bar: 1, motifSeed }), 'flute').length);
+    assert.ok(eventsOf(plan({ bar: 0, motifSeed }), 'answer').length < eventsOf(plan({ bar: 1, motifSeed }), 'answer').length);
   }
 });
 
@@ -203,7 +203,7 @@ function scoreEngine(profile = profiles[0]) {
   engine.lastFilter = null;
   engine.padPitches = null;
   engine.filter = { frequency: trackedParameter() };
-  engine.voices = Array.from({ length: 11 }, () => ({
+  engine.voices = Array.from({ length: 15 }, () => ({
     oscillator: { frequency: trackedParameter() }, gain: { gain: trackedParameter() }, level: 0, until: 0
   }));
   return engine;

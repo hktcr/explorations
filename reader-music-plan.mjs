@@ -1,6 +1,6 @@
 /* A small score, not an audio graph. Two bars are planned at a time. */
-import { MODES } from './reader-score-analysis.mjs?v=20260922-focus-ipad-1';
-import { developTheme } from './reader-motif-grammar.mjs?v=20260922-focus-ipad-1';
+import { MODES } from './reader-score-analysis.mjs?v=20260925-music-colours-1';
+import { developTheme } from './reader-motif-grammar.mjs?v=20260925-music-colours-1';
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const mixSeed = value => {
@@ -8,6 +8,20 @@ const mixSeed = value => {
   value = Math.imul(value ^ value >>> 16, 0x45d9f3b);
   return (value ^ value >>> 16) >>> 0;
 };
+// Voices keep their timbres for their entire lifetime. Arrangement changes
+// route new notes into fixed pools, so no sounding oscillator changes waveform.
+const INSTRUMENTS = {
+  pluck: { voices: [4, 5], attack: .018, level: 1 },
+  flute: { voices: [6, 7], attack: .09, level: .86 },
+  keys: { voices: [11, 12], attack: .025, level: 1 },
+  strings: { voices: [13, 14], attack: .14, level: .72 }
+};
+const ENSEMBLES = [
+  { lead: 'flute', answer: 'pluck' },
+  { lead: 'keys', answer: 'flute' },
+  { lead: 'strings', answer: 'keys' },
+  { lead: 'pluck', answer: 'flute' }
+];
 const stepTime = (step, beat) => step * beat / 4;
 const choose = (items, seed) => items[(seed >>> 0) % items.length];
 
@@ -53,6 +67,9 @@ const nearChord = (pitch, chord, min = 60, max = 88) => {
 export function planBar({ bar, beat, tonic, mode, motifSeed = 0, documentProfile = {}, profile = {}, pivot = false }) {
   const phase = ((bar % 8) + 8) % 8, cycle = Math.floor(bar / 8);
   const sectionSeed = profile.sectionSeed ?? motifSeed;
+  // Stable for eight bars, even when scrolling. Every four cycles visits all
+  // four ensembles; document identity chooses the starting point.
+  const ensemble = ENSEMBLES[((motifSeed >>> 0) % 4 + cycle % 4 + 4) % 4];
   const stamp = mixSeed((motifSeed >>> 0) ^ Math.imul(sectionSeed >>> 0, 0x9e3779b1) ^ Math.imul(cycle + 1, 0x85ebca6b));
   const theme = developTheme({ documentSeed: motifSeed, documentProfile, sectionSeed, cycle, profile });
   const energy = clamp(profile.energy ?? .32, 0, 1);
@@ -70,7 +87,12 @@ export function planBar({ bar, beat, tonic, mode, motifSeed = 0, documentProfile
   const degree = progression[phase];
   const chord = pivot ? [tonic, tonic + 7, tonic + 12] : chordPitches(tonic, mode, degree);
   const events = [];
-  const add = (step, voice, pitch, duration, level, attack, role) => events.push({ step, voice, pitch, duration, level, attack, role });
+  const add = (step, voice, pitch, duration, level, attack, role, instrument = role) => events.push({ step, voice, pitch, duration, level, attack, role, instrument });
+  const melodic = (step, slot, pitch, duration, level, role) => {
+    const instrument = ensemble[role], colour = INSTRUMENTS[instrument];
+    add(step, colour.voices[slot], pitch, duration, level * colour.level,
+      Math.min(colour.attack, duration * .3), role, instrument);
+  };
   const bass = pivot ? tonic - 12 : scaleTone(tonic, mode, degree) - 12;
   // A stable half-note foundation keeps variations from moving the perceived beat.
   const bassSteps = pivot ? [8] : [4, 12];
@@ -103,7 +125,7 @@ export function planBar({ bar, beat, tonic, mode, motifSeed = 0, documentProfile
     lastPitch = pitch;
     leadEnd = Math.max(leadEnd, stepTime(step, beat) + duration);
     const leadWeight = clamp(.95 + energy * .25 - space * .3 - thought * .1, .5, 1.2);
-    add(step, 4 + i % 2, pitch, duration, (.052 + energy * .03 + (i === 0 ? .004 : 0)) * leadWeight, .018, 'pluck');
+    melodic(step, i % 2, pitch, duration, (.052 + energy * .03 + (i === 0 ? .004 : 0)) * leadWeight, 'lead');
   });
   if (answering) {
     const motion = theme.contour[(phase * 2 + 1) % theme.contour.length] || 1;
@@ -114,8 +136,8 @@ export function planBar({ bar, beat, tonic, mode, motifSeed = 0, documentProfile
     const firstStep = [9, 10, 11].find(step => step >= 9 + rhythmSeed % 3 && stepTime(step, beat) >= leadEnd + beat * .08) ?? 11;
     const duration = Math.min(beat * .8, stepTime(13, beat) - stepTime(firstStep, beat) - beat * .14);
     const breathWeight = .6 + space * .9 + thought * .4;
-    if (space + thought > .7 || !sparse && energy < .65 || phase === 7) add(firstStep, 6, reply, duration, (.029 + energy * .009) * breathWeight, Math.min(.15, duration * .4), 'flute');
-    add(13, 7, landing, beat * (.5 + theme.rhythm[phase] * .03), (.027 + space * .007) * breathWeight, .11, 'flute');
+    if (space + thought > .7 || !sparse && energy < .65 || phase === 7) melodic(firstStep, 0, reply, duration, (.029 + energy * .009) * breathWeight, 'answer');
+    melodic(13, 1, landing, beat * (.5 + theme.rhythm[phase] * .03), (.027 + space * .007) * breathWeight, 'answer');
   }
   // The bell marks occasional structural arrivals; it does not narrate every paragraph.
   if ((phase === 7 && profile.cadence >= .65 || phase === 3 && (profile.role === 'quote' || space > .56)) && !profile.readingRest) {
