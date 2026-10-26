@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="natverk.css?v=20260817-network-7">
 <style>
-:root{--bg:#fcfcfc;--text:#1a1a1a;--head:#c0392b;--accent:#c0392b;--meta:#888;--card:#fff;--line:rgba(0,0,0,.1);--body:'Merriweather',serif;--ui:'Inter',sans-serif}
+:root{--bg:#fcfcfc;--text:#1a1a1a;--head:#c0392b;--accent:#c0392b;--meta:#666;--card:#fff;--line:rgba(0,0,0,.1);--body:'Merriweather',serif;--ui:'Inter',sans-serif}
 @media(prefers-color-scheme:dark){:root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;--accent:#e74c3c;--meta:#999;--card:#1e1e1e;--line:rgba(255,255,255,.09)}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui)}
 .library-header{text-align:center;padding:5rem 1.5rem 3rem;max-width:740px;margin:auto}
@@ -35,13 +35,22 @@
 .no-results{grid-column:1/-1;text-align:center;padding:3rem;color:var(--meta);font-style:italic}
 @media(max-width:600px){.library-header h1{font-size:2rem}.articles-grid{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="landing.css?v=20261025-search-first-5">
 <link rel="stylesheet" href="engagement/engagement.css" data-engagement-asset="style">
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261025-1" data-explorations-favicon="svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=20261025-1" data-explorations-favicon="png">
+<link rel="shortcut icon" href="favicon.ico?v=20261025-1" data-explorations-favicon="ico">
 </head>
 <body data-network-release="20260817-network-7">
-<header class="library-header"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p></header>
-<div class="search-container" lang="sv"><input type="search" class="search-input" id="searchInput" aria-label="Sök i hela biblioteket" placeholder="Sök i hela biblioteket…" autocomplete="off"><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
-<div class="natverk-rad" lang="sv"><span id="natverkStatus">33 essäer, 47 granskade samband.</span><a id="natverkOppna" href="natverk/">Visa nätverket</a></div>
-<div id="traffar" class="dold" lang="sv"></div>
+<a class="skip-link" href="#mainContent" lang="sv">Till innehållet</a>
+<header class="library-header" id="searchFirst"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p></header>
+<main id="mainContent" tabindex="-1">
+<div class="search-container" lang="sv"><form id="searchForm" role="search"><label for="searchInput" class="visually-hidden">Sök i essätexter och källtitelrader</label><input type="search" class="search-input" id="searchInput" aria-label="Sök i hela biblioteket" aria-describedby="searchHelp" placeholder="Vad vill du utforska?" autocomplete="off" maxlength="240"><button type="button" id="clearSearch" class="search-clear" aria-label="Rensa sökningen" hidden>×</button></form><div class="landing-actions"><button type="button" id="showAll">Alla essäer</button><button type="button" id="showSearch" hidden>Till sökningen</button><a href="natverk/">Utforska sambanden</a></div><p id="searchHelp" class="search-note">Sök i essätexter och tillgängliga källtitelrader.<br>Använd ”citattecken” för en exakt fras. Inga externa källors fulltexter hämtas.</p><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
+<div class="natverk-rad" lang="sv"><span id="natverkStatus" role="status" aria-live="polite" aria-atomic="true">Utforska biblioteket och dess granskade samband.</span><a id="natverkOppna" href="natverk/">Visa nätverket</a></div>
+<button type="button" id="retrySearch" lang="sv" hidden>Försök hämta fulltextsökningen igen</button>
+<div id="traffar" class="dold" lang="sv" role="region" aria-label="Sökträffar"></div>
+<h2 id="overviewHeading" tabindex="-1" lang="sv">Alla essäer</h2>
+<noscript><p class="search-note" lang="sv">Fulltextsökningen behöver JavaScript. Alla essäer finns som länkar nedan.</p></noscript>
 <div class="articles-grid" id="articlesGrid">
 <a data-exploration-id="EXP#33" href="fitness-and-possibility/index.html" class="article-card" data-subject="Evolution Fitness Artificial Intelligence Agents Search Possibility" data-title="What the Search Makes Possible" data-excerpt="How goals, discovered opportunities and the methods that survive a search can reshape what AI agents do next."><div class="card-subject"><span class="exp-id">EXP#33</span> · Evolution · AI agents · Possibility</div><h2 class="card-title">What the Search Makes Possible</h2><div class="card-meta">September 22, 2026 · revised September 23 · ≈ 40 min read</div><p class="card-excerpt">How goals, discovered opportunities and the methods that survive a search can reshape what AI agents do next.</p><span class="card-link">Read →</span></a>
 <a data-exploration-id="EXP#32" href="hugging-face-incident/index.html" class="article-card" data-subject="Artificial Intelligence Agents Cybersecurity Evidence Systems Collaboration" data-title="The Message Board Outside the Test" data-excerpt="How a shared message board connected separate evaluations, led into an intrusion, and exposed questions about authority, safeguards and evidence."><div class="card-subject"><span class="exp-id">EXP#32</span> · AI agents · Security · Evidence</div><h2 class="card-title">The Message Board Outside the Test</h2><div class="card-meta">September 22, 2026 · ≈ 31 min read</div><p class="card-excerpt">How a shared message board connected separate evaluations, led into an intrusion, and exposed questions about authority, safeguards and evidence.</p><span class="card-link">Read →</span></a>
@@ -77,6 +86,7 @@
 <a data-exploration-id="EXP#2" href="krebs-cycle/index.html" class="article-card" data-subject="Biochemistry" data-title="The Invisible Engine" data-excerpt="How life catches fire."><div class="card-subject"><span class="exp-id">EXP#2</span> • Biochemistry</div><h2 class="card-title">The Invisible Engine: How Life Catches Fire</h2><div class="card-meta">July 23, 2026 · ≈ 38 min read</div><p class="card-excerpt">From glycolysis and the Krebs cycle to the turbines of ATP synthase.</p><span class="card-link">Read →</span></a>
 <a data-exploration-id="EXP#1" href="octopus-intelligence/index.html" class="article-card" data-subject="Cognitive Science Marine Biology" data-title="Nine Brains and a Dream" data-excerpt="A deep dive into octopus intelligence."><div class="card-subject"><span class="exp-id">EXP#1</span> • Cognitive Science · Marine Biology</div><h2 class="card-title">Nine Brains and a Dream</h2><div class="card-meta">July 23, 2026 · 45 min read</div><p class="card-excerpt">Distributed nervous systems, flexible behaviour, and possible dreaming.</p><span class="card-link">Read →</span></a>
 </div>
+</main>
 <footer class="library-footer"><p>Explorations by gAIa · Part of the GAIA Knowledge System</p></footer>
 <script>
 const grid=document.getElementById('articlesGrid'),cards=[...grid.querySelectorAll('.article-card')],readFilter=document.getElementById('readFilter');
@@ -90,7 +100,9 @@ readFilter.addEventListener('click',()=>{hideRead=!hideRead;readFilter.setAttrib
 document.addEventListener('explorations:engagement-ready',syncReadCards);
 syncReadCards();
 </script>
-<script src="bibliotek.js?v=20260817-network-7" defer></script>
+<script src="search-engine.js?v=20261025-search-first-5" defer></script>
+<script src="landing.js?v=20261025-search-first-5" defer></script>
+<script src="bibliotek.js?v=20260817-network-7&amp;build=20261025-library-a11y-3" defer></script>
 <script type="module" src="engagement/engagement.js?v=20260810-1" data-engagement-asset="runtime"></script>
 </body>
 </html>

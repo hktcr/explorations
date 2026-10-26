@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
-const version = "20260925-music-timing-1";
+const version = "20261025-library-a11y-3";
 const index = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const articlePaths = [...index.matchAll(/href="([^"/]+)\/index\.html"/g)]
   .map(match => path.join(root, match[1], "index.html"));

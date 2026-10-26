@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const VERSION = "20260925-music-timing-1";
+  const VERSION = "20261025-library-a11y-3";
   const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260925-music-timing-1", document.currentScript.src).href;
   let readingMedia = null;
   let panelInvoker = null;
@@ -31,7 +31,7 @@
     "main"
   ];
   const LEGACY_SELECTORS = [
-    "#search", "#font", "#smaller", "#reset", "#larger", "#theme", "#print",
+    "#search", "#articleSearch", "#font", "#smaller", "#reset", "#larger", "#theme", "#print",
     ".font-controls", ".width", ".text-size-controls", ".search-container",
     ".audio-player"
   ].join(",");
@@ -347,6 +347,40 @@
     });
   };
 
+  const retireLegacySearch = (toolbar, content) => {
+    const input = toolbar.querySelector("#articleSearch");
+    if (!input) return null;
+    const query = input.value.trim();
+    const hadFocus = document.activeElement === input;
+    const changedParents = new Set();
+    const unwrap = mark => {
+      if (mark.parentNode) changedParents.add(mark.parentNode);
+      mark.replaceWith(...mark.childNodes);
+    };
+    // Unwrap only search-owned marks, retaining child content and nested anchors.
+    // Never invoke a legacy input handler: some reset the entire article.innerHTML.
+    content.querySelectorAll("mark.search-highlight").forEach(unwrap);
+    const cranberryPopup = root.dataset.explorationId === "EXP#16"
+      ? document.getElementById("popup") : null;
+    if (cranberryPopup && query) {
+      // This older template uses bare marks; its authored article has none.
+      content.querySelectorAll("mark").forEach(mark => {
+        if (mark.attributes.length === 0 && mark.textContent.toLocaleLowerCase() === query.toLocaleLowerCase()) unwrap(mark);
+      });
+    }
+    // Rejoin adjacent text split by old highlights so a longer subsequent query
+    // can match again. normalize() preserves element anchors and their listeners.
+    changedParents.forEach(parent => parent.normalize());
+    [document.getElementById("searchPopup"), cranberryPopup].filter(Boolean).forEach(popup => {
+      popup.classList.remove("visible", "show");
+      popup.hidden = true;
+      popup.dataset.xrLegacyReaderControl = "true";
+    });
+    input.value = "";
+    input.disabled = true;
+    return { query, hadFocus };
+  };
+
   const ensureToolbar = () => {
     let toolbar = document.querySelector(".toolbar, .tools");
     if (!toolbar) {
@@ -643,7 +677,13 @@
     identifyContentRoots();
     const toolbar = ensureToolbar();
     buildControls(toolbar);
+    const legacySearch = retireLegacySearch(toolbar, content);
     document.body.classList.add("xr-reader-ready");
+    if (legacySearch?.query) {
+      controls.search.value = legacySearch.query;
+      runSearch(legacySearch.query);
+    }
+    if (legacySearch?.hadFocus) openPanel();
     root.dataset.readerVersion = VERSION;
     applySavedPreferences();
     const progress = installProgress();

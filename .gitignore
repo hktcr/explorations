@@ -1,3 +1,5 @@
 # Explorations is the canonical GitHub Pages source.
 .DS_Store
 __pycache__/
+node_modules/
+*.pyc

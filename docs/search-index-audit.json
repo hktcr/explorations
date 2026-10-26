@@ -1,0 +1,535 @@
+{
+  "articles": [
+    {
+      "slug": "fitness-and-possibility",
+      "bodyBlocks": 129,
+      "headings": 17,
+      "referenceTitleLines": 26,
+      "authoredReferenceTitleLines": 26,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "hugging-face-incident",
+      "bodyBlocks": 117,
+      "headings": 18,
+      "referenceTitleLines": 18,
+      "authoredReferenceTitleLines": 18,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "photography-and-reality",
+      "bodyBlocks": 108,
+      "headings": 17,
+      "referenceTitleLines": 18,
+      "authoredReferenceTitleLines": 18,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "the-frame-that-gives-time-back",
+      "bodyBlocks": 135,
+      "headings": 14,
+      "referenceTitleLines": 19,
+      "authoredReferenceTitleLines": 19,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "instructional-material-architecture",
+      "bodyBlocks": 145,
+      "headings": 27,
+      "referenceTitleLines": 17,
+      "authoredReferenceTitleLines": 17,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "support-without-passivity",
+      "bodyBlocks": 168,
+      "headings": 35,
+      "referenceTitleLines": 4,
+      "authoredReferenceTitleLines": 4,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "before-particles-quantum-fields",
+      "bodyBlocks": 240,
+      "headings": 46,
+      "referenceTitleLines": 28,
+      "authoredReferenceTitleLines": 28,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "ai-life-consciousness-system",
+      "bodyBlocks": 202,
+      "headings": 21,
+      "referenceTitleLines": 38,
+      "authoredReferenceTitleLines": 38,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "djur-kloning",
+      "bodyBlocks": 42,
+      "headings": 6,
+      "referenceTitleLines": 16,
+      "authoredReferenceTitleLines": 16,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "disengaged-teen",
+      "bodyBlocks": 159,
+      "headings": 22,
+      "referenceTitleLines": 27,
+      "authoredReferenceTitleLines": 27,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "jotunheimen",
+      "bodyBlocks": 120,
+      "headings": 17,
+      "referenceTitleLines": 24,
+      "authoredReferenceTitleLines": 24,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "steel-cut-oat-porridge",
+      "bodyBlocks": 202,
+      "headings": 28,
+      "referenceTitleLines": 25,
+      "authoredReferenceTitleLines": 25,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "nazca-lines",
+      "bodyBlocks": 128,
+      "headings": 17,
+      "referenceTitleLines": 16,
+      "authoredReferenceTitleLines": 16,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "school-digitalisation",
+      "bodyBlocks": 174,
+      "headings": 22,
+      "referenceTitleLines": 30,
+      "authoredReferenceTitleLines": 30,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "what-is-sex",
+      "bodyBlocks": 222,
+      "headings": 39,
+      "referenceTitleLines": 64,
+      "authoredReferenceTitleLines": 64,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "climate-borders",
+      "bodyBlocks": 106,
+      "headings": 15,
+      "referenceTitleLines": 34,
+      "authoredReferenceTitleLines": 34,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "ai-environmental-impact",
+      "bodyBlocks": 109,
+      "headings": 44,
+      "referenceTitleLines": 21,
+      "authoredReferenceTitleLines": 21,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "cranberries",
+      "bodyBlocks": 42,
+      "headings": 23,
+      "referenceTitleLines": 10,
+      "authoredReferenceTitleLines": 10,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "origin-of-life",
+      "bodyBlocks": 126,
+      "headings": 18,
+      "referenceTitleLines": 34,
+      "authoredReferenceTitleLines": 34,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "ai-in-education",
+      "bodyBlocks": 42,
+      "headings": 7,
+      "referenceTitleLines": 15,
+      "authoredReferenceTitleLines": 15,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "cellular-respiration-demystified",
+      "bodyBlocks": 95,
+      "headings": 12,
+      "referenceTitleLines": 12,
+      "authoredReferenceTitleLines": 12,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "dark-matter-dark-energy",
+      "bodyBlocks": 50,
+      "headings": 22,
+      "referenceTitleLines": 13,
+      "authoredReferenceTitleLines": 12,
+      "enrichedReferenceTitles": [
+        {
+          "anchor": "src-10",
+          "title": "DESI 2024 VI: Cosmological Constraints from the Measurements of Baryon Acoustic Oscillations",
+          "originalUrl": "https://arxiv.org/abs/2404.03002",
+          "metadataSources": [
+            {
+              "url": "https://export.arxiv.org/api/query?id_list=2404.03002,2410.08053",
+              "retrievedAtUTC": "2026-10-25T16:04:26.724448+00:00",
+              "httpStatus": 200,
+              "evidenceSHA256": "76f785d1049e462e342f7c1753cea00fd9e05d1b919cea4f4953f080a68272cf",
+              "metadataBytesSHA256": "121d4ab73dfb134a0166959103f60b0b2513b13e4c86a54d8f449cba83fec6fa"
+            }
+          ],
+          "scientificSupportVerified": false,
+          "versionedIdentifier": "http://arxiv.org/abs/2404.03002v3"
+        }
+      ],
+      "unresolvedTitles": [
+        {
+          "anchor": "src-1",
+          "url": "https://www.e-periodica.ch/digbib/view?pid=hpa-001:1933:6::119",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "ambiguous-metadata",
+          "metadataReason": "RequestedPID hpa-001:1933:6::119 returns head metadata for Bericht über die physikalische Vortragswoche and og:urlPID447, not the requestedPID. Cannot establish intended Zwicky article identity from title metadata; no PDF/OCR fetched."
+        },
+        {
+          "anchor": "src-11",
+          "url": "https://arxiv.org/abs/2410.08053",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "identity-mismatch",
+          "metadataReason": "Exact URL identifies a hate-speech detection paper; local citation is attached to LUX-ZEPLIN WIMP limits. Quarantined from enrichment; no replacement source inferred."
+        },
+        {
+          "anchor": "src-16",
+          "url": "https://openlibrary.org/works/OL262740W",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "identity-mismatch",
+          "metadataReason": "Catalog explicitly redirects to The Treason of Isengard; local citation is attached to Thomas Kuhn paradigms. Quarantined from enrichment; no replacement source inferred."
+        }
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "bodyBlocks": 22,
+      "headings": 6,
+      "referenceTitleLines": 5,
+      "authoredReferenceTitleLines": 0,
+      "enrichedReferenceTitles": [
+        {
+          "anchor": "src-3",
+          "title": "Radiocarbon dates of two musk ox vertebrae reveal ice-free conditions during late Marine Isotope Stage 3 in central South Norway",
+          "originalUrl": "https://doi.org/10.1016/j.palaeo.2019.03.032",
+          "metadataSources": [
+            {
+              "url": "https://api.crossref.org/works?filter=doi%3A10.1016%2Fj.palaeo.2019.03.032&select=DOI%2Ctitle%2Cpublisher%2CURL%2Cpublished",
+              "retrievedAtUTC": "2026-10-25T16:04:10.994628+00:00",
+              "httpStatus": 200,
+              "evidenceSHA256": "437f8551897e4f22c42fa1aca34bed46867402057220f3b89d0a35f293330ed5",
+              "metadataBytesSHA256": "30be85cea8c025c864a747eb9c6d2222cc1f573d1a840f9c08205aeab23089c5"
+            }
+          ],
+          "scientificSupportVerified": false
+        },
+        {
+          "anchor": "src-10",
+          "title": "Mycoplasma ovipneumoniae - A Primary Cause of Severe Pneumonia Epizootics in the Norwegian Muskox (Ovibos moschatus) Population",
+          "originalUrl": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116",
+          "metadataSources": [
+            {
+              "url": "https://api.crossref.org/works?filter=doi%3A10.1371%2Fjournal.pone.0106116&select=DOI%2Ctitle%2Cpublisher%2CURL%2Cpublished",
+              "retrievedAtUTC": "2026-10-25T16:04:17.467778+00:00",
+              "httpStatus": 200,
+              "evidenceSHA256": "0cd1b9476278185482dc06075b4096e003e1c4ebaa8c23b3b8fbc94d41363dd0",
+              "metadataBytesSHA256": "c5028d75551a7a8fb6dadac7e5d930206ecc92fbaac4afbba3b65643efc2cb6d"
+            }
+          ],
+          "scientificSupportVerified": false
+        },
+        {
+          "anchor": "src-11",
+          "title": "Mycoplasma ovipneumoniae - A Primary Cause of Severe Pneumonia Epizootics in the Norwegian Muskox (Ovibos moschatus) Population",
+          "originalUrl": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116",
+          "metadataSources": [
+            {
+              "url": "https://api.crossref.org/works?filter=doi%3A10.1371%2Fjournal.pone.0106116&select=DOI%2Ctitle%2Cpublisher%2CURL%2Cpublished",
+              "retrievedAtUTC": "2026-10-25T16:04:17.467778+00:00",
+              "httpStatus": 200,
+              "evidenceSHA256": "0cd1b9476278185482dc06075b4096e003e1c4ebaa8c23b3b8fbc94d41363dd0",
+              "metadataBytesSHA256": "c5028d75551a7a8fb6dadac7e5d930206ecc92fbaac4afbba3b65643efc2cb6d"
+            }
+          ],
+          "scientificSupportVerified": false
+        },
+        {
+          "anchor": "src-12",
+          "title": "Mycoplasma ovipneumoniae - A Primary Cause of Severe Pneumonia Epizootics in the Norwegian Muskox (Ovibos moschatus) Population",
+          "originalUrl": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116",
+          "metadataSources": [
+            {
+              "url": "https://api.crossref.org/works?filter=doi%3A10.1371%2Fjournal.pone.0106116&select=DOI%2Ctitle%2Cpublisher%2CURL%2Cpublished",
+              "retrievedAtUTC": "2026-10-25T16:04:17.467778+00:00",
+              "httpStatus": 200,
+              "evidenceSHA256": "0cd1b9476278185482dc06075b4096e003e1c4ebaa8c23b3b8fbc94d41363dd0",
+              "metadataBytesSHA256": "c5028d75551a7a8fb6dadac7e5d930206ecc92fbaac4afbba3b65643efc2cb6d"
+            }
+          ],
+          "scientificSupportVerified": false
+        },
+        {
+          "anchor": "src-14",
+          "title": "Muskox - Bering Land Bridge National Preserve (U.S. National Park Service)",
+          "originalUrl": "https://www.nps.gov/bela/learn/nature/muskox.htm",
+          "metadataSources": [
+            {
+              "url": "https://www.nps.gov/bela/learn/nature/muskox.htm",
+              "retrievedAtUTC": "2026-10-25T16:05:44.532774+00:00",
+              "httpStatus": 200,
+              "evidenceSHA256": "c8c76a7fb7a6359527d264427d89643b99cc7d8db537d8a35032f8a5c4b3c036",
+              "metadataBytesSHA256": "283081f9c4784ffb5a926520423a5f4471c7b5244cda2aa6103b091ece95acb0"
+            }
+          ],
+          "scientificSupportVerified": false
+        }
+      ],
+      "unresolvedTitles": [
+        {
+          "anchor": "src-1",
+          "url": "https://jorgensenweb.net",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-2",
+          "url": "https://dovrefjell-sunndalsfjella.no",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-4",
+          "url": "https://dovrefjell-sunndalsfjella.no",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-5",
+          "url": "https://dovrefjell-sunndalsfjella.no",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-6",
+          "url": "https://turideer.com",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-7",
+          "url": "https://turideer.com",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-8",
+          "url": "https://www.uaf.edu/lars/",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-9",
+          "url": "https://www.uaf.edu/lars/",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-13",
+          "url": "https://nsidc.org/news/features/rain-on-snow-events-threaten-arctic-wildlife",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "unavailable",
+          "metadataReason": "Exact URL returnsHTTP404. Exact-URL constrained official-domain web search returned no results. Title not guessed from URL slug."
+        },
+        {
+          "anchor": "src-15",
+          "url": "https://dovrefjell-sunndalsfjella.no",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-16",
+          "url": "https://jorgensenweb.net",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-17",
+          "url": "https://dovrefjell-sunndalsfjella.no",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-18",
+          "url": "https://artsdatabanken.no",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-19",
+          "url": "https://www.miljodirektoratet.no",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-20",
+          "url": "https://myskoxcentrum.se",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        },
+        {
+          "anchor": "src-21",
+          "url": "https://myskoxcentrum.se",
+          "reason": "No authored bibliographic title line",
+          "metadataStatus": "insufficient-identity",
+          "metadataReason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL."
+        }
+      ]
+    },
+    {
+      "slug": "assessment-validity-reliability",
+      "bodyBlocks": 37,
+      "headings": 15,
+      "referenceTitleLines": 9,
+      "authoredReferenceTitleLines": 9,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "caesar-sallad",
+      "bodyBlocks": 24,
+      "headings": 7,
+      "referenceTitleLines": 3,
+      "authoredReferenceTitleLines": 3,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "egg-coagulation-lab",
+      "bodyBlocks": 35,
+      "headings": 10,
+      "referenceTitleLines": 13,
+      "authoredReferenceTitleLines": 13,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "adhd-explained",
+      "bodyBlocks": 73,
+      "headings": 14,
+      "referenceTitleLines": 12,
+      "authoredReferenceTitleLines": 12,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "agg-naring-och-myter",
+      "bodyBlocks": 65,
+      "headings": 6,
+      "referenceTitleLines": 4,
+      "authoredReferenceTitleLines": 4,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "utomjordisk-kunskap",
+      "bodyBlocks": 39,
+      "headings": 11,
+      "referenceTitleLines": 4,
+      "authoredReferenceTitleLines": 4,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "nordkalotten-flyttfaglar-radar",
+      "bodyBlocks": 29,
+      "headings": 9,
+      "referenceTitleLines": 7,
+      "authoredReferenceTitleLines": 7,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "digital-biome",
+      "bodyBlocks": 73,
+      "headings": 11,
+      "referenceTitleLines": 11,
+      "authoredReferenceTitleLines": 11,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "krebs-cycle",
+      "bodyBlocks": 56,
+      "headings": 12,
+      "referenceTitleLines": 7,
+      "authoredReferenceTitleLines": 7,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
+      "slug": "octopus-intelligence",
+      "bodyBlocks": 40,
+      "headings": 11,
+      "referenceTitleLines": 7,
+      "authoredReferenceTitleLines": 7,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    }
+  ],
+  "totalArticles": 33,
+  "totalReferenceTitleLines": 591,
+  "totalAuthoredReferenceTitleLines": 585,
+  "totalEnrichedReferenceTitleRows": 6,
+  "externalRequests": 0,
+  "externalRequestsScope": "Offline index generation only; prior metadata lookups are attributed in reference-title-enrichment.json."
+}

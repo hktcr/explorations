@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "scope": "Existing URL-only citation title enrichment; not scientific support verification. No original article/citation mutation.",
+  "identityReview": {
+    "verdict": "PASS",
+    "scope": "Six exact title mappings;19 rows withheld",
+    "proposalSHA256": "bd3adbb200d14c96681b539b327ec356bed99fd871e924e0326cc43694b58e3f",
+    "reviewSHA256": "4124ae313eb61979044604d1a750823ad9aafd1f20f36a8294393a531abe37e1"
+  },
+  "entries": [
+    {
+      "slug": "dark-matter-dark-energy",
+      "anchor": "src-1",
+      "originalUrl": "https://www.e-periodica.ch/digbib/view?pid=hpa-001:1933:6::119",
+      "status": "ambiguous-metadata",
+      "classification": "digitized-journal-page",
+      "reason": "RequestedPID hpa-001:1933:6::119 returns head metadata for Bericht über die physikalische Vortragswoche and og:urlPID447, not the requestedPID. Cannot establish intended Zwicky article identity from title metadata; no PDF/OCR fetched.",
+      "scientificSupportVerified": false,
+      "metadataSources": [
+        {
+          "url": "https://www.e-periodica.ch/digbib/view?pid=hpa-001:1933:6::119",
+          "retrievedAtUTC": "2026-10-25T16:05:32.549555+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "98fa55f4e50cc761b0a236e6787e49bff11592fd5fa7906e2105b8f94821b7d2",
+          "metadataBytesSHA256": "3e9b692935701c36493646a2df8298cef0845b7a4fe958d8724215cb7872cf52"
+        }
+      ]
+    },
+    {
+      "slug": "dark-matter-dark-energy",
+      "anchor": "src-10",
+      "originalUrl": "https://arxiv.org/abs/2404.03002",
+      "status": "verified-title",
+      "classification": "arXiv-identifier",
+      "reason": "Exact arXiv identifier in repository Atom metadata; latest version explicitly recorded.",
+      "scientificSupportVerified": false,
+      "title": "DESI 2024 VI: Cosmological Constraints from the Measurements of Baryon Acoustic Oscillations",
+      "metadataSources": [
+        {
+          "url": "https://export.arxiv.org/api/query?id_list=2404.03002,2410.08053",
+          "retrievedAtUTC": "2026-10-25T16:04:26.724448+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "76f785d1049e462e342f7c1753cea00fd9e05d1b919cea4f4953f080a68272cf",
+          "metadataBytesSHA256": "121d4ab73dfb134a0166959103f60b0b2513b13e4c86a54d8f449cba83fec6fa"
+        }
+      ],
+      "versionedIdentifier": "http://arxiv.org/abs/2404.03002v3"
+    },
+    {
+      "slug": "dark-matter-dark-energy",
+      "anchor": "src-11",
+      "originalUrl": "https://arxiv.org/abs/2410.08053",
+      "status": "identity-mismatch",
+      "classification": "arXiv-identifier",
+      "reason": "Exact URL identifies a hate-speech detection paper; local citation is attached to LUX-ZEPLIN WIMP limits. Quarantined from enrichment; no replacement source inferred.",
+      "scientificSupportVerified": false,
+      "metadataSources": [
+        {
+          "url": "https://export.arxiv.org/api/query?id_list=2404.03002,2410.08053",
+          "retrievedAtUTC": "2026-10-25T16:04:26.724448+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "76f785d1049e462e342f7c1753cea00fd9e05d1b919cea4f4953f080a68272cf",
+          "metadataBytesSHA256": "121d4ab73dfb134a0166959103f60b0b2513b13e4c86a54d8f449cba83fec6fa"
+        }
+      ],
+      "versionedIdentifier": "http://arxiv.org/abs/2410.08053v1"
+    },
+    {
+      "slug": "dark-matter-dark-energy",
+      "anchor": "src-16",
+      "originalUrl": "https://openlibrary.org/works/OL262740W",
+      "status": "identity-mismatch",
+      "classification": "catalog-work-with-explicit-redirect",
+      "reason": "Catalog explicitly redirects to The Treason of Isengard; local citation is attached to Thomas Kuhn paradigms. Quarantined from enrichment; no replacement source inferred.",
+      "scientificSupportVerified": false,
+      "metadataSources": [
+        {
+          "url": "https://openlibrary.org/works/OL262740W.json",
+          "retrievedAtUTC": "2026-10-25T16:04:20.361188+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "534c54c8a2b72fe1147b8234130da6907460781eb2c9295fdc32c40990dd6a56",
+          "metadataBytesSHA256": "beabaacd3a73cf186c89ab436aa90ae5c0c6c1c23ac596ed33088d8c5dbce1f7"
+        },
+        {
+          "url": "https://openlibrary.org/works/OL27478W.json",
+          "retrievedAtUTC": "2026-10-25T16:05:47.909299+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "9383c4f6bbc9221b3c5a88518ae3a6ee2969faaacb4bf7211476fdc5ba6f80e5",
+          "metadataBytesSHA256": "eb1a8372e5f2bbbefdf497416b7cb1ada7c194a5c772044a3a0cb50758f89424"
+        }
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-1",
+      "originalUrl": "https://jorgensenweb.net",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-2",
+      "originalUrl": "https://dovrefjell-sunndalsfjella.no",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-3",
+      "originalUrl": "https://doi.org/10.1016/j.palaeo.2019.03.032",
+      "status": "verified-title",
+      "classification": "DOI",
+      "reason": "Exact DOI equality in Crossref publisher-deposited metadata.",
+      "scientificSupportVerified": false,
+      "title": "Radiocarbon dates of two musk ox vertebrae reveal ice-free conditions during late Marine Isotope Stage 3 in central South Norway",
+      "metadataSources": [
+        {
+          "url": "https://api.crossref.org/works?filter=doi%3A10.1016%2Fj.palaeo.2019.03.032&select=DOI%2Ctitle%2Cpublisher%2CURL%2Cpublished",
+          "retrievedAtUTC": "2026-10-25T16:04:10.994628+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "437f8551897e4f22c42fa1aca34bed46867402057220f3b89d0a35f293330ed5",
+          "metadataBytesSHA256": "30be85cea8c025c864a747eb9c6d2222cc1f573d1a840f9c08205aeab23089c5"
+        }
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-4",
+      "originalUrl": "https://dovrefjell-sunndalsfjella.no",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-5",
+      "originalUrl": "https://dovrefjell-sunndalsfjella.no",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-6",
+      "originalUrl": "https://turideer.com",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-7",
+      "originalUrl": "https://turideer.com",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-8",
+      "originalUrl": "https://www.uaf.edu/lars/",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-9",
+      "originalUrl": "https://www.uaf.edu/lars/",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-10",
+      "originalUrl": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116",
+      "status": "verified-title",
+      "classification": "publisher-article-DOI",
+      "reason": "Exact DOI from existing PLOS URL equals Crossref publisher-deposited metadata.",
+      "scientificSupportVerified": false,
+      "title": "Mycoplasma ovipneumoniae - A Primary Cause of Severe Pneumonia Epizootics in the Norwegian Muskox (Ovibos moschatus) Population",
+      "metadataSources": [
+        {
+          "url": "https://api.crossref.org/works?filter=doi%3A10.1371%2Fjournal.pone.0106116&select=DOI%2Ctitle%2Cpublisher%2CURL%2Cpublished",
+          "retrievedAtUTC": "2026-10-25T16:04:17.467778+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "0cd1b9476278185482dc06075b4096e003e1c4ebaa8c23b3b8fbc94d41363dd0",
+          "metadataBytesSHA256": "c5028d75551a7a8fb6dadac7e5d930206ecc92fbaac4afbba3b65643efc2cb6d"
+        }
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-11",
+      "originalUrl": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116",
+      "status": "verified-title",
+      "classification": "publisher-article-DOI",
+      "reason": "Exact DOI from existing PLOS URL equals Crossref publisher-deposited metadata.",
+      "scientificSupportVerified": false,
+      "title": "Mycoplasma ovipneumoniae - A Primary Cause of Severe Pneumonia Epizootics in the Norwegian Muskox (Ovibos moschatus) Population",
+      "metadataSources": [
+        {
+          "url": "https://api.crossref.org/works?filter=doi%3A10.1371%2Fjournal.pone.0106116&select=DOI%2Ctitle%2Cpublisher%2CURL%2Cpublished",
+          "retrievedAtUTC": "2026-10-25T16:04:17.467778+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "0cd1b9476278185482dc06075b4096e003e1c4ebaa8c23b3b8fbc94d41363dd0",
+          "metadataBytesSHA256": "c5028d75551a7a8fb6dadac7e5d930206ecc92fbaac4afbba3b65643efc2cb6d"
+        }
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-12",
+      "originalUrl": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0106116",
+      "status": "verified-title",
+      "classification": "publisher-article-DOI",
+      "reason": "Exact DOI from existing PLOS URL equals Crossref publisher-deposited metadata.",
+      "scientificSupportVerified": false,
+      "title": "Mycoplasma ovipneumoniae - A Primary Cause of Severe Pneumonia Epizootics in the Norwegian Muskox (Ovibos moschatus) Population",
+      "metadataSources": [
+        {
+          "url": "https://api.crossref.org/works?filter=doi%3A10.1371%2Fjournal.pone.0106116&select=DOI%2Ctitle%2Cpublisher%2CURL%2Cpublished",
+          "retrievedAtUTC": "2026-10-25T16:04:17.467778+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "0cd1b9476278185482dc06075b4096e003e1c4ebaa8c23b3b8fbc94d41363dd0",
+          "metadataBytesSHA256": "c5028d75551a7a8fb6dadac7e5d930206ecc92fbaac4afbba3b65643efc2cb6d"
+        }
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-13",
+      "originalUrl": "https://nsidc.org/news/features/rain-on-snow-events-threaten-arctic-wildlife",
+      "status": "unavailable",
+      "classification": "exact-agency-page",
+      "reason": "Exact URL returnsHTTP404. Exact-URL constrained official-domain web search returned no results. Title not guessed from URL slug.",
+      "scientificSupportVerified": false,
+      "metadataSources": [
+        {
+          "url": "https://nsidc.org/news/features/rain-on-snow-events-threaten-arctic-wildlife",
+          "retrievedAtUTC": "2026-10-25T16:05:40.615254+00:00",
+          "httpStatus": null,
+          "evidenceSHA256": "a5b42a7150fca163f8528cf48344bcfa1d4d9b4bcbbec72ea11bc2b281e098b4",
+          "metadataBytesSHA256": null
+        }
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-14",
+      "originalUrl": "https://www.nps.gov/bela/learn/nature/muskox.htm",
+      "status": "verified-title",
+      "classification": "exact-agency-page",
+      "reason": "Exact requested/final/og:url equality; matching HTML title and og:title from NPS metadata-only head.",
+      "scientificSupportVerified": false,
+      "title": "Muskox - Bering Land Bridge National Preserve (U.S. National Park Service)",
+      "metadataSources": [
+        {
+          "url": "https://www.nps.gov/bela/learn/nature/muskox.htm",
+          "retrievedAtUTC": "2026-10-25T16:05:44.532774+00:00",
+          "httpStatus": 200,
+          "evidenceSHA256": "c8c76a7fb7a6359527d264427d89643b99cc7d8db537d8a35032f8a5c4b3c036",
+          "metadataBytesSHA256": "283081f9c4784ffb5a926520423a5f4471c7b5244cda2aa6103b091ece95acb0"
+        }
+      ]
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-15",
+      "originalUrl": "https://dovrefjell-sunndalsfjella.no",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-16",
+      "originalUrl": "https://jorgensenweb.net",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-17",
+      "originalUrl": "https://dovrefjell-sunndalsfjella.no",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-18",
+      "originalUrl": "https://artsdatabanken.no",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-19",
+      "originalUrl": "https://www.miljodirektoratet.no",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-20",
+      "originalUrl": "https://myskoxcentrum.se",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    },
+    {
+      "slug": "muskoxen-norway",
+      "anchor": "src-21",
+      "originalUrl": "https://myskoxcentrum.se",
+      "status": "insufficient-identity",
+      "classification": "homepage-or-institutional-portal",
+      "reason": "URL identifies a homepage or general portal, not a unique cited work. No plausible article title substituted. No external lookup performed for this broad URL.",
+      "scientificSupportVerified": false,
+      "metadataSources": []
+    }
+  ]
+}

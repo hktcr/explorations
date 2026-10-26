@@ -28,6 +28,16 @@ test("läsverktygen täcker den gemensamma funktionsuppsättningen", () => {
   assert.doesNotMatch(runtime, /speechSynthesis/);
 });
 
+test("äldre artikelsökning ersätts först när gemensamma kontroller finns", () => {
+  assert.match(runtime, /"#articleSearch"/);
+  const installed = runtime.indexOf('buildControls(toolbar);');
+  const disabled = runtime.indexOf('const legacySearch = retireLegacySearch(toolbar, content);');
+  assert.ok(installed > 0 && disabled > installed);
+  assert.ok(runtime.indexOf('runSearch(legacySearch.query);') > disabled);
+  assert.match(runtime, /if \(legacySearch\?\.hadFocus\) openPanel\(\);/);
+  assert.match(styles, /\.xr-reader-ready \[data-xr-legacy-reader-control="true"\]/);
+});
+
 test("gränssnittet har touch, små skärmar, utskrift och kontrastlägen", () => {
   for (const hook of [
     "@media (max-width: 700px)", "@media (pointer: coarse)", "min-height: 44px",

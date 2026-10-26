@@ -70,13 +70,48 @@
     return safe;
   }
 
+  function sameArticles(data, slugs) {
+    if (!data || data.schemaVersion !== 2 || data.releaseId !== RELEASE || !Array.isArray(data.artiklar)) return false;
+    var actual = data.artiklar.map(function (article) { return article && article.slug; });
+    return actual.length === slugs.length && new Set(actual).size === actual.length &&
+      slugs.every(function (slug) { return actual.indexOf(slug) !== -1; });
+  }
+  function reviewedRelationCount(data, slugs) {
+    if (!sameArticles(data, slugs) || !Array.isArray(data.kanter)) throw new Error('Ogiltigt nätverksindex');
+    var seen = new Set();
+    data.kanter.forEach(function (edge) {
+      if (!edge || edge.status !== 'reviewed' || edge.a === edge.b || slugs.indexOf(edge.a) === -1 || slugs.indexOf(edge.b) === -1) {
+        throw new Error('Ogiltigt granskat samband');
+      }
+      var key = [edge.a, edge.b].sort().join('\n');
+      if (seen.has(key)) throw new Error('Dubblerat samband');
+      seen.add(key);
+    });
+    return seen.size;
+  }
+  function libraryStatus(total, visible, hideRead, relationCount, networkBroken) {
+    var text = hideRead ? visible + ' av ' + total + ' essäer visas (lästa dolda).' : total + ' essäer.';
+    if (relationCount !== null) text += ' ' + relationCount + ' granskade samband i biblioteket.';
+    else if (networkBroken) text += ' Sambandsantalet kunde inte hämtas.';
+    return text;
+  }
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { sameArticles: sameArticles, reviewedRelationCount: reviewedRelationCount, libraryStatus: libraryStatus };
+  }
+  if (typeof window !== 'undefined') window.ExplorationsLibraryCore = { reviewedRelationCount: reviewedRelationCount, libraryStatus: libraryStatus };
+  if (typeof document === 'undefined') return;
+
   document.addEventListener('DOMContentLoaded', function () {
+    if (document.body && document.body.dataset.searchReady === 'true') return;
     var input = document.getElementById('searchInput');
     var grid = document.getElementById('articlesGrid');
     var resultsBox = document.getElementById('traffar');
     var status = document.getElementById('natverkStatus');
     if (!input || !grid || !resultsBox || !status) return;
     var cards = Array.prototype.slice.call(grid.querySelectorAll('.article-card'));
+    var slugs = cards.map(function (card) { return (card.getAttribute('href') || '').split('/')[0]; });
+    var relationCount = null, networkBroken = false;
     var searchData = null, searchPromise = null, searchBroken = false, timer;
 
     function show(element, visible) { element.classList.toggle('dold', !visible); }
@@ -95,7 +130,7 @@
         if (!response.ok) throw new Error('Sökindex: ' + response.status);
         return response.json();
       }).then(function (data) {
-        if (data.schemaVersion !== 2 || data.releaseId !== RELEASE || !Array.isArray(data.artiklar)) throw new Error('Ogiltigt sökindex');
+        if (!sameArticles(data, slugs)) throw new Error('Ogiltigt sökindex');
         searchData = data;
         return data;
       }).catch(function (error) {
@@ -104,6 +139,17 @@
         throw error;
       });
       return searchPromise;
+    }
+    function setEmptyCards(message) {
+      var empty = grid.querySelector('.no-results');
+      if (message) {
+        if (!empty) {
+          empty = document.createElement('p');
+          empty.className = 'no-results';
+          grid.appendChild(empty);
+        }
+        empty.textContent = message;
+      } else if (empty) empty.remove();
     }
     function applyReadFilter() {
       var visible = 0;
@@ -114,28 +160,26 @@
         card.hidden = !display;
         if (display) visible += 1;
       });
-      var empty = grid.querySelector('.no-results');
-      if (!visible && !empty) {
-        empty = document.createElement('p');
-        empty.className = 'no-results';
-        empty.textContent = 'Alla essäer är markerade som lästa.';
-        grid.appendChild(empty);
-      } else if (visible && empty) empty.remove();
+      setEmptyCards(!visible ? 'Alla essäer är markerade som lästa.' : '');
+      status.textContent = libraryStatus(cards.length, visible, readState().hideRead, relationCount, networkBroken);
     }
     function resetSearch() {
+      clearTimeout(timer);
       resultsBox.innerHTML = '';
       show(resultsBox, false);
       show(grid, true);
       applyReadFilter();
-      status.textContent = '30 essäer, 43 granskade samband.';
     }
     function renderResults(results) {
+      var totalMatches = results.length;
       results = results.filter(function (result) { return !hiddenAsRead(result.slug); });
       show(grid, false);
       show(resultsBox, true);
       if (!results.length) {
-        resultsBox.innerHTML = '<p class="ingen-traff">Ingen essä innehåller alla sökorden.</p>';
-        status.textContent = 'Ingen träff.';
+        resultsBox.innerHTML = totalMatches
+          ? '<p class="ingen-traff">Alla träffade essäer är dolda av läsfiltret.</p>'
+          : '<p class="ingen-traff">Ingen essä innehåller alla sökorden.</p>';
+        status.textContent = totalMatches ? '0 av ' + totalMatches + ' träffade essäer visas (lästa dolda).' : 'Ingen träff.';
         return;
       }
       resultsBox.innerHTML = results.map(function (result) {
@@ -147,7 +191,9 @@
               + '<span class="traff-utdrag">' + excerpt(section.text, result.termer.slice()) + '</span></a></li>';
           }).join('') + '</ul></article>';
       }).join('');
-      status.textContent = results.length + (results.length === 1 ? ' essä träffad.' : ' essäer träffade.');
+      status.textContent = readState().hideRead
+        ? results.length + ' av ' + totalMatches + ' träffade essäer visas (lästa dolda).'
+        : results.length + (results.length === 1 ? ' essä träffad.' : ' essäer träffade.');
     }
     function fallbackSearch(query) {
       var terms = tokenize(query), visible = 0;
@@ -161,12 +207,14 @@
         card.hidden = !display;
         if (display) visible += 1;
       });
-      status.textContent = visible + ' kort träffade. Fulltextsökningen är inte tillgänglig.';
+      setEmptyCards(!visible ? 'Inga synliga kort matchar sökningen och läsfiltret.' : '');
+      status.textContent = visible + ' kort visas' + (readState().hideRead ? ' (lästa dolda)' : '') + '. Fulltextsökningen är inte tillgänglig.';
     }
     function runSearch() {
       var query = input.value;
       if (query.trim().length < MIN_CHARS) { resetSearch(); return; }
       if (searchBroken) { fallbackSearch(query); return; }
+      status.textContent = 'Söker…';
       loadSearch().then(function (data) {
         if (input.value === query) renderResults(searchIndex(data, query));
       }).catch(function () {
@@ -191,5 +239,16 @@
       }
     });
     resetSearch();
+    fetch('natverk-index.json?v=' + encodeURIComponent(RELEASE)).then(function (response) {
+      if (!response.ok) throw new Error('Nätverksindex: ' + response.status);
+      return response.json();
+    }).then(function (data) {
+      relationCount = reviewedRelationCount(data, slugs);
+    }).catch(function () {
+      networkBroken = true;
+    }).then(function () {
+      // A late network response must not overwrite a newer search status.
+      if (input.value.trim().length < MIN_CHARS) applyReadFilter();
+    });
   });
 })();

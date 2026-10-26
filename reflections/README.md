@@ -66,8 +66,8 @@ Från 1180 CSS-pixlar används en dockad sidopanel som lämnar artikeltexten syn
 
 Kontroller har minst 44 gånger 44 CSS-pixlars träffyta på touch. Fokus, status och val uttrycks inte enbart med färg. Stilar finns för `forced-colors`, reducerad rörelse, safe area och utskrift. Svenskt gränssnitt ska märkas med `lang="sv"` även när artikeltexten är engelsk.
 
-## Viktig varning om källsynkning
+## Kanonisk källa och publicering
 
-`/workspace/explorations` är enligt repots egen instruktion en publiceringskopia som synkas från `../Utforskningar/` via `deploy.sh`. Ändringar som endast görs i publiceringskopian kan skrivas över vid nästa synkning.
+Detta GitHub-repo är den kanoniska källan för Explorations, enligt [AGENTS.md](../AGENTS.md). Den tidigare instruktionen om synkning från `../Utforskningar/` via `deploy.sh` är historisk och ska inte användas för den nuvarande publiceringen.
 
-Alla bestående ändringar i detta reflektionslager måste därför också föras in i den verkliga källan innan nästa deploy. Kontrollera alltid både källan och publiceringskopian före push. Synkningssteget får inte råka föra privata IndexedDB-data, råkommentarer eller råa Readwise-highlights till det publika repot.
+Följ repots aktuella publiceringsrutin och kontroller före en uttryckligen godkänd publicering. En lokal ändring är inte en publicerad ändring. Privata IndexedDB-data, råkommentarer och råa Readwise-highlights får aldrig föras till det publika repot.

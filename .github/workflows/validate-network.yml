@@ -9,7 +9,12 @@ jobs:
         with: {node-version: 22}
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
+      - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: python3 scripts/build_search_index.py
       - run: git diff --exit-code -- natverk-index.json sok-index.json
+      - run: python3 scripts/build_landing_search.py
+      - run: git diff --exit-code -- landing-search-index.json docs/search-index-audit.json
+      - run: python3 scripts/inject-favicon.py
       - run: node scripts/validate-network.cjs
+      - run: python3 scripts/audit_article_links.py --check-baseline
       - run: node --test
