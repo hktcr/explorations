@@ -9,6 +9,8 @@
 .read-filter{min-height:44px}
 .read-filter[aria-pressed="true"]{background:#b23326;border-color:#b23326;color:#fff}
 body[data-search-ready=true] .natverk-rad{color:var(--meta)}
+/* The late-loaded legacy legend resolves its colors at :root, not the dark body. */
+body[data-search-ready=true] #explorations-status-legend{color:var(--meta)}
 body[data-search-ready=true] #natverkOppna{background:#b23326;border-color:#b23326;color:#fff}
 .skip-link{position:absolute;left:1rem;top:-6rem;z-index:100;background:#fff;color:#a52a20;padding:.8rem 1rem;font:600 .9rem var(--ui);border-radius:4px}
 .skip-link:focus{top:1rem}
@@ -26,7 +28,7 @@ body[data-search-ready=true] .library-header>p{display:none}
 body[data-view=home] .search-container{max-width:790px}
 body[data-view=home] #searchForm{box-shadow:0 0 45px rgba(192,57,43,.07);border-radius:8px}
 body[data-view=home] #searchInput{border-radius:7px;border-color:rgba(231,76,60,.7);background:#151315;padding-left:1.6rem;font:400 1.1rem var(--ui);box-shadow:inset 3px 0 0 var(--accent)}
-body[data-view=home] .filter-row,body[data-view=home] #overviewHeading,body[data-view=home] .natverk-rad>a{display:none}
+body[data-view=home] .filter-row,body[data-view=home] #overviewHeading,body[data-view=home] #natverkOppna{display:none}
 body[data-view=home] .natverk-rad{min-height:0;margin:0;padding:0}
 body[data-view=home] #natverkStatus{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 body[data-view=home] .library-footer{border:0;padding-top:clamp(4rem,15vh,10rem);font-size:.72rem;color:#a69d97}

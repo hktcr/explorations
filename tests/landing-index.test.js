@@ -87,6 +87,18 @@ test('forced-dark status uses body metadata, and pressed controls retain readabl
  const contrast=(a,b)=>(Math.max(lum(a),lum(b))+.05)/(Math.min(lum(a),lum(b))+.05);
  assert.ok(contrast('ffffff','b23326')>=4.5);assert.ok(contrast('b7afaa','0f0e10')>=4.5);assert.match(css,/\.read-filter\[aria-pressed="true"\]\{background:#b23326;border-color:#b23326;color:#fff\}/);
 });
+
+test('landing legend uses body contrast and home keeps one equivalent network link',()=>{
+ const css=fs.readFileSync(path.join(ROOT,'landing.css'),'utf8');
+ const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+ // The ID selectors outrank the later-loaded reflection legend and network CSS.
+ assert.match(css,/body\[data-search-ready=true\] #explorations-status-legend\{color:var\(--meta\)\}/);
+ assert.match(css,/body\[data-view=home\] #natverkOppna\{display:none\}/);
+ assert.ok(!css.includes('body[data-view=all] #natverkOppna{display:none}'));
+ assert.match(html,/<a href="natverk\/">Utforska sambanden<\/a>/);
+ assert.match(html,/<a id="natverkOppna" href="natverk\/">Visa nätverket<\/a>/);
+ assert.match(html,/landing\.css\?v=20261026-landing-contrast-1/);
+});
 test('all current article language declarations are preserved in the index',()=>{
  const d=JSON.parse(fs.readFileSync(path.join(ROOT,'landing-search-index.json')));
  for(const a of d.articles){const source=fs.readFileSync(path.join(ROOT,a.slug,'index.html'),'utf8');const declared=source.match(/<html\b[^>]*\blang\s*=\s*["']([^"']+)/i)?.[1];assert.equal(a.language,declared);assert.equal(a.language,'en');}
