@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../natverk.css?v=20260817-network-7">
+<link rel="stylesheet" href="../natverk.css?v=20260817-network-7&amp;ui=20261027-search-1">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20261025-1" data-explorations-favicon="svg">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=20261025-1" data-explorations-favicon="png">
 <link rel="shortcut icon" href="../favicon.ico?v=20261025-1" data-explorations-favicon="ico">
@@ -28,6 +28,8 @@
     <nav id="natverkNoder" aria-label="Noder i sambandsnätverket"></nav>
     <div class="natverk-legend" aria-label="Förklaring">
       <span><i class="legend-nod" aria-hidden="true"></i>Essä</span>
+      <span><i class="legend-traff" aria-hidden="true"></i>Direkt sökträff</span>
+      <span><i class="legend-kopplad" aria-hidden="true"></i>Kopplad essä</span>
       <span><i class="legend-linje" aria-hidden="true"></i>Granskat samband</span>
     </div>
   </section>
@@ -39,8 +41,15 @@
       </div>
       <label class="essa-sok">
         <span class="visuellt-dold">Sök bland essäerna</span>
-        <input id="essaSok" type="search" placeholder="Sök titel eller ämne…" autocomplete="off">
+        <input id="essaSok" type="search" placeholder="Sök titel, ämne eller essä-id…" autocomplete="off" aria-describedby="essaSokHjalp">
       </label>
+      <div class="sok-kontroller">
+        <button id="essaSokRensa" type="button" disabled>Rensa sökning</button>
+        <button id="natverkRorelse" type="button" aria-pressed="false">Pausa rörelse</button>
+      </div>
+      <p id="essaSokHjalp" class="sok-hjalp">Sökrelevans: alla sökord ska finnas i titel, ämne eller essä-id. Heldragen ring visar en direkt träff; streckad ring visar en kopplad essä.</p>
+      <p class="sok-hjalp">Sambandstyp och motivering visas när du väljer en essä. En textträff betyder inte ett starkare vetenskapligt samband. Puls och flöde visar sökfokus, inte sambandets styrka eller riktning.</p>
+      <p id="essaSokStatus" class="sok-status" role="status" aria-live="polite" aria-atomic="true"></p>
       <ol class="essa-lista" id="essaLista"></ol>
     </section>
     <section class="relationspanel" id="relationspanel" aria-labelledby="relationspanelTitel">
@@ -58,6 +67,6 @@
     </section>
   </aside>
 </main>
-<script src="../natverk.js?v=20260817-network-7" defer></script>
+<script src="../natverk.js?v=20260817-network-7&amp;ui=20261027-search-1" defer></script>
 </body>
 </html>

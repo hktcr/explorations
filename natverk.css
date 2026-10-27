@@ -63,6 +63,8 @@ body.natverk-sida { height:100dvh; margin:0; overflow:hidden; background:var(--n
 .natverk-legend span { display:inline-flex; align-items:center; gap:.4rem; }
 .legend-nod { width:.72rem; height:.72rem; border-radius:50%; background:var(--network-accent); }
 .legend-linje { width:1.35rem; height:2px; background:var(--network-accent); opacity:.55; }
+.legend-traff, .legend-kopplad { width:.8rem; height:.8rem; border:2px solid var(--network-accent); border-radius:50%; }
+.legend-kopplad { border-style:dashed; }
 
 .nod { position:absolute; top:0; left:0; width:var(--network-hit); height:var(--network-hit); padding:0; border:0; border-radius:50%; background:transparent; color:var(--network-text); cursor:pointer; pointer-events:auto; touch-action:manipulation; transition:opacity .24s ease; }
 .nod-prick { position:absolute; top:50%; left:50%; width:28px; height:28px; border-radius:50%; background:var(--network-accent); opacity:.78; transform:translate(-50%,-50%); box-shadow:0 0 12px color-mix(in srgb,var(--network-accent) 34%,transparent); transition:transform .2s ease,box-shadow .2s ease; }
@@ -70,6 +72,13 @@ body.natverk-sida { height:100dvh; margin:0; overflow:hidden; background:var(--n
 .nod:hover .nod-prick, .nod:focus-visible .nod-prick { transform:translate(-50%,-50%) scale(1.16); }
 .nod:focus-visible { outline:3px solid var(--network-accent); outline-offset:2px; }
 .nod.svag { opacity:.15; }
+.nod.svag:focus-visible, .nod.svag:hover { opacity:1; }
+.nod-traff::after, .nod-kopplad::after { content:""; position:absolute; inset:1px; border:2px solid var(--network-accent); border-radius:50%; pointer-events:none; }
+.nod-kopplad::after { border-style:dashed; }
+.nod-traff .nod-prick { opacity:1; }
+.nod-traff .nod-etikett { color:var(--network-text); font-weight:600; }
+.sok-rorelse .nod-traff::after { animation:sok-puls 4.8s ease-in-out infinite; }
+@keyframes sok-puls { 0%,100% { transform:scale(1); } 50% { transform:scale(1.12); } }
 .nod-vald { z-index:3; }
 .nod-vald .nod-prick { opacity:1; transform:translate(-50%,-50%) scale(1.26); box-shadow:0 0 0 3px var(--network-bg),0 0 0 6px var(--network-accent); }
 .nod-vald .nod-etikett { color:var(--network-text); font-weight:600; }
@@ -84,6 +93,14 @@ body.natverk-sida { height:100dvh; margin:0; overflow:hidden; background:var(--n
 .overline { margin:0; color:var(--network-muted); font:600 .62rem/1.2 var(--network-ui); letter-spacing:.12em; text-transform:uppercase; }
 .essa-sok input { width:100%; min-height:44px; padding:.7rem .8rem; border:1px solid var(--network-border); border-radius:9px; background:var(--network-bg); color:var(--network-text); font:.84rem/1.2 var(--network-ui); }
 .essa-sok input:focus { outline:3px solid color-mix(in srgb,var(--network-accent) 34%,transparent); border-color:var(--network-accent); }
+.sok-kontroller { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.5rem; }
+.sok-kontroller button { min-height:44px; padding:.5rem .7rem; border:1px solid var(--network-border); border-radius:8px; background:var(--network-bg); color:var(--network-text); font:500 .72rem/1.3 var(--network-ui); cursor:pointer; }
+.sok-kontroller button:focus-visible { outline:3px solid var(--network-accent); outline-offset:2px; }
+.sok-kontroller button:disabled { color:var(--network-muted); cursor:default; }
+.sok-hjalp, .sok-status { margin:.65rem 0 0; color:var(--network-muted); font:.72rem/1.5 var(--network-ui); }
+.sok-status { color:var(--network-text); }
+.sok-status:empty { display:none; }
+.essa-trafforsak { grid-column:2; color:var(--network-heading); font:.66rem/1.4 var(--network-ui); }
 .essa-lista { max-height:34dvh; margin:.85rem 0 0; padding:0; overflow:auto; list-style:none; }
 .essa-lista li[hidden] { display:none; }
 .essa-knapp { display:grid; grid-template-columns:auto minmax(0,1fr); column-gap:.65rem; width:100%; min-height:48px; padding:.62rem .55rem; border:0; border-bottom:1px solid var(--network-border); background:transparent; color:var(--network-text); text-align:left; cursor:pointer; }
@@ -123,7 +140,7 @@ body.natverk-sida { height:100dvh; margin:0; overflow:hidden; background:var(--n
   .essa-lista { max-height:38dvh; }
 }
 @media (max-width:700px), (pointer:coarse) {
-  .nod-etikett { display:none; max-width:10rem; white-space:normal; text-align:center; }
+  .nod-etikett { display:none; left:calc(50% + var(--label-offset,0px)); width:160px; max-width:10rem; white-space:normal; text-align:center; }
   .nod-vald .nod-etikett, .nod:focus-visible .nod-etikett { display:block; }
 }
 @media (max-width:700px) {
@@ -144,10 +161,12 @@ body.natverk-sida { height:100dvh; margin:0; overflow:hidden; background:var(--n
   #natverkOppna { width:100%; }
 }
 @media (prefers-reduced-motion:reduce) {
+  .sok-rorelse .nod-traff::after { animation:none; }
   *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
 @media (forced-colors:active) {
   .nod-prick { border:2px solid ButtonText; }
   .nod-vald .nod-prick { outline:3px solid Highlight; }
+  .nod-traff::after, .nod-kopplad::after { border-color:ButtonText; }
   .essa-vald .essa-knapp { outline:2px solid Highlight; }
 }

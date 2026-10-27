@@ -113,12 +113,37 @@
     });
   }
 
+  // Network search is metadata relevance, independent of curated relation types.
+  function networkSearch(articles, relations, query) {
+    var terms = normalize(query).match(/[\p{L}\p{M}\p{N}]+/gu) || [];
+    var active = String(query || '').trim().length > 0;
+    var matches = new Map(), neighbors = new Set(), links = new Set();
+    if (active && terms.length) articles.forEach(function (article) {
+      var fields = [['titel', 'titel'], ['amne', 'ämne'], ['id', 'essä-id']];
+      var haystack = fields.map(function (field) { return normalize(article[field[0]]); }).join(' ');
+      if (terms.every(function (term) { return haystack.includes(term); })) {
+        matches.set(article.slug, fields.filter(function (field) {
+          return terms.some(function (term) { return normalize(article[field[0]]).includes(term); });
+        }).map(function (field) { return field[1]; }));
+      }
+    });
+    relations.forEach(function (edge, index) {
+      if (edge.status === 'reviewed' && (matches.has(edge.a) || matches.has(edge.b))) {
+        links.add(index);
+        if (!matches.has(edge.a)) neighbors.add(edge.a);
+        if (!matches.has(edge.b)) neighbors.add(edge.b);
+      }
+    });
+    return {active:active, matches:matches, neighbors:neighbors, links:links};
+  }
+
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       normalize:normalize,
       tokenize:tokenize,
       countMatches:countMatches,
       searchIndex:searchIndex,
+      networkSearch:networkSearch,
       validateNetwork:validateNetwork,
       validateRelations:validateRelations,
       relationSignature:relationSignature,
@@ -138,6 +163,9 @@
     var list = document.getElementById('essaLista');
     var listCount = document.getElementById('essaAntal');
     var listSearch = document.getElementById('essaSok');
+    var searchStatus = document.getElementById('essaSokStatus');
+    var clearSearch = document.getElementById('essaSokRensa');
+    var motionButton = document.getElementById('natverkRorelse');
     var panelTitle = document.getElementById('relationspanelTitel');
     var panelSubject = document.getElementById('relationspanelAmne');
     var panelMeta = document.getElementById('relationspanelMeta');
@@ -150,9 +178,13 @@
     if (!graph || !nodeLayer || !canvas || !status || !list || !listSearch) return;
 
     var networkData = null, relations = [], nodes = [], edges = [];
-    var bySlug = {}, nodeElements = {}, listElements = {};
+    var bySlug = Object.create(null), nodeElements = {}, listElements = {};
     var selected = null, animation = null, resizeTimer = null;
     var offsetX = 0, offsetY = 0, targetOffsetX = 0, targetOffsetY = 0;
+    var search = networkSearch([], [], '');
+    var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    var darkMode = matchMedia('(prefers-color-scheme: dark)');
+    var paused = false, size = null, accent = '';
 
     function fetchJson(path) {
       return fetch(root + path + '?v=' + encodeURIComponent(RELEASE)).then(function (response) {
@@ -162,7 +194,7 @@
     }
     function dimensions() {
       var rectangle = nodeLayer.getBoundingClientRect();
-      return {width:Math.max(300, rectangle.width), height:Math.max(360, rectangle.height)};
+      return {width:Math.max(1, rectangle.width), height:Math.max(1, rectangle.height)};
     }
     function color() {
       return getComputedStyle(document.documentElement).getPropertyValue('--network-accent').trim() || '#c0392b';
@@ -174,20 +206,48 @@
         return {edge:edge, node:bySlug[edge.a === slug ? edge.b : edge.a]};
       }).filter(function (item) { return item.node; });
     }
-    function updateHash(slug) {
-      var next = slug ? '#' + encodeURIComponent(slug) : location.pathname + location.search;
-      history.replaceState(null, '', next);
+    function updateUrl(push) {
+      var url = new URL(location.href);
+      if (listSearch.value.trim()) url.searchParams.set('q', listSearch.value);
+      else url.searchParams.delete('q');
+      url.hash = selected ? encodeURIComponent(selected) : '';
+      if (url.href !== location.href) history[push ? 'pushState' : 'replaceState'](null, '', url);
     }
     function renderList(filter) {
-      var terms = tokenize(filter);
+      search = networkSearch(nodes, edges, filter);
       var visible = 0;
       nodes.forEach(function (node) {
-        var haystack = normalize(node.titel + ' ' + node.amne + ' ' + node.id);
-        var show = terms.every(function (term) { return haystack.indexOf(term) !== -1; });
+        var show = !search.active || search.matches.has(node.slug);
         listElements[node.slug].hidden = !show;
+        var reason = listElements[node.slug].querySelector('.essa-trafforsak');
+        reason.textContent = search.matches.has(node.slug) ? 'Direkt träff i ' + search.matches.get(node.slug).join(' och ') : '';
+        reason.hidden = !search.active;
         if (show) visible += 1;
       });
       listCount.textContent = String(visible);
+      clearSearch.disabled = !listSearch.value;
+      searchStatus.textContent = search.active ? (visible ? visible + ' direkta träffar, ' + search.links.size + ' granskade samband och ' + search.neighbors.size + ' kopplade essäer. Välj en träff för sambandstyp och motivering.' : 'Inga träffar. Prova andra ord eller rensa sökningen.') : '';
+      refreshHighlights();
+    }
+    function refreshHighlights() {
+      var neighbors = new Set(selected ? relationsFor(selected).map(function (item) { return item.node.slug; }) : []);
+      nodes.forEach(function (node) {
+        var slug = node.slug, current = slug === selected, direct = search.matches.has(slug);
+        var connected = search.neighbors.has(slug);
+        var element = nodeElements[slug];
+        element.classList.toggle('nod-vald', current);
+        element.classList.toggle('nod-granne', !search.active && neighbors.has(slug));
+        element.classList.toggle('nod-traff', direct);
+        element.classList.toggle('nod-kopplad', connected);
+        element.classList.toggle('svag', search.active ? !direct && !connected && !current : !!selected && !current && !neighbors.has(slug));
+        element.setAttribute('aria-pressed', String(current));
+        element.setAttribute('aria-label', node.titel + (search.active ? direct ? '. Direkt sökträff i ' + search.matches.get(slug).join(' och ') : connected ? '. Granskat samband med sökträff' : '. Ingen direkt sökträff' : ''));
+        listElements[slug].classList.toggle('essa-vald', current);
+        listElements[slug].querySelector('button').setAttribute('aria-pressed', String(current));
+      });
+      if (search.active) targetOffsetX = targetOffsetY = 0;
+      else if (selected) focusSelected(bySlug[selected]);
+      startDrawing();
     }
     function renderPanel(node) {
       var related = relationsFor(node.slug);
@@ -219,42 +279,24 @@
       targetOffsetX = size.width / 2 - node.x;
       targetOffsetY = size.height / 2 - node.y;
     }
-    function selectNode(node, focusPanel) {
+    function selectNode(node, focusPanel, fromHistory) {
       selected = node.slug;
-      var neighbors = {};
-      relationsFor(node.slug).forEach(function (item) { neighbors[item.node.slug] = true; });
-      Object.keys(nodeElements).forEach(function (slug) {
-        var current = slug === selected;
-        nodeElements[slug].classList.toggle('nod-vald', current);
-        nodeElements[slug].classList.toggle('nod-granne', !!neighbors[slug]);
-        nodeElements[slug].classList.toggle('svag', !current && !neighbors[slug]);
-        nodeElements[slug].setAttribute('aria-pressed', current ? 'true' : 'false');
-        listElements[slug].classList.toggle('essa-vald', current);
-        listElements[slug].setAttribute('aria-current', current ? 'true' : 'false');
-      });
       renderPanel(node);
-      focusSelected(node);
-      listElements[node.slug].scrollIntoView({block:'nearest', behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
-      status.textContent = node.titel + ' vald. ' + relationsFor(node.slug).length + ' granskade samband visas.';
-      updateHash(node.slug);
-      startDrawing();
+      refreshHighlights();
+      if (!listElements[node.slug].hidden && !fromHistory) listElements[node.slug].scrollIntoView({block:'nearest', behavior:'auto'});
+      status.textContent = node.titel + ' vald. ' + relationsFor(node.slug).length + ' granskade samband i panelen.';
+      if (!fromHistory) updateUrl(true);
       if (focusPanel && panelTitle) panelTitle.focus({preventScroll:true});
     }
-    function clearSelection() {
+    function clearSelection(fromHistory) {
       selected = null;
       targetOffsetX = 0;
       targetOffsetY = 0;
-      Object.keys(nodeElements).forEach(function (slug) {
-        nodeElements[slug].classList.remove('nod-vald', 'nod-granne', 'svag');
-        nodeElements[slug].setAttribute('aria-pressed', 'false');
-        listElements[slug].classList.remove('essa-vald');
-        listElements[slug].removeAttribute('aria-current');
-      });
+      refreshHighlights();
       panelEmpty.hidden = false;
       panelContent.hidden = true;
       status.textContent = nodes.length + ' essäer, ' + edges.length + ' granskade samband. Välj en essä eller nod.';
-      updateHash('');
-      startDrawing();
+      if (!fromHistory) updateUrl(true);
     }
     function buildInterface() {
       nodeLayer.innerHTML = '';
@@ -281,7 +323,7 @@
         var listButton = document.createElement('button');
         listButton.type = 'button';
         listButton.className = 'essa-knapp';
-        listButton.innerHTML = '<span class="essa-id">' + escapeHtml(node.id) + '</span><span class="essa-titel">' + escapeHtml(node.titel) + '</span><span class="essa-amne">' + escapeHtml(node.amne.split(' ').slice(0, 4).join(' ')) + '</span>';
+        listButton.innerHTML = '<span class="essa-id">' + escapeHtml(node.id) + '</span><span class="essa-titel">' + escapeHtml(node.titel) + '</span><span class="essa-amne">' + escapeHtml(node.amne.split(' ').slice(0, 4).join(' ')) + '</span><span class="essa-trafforsak" hidden></span>';
         listButton.addEventListener('click', function () { selectNode(node, false); });
         item.appendChild(listButton);
         list.appendChild(item);
@@ -290,7 +332,6 @@
       listCount.textContent = String(nodes.length);
     }
     function place() {
-      var size = dimensions();
       var radius = Math.min(size.width, size.height) * 0.36;
       nodes.forEach(function (node, index) {
         var angle = index / nodes.length * Math.PI * 2;
@@ -301,7 +342,6 @@
       });
     }
     function tick() {
-      var size = dimensions();
       for (var i = 0; i < nodes.length; i += 1) {
         for (var j = i + 1; j < nodes.length; j += 1) {
           var a = nodes[i], b = nodes[j], dx = b.x - a.x, dy = b.y - a.y;
@@ -332,71 +372,111 @@
         node.vx *= 0.82;
         node.vy *= 0.82;
         node.x = Math.max(26, Math.min(size.width - 26, node.x + node.vx));
-        node.y = Math.max(26, Math.min(size.height - 46, node.y + node.vy));
+        node.y = Math.max(26, Math.min(size.height - 105, node.y + node.vy));
       });
     }
-    function draw() {
-      if (!nodes.length) return;
-      offsetX += (targetOffsetX - offsetX) * 0.13;
-      offsetY += (targetOffsetY - offsetY) * 0.13;
-      var size = dimensions(), ratio = window.devicePixelRatio || 1;
+    function motionAllowed() { return !paused && !reducedMotion.matches && !document.hidden; }
+    function flowing() { return motionAllowed() && search.active && search.links.size > 0; }
+    function draw(time) {
+      if (!nodes.length || !size) return;
+      var moving = motionAllowed();
+      offsetX = moving ? offsetX + (targetOffsetX - offsetX) * 0.13 : targetOffsetX;
+      offsetY = moving ? offsetY + (targetOffsetY - offsetY) * 0.13 : targetOffsetY;
+      var ratio = window.devicePixelRatio || 1;
       var context = canvas.getContext('2d');
-      canvas.width = Math.round(size.width * ratio);
-      canvas.height = Math.round(size.height * ratio);
-      canvas.style.width = size.width + 'px';
-      canvas.style.height = size.height + 'px';
+      if (canvas.width !== Math.round(size.width * ratio) || canvas.height !== Math.round(size.height * ratio)) {
+        canvas.width = Math.round(size.width * ratio);
+        canvas.height = Math.round(size.height * ratio);
+        canvas.style.width = size.width + 'px';
+        canvas.style.height = size.height + 'px';
+      }
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
       context.clearRect(0, 0, size.width, size.height);
-      context.strokeStyle = color();
+      context.strokeStyle = accent;
+      context.fillStyle = accent;
       context.lineWidth = 1.2;
-      edges.forEach(function (edge) {
-        var active = !selected || edge.a === selected || edge.b === selected;
+      edges.forEach(function (edge, index) {
+        var active = search.active ? search.links.has(index) : !selected || edge.a === selected || edge.b === selected;
         context.globalAlpha = active ? 0.52 : 0.06;
         context.beginPath();
         context.moveTo(edge.from.x + offsetX, edge.from.y + offsetY);
         context.lineTo(edge.to.x + offsetX, edge.to.y + offsetY);
         context.stroke();
+        if (active && flowing()) {
+          // Reverses smoothly: navigation aid, never a causal arrow or evidence weight.
+          var progress = (1 - Math.cos((time || 0) / 8000 * Math.PI * 2)) / 2;
+          context.globalAlpha = 0.65;
+          context.beginPath();
+          context.arc(edge.from.x + (edge.to.x - edge.from.x) * progress + offsetX, edge.from.y + (edge.to.y - edge.from.y) * progress + offsetY, 2.2, 0, Math.PI * 2);
+          context.fill();
+        }
       });
       context.globalAlpha = 1;
       nodes.forEach(function (node) {
         nodeElements[node.slug].style.transform = 'translate(' + (node.x + offsetX - 22) + 'px,' + (node.y + offsetY - 22) + 'px)';
+        nodeElements[node.slug].style.setProperty('--label-offset', (Math.max(86, Math.min(size.width - 86, node.x + offsetX)) - node.x - offsetX) + 'px');
       });
     }
     function startDrawing() {
       if (animation) cancelAnimationFrame(animation);
-      var frames = 0;
-      function frame() {
-        draw();
-        frames += 1;
-        if (frames < 70 || Math.abs(targetOffsetX - offsetX) > 0.5 || Math.abs(targetOffsetY - offsetY) > 0.5) animation = requestAnimationFrame(frame);
+      animation = null;
+      accent = color();
+      graph.classList.toggle('sok-rorelse', motionAllowed() && search.active && search.matches.size > 0);
+      motionButton.disabled = reducedMotion.matches;
+      motionButton.setAttribute('aria-pressed', String(paused));
+      motionButton.textContent = reducedMotion.matches ? 'Minskad rörelse aktiv' : paused ? 'Starta rörelse' : 'Pausa rörelse';
+      function frame(time) {
+        animation = null;
+        draw(time);
+        if (!document.hidden && (flowing() || Math.abs(targetOffsetX - offsetX) > 0.5 || Math.abs(targetOffsetY - offsetY) > 0.5)) animation = requestAnimationFrame(frame);
       }
-      frame();
+      frame(performance.now());
     }
     function startLayout() {
       if (animation) cancelAnimationFrame(animation);
       offsetX = targetOffsetX = 0;
       offsetY = targetOffsetY = 0;
+      size = dimensions();
       place();
-      var steps = 0;
-      function frame() {
-        for (var i = 0; i < 3; i += 1) tick();
-        draw();
-        steps += 3;
-        if (steps < 210) animation = requestAnimationFrame(frame);
-        else if (selected) focusSelected(bySlug[selected]);
-      }
-      frame();
+      // Settle before painting so layout never animates, including reduced motion.
+      for (var i = 0; i < 210; i += 1) tick();
+      if (selected && !search.active) focusSelected(bySlug[selected]);
+      startDrawing();
     }
 
-    listSearch.addEventListener('input', function () { renderList(listSearch.value); });
-    reset.addEventListener('click', function () { clearSelection(); startLayout(); });
+    function clearQuery() {
+      listSearch.value = '';
+      renderList('');
+      updateUrl(false);
+      listSearch.focus({preventScroll:true});
+    }
+    function restoreUrl() {
+      if (!networkData) return;
+      listSearch.value = new URL(location.href).searchParams.get('q') || '';
+      renderList(listSearch.value);
+      var slug = '';
+      try { slug = decodeURIComponent(location.hash.slice(1)); } catch (error) { /* Invalid fragment: no selection. */ }
+      if (bySlug[slug]) selectNode(bySlug[slug], false, true);
+      else clearSelection(true);
+    }
+    listSearch.addEventListener('input', function () { renderList(listSearch.value); updateUrl(false); });
+    clearSearch.addEventListener('click', clearQuery);
+    motionButton.addEventListener('click', function () { paused = !paused; startDrawing(); });
+    reducedMotion.addEventListener('change', startDrawing);
+    darkMode.addEventListener('change', startDrawing);
+    document.addEventListener('visibilitychange', startDrawing);
+    window.addEventListener('popstate', restoreUrl);
+    window.addEventListener('hashchange', restoreUrl);
+    reset.addEventListener('click', function () { listSearch.value = ''; renderList(''); clearSelection(); startLayout(); });
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') {
         if (listSearch.value) {
-          listSearch.value = '';
-          renderList('');
-          listSearch.focus();
-        } else if (selected) clearSelection();
+          event.preventDefault();
+          clearQuery();
+        } else if (selected) {
+          clearSelection();
+          listSearch.focus({preventScroll:true});
+        }
       }
     });
     window.addEventListener('resize', function () {
@@ -413,11 +493,7 @@
       relations = data[1].relations;
       buildInterface();
       startLayout();
-      status.textContent = nodes.length + ' essäer, ' + edges.length + ' granskade samband. Välj en essä eller nod.';
-      var initial = decodeURIComponent(location.hash.slice(1));
-      if (initial && bySlug[initial]) {
-        setTimeout(function () { selectNode(bySlug[initial], false); }, 80);
-      }
+      restoreUrl();
     }).catch(function (error) {
       console.error('[Explorations]', error);
       status.textContent = 'Nätverket kunde inte laddas. Gå tillbaka till essäbiblioteket och försök igen.';
