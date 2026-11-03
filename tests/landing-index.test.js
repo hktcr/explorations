@@ -1,9 +1,9 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),cp=require('node:child_process'),path=require('node:path');
 const ROOT=path.join(__dirname,'..'), E=require('../search-engine.js');
-test('index regenerates deterministically and contains all current 34 essays including dynamic fragments',()=>{
+test('index regenerates deterministically and contains all current 35 essays including dynamic fragments',()=>{
  const before=fs.readFileSync(path.join(ROOT,'landing-search-index.json'));cp.execFileSync('python3',['scripts/build_landing_search.py'],{cwd:ROOT});
  assert.deepEqual(fs.readFileSync(path.join(ROOT,'landing-search-index.json')),before);
- const d=JSON.parse(before);assert.equal(d.articles.length,34);assert.ok(d.articles.find(a=>a.slug==='ai-environmental-impact').blocks.length>30);
+ const d=JSON.parse(before);assert.equal(d.articles.length,35);assert.ok(d.articles.find(a=>a.slug==='ai-environmental-impact').blocks.length>30);
  const r=E.search(E.prepare(d),'"recalibrating global data center"');assert.ok(r.some(x=>x.slug==='ai-environmental-impact'&&x.hits.some(h=>h.kind==='reference')));
 });
 test('extractor includes narrative outside article and excludes source notes, quotes, UI and script',()=>{
@@ -40,7 +40,7 @@ test('clean CI installs pinned test dependencies and checks new deterministic in
 });
 test('remaining URL-only title debt is counted explicitly, not indexed as invented titles',()=>{
  const audit=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/search-index-audit.json')));
- assert.equal(audit.totalArticles,34);assert.equal(audit.articles.reduce((n,a)=>n+a.unresolvedTitles.length,0),19);assert.equal(audit.externalRequests,0);
+ assert.equal(audit.totalArticles,35);assert.equal(audit.articles.reduce((n,a)=>n+a.unresolvedTitles.length,0),19);assert.equal(audit.externalRequests,0);
  const d=JSON.parse(fs.readFileSync(path.join(ROOT,'landing-search-index.json')));
  for(const a of d.articles)for(const r of a.references){assert.ok(!/^https?:|^(PDF|Full text)$/i.test(r.title));assert.ok(!/✓ Verified|Supports:|Access:/.test(r.title));}
 });

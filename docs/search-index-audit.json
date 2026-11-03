@@ -1,6 +1,15 @@
 {
   "articles": [
     {
+      "slug": "digestion",
+      "bodyBlocks": 103,
+      "headings": 9,
+      "referenceTitleLines": 37,
+      "authoredReferenceTitleLines": 37,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
       "slug": "adhd-diagnoses",
       "bodyBlocks": 103,
       "headings": 14,
@@ -535,9 +544,9 @@
       "unresolvedTitles": []
     }
   ],
-  "totalArticles": 34,
-  "totalReferenceTitleLines": 609,
-  "totalAuthoredReferenceTitleLines": 603,
+  "totalArticles": 35,
+  "totalReferenceTitleLines": 646,
+  "totalAuthoredReferenceTitleLines": 640,
   "totalEnrichedReferenceTitleRows": 6,
   "externalRequests": 0,
   "externalRequestsScope": "Offline index generation only; prior metadata lookups are attributed in reference-title-enrichment.json."

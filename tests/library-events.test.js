@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const source = fs.readFileSync(require('node:path').join(__dirname, '../bibliotek.js'), 'utf8');
-const releaseId = '20261103-adhd-1';
+const releaseId = '20261103-digestion-1';
 
 function element() {
   const listeners = {}, classes = new Set();

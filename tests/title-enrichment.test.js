@@ -8,7 +8,7 @@ test('title enrichment accounts for exactly25 original rows, only six approved',
 });
 test('each enriched title retains exact source anchor/URL and primary metadata attribution',()=>{
  const data=read('landing-search-index.json'),audit=read('docs/search-index-audit.json');
- assert.equal(audit.totalReferenceTitleLines,609);assert.equal(audit.totalAuthoredReferenceTitleLines,603);assert.equal(audit.totalEnrichedReferenceTitleRows,6);assert.equal(audit.articles.reduce((n,a)=>n+a.unresolvedTitles.length,0),19);
+ assert.equal(audit.totalReferenceTitleLines,646);assert.equal(audit.totalAuthoredReferenceTitleLines,640);assert.equal(audit.totalEnrichedReferenceTitleRows,6);assert.equal(audit.articles.reduce((n,a)=>n+a.unresolvedTitles.length,0),19);
  for(const e of map.entries.filter(e=>e.status==='verified-title')){
   const article=data.articles.find(a=>a.slug===e.slug),ref=article.references.find(r=>r.anchor===e.anchor);assert.equal(ref.title,e.title);assert.equal(ref.kind,'metadata-title');assert.equal(ref.provenance.originalUrl,e.originalUrl);assert.deepEqual(ref.provenance.metadataSources,e.metadataSources);assert.equal(ref.provenance.scientificSupportVerified,false);
   const result=E.search(E.prepare(data),'"'+e.title+'"').find(a=>a.slug===e.slug);assert.ok(result,e.slug+'#'+e.anchor);assert.ok(result.hits.some(h=>h.kind==='reference'&&h.titleSource==='metadata'));

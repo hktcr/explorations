@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var RELEASE = '20261103-adhd-1';
+  var RELEASE = '20261103-digestion-1';
   var MIN_CHARS = 2;
 
   function normalize(value) {

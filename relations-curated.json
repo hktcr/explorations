@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "releaseId": "20261103-adhd-1",
+  "releaseId": "20261103-digestion-1",
   "reviewedAt": "2026-11-03",
   "reviewer": "gAIa VEP",
   "relations": [
@@ -51,6 +51,8 @@
     {"a":"hugging-face-incident","b":"digital-biome","status":"reviewed","type":"application","reason":"Incidentessän prövar ekosystemanalogin mot dokumenterade delade resurser och agentinteraktioner, utan att göra dem till biologiskt liv.","terms":["agentinteraktion","delade resurser","ekosystemanalogi","systemgräns"]},
     {"a":"hugging-face-incident","b":"ai-life-consciousness-system","status":"reviewed","type":"method-evidence","reason":"Incidentessän använder skillnaden mellan modell, körning och interagerande system och avgränsar vad beteendeloggar kan visa om agens och medvetande.","terms":["modell","agentkörning","systemgräns","agens","medvetande"]},
     {"a":"fitness-and-possibility","b":"hugging-face-incident","status":"reviewed","type":"method-evidence","reason":"Den nya essän prövar fitness, handlingsmöjligheter och bevarade metoder som tolkningsram. Incidentessän ger samma händelses kronologi och evidens; analogin ersätter inte fallbeläggen.","terms":["AI-agenter","Hugging Face","mål","möjligheter","evidens"]},
-    {"a":"adhd-diagnoses","b":"adhd-explained","status":"reviewed","type":"same-phenomenon","reason":"Båda behandlar ADHD. Den nya essän skiljer symtom, funktionspåverkan och registrerad diagnos och granskar varför diagnosantalet kan öka; den tidigare introducerar uppmärksamhet och reglering. Sambandet innebär inte att den tidigare essäns alla förklaringsmodeller bekräftas.","terms":["ADHD","uppmärksamhet","diagnos","funktionspåverkan"]}
+    {"a":"adhd-diagnoses","b":"adhd-explained","status":"reviewed","type":"same-phenomenon","reason":"Båda behandlar ADHD. Den nya essän skiljer symtom, funktionspåverkan och registrerad diagnos och granskar varför diagnosantalet kan öka; den tidigare introducerar uppmärksamhet och reglering. Sambandet innebär inte att den tidigare essäns alla förklaringsmodeller bekräftas.","terms":["ADHD","uppmärksamhet","diagnos","funktionspåverkan"]},
+    {"a":"digestion","b":"egg-coagulation-lab","status":"reviewed","type":"same-phenomenon","reason":"Båda följer äggproteiners förändring. Digestionsessän skiljer sönderdelning och upptag samt jämför kokt och rått ägg; ägglaborationen undersöker uppvärmning, denaturering och koagulation.","terms":["ägg","protein","uppvärmning","digestion"]},
+    {"a":"digestion","b":"krebs-cycle","status":"reviewed","type":"prerequisite","reason":"Digestion och upptag gör näringsämnen tillgängliga för lagring, biosyntes och energimetabolism. Krebsessän fortsätter den cellulära energiomvandlingen efter stegen genom tarmens gräns.","terms":["metabolism","ATP","näringsämnen","energi"]}
   ]
 }

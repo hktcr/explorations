@@ -1,9 +1,28 @@
 {
   "schemaVersion": 2,
-  "releaseId": "20261103-adhd-1",
+  "releaseId": "20261103-digestion-1",
   "generatorVersion": "2.1.0",
-  "contentHash": "3a862d24cbd47a16",
+  "contentHash": "9f65efd8f4fd909a",
   "artiklar": [
+    {
+      "slug": "digestion",
+      "id": "EXP#35",
+      "titel": "The Work of a Meal",
+      "amne": "Physiology Digestion Food Biology Evidence Science Education",
+      "excerpt": "Follow bread, egg and oil through digestion and absorption, with five historical windows onto what experiments can reveal.",
+      "datum": "November 3, 2026",
+      "lastid": "≈ 36 min read",
+      "ord": 4471,
+      "avsnitt": 9,
+      "nyckelord": [
+        "material",
+        "different",
+        "meal",
+        "food",
+        "human",
+        "intestinal"
+      ]
+    },
     {
       "slug": "adhd-diagnoses",
       "id": "EXP#34",
@@ -1422,6 +1441,38 @@
         "uppmärksamhet",
         "diagnos",
         "funktionspåverkan"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-11-03",
+      "vikt": 1
+    },
+    {
+      "a": "digestion",
+      "b": "egg-coagulation-lab",
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Båda följer äggproteiners förändring. Digestionsessän skiljer sönderdelning och upptag samt jämför kokt och rått ägg; ägglaborationen undersöker uppvärmning, denaturering och koagulation.",
+      "terms": [
+        "ägg",
+        "protein",
+        "uppvärmning",
+        "digestion"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-11-03",
+      "vikt": 1
+    },
+    {
+      "a": "digestion",
+      "b": "krebs-cycle",
+      "status": "reviewed",
+      "type": "prerequisite",
+      "reason": "Digestion och upptag gör näringsämnen tillgängliga för lagring, biosyntes och energimetabolism. Krebsessän fortsätter den cellulära energiomvandlingen efter stegen genom tarmens gräns.",
+      "terms": [
+        "metabolism",
+        "ATP",
+        "näringsämnen",
+        "energi"
       ],
       "reviewer": "gAIa VEP",
       "reviewedAt": "2026-11-03",

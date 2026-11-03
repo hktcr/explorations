@@ -16,7 +16,7 @@ async function harness(options={}){
  return{dom,w,el,async type(q){el('searchInput').value=q;el('searchInput').dispatchEvent(new w.Event('input'));await delay();await tick();},click(id){el(id).click();},close(){assert.equal(w.localStorage.getItem('private-comment-sentinel'),'do-not-touch');dom.window.close();}};
 }
 test('landing starts with search; all original card nodes survive repeated overview transitions',async()=>{
- const h=await harness();try{const cards=[...h.el('articlesGrid').querySelectorAll('.article-card')];assert.equal(cards.length,34);assert.equal(h.w.document.body.dataset.view,'home');assert.ok(h.el('articlesGrid').hidden);
+ const h=await harness();try{const cards=[...h.el('articlesGrid').querySelectorAll('.article-card')];assert.equal(cards.length,35);assert.equal(h.w.document.body.dataset.view,'home');assert.ok(h.el('articlesGrid').hidden);
  for(let i=0;i<3;i++){h.click('showAll');assert.equal(h.w.document.body.dataset.view,'all');assert.ok(!h.el('articlesGrid').hidden);assert.equal(h.w.document.activeElement.id,'overviewHeading');h.click('showSearch');}
  assert.deepEqual([...h.el('articlesGrid').querySelectorAll('.article-card')],cards);assert.equal(h.w.document.activeElement.id,'searchInput');}finally{h.close();}
 });
@@ -25,12 +25,12 @@ test('live search produces relevance results and body/reference snippets without
  await h.type('"recalibrating global data center"');assert.match(h.el('traffar').textContent,/Källtitelrad/);assert.match(h.el('traffar').querySelector('h2 a').href,/ai-environmental-impact/);}finally{h.close();}
 });
 test('late index response cannot reopen results after Alla essäer or Escape',async()=>{
- let resolve;const p=new Promise(r=>resolve=r);const h=await harness({fetch:()=>p});try{await h.type('protein');h.click('showAll');resolve(response(json('landing-search-index.json')));await tick();await tick();assert.equal(h.w.document.body.dataset.view,'all');assert.ok(h.el('traffar').hidden);assert.match(h.el('natverkStatus').textContent,/34 essäer/);
+ let resolve;const p=new Promise(r=>resolve=r);const h=await harness({fetch:()=>p});try{await h.type('protein');h.click('showAll');resolve(response(json('landing-search-index.json')));await tick();await tick();assert.equal(h.w.document.body.dataset.view,'all');assert.ok(h.el('traffar').hidden);assert.match(h.el('natverkStatus').textContent,/35 essäer/);
  await h.type('protein');h.el('searchInput').dispatchEvent(new h.w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));assert.equal(h.w.document.body.dataset.view,'home');assert.equal(h.el('searchInput').value,'');assert.equal(h.w.document.activeElement.id,'searchInput');}finally{h.close();}
 });
 test('failed index gives honest title fallback, keeps all essays accessible, and can retry',async()=>{
  let failed=true;const h=await harness({fetch:()=>failed?Promise.reject(new Error('offline')):Promise.resolve(response(json('landing-search-index.json')))});try{await h.type('thermal');assert.match(h.el('natverkStatus').textContent,/endast essätitlar/);assert.ok(!h.el('retrySearch').hidden);assert.ok(h.el('traffar').querySelector('a'));
- failed=false;h.click('retrySearch');await tick();await tick();assert.match(h.el('natverkStatus').textContent,/Sorterade efter relevans/);assert.ok(h.el('retrySearch').hidden);h.click('showAll');assert.equal(h.el('articlesGrid').querySelectorAll('.article-card').length,34);}finally{h.close();}
+ failed=false;h.click('retrySearch');await tick();await tick();assert.match(h.el('natverkStatus').textContent,/Sorterade efter relevans/);assert.ok(h.el('retrySearch').hidden);h.click('showAll');assert.equal(h.el('articlesGrid').querySelectorAll('.article-card').length,35);}finally{h.close();}
 });
 test('newer queries win races, punctuation/no-results is explicit, and clear restores home',async()=>{
  let resolve;const p=new Promise(r=>resolve=r);const h=await harness({fetch:()=>p});try{await h.type('protein');await h.type('unfindablexyz');resolve(response(json('landing-search-index.json')));await tick();await tick();assert.match(h.el('traffar').textContent,/Ingen träff/);assert.ok(!h.el('traffar').querySelector('h2'));
@@ -39,7 +39,7 @@ test('newer queries win races, punctuation/no-results is explicit, and clear res
 test('restoring URL state preserves query/overview and read-filter behavior',async()=>{
  const h=await harness();try{h.w.history.pushState({},'','?q=protein');h.w.dispatchEvent(new h.w.PopStateEvent('popstate'));await tick();await tick();assert.equal(h.el('searchInput').value,'protein');assert.equal(h.w.document.body.dataset.view,'results');
  h.w.history.pushState({},'','#alla-essaer');h.w.history.replaceState({},'','/explorations/#alla-essaer');h.w.dispatchEvent(new h.w.PopStateEvent('popstate'));assert.equal(h.w.document.body.dataset.view,'all');
- const card=h.el('articlesGrid').querySelector('.article-card');card.dataset.read='true';h.w.explorationsReadFilter.refresh();h.click('readFilter');assert.ok(card.hidden);assert.match(h.el('natverkStatus').textContent,/33 av 34/);h.click('readFilter');assert.ok(!card.hidden);
+ const card=h.el('articlesGrid').querySelector('.article-card');card.dataset.read='true';h.w.explorationsReadFilter.refresh();h.click('readFilter');assert.ok(card.hidden);assert.match(h.el('natverkStatus').textContent,/34 av 35/);h.click('readFilter');assert.ok(!card.hidden);
  assert.equal(h.el('natverkStatus').getAttribute('aria-live'),'polite');assert.equal(h.el('natverkStatus').getAttribute('aria-atomic'),'true');}finally{h.close();}
 });
 test('actual back/forward history clears failure-only retry when restoring queryless home',async()=>{

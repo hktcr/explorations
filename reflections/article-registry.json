@@ -350,6 +350,16 @@
       "toolbarSelector": ".toolbar",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#35",
+      "slug": "digestion",
+      "title": "The Work of a Meal",
+      "path": "digestion/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }
