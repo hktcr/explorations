@@ -30,8 +30,8 @@
     }
     function load(){
       if(index)return Promise.resolve(index);if(loading)return loading;
-      loading=fetch('landing-search-index.json?v=20261025-search-first-5').then(r=>{if(!r.ok)throw new Error('Index '+r.status);return r.json();}).then(data=>{
-        if(data.releaseId!=='20261025-search-first-5'||data.articles?.length!==slugs.length||!slugs.every(s=>data.articles.some(a=>a.slug===s)))throw new Error('Index matchar inte biblioteket');
+      loading=fetch('landing-search-index.json?v=20261103-adhd-1').then(r=>{if(!r.ok)throw new Error('Index '+r.status);return r.json();}).then(data=>{
+        if(data.releaseId!=='20261103-adhd-1'||data.articles?.length!==slugs.length||!slugs.every(s=>data.articles.some(a=>a.slug===s)))throw new Error('Index matchar inte biblioteket');
         index=engine.prepare(data);broken=false;return index;
       }).catch(error=>{broken=true;throw error;}).finally(()=>{loading=null;});
       return loading;
@@ -96,6 +96,6 @@
     function restore(){clearTimeout(timer);++generation;retry.hidden=true;const url=new URL(location.href);input.value=(url.searchParams.get('q')||'').slice(0,240);setMode(input.value?'results':url.hash==='#alla-essaer'?'all':'home');overview();if(input.value)run(generation);else results.replaceChildren();}
     window.addEventListener('popstate',restore);
     document.body.dataset.searchReady='true';restore();
-    fetch('natverk-index.json?v=20260817-network-7').then(r=>{if(!r.ok)throw new Error();return r.json();}).then(data=>{relations=window.ExplorationsLibraryCore.reviewedRelationCount(data,slugs);if(mode!=='results')overview();}).catch(()=>{});
+    fetch('natverk-index.json?v=20261103-adhd-1').then(r=>{if(!r.ok)throw new Error();return r.json();}).then(data=>{relations=window.ExplorationsLibraryCore.reviewedRelationCount(data,slugs);if(mode!=='results')overview();}).catch(()=>{});
   });
 })();

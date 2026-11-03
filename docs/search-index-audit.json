@@ -1,6 +1,15 @@
 {
   "articles": [
     {
+      "slug": "adhd-diagnoses",
+      "bodyBlocks": 103,
+      "headings": 14,
+      "referenceTitleLines": 18,
+      "authoredReferenceTitleLines": 18,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
       "slug": "fitness-and-possibility",
       "bodyBlocks": 129,
       "headings": 17,
@@ -526,9 +535,9 @@
       "unresolvedTitles": []
     }
   ],
-  "totalArticles": 33,
-  "totalReferenceTitleLines": 591,
-  "totalAuthoredReferenceTitleLines": 585,
+  "totalArticles": 34,
+  "totalReferenceTitleLines": 609,
+  "totalAuthoredReferenceTitleLines": 603,
   "totalEnrichedReferenceTitleRows": 6,
   "externalRequests": 0,
   "externalRequestsScope": "Offline index generation only; prior metadata lookups are attributed in reference-title-enrichment.json."

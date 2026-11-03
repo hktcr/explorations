@@ -14,7 +14,7 @@ test('bibliotekets antal härleds från aktuella artiklar och granskade samband'
   expanded.artiklar.push({slug: 'next-essay'});
   expanded.kanter.push({a: slugs[0], b: 'next-essay', status: 'reviewed'});
   assert.equal(reviewedRelationCount(expanded, [...slugs, 'next-essay']), network.kanter.length + 1);
-  assert.match(libraryStatus(slugs.length + 1, slugs.length + 1, false, expanded.kanter.length, false), /^34 essäer\. 48 /);
+  assert.equal(libraryStatus(slugs.length + 1, slugs.length + 1, false, expanded.kanter.length, false), `${slugs.length + 1} essäer. ${expanded.kanter.length} granskade samband i biblioteket.`);
 });
 
 test('status skiljer synliga kort från bibliotekets totaler och okända samband', () => {

@@ -340,6 +340,16 @@
       "toolbarSelector": ".toolbar",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#34",
+      "slug": "adhd-diagnoses",
+      "title": "The Children Behind the Rising Curve",
+      "path": "adhd-diagnoses/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }

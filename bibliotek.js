@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var RELEASE = '20260817-network-7';
+  var RELEASE = '20261103-adhd-1';
   var MIN_CHARS = 2;
 
   function normalize(value) {

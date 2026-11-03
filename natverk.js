@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var RELEASE = '20260817-network-7';
+  var RELEASE = '20261103-adhd-1';
   var TYPE_LABELS = {
     'same-phenomenon':'Samma fenomen',
     'mechanism':'Mekanism',

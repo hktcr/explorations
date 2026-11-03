@@ -1,9 +1,28 @@
 {
   "schemaVersion": 2,
-  "releaseId": "20260817-network-7",
+  "releaseId": "20261103-adhd-1",
   "generatorVersion": "2.1.0",
-  "contentHash": "47d1340366b4bd52",
+  "contentHash": "3a862d24cbd47a16",
   "artiklar": [
+    {
+      "slug": "adhd-diagnoses",
+      "id": "EXP#34",
+      "titel": "The Children Behind the Rising Curve",
+      "amne": "ADHD Child Development Diagnosis Epidemiology Education Evidence",
+      "excerpt": "Why more children receive an ADHD diagnosis—and why the numbers cannot tell the whole story.",
+      "datum": "November 3, 2026",
+      "lastid": "≈ 31 min read",
+      "ord": 3731,
+      "avsnitt": 14,
+      "nyckelord": [
+        "children",
+        "diagnosis",
+        "child",
+        "adhd",
+        "assessment",
+        "evidence"
+      ]
+    },
     {
       "slug": "fitness-and-possibility",
       "id": "EXP#33",
@@ -646,7 +665,7 @@
         "ATP"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -662,7 +681,7 @@
         "energiomsättning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -678,7 +697,7 @@
         "hydrotermala källor"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -694,7 +713,7 @@
         "systemgräns"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -710,7 +729,7 @@
         "hereditet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -726,7 +745,7 @@
         "evolution"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -742,7 +761,7 @@
         "agens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -758,7 +777,7 @@
         "mörk materia"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -774,7 +793,7 @@
         "inferens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -790,7 +809,7 @@
         "diagnostik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -806,7 +825,7 @@
         "AI stöd"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -822,7 +841,7 @@
         "lärarstöd"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -838,7 +857,7 @@
         "diagnostisk ödmjukhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -854,7 +873,7 @@
         "elevansvar"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -870,7 +889,7 @@
         "självständighet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -886,7 +905,7 @@
         "undervisningsdesign"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -902,7 +921,7 @@
         "AI genererad prestation"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -918,7 +937,7 @@
         "utvärdering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -934,7 +953,7 @@
         "diagnostik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -950,7 +969,7 @@
         "produktform"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -967,7 +986,7 @@
         "frukost"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -983,7 +1002,7 @@
         "denaturering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -999,7 +1018,7 @@
         "matmyter"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1015,7 +1034,7 @@
         "kulinarisk fysik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1031,7 +1050,7 @@
         "förvaltning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1047,7 +1066,7 @@
         "materiella spår"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1064,7 +1083,7 @@
         "olika rörelseformer"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1080,7 +1099,7 @@
         "juridiska gränser"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1096,7 +1115,7 @@
         "territorium"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1113,7 +1132,7 @@
         "ojämlikhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1129,7 +1148,7 @@
         "anpassning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1145,7 +1164,7 @@
         "extraordinära påståenden"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1161,7 +1180,7 @@
         "markdata"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1177,7 +1196,7 @@
         "alternativa förklaringar"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1193,7 +1212,7 @@
         "övervakning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1209,7 +1228,7 @@
         "autonomi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1226,7 +1245,7 @@
         "energi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1242,7 +1261,7 @@
         "hårdvara"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1258,7 +1277,7 @@
         "återkoppling"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1274,7 +1293,7 @@
         "gameter"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1290,7 +1309,7 @@
         "jämförbarhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1306,7 +1325,7 @@
         "digitalisering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1323,7 +1342,7 @@
         "värde"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1339,7 +1358,7 @@
         "evidens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1355,7 +1374,7 @@
         "systemgräns"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1372,7 +1391,7 @@
         "medvetande"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     },
     {
@@ -1389,7 +1408,23 @@
         "evidens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-09-22",
+      "reviewedAt": "2026-11-03",
+      "vikt": 1
+    },
+    {
+      "a": "adhd-diagnoses",
+      "b": "adhd-explained",
+      "status": "reviewed",
+      "type": "same-phenomenon",
+      "reason": "Båda behandlar ADHD. Den nya essän skiljer symtom, funktionspåverkan och registrerad diagnos och granskar varför diagnosantalet kan öka; den tidigare introducerar uppmärksamhet och reglering. Sambandet innebär inte att den tidigare essäns alla förklaringsmodeller bekräftas.",
+      "terms": [
+        "ADHD",
+        "uppmärksamhet",
+        "diagnos",
+        "funktionspåverkan"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-11-03",
       "vikt": 1
     }
   ]
