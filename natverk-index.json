@@ -1,9 +1,28 @@
 {
   "schemaVersion": 2,
-  "releaseId": "20261103-digestion-1",
+  "releaseId": "20261107-music-ai-1",
   "generatorVersion": "2.1.0",
-  "contentHash": "9f65efd8f4fd909a",
+  "contentHash": "1f6bb9e77c270d2c",
   "artiklar": [
+    {
+      "slug": "music-ai",
+      "id": "EXP#36",
+      "titel": "Vad musik kan lära ett AI-system",
+      "amne": "Musik Information Samspel AI Systems Rhythm Harmony",
+      "excerpt": "Om rytm, harmoni, stämföring och samspel som vägar till bättre informationsflöden, med tydliga gränser mellan forskning och systemförslag.",
+      "datum": "7 november 2026",
+      "lastid": "≈ 38 min läsning",
+      "ord": 4195,
+      "avsnitt": 26,
+      "nyckelord": [
+        "behöver",
+        "samma",
+        "ska",
+        "därför",
+        "bör",
+        "mellan"
+      ]
+    },
     {
       "slug": "digestion",
       "id": "EXP#35",
@@ -684,7 +703,7 @@
         "ATP"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -700,7 +719,7 @@
         "energiomsättning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -716,7 +735,7 @@
         "hydrotermala källor"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -732,7 +751,7 @@
         "systemgräns"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -748,7 +767,7 @@
         "hereditet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -764,7 +783,7 @@
         "evolution"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -780,7 +799,7 @@
         "agens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -796,7 +815,7 @@
         "mörk materia"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -812,7 +831,7 @@
         "inferens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -828,7 +847,7 @@
         "diagnostik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -844,7 +863,7 @@
         "AI stöd"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -860,7 +879,7 @@
         "lärarstöd"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -876,7 +895,7 @@
         "diagnostisk ödmjukhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -892,7 +911,7 @@
         "elevansvar"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -908,7 +927,7 @@
         "självständighet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -924,7 +943,7 @@
         "undervisningsdesign"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -940,7 +959,7 @@
         "AI genererad prestation"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -956,7 +975,7 @@
         "utvärdering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -972,7 +991,7 @@
         "diagnostik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -988,7 +1007,7 @@
         "produktform"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1005,7 +1024,7 @@
         "frukost"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1021,7 +1040,7 @@
         "denaturering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1037,7 +1056,7 @@
         "matmyter"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1053,7 +1072,7 @@
         "kulinarisk fysik"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1069,7 +1088,7 @@
         "förvaltning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1085,7 +1104,7 @@
         "materiella spår"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1102,7 +1121,7 @@
         "olika rörelseformer"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1118,7 +1137,7 @@
         "juridiska gränser"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1134,7 +1153,7 @@
         "territorium"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1151,7 +1170,7 @@
         "ojämlikhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1167,7 +1186,7 @@
         "anpassning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1183,7 +1202,7 @@
         "extraordinära påståenden"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1199,7 +1218,7 @@
         "markdata"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1215,7 +1234,7 @@
         "alternativa förklaringar"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1231,7 +1250,7 @@
         "övervakning"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1247,7 +1266,7 @@
         "autonomi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1264,7 +1283,7 @@
         "energi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1280,7 +1299,7 @@
         "hårdvara"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1296,7 +1315,7 @@
         "återkoppling"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1312,7 +1331,7 @@
         "gameter"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1328,7 +1347,7 @@
         "jämförbarhet"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1344,7 +1363,7 @@
         "digitalisering"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1361,7 +1380,7 @@
         "värde"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1377,7 +1396,7 @@
         "evidens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1393,7 +1412,7 @@
         "systemgräns"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1410,7 +1429,7 @@
         "medvetande"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1427,7 +1446,7 @@
         "evidens"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1443,7 +1462,7 @@
         "funktionspåverkan"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1459,7 +1478,7 @@
         "digestion"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     },
     {
@@ -1475,7 +1494,23 @@
         "energi"
       ],
       "reviewer": "gAIa VEP",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-07",
+      "vikt": 1
+    },
+    {
+      "a": "music-ai",
+      "b": "digital-biome",
+      "status": "reviewed",
+      "type": "contrast",
+      "reason": "Båda använder analogier för att undersöka AI-system. Musikessän fokuserar på tidsordning, återkoppling och åtskiljbara informationsflöden; ekosystemessän beskriver samspel och resursberoenden. Kopplingen jämför perspektiv och innebär inte att analogierna eller den äldre essäns enskilda sakpåståenden bekräftas.",
+      "terms": [
+        "systemanalogi",
+        "samspel",
+        "återkoppling",
+        "AI-system"
+      ],
+      "reviewer": "gAIa VEP",
+      "reviewedAt": "2026-11-07",
       "vikt": 1
     }
   ]

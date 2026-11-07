@@ -1,6 +1,15 @@
 {
   "articles": [
     {
+      "slug": "music-ai",
+      "bodyBlocks": 123,
+      "headings": 25,
+      "referenceTitleLines": 24,
+      "authoredReferenceTitleLines": 24,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
       "slug": "digestion",
       "bodyBlocks": 103,
       "headings": 9,
@@ -544,9 +553,9 @@
       "unresolvedTitles": []
     }
   ],
-  "totalArticles": 35,
-  "totalReferenceTitleLines": 646,
-  "totalAuthoredReferenceTitleLines": 640,
+  "totalArticles": 36,
+  "totalReferenceTitleLines": 670,
+  "totalAuthoredReferenceTitleLines": 664,
   "totalEnrichedReferenceTitleRows": 6,
   "externalRequests": 0,
   "externalRequestsScope": "Offline index generation only; prior metadata lookups are attributed in reference-title-enrichment.json."

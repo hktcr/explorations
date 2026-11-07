@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var RELEASE = '20261103-digestion-1';
+  var RELEASE = '20261107-music-ai-1';
   var TYPE_LABELS = {
     'same-phenomenon':'Samma fenomen',
     'mechanism':'Mekanism',

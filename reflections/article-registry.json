@@ -360,6 +360,17 @@
       "toolbarSelector": ".toolbar",
       "metaSelector": ".meta",
       "loadMode": "static"
+    },
+    {
+      "id": "EXP#36",
+      "slug": "music-ai",
+      "title": "Vad musik kan lära ett AI-system",
+      "path": "music-ai/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static",
+      "language": "sv"
     }
   ]
 }
