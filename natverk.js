@@ -183,7 +183,6 @@
     var offsetX = 0, offsetY = 0, targetOffsetX = 0, targetOffsetY = 0;
     var search = networkSearch([], [], '');
     var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-    var darkMode = matchMedia('(prefers-color-scheme: dark)');
     var paused = false, size = null, accent = '';
 
     function fetchJson(path) {
@@ -463,7 +462,7 @@
     clearSearch.addEventListener('click', clearQuery);
     motionButton.addEventListener('click', function () { paused = !paused; startDrawing(); });
     reducedMotion.addEventListener('change', startDrawing);
-    darkMode.addEventListener('change', startDrawing);
+    window.addEventListener('explorations:themechange', startDrawing);
     document.addEventListener('visibilitychange', startDrawing);
     window.addEventListener('popstate', restoreUrl);
     window.addEventListener('hashchange', restoreUrl);

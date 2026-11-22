@@ -1,0 +1,21 @@
+/* Shared page-level switch. Articles retain their native reading controls. */
+html[data-theme="dark"] { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+[data-xr-theme-slot] { display:inline-flex; align-items:center; flex-wrap:wrap; }
+.xr-global-theme-button {
+  appearance:none; min-height:44px; padding:.5rem .8rem; border:1px solid var(--network-border,var(--line,#777));
+  border-radius:999px; color:var(--network-text,var(--text,CanvasText));
+  background:var(--network-card,var(--card,Canvas)); cursor:pointer;
+  font:600 .8rem/1.3 var(--ui,Inter,system-ui,sans-serif);
+}
+.xr-global-theme-button[aria-pressed="true"] { border-color:var(--network-accent,var(--accent,#a93226)); }
+.xr-global-theme-button:hover { border-color:currentColor; }
+.xr-global-theme-button:focus-visible { outline:3px solid var(--network-accent,var(--accent,#a93226)); outline-offset:3px; }
+.library-header [data-xr-theme-slot] { margin-top:1.05rem; }
+.natverk-huvud [data-xr-theme-slot] { margin-inline-start:.4rem; }
+.natverk-huvud-actions { display:flex; align-items:center; flex-wrap:wrap; justify-content:flex-end; gap:.3rem; }
+@media (max-width:600px) {
+  .natverk-huvud [data-xr-theme-slot] { margin-inline-start:0; }
+  .natverk-huvud-actions .xr-global-theme-button { padding-inline:.55rem; }
+}
+@media print { [data-xr-theme-slot] { display:none !important; } }

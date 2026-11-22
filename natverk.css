@@ -12,8 +12,7 @@
   --network-shadow: 0 12px 36px rgba(0,0,0,.11);
   --network-hit: 44px;
 }
-@media (prefers-color-scheme:dark) {
-  :root {
+html:not([data-theme="light"]) {
     --network-bg:#121212;
     --network-card:#1e1e1e;
     --network-text:#e6e6e6;
@@ -22,7 +21,6 @@
     --network-muted:#a6a6a6;
     --network-border:rgba(255,255,255,.12);
     --network-shadow:0 12px 36px rgba(0,0,0,.35);
-  }
 }
 * { box-sizing:border-box; }
 .dold { display:none !important; }

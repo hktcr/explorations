@@ -23,7 +23,7 @@ test("läsverktygen täcker den gemensamma funktionsuppsättningen", () => {
   for (const hook of [
     "runSearch", "applyTextScale", "applyFont", "applyLineLength", "applyTheme",
     "window.print", "installProgress", "installAudio", "narration.mp3", "method: \"HEAD\"",
-    "localStorage", "ResizeObserver", "prefers-color-scheme"
+    "localStorage", "ResizeObserver", "globalTheme.set"
   ]) assert.match(runtime, new RegExp(hook.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.doesNotMatch(runtime, /speechSynthesis/);
 });

@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const VERSION = "20261025-library-a11y-3";
+  const VERSION = "20261122-theme-1";
   const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260925-music-timing-1", document.currentScript.src).href;
   let readingMedia = null;
   let panelInvoker = null;
@@ -38,17 +38,15 @@
   const SEARCH_SKIP = "script,style,noscript,nav,button,input,textarea,select,[data-xr-reader-ui],[data-engagement-asset]";
 
   const root = document.documentElement;
-  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
-  const darkMediaRules = [];
+  const globalTheme = window.ExplorationsTheme;
   const fallbackMarks = [];
   let controls = null;
   let contentRoots = [];
   let baseContentSizes = [];
   let currentScale = 1;
   let currentLineLength = null;
-  let currentTheme = "auto";
+  let currentTheme = "dark";
   let currentFont = "serif";
-  let userThemePreference = false;
   let resizeObserver = null;
 
   const readStorage = key => {
@@ -66,28 +64,6 @@
     } catch {
       // Preferences remain active for the current page when storage is unavailable.
     }
-  };
-
-  const collectDarkMediaRules = ruleList => {
-    Array.from(ruleList || []).forEach(rule => {
-      const mediaText = rule.media?.mediaText || "";
-      if (/prefers-color-scheme\s*:\s*dark/i.test(mediaText)) {
-        darkMediaRules.push({ rule, original: mediaText });
-        return;
-      }
-      if (rule.cssRules) collectDarkMediaRules(rule.cssRules);
-    });
-  };
-
-  const collectThemeRules = () => {
-    darkMediaRules.length = 0;
-    Array.from(document.styleSheets).forEach(sheet => {
-      try {
-        collectDarkMediaRules(sheet.cssRules);
-      } catch {
-        // Cross-origin font stylesheets are intentionally inaccessible.
-      }
-    });
   };
 
   const articleRoot = () => {
@@ -181,25 +157,15 @@
   };
 
   const applyTheme = (theme, persist = false) => {
-    currentTheme = ["auto", "light", "dark"].includes(theme) ? theme : "auto";
-    const resolved = currentTheme === "auto" ? (systemTheme.matches ? "dark" : "light") : currentTheme;
-    darkMediaRules.forEach(({ rule, original }) => {
-      try {
-        rule.media.mediaText = currentTheme === "auto" ? original : (resolved === "dark" ? "all" : "not all");
-      } catch {
-        // The explicit data attributes still control modern article palettes.
-      }
-    });
-    if (currentTheme === "auto") root.removeAttribute("data-theme");
+    currentTheme = theme === "light" ? "light" : "dark";
+    if (globalTheme) globalTheme.set(currentTheme, persist);
     else root.dataset.theme = currentTheme;
-    root.dataset.readingTheme = resolved;
-    root.style.colorScheme = resolved;
-    if (persist) {
-      userThemePreference = currentTheme !== "auto";
-      writeStorage(STORAGE.theme, currentTheme === "auto" ? null : currentTheme);
-    }
     syncThemeControls();
   };
+  window.addEventListener("explorations:themechange", event => {
+    currentTheme = event.detail.theme;
+    syncThemeControls();
+  });
 
   const clearFallbackMarks = () => {
     while (fallbackMarks.length) {
@@ -513,11 +479,10 @@
 
   const resetAll = () => {
     Object.values(STORAGE).forEach(key => writeStorage(key, null));
-    userThemePreference = false;
     applyTextScale(1);
     applyLineLength(null);
     applyFont("serif");
-    applyTheme("auto");
+    applyTheme("dark");
     readingMedia?.reset();
     controls.search.value = "";
     clearSearch();
@@ -566,7 +531,6 @@
         <div class="reader-settings__row">
           <div class="reader-settings__label-line"><span>Tema</span></div>
           <div class="reader-settings__button-grid reader-settings__button-grid--three" role="group" aria-label="Färgtema">
-            <button type="button" data-reader-theme="auto" aria-pressed="false">Automatiskt</button>
             <button type="button" data-reader-theme="light" aria-pressed="false">Ljust</button>
             <button type="button" data-reader-theme="dark" aria-pressed="false">Mörkt</button>
           </div>
@@ -661,19 +625,17 @@
     const savedScale = Number(readStorage(STORAGE.textScale));
     const savedLine = Number(readStorage(STORAGE.lineLength));
     const savedFont = readStorage(STORAGE.font);
-    const savedTheme = readStorage(STORAGE.theme);
-    userThemePreference = savedTheme === "light" || savedTheme === "dark";
+    const savedTheme = globalTheme ? globalTheme.get() : readStorage(STORAGE.theme);
     applyTextScale(savedScale >= LIMITS.textMin && savedScale <= LIMITS.textMax ? savedScale : 1);
     applyLineLength(savedLine >= LIMITS.lineMin && savedLine <= LIMITS.lineMax ? savedLine : null);
     applyFont(savedFont === "sans" ? "sans" : "serif");
-    applyTheme(userThemePreference ? savedTheme : "auto");
+    applyTheme(savedTheme);
   };
 
   const install = () => {
     if (controls || document.querySelector("[data-xr-reader-ui]")) return true;
     const content = articleRoot();
     if (!document.body || !content) return false;
-    collectThemeRules();
     identifyContentRoots();
     const toolbar = ensureToolbar();
     buildControls(toolbar);
@@ -709,11 +671,6 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, { once: true });
   else start();
 
-  const followSystemTheme = () => {
-    if (!userThemePreference && currentTheme === "auto") applyTheme("auto");
-  };
-  if (typeof systemTheme.addEventListener === "function") systemTheme.addEventListener("change", followSystemTheme);
-  else if (typeof systemTheme.addListener === "function") systemTheme.addListener(followSystemTheme);
 })();
 
 (() => {

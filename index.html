@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script src="explorations-theme.js?v=20261122-theme-1"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="explorations-network-release" content="20261107-music-ai-1">
 <title>Explorations: A Library of Deep Dives</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="natverk.css?v=20261107-music-ai-1">
+<link rel="stylesheet" href="natverk.css?v=20261107-music-ai-1&amp;ui=20261122-theme-1">
 <style>
 :root{--bg:#fcfcfc;--text:#1a1a1a;--head:#c0392b;--accent:#c0392b;--meta:#666;--card:#fff;--line:rgba(0,0,0,.1);--body:'Merriweather',serif;--ui:'Inter',sans-serif}
-@media(prefers-color-scheme:dark){:root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;--accent:#e74c3c;--meta:#999;--card:#1e1e1e;--line:rgba(255,255,255,.09)}}
+html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;--accent:#e74c3c;--meta:#999;--card:#1e1e1e;--line:rgba(255,255,255,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui)}
 .library-header{text-align:center;padding:5rem 1.5rem 3rem;max-width:740px;margin:auto}
 .library-header h1{margin:0 0 1rem;color:var(--head);font:700 3rem/1.2 var(--body)}
@@ -35,15 +36,16 @@
 .no-results{grid-column:1/-1;text-align:center;padding:3rem;color:var(--meta);font-style:italic}
 @media(max-width:600px){.library-header h1{font-size:2rem}.articles-grid{grid-template-columns:1fr}}
 </style>
-<link rel="stylesheet" href="landing.css?v=20261026-landing-contrast-1">
+<link rel="stylesheet" href="landing.css?v=20261122-theme-1">
 <link rel="stylesheet" href="engagement/engagement.css" data-engagement-asset="style">
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261025-1" data-explorations-favicon="svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=20261025-1" data-explorations-favicon="png">
 <link rel="shortcut icon" href="favicon.ico?v=20261025-1" data-explorations-favicon="ico">
+<link rel="stylesheet" href="explorations-theme.css?v=20261122-theme-1">
 </head>
 <body data-network-release="20261107-music-ai-1">
 <a class="skip-link" href="#mainContent" lang="sv">Till innehållet</a>
-<header class="library-header" id="searchFirst"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p></header>
+<header class="library-header" id="searchFirst"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p><span data-xr-theme-slot></span></header>
 <main id="mainContent" tabindex="-1">
 <div class="search-container" lang="sv"><form id="searchForm" role="search"><label for="searchInput" class="visually-hidden">Sök i essätexter och källtitelrader</label><input type="search" class="search-input" id="searchInput" aria-label="Sök i hela biblioteket" aria-describedby="searchHelp" placeholder="Vad vill du utforska?" autocomplete="off" maxlength="240"><button type="button" id="clearSearch" class="search-clear" aria-label="Rensa sökningen" hidden>×</button></form><div class="landing-actions"><button type="button" id="showAll">Alla essäer</button><button type="button" id="showSearch" hidden>Till sökningen</button><a href="natverk/">Utforska sambanden</a><a href="timkronikan/" lang="sv">Timkrönikan</a></div><p id="searchHelp" class="search-note">Sök i essätexter och tillgängliga källtitelrader.<br>Använd ”citattecken” för en exakt fras. Inga externa källors fulltexter hämtas.</p><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
 <div class="natverk-rad" lang="sv"><span id="natverkStatus" role="status" aria-live="polite" aria-atomic="true">Utforska biblioteket och dess granskade samband.</span><a id="natverkOppna" href="natverk/">Visa nätverket</a></div>
