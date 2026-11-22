@@ -18,3 +18,11 @@
 .skarm-story .skarm-source a,.skarm-entry{display:inline-flex;align-items:center;gap:.35rem;min-height:44px}
 @media(min-width:850px){.skarm-story:has(figure){grid-template-columns:minmax(0,1.02fr) minmax(0,1fr)}.skarm-story figure{position:sticky;top:1rem}}
 @media print{.skarm-mode header,.skarm-mode footer,.skarm-controls,#skarm-status{display:none}.skarm-story{grid-template-columns:minmax(0,1fr)}.skarm-story figure{position:static}}
+
+/* Explicit phases only; load, duplicate and transport error remain still.
+   Update timings live in skarm.js. Cancellation restores normal opacity immediately. */
+.skarm-story{opacity:1}
+.skarm-story[data-phase="out"]{opacity:0;transition:opacity .36s ease-in}
+.skarm-story[data-phase="in"]{opacity:1;transition:opacity .42s ease-out}
+#skarm-status{font-variant-numeric:tabular-nums}
+@media(prefers-reduced-motion:reduce){.skarm-story[data-phase]{opacity:1;transition:none}}

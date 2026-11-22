@@ -7,7 +7,24 @@
   const full = document.getElementById('skarm-full');
   const period = 75_000, maxDelay = 5 * 60_000;
   let delay = period, timer, key = story.dataset.id || '';
-  let active = true, started = false, paused = false;
+  let active = true, started = false, paused = false, didCheck = false, stageEpoch = 0;
+  let cancelPhase = null;
+  const timings = { out: 360, between: 560, in: 420 };
+  const statusLive = 'Liveläge. Kontrollerar nya inlägg automatiskt.';
+  const statusBusy = 'Uppdateras …';
+  const canMove = () => typeof matchMedia !== 'function' || !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function waitPhase(ms) {
+    return new Promise(resolve => {
+      const timeout = setTimeout(() => { cancelPhase = null; resolve(true); }, ms);
+      cancelPhase = () => { clearTimeout(timeout); cancelPhase = null; resolve(false); };
+    });
+  }
+  function endTransition() {
+    stageEpoch += 1;
+    if (cancelPhase) cancelPhase();
+    story.removeAttribute('data-phase');
+    story.removeAttribute('aria-busy');
+  }
   const trimText = (v, n) => typeof v === 'string' && v.trim() && v.length <= n;
   const isoDate = /^\d{4}-\d{2}-\d{2}$/;
   const time = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
@@ -37,7 +54,7 @@
     if (x.image) sameSite(x.image.path);
     return x;
   }
-  async function show(x) {
+  async function show(x, animate, epoch) {
     const contents = document.createDocumentFragment();
     const copy = el('div', null, 'skarm-copy');
     const meta = el('p', null, 'meta');
@@ -68,10 +85,30 @@
       figure.append(img,caption);
       contents.append(figure);
     }
-    if (paused || !active) return;
-    story.replaceChildren(contents);
-    key = story.dataset.id = x.id;
-    story.dataset.revision = x.revision;
+    const current = () => !paused && active && epoch === stageEpoch;
+    if (!current()) return;
+    const commit = () => {
+      story.replaceChildren(contents);
+      key = story.dataset.id = x.id;
+      story.dataset.revision = x.revision;
+    };
+    // Leave the incoming image fully decoded before altering the current view.
+    // Avoid detaching a link that someone is currently using via keyboard.
+    if (story.contains(document.activeElement)) return;
+    if (!animate || !canMove()) { commit(); return; }
+    try {
+      story.setAttribute('aria-busy','true');
+      story.dataset.phase = 'out';
+      if (!await waitPhase(timings.out) || !current()) return;
+      status.textContent = statusBusy;
+      if (!await waitPhase(timings.between) || !current()) return;
+      commit();
+      story.dataset.phase = 'in';
+      if (!await waitPhase(timings.in) || !current()) return;
+    } finally {
+      story.removeAttribute('data-phase');
+      story.removeAttribute('aria-busy');
+    }
   }
   function plan(ms) {
     clearTimeout(timer);
@@ -80,6 +117,7 @@
   async function check() {
     if (started || paused || !active) return;
     started = true;
+    const epoch = stageEpoch;
     const ctl = new AbortController();
     const max = setTimeout(() => ctl.abort(), 15_000);
     try {
@@ -91,14 +129,15 @@
       const body = await resp.text();
       if (body.length > 1_300_000) throw new Error('Response too large');
       const x = verify(JSON.parse(body));
-      if (x.id > key) await show(x);
+      if (x.id > key && epoch === stageEpoch) await show(x, didCheck, epoch);
       delay = period;
-      if (!paused && active && status.textContent !== 'Liveläge. Kontrollerar nya inlägg automatiskt.') status.textContent = 'Liveläge. Kontrollerar nya inlägg automatiskt.';
+      if (!paused && active && status.textContent !== statusLive) status.textContent = statusLive;
     } catch (_) {
       delay = Math.min(maxDelay, delay * 2);
       if (!paused && active && status.textContent !== 'Tillfälligt avbrott. Senaste kända inlägget ligger kvar.') status.textContent = 'Tillfälligt avbrott. Senaste kända inlägget ligger kvar.';
     } finally {
       clearTimeout(max);
+      didCheck = true;
       started = false;
       plan(delay);
     }
@@ -108,7 +147,7 @@
     paused = !paused;
     pause.textContent = paused ? 'Fortsätt uppdatera' : 'Pausa uppdatering';
     status.textContent = paused ? 'Automatisk uppdatering är pausad.' : 'Kontrollerar om ett nytt inlägg har publicerats.';
-    if (paused) clearTimeout(timer);
+    if (paused) { endTransition(); clearTimeout(timer); }
     else plan(0);
   });
   if (document.fullscreenEnabled && document.documentElement.requestFullscreen) {
@@ -124,7 +163,7 @@
       }
     });
   }
-  addEventListener('pagehide', () => { active = false; clearTimeout(timer); });
+  addEventListener('pagehide', () => { active = false; endTransition(); clearTimeout(timer); });
   addEventListener('pageshow', event => { if (event.persisted) { active = true; plan(0); } });
   addEventListener('online', () => { delay = period; plan(0); });
   plan(0);
