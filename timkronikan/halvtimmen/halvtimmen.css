@@ -1,0 +1,7 @@
+.halv-kicker{font:600 .75rem/1.5 var(--ui);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-block:1.5rem .25rem}
+.halv-last{border-block:1px solid var(--line);padding:1rem 0;margin-block:2rem}
+.halv-last h2{margin-block:0 .6rem}
+.halv-headline{font-size:1.4rem;font-weight:700}
+.halv-topic-summary{list-style:none;padding:0;display:flex;gap:.65rem;flex-wrap:wrap}
+.halv-topic-summary li{font:.93rem/1.45 var(--ui);border:1px solid var(--line);border-radius:.4rem;padding:.35rem .6rem}
+.halv-topic-summary span{font-weight:700;margin-inline-start:.2rem;color:var(--accent)}

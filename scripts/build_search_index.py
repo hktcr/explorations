@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 import re
 import unicodedata
+from build_chronicle_index import build as build_chronicle_index
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RELEASE = "20261107-music-ai-1"
@@ -179,3 +180,4 @@ def build(release):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(); parser.add_argument("--release", default=DEFAULT_RELEASE)
     build(parser.parse_args().release)
+    print(f"Krönikor: {build_chronicle_index(ROOT)} publicerade poster.")

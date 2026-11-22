@@ -1,12 +1,12 @@
 (function () {
   'use strict';
   document.addEventListener('DOMContentLoaded',function(){
-    const engine=window.ExplorationsSearch, input=document.getElementById('searchInput'), grid=document.getElementById('articlesGrid');
+    const chronicles=window.ExplorationsChronicles, engine=window.ExplorationsSearch, input=document.getElementById('searchInput'), grid=document.getElementById('articlesGrid');
     if(!engine || !input || !grid)return; // Unenhanced page remains the existing overview.
     const results=document.getElementById('traffar'), status=document.getElementById('natverkStatus'), form=document.getElementById('searchForm');
     const all=document.getElementById('showAll'), home=document.getElementById('showSearch'), clear=document.getElementById('clearSearch'), retry=document.getElementById('retrySearch');
     const cards=Array.from(grid.querySelectorAll('.article-card')), slugs=cards.map(c=>c.getAttribute('href').split('/')[0]);
-    input.placeholder='Sök i '+cards.length+' essäer…';
+    input.placeholder=chronicles?'Sök i essäer och krönikor…':'Sök i '+cards.length+' essäer…';
     const fallback=engine.prepare({schemaVersion:1,articles:cards.map(c=>({slug:c.getAttribute('href').split('/')[0],id:c.dataset.explorationId,title:c.querySelector('.card-title').textContent,subject:c.dataset.subject,excerpt:c.dataset.excerpt,language:c.closest('[lang]')?.lang||'',blocks:[],references:[]}))});
     let index=null, loading=null, broken=false, timer=null, generation=0, mode='home', relations=null;
     const readState=()=>window.explorationsReadFilter?.getState?.() || {hideRead:false,slugs:[]};
@@ -37,12 +37,27 @@
       return loading;
     }
     function addText(parent,text,tag='span',className,language){const n=document.createElement(tag);if(className)n.className=className;if(language!==undefined)n.lang=language;n.textContent=text;parent.appendChild(n);return n;}
-    function render(found,limited){
+    function render(found,limited,archive,chronicleFound,chronicleLimited){
       results.replaceChildren();const visible=found.filter(r=>!isHidden(r.slug));
       const total=found.length;
       status.textContent=(readState().hideRead?visible.length+' av '+total+' träffade essäer visas (lästa dolda).':total===1?'1 essä träffad.':total+' essäer träffade.')+(limited?' Fulltextsökningen kunde inte hämtas; endast essätitlar söks.':' Sorterade efter relevans.');
       retry.hidden=!limited;
-      if(!visible.length){addText(results,total?'Träffarna är dolda av läsfiltret. Välj Visa lästa.':'Ingen träff. Prova färre ord eller en annan formulering.','p','search-empty');return;}
+      if(archive || chronicleLimited) {
+        if(chronicleLimited) {
+          addText(results,'Krönikeindexet kunde inte hämtas. Essäerna kan fortfarande sökas.','p','search-empty');
+          retry.hidden=false;
+        } else status.textContent+=' '+chronicleFound.length+' krönikor träffade.';
+      }
+      if(archive && chronicleFound.length) {
+        addText(results,'Krönikor','h2','xr-search-group');
+        for(const row of chronicleFound.slice(0,24)) results.appendChild(chronicles.card(row,archive));
+        if(chronicleFound.length>24) addText(results,'De första 24 visas. Begränsa sökningen för fler relevanta träffar.','p','result-reason');
+      }
+      if(!visible.length){
+        if(total || !chronicleFound?.length) addText(results,total?'Träffarna är dolda av läsfiltret. Välj Visa lästa.':'Ingen träff. Prova färre ord eller en annan formulering.','p','search-empty');
+        return;
+      }
+      if(archive) addText(results,'Essäer','h2','xr-search-group');
       const list=document.createElement('ol');list.className='search-results';results.appendChild(list);
       for(const result of visible){
         const item=document.createElement('li');item.className='search-result';list.appendChild(item);
@@ -67,10 +82,11 @@
       if(token!==generation)return;
       if(!query){setMode(mode==='all'?'all':'home');overview();results.replaceChildren();retry.hidden=true;return;}
       setMode('results');retry.hidden=true;status.textContent='Söker…';
-      let corpus=index,limited=false;
-      try{corpus=await load();}catch(error){corpus=fallback;limited=true;}
+      const [essay,chronicle]=await Promise.allSettled([load(),chronicles?chronicles.load():Promise.resolve(null)]);
+      const limited=essay.status!=='fulfilled',corpus=limited?fallback:essay.value;
+      const archive=chronicle.status==='fulfilled'?chronicle.value:null;
       if(token!==generation || input.value.trim()!==query)return;
-      render(engine.search(corpus,query),limited);
+      render(engine.search(corpus,query),limited,archive,archive?chronicles.search(archive,query):[],chronicle.status==='rejected');
     }
     function schedule(immediate=false){
       clearTimeout(timer);const token=++generation;clear.hidden=!input.value;

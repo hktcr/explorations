@@ -26,3 +26,4 @@
 .begrepp-chips [hidden],.begrepp-result[hidden],#begrepp-search[hidden]{display:none!important}
 .begrepp-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media print{#begrepp-search,.begrepp-chip a[aria-current]{display:none}}
+.begrepp-timeline .begrepp-meter,.begrepp-thematic{margin-top:.55rem}.begrepp-thematic{font:600 .88rem/1.45 var(--ui);color:var(--meta)}
