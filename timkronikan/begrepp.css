@@ -27,3 +27,18 @@
 .begrepp-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media print{#begrepp-search,.begrepp-chip a[aria-current]{display:none}}
 .begrepp-timeline .begrepp-meter,.begrepp-thematic{margin-top:.55rem}.begrepp-thematic{font:600 .88rem/1.45 var(--ui);color:var(--meta)}
+
+/* Word sizes are continuous log-scaled literal totals, as emitted by the
+   builder. Flex-wrap keeps DOM order, tab order and visual order in sync. */
+.begrepp-cloud{gap:.55rem 1rem;align-items:baseline;justify-content:center;background:color-mix(in srgb,var(--paper) 95%,var(--accent) 5%);padding:clamp(.8rem,4vw,1.75rem);border-block:1px solid var(--line)}
+.begrepp-cloud .begrepp-chip a{font:700 var(--cloud-size,1rem)/1.15 var(--body);border:0;background:none;text-decoration:none;padding:.25rem .35rem;max-inline-size:100%;white-space:normal}
+.begrepp-cloud .begrepp-chip a:hover,.begrepp-cloud .begrepp-chip a:focus-visible{text-decoration:underline}
+#begrepp-threshold{font:600 .9rem/1.5 var(--ui);margin:1rem 0 1.5rem;padding:1rem;border:1px solid var(--line);border-radius:.4rem;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.15rem .8rem;align-items:center}
+#begrepp-threshold label,#begrepp-threshold p{grid-column:1/-1}
+#begrepp-threshold input{min-height:44px;width:100%;accent-color:var(--accent);cursor:pointer}
+#begrepp-threshold output{min-width:4ch;font-variant-numeric:tabular-nums}
+#begrepp-threshold[hidden]{display:none}
+#begrepp-tema summary{min-height:44px;display:list-item;font:600 .87rem/1.5 var(--ui);cursor:pointer;color:var(--meta)}
+#begrepp-tema .begrepp-count{border:1px dashed var(--line);background:transparent}
+@media(max-width:400px){.begrepp-cloud .begrepp-chip a{font-size:min(var(--cloud-size),1.6rem)}}
+@media(prefers-reduced-motion:reduce){.begrepp-chip a{transition:none}}

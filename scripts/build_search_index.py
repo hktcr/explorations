@@ -181,3 +181,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(); parser.add_argument("--release", default=DEFAULT_RELEASE)
     build(parser.parse_args().release)
     print(f"Krönikor: {build_chronicle_index(ROOT)} publicerade poster.")
+    from build_sources_index import build as build_sources_index
+    print(f"Källor: {build_sources_index(ROOT)} publicerade identiteter.")

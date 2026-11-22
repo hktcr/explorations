@@ -146,3 +146,16 @@ test('prototype property names in URL fragments never select a nonexistent essay
     } finally {h.close();}
   }
 });
+test('chronicle Escape does not clear inactive essay search; returning reuses the essay query', async () => {
+  const h=await harness('https://example.test/natverk/?q=vatten');
+  try {
+    h.w.history.pushState(null,'','?q=vatten&cq=PFAS#kronikor');
+    h.w.dispatchEvent(new h.w.CustomEvent('explorations:networkview'));
+    h.w.document.dispatchEvent(new h.w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+    assert.equal(h.el('essaSok').value,'vatten');
+    assert.match(h.w.location.href,/q=vatten&cq=PFAS#kronikor$/);
+    h.w.history.pushState(null,'','?q=vatten&cq=PFAS#essaer');
+    h.w.dispatchEvent(new h.w.CustomEvent('explorations:networkview'));
+    assert.equal(h.el('natverkNoder').querySelectorAll('.nod-traff').length,2);
+  } finally {h.close();}
+});

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Källor | Explorations</title>
+<script src="../explorations-theme.js?v=20261122-theme-1"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap">
+<link rel="stylesheet" href="../explorations-theme.css?v=20261122-theme-1">
+<link rel="stylesheet" href="../kallor.css?v=20261123-citations-1"></head>
+<body>
+<a class="skip-source" href="#innehall">Till innehållet</a>
+<header class="source-head"><nav aria-label="Brödsmulor"><a href="../">Explorations</a><span aria-hidden="true">/</span><strong>Källor</strong></nav><span data-xr-theme-slot></span></header>
+<main id="innehall">
+ <section class="source-intro"><span class="eyebrow">EXPLORATIONS · REGISTER</span><h1>Källor</h1><p>Sök i källhänvisningarna och se vilka essäer och krönikor som använder samma källa.</p></section>
+ <section class="source-controls" aria-label="Källsökning">
+  <form id="sourceForm" role="search"><label for="sourceQuery">Sök i källor</label><div><input id="sourceQuery" type="search" maxlength="240" placeholder="Författare, titel, publikation eller DOI"><button type="submit">Sök</button></div></form>
+  <div class="view-switch" role="group" aria-label="Visning"><button type="button" id="viewList" aria-pressed="true">Lista</button><button type="button" id="viewGraph" aria-pressed="false">Nätverk</button></div>
+ </section>
+ <section class="conditions" aria-labelledby="conditionHeading"><h2 id="conditionHeading">Kombinera källor</h2><p>Välj flera källor för att hitta texter som använder <strong>alla valda källor</strong>. En färg och ett linjemönster per källa visar vilka texter den används i.</p><ul id="sourceConditions"></ul><button type="button" id="clearConditions" hidden>Rensa urvalet</button><div id="conditionAnswer" role="status"></div></section>
+ <p id="sourceStatus" role="status">Läser källregistret …</p>
+ <section id="sourceList" aria-label="Källista"></section>
+ <section id="sourceGraph" aria-label="Källnätverk" hidden>
+  <p class="source-hint">Välj källnoder för att kombinera dem. En nedtonad text saknar minst en vald källa. Listläget visar alla sökträffar.</p>
+  <div id="sourceGraphGrid"><svg id="sourceEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg><div class="source-lane"><h2>Källor</h2><div id="sourceNodes"></div></div><div class="text-lane"><h2>Texter</h2><div id="sourceTexts"></div></div></div>
+ </section>
+ <noscript><p>Källregistret kräver JavaScript. Källhänvisningarna går fortfarande att läsa i varje essä och krönika.</p></noscript>
+ <details class="source-method"><summary>Så läser du registret</summary><p>Registret bygger på de publicerade texternas källhänvisningar. Sökorden matchas mot källraden så som författare, titel och publikation anges i den. Lika DOI eller samma artikeladress räknas som samma källa. Böcker utan länk slås ihop endast när den dokumenterade källraden är identisk. En koppling visar användning, inte att källan ensam räcker som belägg.</p></details>
+</main>
+<script defer src="../kallor.js?v=20261123-citations-1"></script></body></html>

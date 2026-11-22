@@ -156,6 +156,7 @@
     if (!document.body.classList.contains('natverk-sida')) return;
     var root = document.body.getAttribute('data-root') || '../';
     var graph = document.getElementById('natverk');
+    function chronicleMode() { return location.hash === '#kronikor'; }
     var nodeLayer = document.getElementById('natverkNoder');
     var canvas = document.getElementById('natverkKanter');
     var status = document.getElementById('natverkStatus');
@@ -206,6 +207,7 @@
       }).filter(function (item) { return item.node; });
     }
     function updateUrl(push) {
+      if (chronicleMode()) return;
       var url = new URL(location.href);
       if (listSearch.value.trim()) url.searchParams.set('q', listSearch.value);
       else url.searchParams.delete('q');
@@ -374,10 +376,10 @@
         node.y = Math.max(26, Math.min(size.height - 105, node.y + node.vy));
       });
     }
-    function motionAllowed() { return !paused && !reducedMotion.matches && !document.hidden; }
+    function motionAllowed() { return !chronicleMode() && !paused && !reducedMotion.matches && !document.hidden; }
     function flowing() { return motionAllowed() && search.active && search.links.size > 0; }
     function draw(time) {
-      if (!nodes.length || !size) return;
+      if (chronicleMode() || !nodes.length || !size) return;
       var moving = motionAllowed();
       offsetX = moving ? offsetX + (targetOffsetX - offsetX) * 0.13 : targetOffsetX;
       offsetY = moving ? offsetY + (targetOffsetY - offsetY) * 0.13 : targetOffsetY;
@@ -450,7 +452,7 @@
       listSearch.focus({preventScroll:true});
     }
     function restoreUrl() {
-      if (!networkData) return;
+      if (!networkData || chronicleMode()) return;
       listSearch.value = new URL(location.href).searchParams.get('q') || '';
       renderList(listSearch.value);
       var slug = '';
@@ -464,11 +466,15 @@
     reducedMotion.addEventListener('change', startDrawing);
     window.addEventListener('explorations:themechange', startDrawing);
     document.addEventListener('visibilitychange', startDrawing);
+    window.addEventListener('explorations:networkview', function () {
+      if (!chronicleMode() && networkData) { startLayout(); restoreUrl(); }
+      else startDrawing();
+    });
     window.addEventListener('popstate', restoreUrl);
     window.addEventListener('hashchange', restoreUrl);
     reset.addEventListener('click', function () { listSearch.value = ''; renderList(''); clearSelection(); startLayout(); });
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && !chronicleMode()) {
         if (listSearch.value) {
           event.preventDefault();
           clearQuery();

@@ -60,7 +60,7 @@ test("node network only renders collection branches and exposes topic filter wit
   assert.equal(w.document.getElementById("xrEssayNetwork").hidden,true);
   assert.equal(w.document.getElementById("kronikor").hidden,false);
   assert.equal(w.document.querySelectorAll(".xr-collection-button").length,corpus().collections.length+1);
-  const b=[...w.document.querySelectorAll(".xr-topic-button")].find(x=>x.textContent.startsWith("Rättvis omställning"));
+  const b=[...w.document.querySelectorAll(".xr-topic-button")].find(x=>x.textContent.startsWith("Dricksvatten · "));
   assert.ok(b);b.click();assert.equal(b.getAttribute("aria-pressed"),"true");
   assert.equal(w.document.querySelectorAll(".xr-chronicle-hit").length,1);
   assert.match(w.document.querySelector(".xr-chronicle-hit a").getAttribute("href"),/^\.\.\/timkronikan\//);

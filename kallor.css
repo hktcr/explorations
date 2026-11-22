@@ -1,0 +1,22 @@
+:root{--bg:#f4f7fc;--card:#fff;--text:#172437;--muted:#475970;--line:#c6d4e5;--accent:#205e9f;--head:#173b69;--ui:Inter,system-ui,sans-serif;--body:Merriweather,Georgia,serif}
+html:not([data-theme="light"]){--bg:#101d30;--card:#172943;--text:#e8f0ff;--muted:#b6c9e4;--line:#466180;--accent:#8dc4ff;--head:#d3e7ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse 90% 300px at top center,color-mix(in srgb,var(--accent) 9%,transparent),transparent),var(--bg);color:var(--text);font:1rem/1.6 var(--ui)}
+a{color:var(--accent);text-underline-offset:.2em;overflow-wrap:anywhere}
+button,input{font:inherit}button{min-height:44px;background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:.6rem;padding:.35rem .8rem;cursor:pointer}button[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 -3px var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+[hidden]{display:none!important}
+.source-head,main{max-width:1110px;margin:auto;padding:1rem clamp(.85rem,3vw,2rem)}
+.source-head,.source-head nav{display:flex;gap:.9rem;align-items:center;justify-content:space-between;flex-wrap:wrap}.source-head{border-bottom:1px solid var(--line)}
+.skip-source{position:absolute;top:-8rem;left:1rem;padding:.65rem;background:var(--card);z-index:2}.skip-source:focus{top:1rem}
+.source-intro{padding:2.2rem 0 1rem;max-width:42rem}.source-intro h1{margin:.2rem 0;font:700 clamp(2.7rem,6vw,4.6rem)/1.12 var(--body);color:var(--head)}.source-intro p{margin:.5rem 0 0;color:var(--muted)}.eyebrow{font-size:.75rem;letter-spacing:.15em;font-weight:700;color:var(--accent)}
+.source-controls{display:flex;gap:1rem;align-items:end;flex-wrap:wrap}.source-controls form{flex:1 1 24rem}.source-controls form div,.view-switch{display:flex;gap:.35rem}.source-controls label{display:block;font-weight:700;margin-bottom:.2rem}.source-controls input{min-height:44px;flex:1;min-width:0;padding:.45rem .65rem;border:1px solid var(--line);border-radius:.45rem;color:var(--text);background:var(--card)}
+.conditions{margin:1.15rem 0;padding:.85rem 1rem;background:var(--card);border-left:3px solid var(--line)}.conditions h2,.conditions p{margin:.4rem 0}.conditions h2{font-size:1.1rem}.conditions p,#sourceStatus,.source-hint,.source-method{font-size:.88rem;color:var(--muted)}#sourceConditions{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;padding:0}#sourceConditions:empty{margin:0}
+.source-record{border-bottom:1px solid var(--line);padding:.8rem 0;overflow-wrap:anywhere}.source-record h2{font:700 1rem/1.5 var(--body);margin:0}.source-record summary{cursor:pointer;min-height:44px}.source-record summary h2{display:inline}.source-record .source-record-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}.source-record .source-record-controls button{border-inline-start:5px solid var(--series)}.source-record ul{padding-left:1.2rem}.usage-group{color:var(--muted);font-size:.82rem;margin-inline-start:.45rem}.source-method{margin:2rem 0}
+#sourceGraphGrid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.9rem,13vw,9rem);align-items:start;isolation:isolate}
+#sourceEdges{position:absolute;inset:0;width:100%;height:100%;z-index:-1;overflow:visible;pointer-events:none}
+#sourceNodes,#sourceTexts{display:grid;gap:.55rem}.source-lane,.text-lane{min-width:0}.source-lane h2,.text-lane h2{font-size:1rem;color:var(--accent);margin:.45rem 0}
+.source-node,.text-node{display:block;width:100%;padding:.55rem .62rem;min-height:44px;border-radius:.55rem;border:1px solid var(--line);background:var(--card);overflow-wrap:anywhere;text-align:left;font-size:.84rem}
+.source-node{border-inline-start:5px solid var(--series)}
+.source-glyph{color:var(--series);font-weight:700}.text-node small{display:block;color:var(--muted)}.text-node[data-dim=true]{color:var(--muted);background:var(--bg);border-style:dashed}.text-node[data-dim=true] .missing{display:block;color:var(--muted);font-weight:500}.text-node .missing{display:none}
+@media(max-width:600px){.source-intro{padding-top:1.3rem}.source-record h2{font-size:.93rem}.source-node,.text-node{font-size:.76rem}.source-head{gap:.35rem}}
+@media(print){.source-head button,.source-controls,.conditions button,#sourceEdges{display:none!important}body{background:white;color:black}}

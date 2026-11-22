@@ -50,7 +50,7 @@ class Tree(HTMLParser):
 def source_container(n):
     return bool(n.classes & {'sources','sources-section','sources-list','references','reference-list','bibliography'}) or n.attrs.get('id','').lower() in {'sources','sources-and-verification','sources-and-reference-ledger','sources-further-reading','references','bibliography'}
 
-def extract(source):
+def extract(source, include_urls=False):
     tree=Tree(); tree.feed(source); nodes=list(tree.root.walk())
     references=[]; source_nodes=set(); seen=set(); problems=[]
     # Source lists normally have a semantic section/class. Older Frame has a
@@ -97,7 +97,9 @@ def extract(source):
         anchor=n.attrs.get('id','') or next((root_anchors[a] for a in n.ancestors() if root_anchors.get(a)), '') or next((a.attrs['id'] for a in n.ancestors() if a.attrs.get('id')), '')
         key=(anchor,label)
         if key not in seen:
-            references.append({'title':label,'anchor':anchor,'kind':'bibliographic-title-line'}); seen.add(key)
+            reference = {'title':label,'anchor':anchor,'kind':'bibliographic-title-line'}
+            if include_urls and primary: reference['originalUrl'] = primary.attrs['href']
+            references.append(reference); seen.add(key)
     blocks=[]; heading=''; anchor=''
     headings={'h1','h2','h3','h4','h5','h6'}
     structural=headings|{'main','article','section','aside','header','div','p','li','ul','ol','blockquote','figure','figcaption','table','thead','tbody','tr','td','th','caption','dl','dt','dd','pre'}
