@@ -31,6 +31,7 @@
       "timkronikan/inlagg/inlagg-2026-11-24-0600.html",
       "timkronikan/inlagg/inlagg-2026-11-24-0700.html",
       "timkronikan/inlagg/inlagg-2026-11-24-0900.html",
+      "timkronikan/inlagg/inlagg-2026-11-24-1000.html",
       "timkronikan/reportage/2026-11-23-lunch.html",
       "timkronikan/reportage/2026-11-24-varlden.html"
     ],
@@ -105,6 +106,10 @@
         "kind": "published",
         "at": "2026-11-24T13:05:59+00:00",
         "commit": "f7f0df333a57fdf723345ee9946763863d1269d0"
+      },
+      {
+        "href": "timkronikan/inlagg/inlagg-2026-11-24-1000.html",
+        "kind": "published"
       }
     ],
     "essa": [
