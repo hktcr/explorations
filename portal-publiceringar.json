@@ -109,7 +109,9 @@
       },
       {
         "href": "timkronikan/inlagg/inlagg-2026-11-24-1000.html",
-        "kind": "published"
+        "kind": "published",
+        "at": "2026-11-24T13:28:43+00:00",
+        "commit": "1a4456ed03ad281f7b09c17983baf514bd108ccc"
       }
     ],
     "essa": [
