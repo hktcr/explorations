@@ -55,6 +55,7 @@
     sameSite(x.href);
     if (x.image !== null && (!x.image || !media.test(x.image.path) || !trimText(x.image.alt,360) || !trimText(x.image.caption,650))) throw new Error('Invalid image');
     if (x.image) sameSite(x.image.path);
+    if (x.previewCaption !== undefined && (!x.image || !trimText(x.previewCaption,650))) throw new Error('Invalid preview caption');
     return x;
   }
   async function show(x, animate, epoch, manual=false) {
@@ -64,10 +65,10 @@
     const when = el('time', x.displayDate + (x.time ? ' · kl. ' + x.time + ', svensk tid' : ''));
     when.dateTime = x.date + (x.time ? 'T' + x.time : '');
     meta.append(when);
-    copy.append(meta, el('h1', x.title), ...x.paragraphs.map(p => el('p', p)));
+    copy.append(meta, el('h1', x.title), el('p', x.paragraphs[0], 'skarm-lead'));
     const source = el('p',null,'skarm-source');
-    const link = el('a','Öppna inlägget och dess källor →');
-    link.href = x.href;
+    const link = el('a','Läs hela artikeln →');
+    link.href = x.href.includes('#') ? 'inlagg/' + x.id + '.html' : x.href;
     source.append(link);
     copy.append(source);
     contents.append(copy);
@@ -84,7 +85,8 @@
         } finally { clearTimeout(timeout); }
       }
       const caption = el('figcaption');
-      caption.append(el('strong','AI-genererad redaktionell illustration.'), ' ' + x.image.caption);
+      caption.append(el('strong','AI-genererad redaktionell illustration.'));
+      if (x.previewCaption) caption.append(' ' + x.previewCaption);
       figure.append(img,caption);
       contents.append(figure);
     }

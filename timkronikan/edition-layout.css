@@ -1,0 +1,20 @@
+/* Applied only to newly published individual editorial articles. */
+body.kr-detail{font-family:var(--body);font-size:clamp(1.0625rem,1.7vw,1.125rem);line-height:1.7}
+.kr-detail main{width:min(calc(100% - 2rem),65ch);padding:1.1rem 0 3rem;box-sizing:border-box}
+html[data-reading-width] .kr-detail main{width:min(calc(100% - 2rem),var(--reader-line-length));max-width:none;padding-inline:0}
+.kr-detail-story{font:inherit;min-inline-size:0;scroll-margin-block-start:4rem}
+.kr-detail-story>figure:first-child{margin:0 0 1rem}
+.kr-detail-story>figure:first-child>img{display:block;inline-size:auto;max-inline-size:100%;block-size:auto;max-block-size:min(58svh,35rem);margin-inline:auto;object-fit:contain}
+.kr-detail-story>figure:first-child>figcaption{font:400 .85rem/1.5 var(--ui)}
+.kr-detail-story>p:not(.meta):not(.kr-date):not(.kr-kicker){margin-block:0 1em;line-height:1.7}
+.kr-detail-story .kr-kicker{margin-block:.8rem .15rem}
+.kr-detail-story .kr-date{margin-block:.1rem .45rem;font-size:.84rem}
+.kr-detail-story :is(.editorial-method,.edition-review)>summary,.kr-detail .editor-reader :is(a,button,summary){min-block-size:44px;align-content:center}
+.kr-detail .kr-detail-top{margin-block-end:.65rem}
+.kr-detail-story h1{color:var(--heading-color);font-size:clamp(1.85em,5.5vw,2.75em);line-height:1.21;font-weight:700;letter-spacing:-.018em}
+.kr-reader-toolbar{width:auto;margin:0;padding:.65rem max(1rem,env(safe-area-inset-right));position:sticky;top:0;z-index:12;background:color-mix(in srgb,var(--paper) 93%,transparent);backdrop-filter:blur(8px)}
+.kr-reader-toolbar nav a{font-size:.9rem}
+@media(max-width:450px){.kr-detail .kr-detail-nav{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);font-size:.875rem}.kr-detail .kr-detail-nav a{min-inline-size:0;overflow-wrap:anywhere}}
+@media print{.kr-detail main{width:100%;padding:0}.kr-reader-toolbar{display:none}}
+/* Source titles can be long, unbroken identifiers or visible URLs. */
+.kr-detail-story .sources a,.kr-detail-story .edition-review-content{overflow-wrap:anywhere}

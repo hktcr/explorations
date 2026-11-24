@@ -10,13 +10,25 @@
 .skarm-controls button[hidden]{display:none}
 #skarm-status{margin:.55rem 0 1rem;min-height:1.5em}
 .skarm-story{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1rem,3vw,3rem);align-items:start;border-block-start:1px solid var(--line);padding-block:clamp(.8rem,3vh,2.5rem)}
-.skarm-story .skarm-copy{max-inline-size:46rem}
-.skarm-story h1{font-size:clamp(2.1rem,4.9vw,4.9rem);line-height:1.14;margin-block:.15em .5em}
-.skarm-story p:not(.meta){font-size:clamp(1.03rem,1.27vw,1.24rem);line-height:1.6}
+.skarm-story{inline-size:min(100%,66ch);margin-inline:auto}
+.skarm-story .skarm-copy{min-inline-size:0}
+.skarm-story h1{font:700 clamp(1.85rem,3vw,2.65rem)/1.16 var(--body);letter-spacing:-.025em;margin-block:.2em .45em;overflow-wrap:anywhere}
+.skarm-story .skarm-lead{font:400 clamp(1.0625rem,1.7vw,1.125rem)/1.65 var(--body);margin-block:.5em .7em}
+.skarm-story .meta,.skarm-story .skarm-source{margin:0}
+.skarm-story .skarm-source{font:600 .9375rem/1.45 var(--ui)}
 .skarm-story figure{margin:0;min-inline-size:0}
-.skarm-story img{width:100%;object-fit:contain}
+.skarm-story img{inline-size:auto;max-inline-size:100%;block-size:auto;max-block-size:min(52svh,30rem);margin-inline:auto;object-fit:contain}
+.skarm-story figcaption{font-size:.84rem;line-height:1.45}
+.skarm-mode :is(a,button,summary){scroll-margin-block:1rem}
+.skarm-mode .editor-reader :is(a,button,summary){min-height:44px}
+.skarm-mode .editor-reader{margin-block:.3rem .6rem}
+.skarm-mode .skarm-controls button,.skarm-mode .editor-reader :is(a,button,summary){font-size:.875rem}
+.skarm-mode #skarm-status{font-size:.83rem;margin-block:.3rem .5rem}
 .skarm-story .skarm-source a,.skarm-entry{display:inline-flex;align-items:center;gap:.35rem;min-height:44px}
-@media(min-width:850px){.skarm-story:has(figure){grid-template-columns:minmax(0,1.02fr) minmax(0,1fr)}.skarm-story figure{position:sticky;top:1rem}}
+@media(min-width:56rem) and (min-height:38rem){
+  .skarm-story:has(figure){inline-size:min(100%,70rem);grid-template-columns:minmax(0,1fr) minmax(0,.85fr);align-items:center}
+  .skarm-story figure img{max-block-size:min(48svh,27rem)}
+}
 @media print{.skarm-mode header,.skarm-mode footer,.skarm-controls,#skarm-status{display:none}.skarm-story{grid-template-columns:minmax(0,1fr)}.skarm-story figure{position:static}}
 
 /* Explicit phases only; load, duplicate and transport error remain still.
