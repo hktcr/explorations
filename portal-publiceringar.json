@@ -102,7 +102,9 @@
       },
       {
         "href": "timkronikan/inlagg/halvtimmen-2026-11-24-0930.html",
-        "kind": "published"
+        "kind": "published",
+        "at": "2026-11-24T13:05:59+00:00",
+        "commit": "f7f0df333a57fdf723345ee9946763863d1269d0"
       }
     ],
     "essa": [
