@@ -121,16 +121,22 @@ test('pause, reduced motion and hidden document cancel animation without losing 
 });
 test('back/forward and malformed hashes restore query and selection safely', async () => {
   const h = await harness('https://example.test/natverk/?q=vatten#%FF');
-  const wait = () => new Promise(resolve => setTimeout(resolve, 30));
+  function traverse(action) {
+    return new Promise((resolve,reject)=>{
+      const timeout=setTimeout(()=>reject(Error('No popstate on '+action)),2000);
+      h.w.addEventListener('popstate',()=>{clearTimeout(timeout);resolve();},{once:true});
+      h.w.history[action]();
+    });
+  }
   try {
     assert.equal(h.el('essaAntal').textContent, '2');
     assert.equal(h.el('natverk').classList.contains('natverk-fel'), false);
     h.el('natverkNoder').children[0].click();
     h.el('natverkNoder').children[1].click();
-    h.w.history.back(); await wait();
+    await traverse('back');
     assert.equal(h.el('relationspanelTitel').textContent, 'Vatten och café');
     assert.equal(h.el('essaSok').value, 'vatten');
-    h.w.history.forward(); await wait();
+    await traverse('forward');
     assert.equal(h.el('relationspanelTitel').textContent, 'Vatten i mark');
     assert.equal(h.el('natverkNoder').querySelectorAll('.nod-traff').length, 2);
   } finally {h.close();}

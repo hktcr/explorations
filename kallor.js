@@ -7,25 +7,43 @@
     const q=fold(raw).trim();
     if(!q)return true;
     const bibliographic=fold([rec.title,...rec.aliases,rec.doi,rec.url].join(" "));
-    const doi=q.match(/10\.\d{4,9}\/[^\s]+/);
-    if (doi) return rec.doi===doi[0].replace(/[,.;]+$/,"");
-    return words(q).length>0 && words(q).every(token=>bibliographic.includes(token));
+    let doiCount=0, exactDoi=true;
+    const remaining=q.replace(/(?:https?:\/\/(?:dx\.)?doi\.org\/|doi:\s*)?(10\.\d{4,9}\/[-._;()/:a-z0-9+%]+)/g, (_,identifier)=>{
+      doiCount++;
+      if(identifier.replace(/[.,;:]+$/,"")!==rec.doi) exactDoi=false;
+      return " ";
+    });
+    const tokens=words(remaining);
+    return exactDoi && (doiCount>0 || tokens.length>0) && tokens.every(token=>bibliographic.includes(token));
   };
   const used=s=>new Set(s.uses.map(([t])=>t));
-  const intersect=(records)=>{
-    if(!records.length)return new Set();
-    const sets=records.map(used).sort((a,b)=>a.size-b.size);
-    return new Set([...sets[0]].filter(id=>sets.every(group=>group.has(id))));
-  };
+  function sharedTexts(groups) {
+    if (!groups.length) return new Set();
+    const [smallest, ...others] = groups.slice().sort((a,b)=>a.size-b.size);
+    return new Set([...smallest].filter(id=>others.every(set=>set.has(id))));
+  }
+  const intersect=records=>sharedTexts(records.map(used));
+  const documentsFor=records=>new Set(records.flatMap(rec=>[...used(rec)]));
   const glyphs=["●","◆","▲","✚","■","⬟","◇","★"];
   const dashes=["","6 4","2 3","8 3 2 3","12 5","5 2 2 2","15 4 3 4","3 4"];
   function style(id,light=false) {
     const hash=parseInt(id.slice(4,12),16)>>>0,i=hash%8, hue=(hash%359+17)%360;
     return {color:"hsl("+hue+" 70% "+(light?"37%":"72%")+")", glyph:glyphs[i],dash:dashes[i]};
   }
-  const exactText=/^(?:[a-z0-9-]+\/index\.html|timkronikan\/(?:inlagg\/(?:inlagg|halvtimmen)-20\d\d-\d\d-\d\d-\d{4}\.html|(?:halvtimmen\/)?20\d\d-\d\d\.html))(?:#[\w.:%-]+)?$/;
+  function distinguish(records) {
+    const palette=new Map(),hues=[];
+    for(const rec of records) {
+      const preferred=style(rec.id),pref=Number(preferred.color.match(/\d+/)[0]);
+      let hue=pref;
+      while(hues.some(other=>Math.min(Math.abs(hue-other),360-Math.abs(hue-other))<23))hue=(hue+137)%360;
+      hues.push(hue);
+      palette.set(rec.id,{dark:"hsl("+hue+" 70% 72%)",light:"hsl("+hue+" 70% 37%)",glyph:glyphs[hues.length-1],dash:dashes[hues.length-1]});
+    }
+    return palette;
+  }
+  const exactText=/^(?:[a-z0-9-]+\/index\.html|timkronikan\/(?:reportage\/20\d\d-\d\d-\d\d-(?:lunch|world|varlden)\.html|inlagg\/(?:inlagg|halvtimmen)-20\d\d-\d\d-\d\d-\d{4}\.html|(?:halvtimmen\/)?20\d\d-\d\d\.html))(?:#[\w.:%-]+)?$/;
   function validate(data) {
-    if(data?.schemaVersion!==1 || !Array.isArray(data.sources) || !data.texts)throw Error("Ogiltigt index");
+    if(![1,2].includes(data?.schemaVersion) || !Array.isArray(data.sources) || !data.texts)throw Error("Ogiltigt index");
     const seen=new Set();
     for(const text of Object.values(data.texts)) if(!exactText.test(text.href)||typeof text.title!=="string"||typeof text.series!=="string")throw Error("Ogiltig textlänk");
     for(const rec of data.sources) {
@@ -37,21 +55,21 @@
     }
     return data;
   }
-  if(typeof module==="object"&&module.exports){module.exports={match,used,intersect,style,validate};return;}
+  if(typeof module==="object"&&module.exports){module.exports={match,used,intersect,style,distinguish,validate};return;}
   const $=id=>document.getElementById(id);
   const element=(tag,text,attrs={})=>{
     const n=document.createElement(tag);if(text!==null)n.textContent=text;
     for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);return n;
   };
-  const svg=$("sourceEdges"),list=$("sourceList"),graph=$("sourceGraph"),query=$("sourceQuery");
-  const graphGrid=$("sourceGraphGrid"),sourcesEl=$("sourceNodes"),textsEl=$("sourceTexts");
+  const list=$("sourceList"),graph=$("sourceGraph"),query=$("sourceQuery");
+  const canonical=$("natverk");
   const status=$("sourceStatus"),choice=$("sourceConditions"),answer=$("conditionAnswer");
   const clear=$("clearConditions"),listView=$("viewList"),graphView=$("viewGraph");
-  const state={selected:new Set(),mode:"list",limit:30,records:[],byId:new Map(),texts:{}};
+  const state={selected:new Set(),mode:"list",limit:30,terms:new Map(),sourceOffset:0,textOffset:0,records:[],byId:new Map(),texts:{},palette:new Map()};
   const selected=()=>[...state.selected].map(id=>state.byId.get(id));
   const light=()=>document.documentElement.dataset.theme==="light";
   function makeSourceButton(rec,label,kind){
-    const paint=style(rec.id,light());
+    const mix=state.palette.get(rec.id),paint=mix?{color:light()?mix.light:mix.dark,glyph:mix.glyph}:style(rec.id,light());
     const b=element("button",null,{type:"button","aria-pressed":String(state.selected.has(rec.id)),
       class:kind,"data-source-toggle":rec.id});
     b.style.setProperty("--series",paint.color);
@@ -61,8 +79,8 @@
   }
   function toggle(id,kind) {
     if(state.selected.has(id))state.selected.delete(id);
-    else if(state.selected.size>=8) { answer.textContent="Välj högst åtta källor i taget.";return; }
     else state.selected.add(id);
+    state.sourceOffset=state.textOffset=0;
     render();
     [...document.querySelectorAll("[data-source-toggle]")].find(b=>b.dataset.sourceToggle===id&&b.classList.contains(kind))?.focus({preventScroll:true});
   }
@@ -98,14 +116,23 @@
   }
   function renderConditions(conditions,hitSet) {
     choice.replaceChildren();
-    clear.hidden=!conditions.length;
+    const active=conditions.length+state.terms.size>0;
+    $("activeConditions").hidden=!active;
+    clear.hidden=!active;
     answer.replaceChildren();
-    if(!conditions.length)return;
+    if(!active)return;
+    for (const [key,term] of state.terms) {
+      const li=element("li",null),button=element("button","Ta bort sökning: "+term,{type:"button"});
+      button.addEventListener("click",()=>{
+        state.terms.delete(key);state.sourceOffset=state.textOffset=0;render();query.focus();
+      });
+      li.append(button);choice.append(li);
+    }
     for(const rec of conditions) {
       const li=element("li",null),button=makeSourceButton(rec,"Ta bort: "+rec.title.slice(0,96),"remove-source");
       li.append(button);choice.append(li);
     }
-    const message=hitSet.size===1?"1 text använder alla valda källor.":hitSet.size+" texter använder alla valda källor.";
+    const message=hitSet.size+(hitSet.size===1?" text uppfyller":" texter uppfyller")+" alla valda villkor.";
     answer.append(element("span",message));
     if(hitSet.size){
       const ul=element("ul",null);
@@ -113,59 +140,83 @@
       answer.append(ul);
     }
   }
-  let lines=[];
-  function reflow() {
-    svg.replaceChildren();
-    if(graph.hidden)return;
-    const area=graphGrid.getBoundingClientRect();
-    for(const [rec,src,target,dim] of lines){
-      const a=src.getBoundingClientRect(),b=target.getBoundingClientRect(),mid=(a.right+b.left)/2-area.left;
-      const path=document.createElementNS("http://www.w3.org/2000/svg","path"),paint=style(rec.id,light());
-      const y=a.top+a.height/2-area.top,z=b.top+b.height/2-area.top;
-      path.setAttribute("d","M "+(a.right-area.left)+" "+y+" C "+mid+" "+y+" "+mid+" "+z+" "+(b.left-area.left)+" "+z);
-      path.setAttribute("fill","none");path.setAttribute("stroke",paint.color);path.setAttribute("stroke-width",dim?"1.3":"2.6");
-      path.setAttribute("opacity",dim?".45":".82");if(paint.dash)path.setAttribute("stroke-dasharray",paint.dash);
-      svg.append(path);
-    }
+  function page(items,start,size,controls,previous,next,label) {
+    const offset=Math.min(start,Math.max(0,Math.floor((items.length-1)/size)*size));
+    $(controls).hidden=items.length<=size;
+    $(previous).disabled=offset===0;
+    $(next).disabled=offset+size>=items.length;
+    $(label).textContent=(offset+1)+"–"+Math.min(items.length,offset+size)+" av "+items.length;
+    return items.slice(offset,offset+size);
   }
-  function renderGraph(matches,conditions,hits){
-    sourcesEl.replaceChildren();textsEl.replaceChildren();lines=[];
-    const nodes=[...new Map([...conditions,...matches].map(r=>[r.id,r])).values()].slice(0,8);
-    const ids=[...new Set([...hits,...nodes.flatMap(s=>[...used(s)])])].slice(0,24), textNodes=new Map();
-    for(const doc of ids){
-      const d=state.texts[doc], node=formatTextLink(doc),dim=!!conditions.length&&!hits.has(doc);
-      node.className="text-node";node.dataset.dim=String(dim);
-      node.append(element("small",d.series),element("span","Saknar minst en vald källa",{class:"missing"}));
-      textsEl.append(node);textNodes.set(doc,node);
-    }
-    if(!nodes.length)sourcesEl.append(element("p","Inga källor att visa."));
-    if(!ids.length)textsEl.append(element("p","Inga texter att visa."));
-    for(const rec of nodes){
-      const b=makeSourceButton(rec,rec.title+" · "+rec.count,"source-node");
-      sourcesEl.append(b);
-      for(const doc of used(rec))if(textNodes.has(doc))lines.push([rec,b,textNodes.get(doc),conditions.length&&!hits.has(doc)]);
-    }
-    requestAnimationFrame(reflow);
+  function renderGraph(sources,filtering,hits){
+    const linked=[...documentsFor(sources)].sort((a,b)=>Number(hits.has(b))-Number(hits.has(a)));
+    const ids=page(linked,state.textOffset,24,"textPages","prevTexts","nextTexts","textPage");
+    const show=new Set(ids);
+    const nodes=sources.map(rec=>{
+      const paint=state.palette.get(rec.id);
+      return {slug:rec.id,id:"Källa",titel:rec.title,amne:"Källa",href:rec.url||null,
+        excerpt:rec.count+(rec.count===1?" publicerad text använder källan.":" publicerade texter använder källan."),
+        source:true,picked:state.selected.has(rec.id),glyph:paint.glyph,dark:paint.dark,light:paint.light};
+    }).concat(ids.map(doc=>{
+      const d=state.texts[doc];return {slug:doc,id:d.series,titel:d.title,amne:d.series,href:"../"+d.href,
+        excerpt:filtering&&!hits.has(doc)?"Uppfyller inte alla valda villkor.":""};
+    }));
+    const edges=sources.flatMap(rec=>{
+      const paint=state.palette.get(rec.id);
+      return [...used(rec)].filter(doc=>show.has(doc)).map(doc=>({a:rec.id,b:doc,label:"Belagd källkoppling",
+        reason:state.texts[doc].title+" har en publicerad hänvisning till "+rec.title+".",
+        dark:paint.dark,light:paint.light,dash:paint.dash?paint.dash.split(" ").map(Number):[]}));
+    });
+    canonical.dispatchEvent(new CustomEvent("explorations:sourcenetwork",{
+      detail:{nodes,edges,hits:[...hits],filtering,fromAction:state.fromAction}
+    }));
+    state.fromAction=false;
   }
+  canonical.addEventListener("explorations:sourcecondition",e=>{
+    if(!state.byId.has(e.detail))return;
+    state.fromAction=true;toggle(e.detail,"source-network-condition");
+  });
   function render(){
-    const matches=state.records.filter(rec=>match(rec,query.value)),conditions=selected(),hits=intersect(conditions);
-    status.textContent=matches.length+" av "+state.records.length+" källor"+(state.mode==="graph"?" · högst åtta källnoder visas":"");
+    const matches=state.records.filter(rec=>match(rec,query.value));
+    const conditions=selected();
+    const termMatches=[...state.terms.values()].map(term=>state.records.filter(rec=>match(rec,term)));
+    const hits=sharedTexts([...conditions.map(used),...termMatches.map(documentsFor)]);
+    const filtering=conditions.length+termMatches.length>0;
+    const draft=query.value.trim();
+    const display=draft || !filtering ? matches : [...new Map([...conditions,...termMatches.flat()].map(rec=>[rec.id,rec])).values()];
+    const graphSources=[...new Map([...conditions,...termMatches.flat(),...display].map(rec=>[rec.id,rec])).values()];
+    const sources=page(graphSources,state.sourceOffset,8,"sourcePages","prevSources","nextSources","sourcePage");
+    state.palette=distinguish(sources);
+    $("addSourceTerm").hidden=!draft || !matches.length || state.terms.has(fold(draft));
+    status.textContent=display.length+" av "+state.records.length+" källor";
     list.hidden=state.mode!=="list";graph.hidden=state.mode!=="graph";
     listView.setAttribute("aria-pressed",String(!list.hidden));graphView.setAttribute("aria-pressed",String(!graph.hidden));
     renderConditions(conditions,hits);
-    if(list.hidden)renderGraph(matches,conditions,hits);else renderList(matches);
+    if(list.hidden)renderGraph(sources,filtering,hits);else renderList(display);
   }
-  const apply=()=>{state.limit=30;render();const url=new URL(location.href);if(query.value.trim())url.searchParams.set("q",query.value.trim());else url.searchParams.delete("q");history.replaceState(null,"",url);};
+  const apply=()=>{state.limit=30;state.sourceOffset=state.textOffset=0;render();const url=new URL(location.href);if(query.value.trim())url.searchParams.set("q",query.value.trim());else url.searchParams.delete("q");history.replaceState(null,"",url);};
   $("sourceForm").addEventListener("submit",event=>{event.preventDefault();apply();});
   query.addEventListener("input",apply);
-  clear.addEventListener("click",()=>{state.selected.clear();render();query.focus();});
+  $("addSourceTerm").addEventListener("click",()=>{
+    const term=query.value.trim();
+    if (term && !$("addSourceTerm").hidden) {
+      state.terms.set(fold(term),term);query.value="";apply();query.focus();
+    }
+  });
+  for (const [key,offset,increment] of [["prevSources","sourceOffset",-8],["nextSources","sourceOffset",8],["prevTexts","textOffset",-24],["nextTexts","textOffset",24]]) {
+    $(key).addEventListener("click",()=>{
+      state[offset]+=increment;
+      if(offset==="sourceOffset")state.textOffset=0;
+      render();
+      if($(key).disabled)$(increment>0?(offset==="sourceOffset"?"prevSources":"prevTexts"):(offset==="sourceOffset"?"nextSources":"nextTexts")).focus();
+    });
+  }
+  clear.addEventListener("click",()=>{state.selected.clear();state.terms.clear();apply();query.focus();});
   listView.addEventListener("click",()=>{state.mode="list";render();});
   graphView.addEventListener("click",()=>{state.mode="graph";render();});
   window.addEventListener("explorations:themechange",render);
-  window.addEventListener("resize",reflow,{passive:true});
-  if(typeof ResizeObserver==="function")new ResizeObserver(reflow).observe(graphGrid);
   query.value=(new URL(location.href).searchParams.get("q")||"").slice(0,240);
-  fetch("../kallor-index.json",{cache:"no-cache"}).then(r=>{
+  fetch("../kallor-index-v2.json",{cache:"no-cache"}).then(r=>{
     if(!r.ok)throw Error();return r.json();
   }).then(validate).then(d=>{
     state.records=d.sources;state.texts=d.texts;state.byId=new Map(d.sources.map(rec=>[rec.id,rec]));render();

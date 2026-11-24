@@ -168,3 +168,7 @@ body.natverk-sida { height:100dvh; margin:0; overflow:hidden; background:var(--n
   .nod-traff::after, .nod-kopplad::after { border-color:ButtonText; }
   .essa-vald .essa-knapp { outline:2px solid Highlight; }
 }
+
+.network-terms{display:flex;flex-wrap:wrap;gap:.45rem;list-style:none;padding:0}.network-terms[hidden]{display:none}.network-terms button{min-height:44px;max-width:100%;overflow-wrap:anywhere;font:inherit;color:var(--network-text);background:var(--network-card);border:1px solid var(--network-border);border-radius:.5rem;padding:.35rem .65rem}
+
+#natverk{touch-action:none} .network-terms li{min-width:0}.sok-kontroller{flex-wrap:wrap}

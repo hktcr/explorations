@@ -42,9 +42,10 @@ def identity(citation,url,doi):
         return "url:"+urlunsplit(("https",p.netloc.casefold(),p.path.rstrip("/"),query,""))
     return "citation:"+norm(citation)
 
-def build(root):
+def build_projection(root, version):
+    suffix = '' if version == 1 else '-v2'
     essay=json.loads((root/"landing-search-index.json").read_text(encoding="utf-8"))
-    chrono=json.loads((root/"kronikor-index.json").read_text(encoding="utf-8"))
+    chrono=json.loads((root/f"kronikor-index{suffix}.json").read_text(encoding="utf-8"))
     use_by_text={}
     groups={}
     texts={}
@@ -79,15 +80,17 @@ def build(root):
     chron_paths=defaultdict(list)
     for row in chrono["entries"]:
         rel,anchor=row["anchorUrl"].split("#",1)
-        if not re.fullmatch(r"timkronikan/(?:halvtimmen/)?20\d\d-\d\d\.html",rel) or not re.fullmatch(r"(?:inlagg|halvtimmen)-20\d\d-\d\d-\d\d-\d{4}",anchor):
-            raise ValueError("Felaktig publik krönikeidentitet")
+        report_ok = row.get("series") == "reportage" and re.fullmatch(r"timkronikan/reportage/20\d\d-\d\d-\d\d-(?:lunch|world|varlden)\.html", rel) and anchor == "reportage-" + Path(rel).stem
+        chron_ok = row.get("series") in {"timkronikan","halvtimmen"} and re.fullmatch(r"timkronikan/(?:halvtimmen/)?20\d\d-\d\d\.html", rel) and re.fullmatch(r"(?:inlagg|halvtimmen)-20\d\d-\d\d-\d\d-\d{4}", anchor)
+        if not (report_ok or chron_ok):
+            raise ValueError("Felaktig publik redaktionsidentitet")
         chron_paths[rel].append(row)
     for rel,rows in chron_paths.items():
         tree=Read();tree.feed((root/rel).read_text(encoding="utf-8"));tree.close()
         lookup={n.attrs.get("id",""):n for n in tree.root.traverse("article")}
         for row in rows:
             doc="k:"+row["slug"]
-            texts[doc]=dict(title=row["title"],href=row["href"],series="Timkrönikan" if row["series"]=="timkronikan" else "Halvtimmen")
+            texts[doc]=dict(title=row["title"],href=row["href"],series={"timkronikan":"Timkrönikan" if version == 1 else "Timmen","halvtimmen":"Halvtimmen","reportage":"Reportage"}[row["series"]])
             entry=lookup.get(row["anchor"])
             if entry is None: raise ValueError("Publikt krönikeankare saknas")
             for n in entry.traverse("aside"):
@@ -100,6 +103,11 @@ def build(root):
         sources.append(dict(id=data["id"],title=labels[0],aliases=labels[1:],doi=data["doi"],
             url=urls[0] if urls else "",uses=sorted(data["uses"]),count=len({x[0] for x in data["uses"]})))
     sources.sort(key=lambda x:(-x["count"],norm(x["title"]),x["id"]))
-    output=dict(schemaVersion=1,sources=sources,texts=texts)
-    (root/"kallor-index.json").write_text(json.dumps(output,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8")
+    output=dict(schemaVersion=version,sources=sources,texts=texts)
+    (root/f"kallor-index{suffix}.json").write_text(json.dumps(output,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8")
     return len(sources)
+
+
+def build(root):
+    build_projection(root,1)
+    return build_projection(root,2)

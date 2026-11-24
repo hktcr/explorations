@@ -1,10 +1,10 @@
 /* Canonical chronicle discovery; independent of the reviewed essay corpus. */
 (() => {
   "use strict";
-  const folder = {timkronikan:"timkronikan",halvtimmen:"timkronikan/halvtimmen"};
+  const folder = {timkronikan:"timkronikan",halvtimmen:"timkronikan/halvtimmen",reportage:"timkronikan/reportage"};
   const prefix = {timkronikan:"inlagg-",halvtimmen:"halvtimmen-"};
   function validate(data) {
-    if (data?.schemaVersion !== 1 || !Array.isArray(data.collections) || !Array.isArray(data.entries)) throw Error("Ogiltigt krönikeindex");
+    if (![1,2].includes(data?.schemaVersion) || !Array.isArray(data.collections) || !Array.isArray(data.entries)) throw Error("Ogiltigt krönikeindex");
     const collections = new Map();
     const entries = new Map();
     for (const col of data.collections) {
@@ -14,6 +14,16 @@
       collections.set(col.id,col);
     }
     for (const row of data.entries) {
+      if(row?.series==="reportage"){
+        const m=typeof row.date==="string"&&row.date.match(/^20\d\d-\d\d-\d\d$/);
+        const a=typeof row.anchor==="string"&&row.anchor.match(/^reportage-(20\d\d-\d\d-\d\d)-(lunch|world|varlden)$/);
+        const expected=a&&folder.reportage+"/"+a[1]+"-"+a[2]+".html";
+        if(!collections.has(row.series)||!m||!a||a[1]!==row.date||!Number.isFinite(Date.parse(row.date))||
+          row.slug!==row.anchor||row.href!==expected||row.anchorUrl!==expected+"#"+row.anchor||entries.has(row.slug)||
+          typeof row.title!=="string"||typeof row.excerpt!=="string"||
+          [row.terms,row.paragraphs,row.references].some(x=>!Array.isArray(x)||x.some(y=>typeof y!=="string"))) throw Error("Ogiltigt reportage");
+        entries.set(row.slug,row);continue;
+      }
       const match = typeof row.date === "string" && row.date.match(/^(20\d\d-\d\d-\d\d)T(\d\d):(\d\d)[+-]\d\d:\d\d$/);
       if (!collections.has(row.series) || !match || !Number.isFinite(Date.parse(row.date)) ||
           row.anchor !== prefix[row.series]+match[1]+"-"+match[2]+match[3] ||
@@ -41,7 +51,7 @@
   }
   let dataRequest;
   function load(base="") {
-    if (!dataRequest) dataRequest=fetch(base+"kronikor-index.json",{cache:"no-cache"}).then(r=>{
+    if (!dataRequest) dataRequest=fetch(base+"kronikor-index-v2.json",{cache:"no-cache"}).then(r=>{
       if(!r.ok) throw Error("Krönikeindex saknas");
       return r.json();
     }).then(validate).then(d=>({...d,search:prepare(d)})).catch(e=>{dataRequest=null;throw e;});

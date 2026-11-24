@@ -10,7 +10,7 @@ from collections import Counter
 from zoneinfo import ZoneInfo
 
 SERIES = (
-    ("timkronikan", "Timkrönikan", "timkronikan", "inlagg-"),
+    ("timkronikan", "Timmen", "timkronikan", "inlagg-"),
     ("halvtimmen", "Halvtimmen", "timkronikan/halvtimmen", "halvtimmen-"),
 )
 MONTH = re.compile(r"20\d\d-(0[1-9]|1[0-2])\.html$")
@@ -99,6 +99,46 @@ def entries(path, month, key, name, prefix):
                    series=key, excerpt=next(p for p in body if p), terms=sorted(set(filter(None,terms)),key=str.casefold),
                    paragraphs=list(filter(None,body)), references=list(filter(None,refs)), anchor=ident)
 
+def reports(root, collections, rows, seen):
+    rel = "timkronikan/reportage"
+    parent = root / rel
+    if not (parent / "index.html").is_file():
+        return
+    picked = []
+    for path in sorted(parent.glob("20??-??-??-*.html")):
+        m = re.fullmatch(r"(20\d\d-\d\d-\d\d)-(lunch|world|varlden)\.html", path.name)
+        if not m:
+            continue
+        day, kind = m.groups()
+        datetime.fromisoformat(day)  # Valid calendar date; don't invent a clock time.
+        ident = "reportage-" + m[0].removesuffix(".html")
+        parsed = Read()
+        parsed.feed(path.read_text(encoding="utf-8"))
+        parsed.close()
+        candidates = [a for a in parsed.root.traverse("article") if a.attrs.get("id") == ident]
+        if len(candidates) != 1 or ident in seen:
+            raise ValueError(f"Fel identitet i reportage: {path}")
+        node = candidates[0]
+        title = next((clean(x.text()) for x in node.traverse("h1")), "")
+        declared = next((x.attrs.get("datetime") for x in node.traverse("time")), "")
+        lead = next((clean(x.text()) for x in node.traverse("p") if x.attrs.get("class") == "deck"), "")
+        theme = next((clean(x.text()) for x in node.traverse("p") if x.attrs.get("class") == "kicker"), "")
+        body = [clean(p.text()) for div in node.traverse("div") if div.attrs.get("class") == "story-body"
+                for p in div.children if isinstance(p, Node) and p.tag == "p"]
+        refs = [clean(a.text()) for n in node.traverse("aside") if "sources" in n.attrs.get("class","").split()
+                for a in n.traverse("a")]
+        if not all((title, lead, body, refs)) or declared != day:
+            raise ValueError(f"Ofullständigt publikt reportage: {path}")
+        seen.add(ident)
+        href = f"{rel}/{path.name}"
+        terms = [theme.split("·",1)[-1].strip()] if theme else []
+        picked.append(dict(slug=ident,title=title,date=day,series="reportage",excerpt=lead,terms=terms,
+                           paragraphs=body,references=refs,anchor=ident,href=href,anchorUrl=f"{href}#{ident}"))
+    tags = Counter(tag for item in picked for tag in item["terms"])
+    collections.append(dict(id="reportage",title="Reportage",href=rel+"/",count=len(picked),
+                            topics=[dict(label=k,count=v) for k,v in sorted(tags.items(),key=lambda x:(-x[1],x[0].casefold()))]))
+    rows.extend(picked)
+
 def build(root):
     collections, rows, seen = [], [], set()
     for key, name, rel, prefix in SERIES:
@@ -131,6 +171,16 @@ def build(root):
             dict(label=k,count=v) for k,v in sorted(tags.items(),key=lambda x:(-x[1],x[0].casefold()))
         ]))
         rows += picked
-    rows.sort(key=lambda x:(-datetime.fromisoformat(x["date"]).timestamp(), x["slug"]))
-    (root/"kronikor-index.json").write_text(json.dumps(dict(schemaVersion=1,collections=collections,entries=rows),ensure_ascii=False,separators=(",",":"))+"\n",encoding="utf-8")
+    def save(name, version, catalogs, entries):
+        payload=dict(schemaVersion=version,collections=catalogs,entries=entries)
+        (root/name).write_text(json.dumps(payload,ensure_ascii=False,separators=(",",":"))+"\n",encoding="utf-8")
+    rows.sort(key=lambda x:(-datetime.fromisoformat(x["date"]).timestamp(),x["slug"]))
+    legacy=[{**c,"title":"Timkrönikan"} if c["id"]=="timkronikan" else c for c in collections]
+    save("kronikor-index.json",1,legacy,rows)
+    reports(root, collections, rows, seen)
+    def timestamp(value):
+        d = datetime.fromisoformat(value)
+        return (d.replace(tzinfo=STOCKHOLM) if d.tzinfo is None else d).timestamp()
+    rows.sort(key=lambda x:(-timestamp(x["date"]), x["slug"]))
+    save("kronikor-index-v2.json",2,collections,rows)
     return len(rows)

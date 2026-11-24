@@ -4,24 +4,64 @@
 <script src="../explorations-theme.js?v=20261122-theme-1"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap">
 <link rel="stylesheet" href="../explorations-theme.css?v=20261122-theme-1">
-<link rel="stylesheet" href="../kallor.css?v=20261123-citations-1"></head>
-<body>
+<link rel="stylesheet" href="../natverk.css?v=20261124-ex10-1">
+<link rel="stylesheet" href="../kallor.css?v=20261124-ex10-2"></head>
+<body class="natverk-sida source-network-page" data-network-mode="sources" data-root="../">
 <a class="skip-source" href="#innehall">Till innehållet</a>
 <header class="source-head"><nav aria-label="Brödsmulor"><a href="../">Explorations</a><span aria-hidden="true">/</span><strong>Källor</strong></nav><span data-xr-theme-slot></span></header>
 <main id="innehall">
- <section class="source-intro"><span class="eyebrow">EXPLORATIONS · REGISTER</span><h1>Källor</h1><p>Sök i källhänvisningarna och se vilka essäer och krönikor som använder samma källa.</p></section>
+ <section class="source-intro"><span class="eyebrow">EXPLORATIONS · REGISTER</span><h1>Källor</h1><p>Sök i källhänvisningarna och se vilka essäer och texter från Redaktionen som använder samma källa.</p></section>
  <section class="source-controls" aria-label="Källsökning">
-  <form id="sourceForm" role="search"><label for="sourceQuery">Sök i källor</label><div><input id="sourceQuery" type="search" maxlength="240" placeholder="Författare, titel, publikation eller DOI"><button type="submit">Sök</button></div></form>
+  <form id="sourceForm" role="search"><label for="sourceQuery">Sök i källor</label><div><input id="sourceQuery" type="search" maxlength="240" placeholder="Författare, titel, publikation eller DOI"><button type="submit">Sök</button></div><button type="button" id="addSourceTerm" hidden>Lägg till sökvillkor</button></form>
   <div class="view-switch" role="group" aria-label="Visning"><button type="button" id="viewList" aria-pressed="true">Lista</button><button type="button" id="viewGraph" aria-pressed="false">Nätverk</button></div>
  </section>
- <section class="conditions" aria-labelledby="conditionHeading"><h2 id="conditionHeading">Kombinera källor</h2><p>Välj flera källor för att hitta texter som använder <strong>alla valda källor</strong>. En färg och ett linjemönster per källa visar vilka texter den används i.</p><ul id="sourceConditions"></ul><button type="button" id="clearConditions" hidden>Rensa urvalet</button><div id="conditionAnswer" role="status"></div></section>
+ <section id="activeConditions" class="conditions" aria-labelledby="conditionHeading" hidden><h2 id="conditionHeading">Valda villkor</h2><p>En text behöver använda varje vald källa och minst en källa från varje sparad sökning.</p><ul id="sourceConditions"></ul><button type="button" id="clearConditions" hidden>Rensa urvalet</button><div id="conditionAnswer" role="status"></div></section>
  <p id="sourceStatus" role="status">Läser källregistret …</p>
  <section id="sourceList" aria-label="Källista"></section>
  <section id="sourceGraph" aria-label="Källnätverk" hidden>
-  <p class="source-hint">Välj källnoder för att kombinera dem. En nedtonad text saknar minst en vald källa. Listläget visar alla sökträffar.</p>
-  <div id="sourceGraphGrid"><svg id="sourceEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg><div class="source-lane"><h2>Källor</h2><div id="sourceNodes"></div></div><div class="text-lane"><h2>Texter</h2><div id="sourceTexts"></div></div></div>
+  <p class="source-hint">Välj en nod för detaljer. Lägg till flera källor som villkor för att hitta texter som använder dem alla; övriga tonas ned. Tunn streckad linje mellan två texter visar ett tidigare granskat samband. Listläget visar alla sökträffar.</p>
+  <nav id="sourcePages" aria-label="Bläddra bland källnoder" hidden><button id="prevSources" type="button">Föregående källor</button> <span id="sourcePage"></span> <button id="nextSources" type="button">Nästa källor</button></nav>
+  <nav id="textPages" aria-label="Bläddra bland kopplade texter" hidden><button id="prevTexts" type="button">Föregående texter</button> <span id="textPage"></span> <button id="nextTexts" type="button">Nästa texter</button></nav>
+  <div class="source-network-toolbar" aria-label="Navigera källnätverket">
+   <button id="natverkZoomIn" type="button" aria-label="Zooma in">+</button>
+   <button id="natverkZoomOut" type="button" aria-label="Zooma ut">−</button>
+   <button id="natverkZoomReset" type="button">Centrera</button>
+   <button id="natverkAterstall" type="button" hidden>Återställ</button>
+   <button id="natverkRorelse" type="button" hidden>Pausa rörelse</button>
+  </div>
+  <div class="natverk-arbetsyta source-network-workspace">
+   <div class="natverk-graf" id="natverk" tabindex="0" aria-label="Källnätverk. Dra i den tomma ytan eller använd piltangenterna för att flytta vyn.">
+    <canvas id="natverkKanter" aria-hidden="true"></canvas>
+    <nav id="natverkNoder" aria-label="Noder: källor och texter"></nav>
+   </div>
+   <aside class="natverk-sidebar" aria-label="Nodinformation och tillgängliga noder">
+    <section class="relationspanel" aria-labelledby="relationspanelTitel">
+     <p id="relationspanelTom">Välj en källa eller text för att se detaljer.</p>
+     <div id="relationspanelInnehall" hidden>
+      <p class="relationspanel-amne" id="relationspanelAmne"></p>
+      <h2 id="relationspanelTitel" tabindex="-1">Vald nod</h2>
+      <p class="relationspanel-meta" id="relationspanelMeta"></p>
+      <p class="relationspanel-ingress" id="relationspanelIngress"></p>
+      <p class="relationspanel-nyckelord" id="relationspanelNyckelord"></p>
+      <button id="natverkSourceAction" type="button" hidden>Lägg till som källvillkor</button>
+      <h3 id="relationspanelRelationerTitel">Källkopplingar och granskade samband</h3>
+      <ol class="relationspanel-lista" id="relationspanelLista" aria-labelledby="relationspanelRelationerTitel"></ol>
+      <a class="relationspanel-las" id="relationspanelLas" href="#">Läs texten</a>
+     </div>
+    </section>
+    <section class="essa-väljare">
+     <h2>Tillgängliga noder <span id="essaAntal"></span></h2>
+     <label class="essa-sok"><span class="visuellt-dold">Sök i visade noder</span><input id="essaSok" type="search" placeholder="Sök i visade noder …" maxlength="120"></label>
+     <div class="sok-kontroller"><button id="essaSokRensa" type="button" disabled>Rensa nodsökning</button></div>
+     <p id="essaSokStatus" class="sok-status" role="status"></p>
+     <ol class="essa-lista" id="essaLista"></ol>
+    </section>
+   </aside>
+  </div>
+  <p id="natverkStatus" class="source-hint" role="status"></p>
  </section>
- <noscript><p>Källregistret kräver JavaScript. Källhänvisningarna går fortfarande att läsa i varje essä och krönika.</p></noscript>
+ <noscript><p>Källregistret kräver JavaScript. Källhänvisningarna går fortfarande att läsa i varje essä och text från Redaktionen.</p></noscript>
  <details class="source-method"><summary>Så läser du registret</summary><p>Registret bygger på de publicerade texternas källhänvisningar. Sökorden matchas mot källraden så som författare, titel och publikation anges i den. Lika DOI eller samma artikeladress räknas som samma källa. Böcker utan länk slås ihop endast när den dokumenterade källraden är identisk. En koppling visar användning, inte att källan ensam räcker som belägg.</p></details>
 </main>
-<script defer src="../kallor.js?v=20261123-citations-1"></script></body></html>
+<script defer src="../natverk.js?v=20261124-ex10-1"></script>
+<script defer src="../kallor.js?v=20261124-ex10-2"></script></body></html>

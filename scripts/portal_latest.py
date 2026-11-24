@@ -19,7 +19,8 @@ def source_catalog(root):
     read = lambda name: json.loads((root / name).read_text(encoding='utf-8'))
     editorial = {}
     formats = {'timkronikan': 'Timmen', 'halvtimmen': 'Halvtimmen'}
-    for item in read('kronikor-index.json')['entries']:
+    index_name = 'kronikor-index-v2.json' if (root / 'kronikor-index-v2.json').is_file() else 'kronikor-index.json'
+    for item in read(index_name)['entries']:
         href = item['href']
         name = 'Reportage' if href.startswith('timkronikan/reportage/') else formats[item['series']]
         editorial[href] = {'href': href, 'title': item['title'], 'slot': item['date'], 'format': name}

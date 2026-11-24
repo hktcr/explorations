@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded",() => {
   const branches=document.getElementById("xrChronicleBranches"), status=document.getElementById("xrChronicleStatus");
   const topics=document.getElementById("xrChronicleTopics"), query=document.getElementById("xrChronicleQuery"), results=document.getElementById("xrChronicleMatches");
   const month=document.getElementById("xrChronicleMonth");
+  const savedTerms=window.ExplorationsNetworkConditions ? window.ExplorationsNetworkConditions(query,document.getElementById('chronicleAddTerm'),document.getElementById('chronicleTerms'),'rc') : null;
   let wantedMonth="", data, selection=null, term=null, limit=12, loading, wasOpen;
   const matchMonth=row=>!wantedMonth || row.date.slice(0,7)===wantedMonth;
   const matches=()=>[...data.entries.values()].filter(row=>(!selection||row.series===selection)&&matchMonth(row));
@@ -21,7 +22,8 @@ document.addEventListener("DOMContentLoaded",() => {
   }
   function renderRows() {
     if(!data)return;
-    const rows=api.search(data,query.value).filter(row=>(!selection||selection===row.series)&&matchMonth(row)&&(!term||row.terms.includes(term)));
+    const rows=api.search(data,savedTerms?savedTerms.query():query.value).filter(row=>(!selection||selection===row.series)&&matchMonth(row)&&(!term||row.terms.includes(term)));
+    if(savedTerms)savedTerms.refresh(rows.length>0);
     status.textContent=rows.length===1?"1 publicerat inlägg":rows.length+" publicerade inlägg";
     if(term)status.textContent+=" · "+term;
     results.replaceChildren();
@@ -74,6 +76,7 @@ document.addEventListener("DOMContentLoaded",() => {
     const open=location.hash==="#kronikor";panel.hidden=!open;essay.hidden=open;reset.hidden=open;
     contrast.textContent=open?"Essäer":"Redaktionen";contrast.href=open?"#essaer":"#kronikor";
     if(open){
+      if(savedTerms)savedTerms.sync();
       query.value=(new URL(location.href).searchParams.get("cq")||"").slice(0,240);
       wantedMonth=(new URL(location.href).searchParams.get("month")||"").slice(0,7);
       if(data){months();renderTopics();}

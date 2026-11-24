@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../natverk.css?v=20261109-teaching-1&amp;ui=20261122-theme-1">
+<link rel="stylesheet" href="../natverk.css?v=20261109-teaching-1&amp;ui=20261124-ex10-1">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20261025-1" data-explorations-favicon="svg">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=20261025-1" data-explorations-favicon="png">
 <link rel="shortcut icon" href="../favicon.ico?v=20261025-1" data-explorations-favicon="ico">
@@ -26,7 +26,7 @@
   <div class="natverk-huvud-actions"><a class="natverk-stang" href="../kallor/">Källor</a><a id="xrShowChronicles" class="natverk-stang" href="#kronikor">Redaktionen</a><button class="natverk-aterstall" id="natverkAterstall" type="button">Visa hela nätverket</button><span data-xr-theme-slot></span></div>
 </header>
 <main class="natverk-arbetsyta" id="xrEssayNetwork">
-  <section class="natverk-graf" id="natverk" aria-label="Samband mellan Explorations essäer">
+  <section class="natverk-graf" id="natverk" tabindex="0" aria-label="Samband mellan Explorations essäer">
     <canvas id="natverkKanter" aria-hidden="true"></canvas>
     <nav id="natverkNoder" aria-label="Noder i sambandsnätverket"></nav>
     <div class="natverk-legend" aria-label="Förklaring">
@@ -37,6 +37,11 @@
     </div>
   </section>
   <aside class="natverk-sidebar" aria-label="Tillgängliga essäer och information">
+    <div class="sok-kontroller" role="group" aria-label="Navigera nätverket">
+      <button id="natverkZoomIn" type="button" aria-label="Zooma in">+</button>
+      <button id="natverkZoomOut" type="button" aria-label="Zooma ut">−</button>
+      <button id="natverkZoomReset" type="button">Centrera</button>
+    </div>
     <section class="essa-väljare" aria-labelledby="essaListaTitel">
       <div class="sidebar-rubrik">
         <div><p class="overline">Navigera</p><h2 id="essaListaTitel">Tillgängliga essäer</h2></div>
@@ -47,10 +52,12 @@
         <input id="essaSok" type="search" placeholder="Sök titel, ämne eller essä-id…" autocomplete="off" aria-describedby="essaSokHjalp">
       </label>
       <div class="sok-kontroller">
+        <button type="button" id="essayAddTerm" hidden>Lägg till sökvillkor</button>
         <button id="essaSokRensa" type="button" disabled>Rensa sökning</button>
         <button id="natverkRorelse" type="button" aria-pressed="false">Pausa rörelse</button>
       </div>
-      <p id="essaSokHjalp" class="sok-hjalp">Sökrelevans: alla sökord ska finnas i titel, ämne eller essä-id. Heldragen ring visar en direkt träff; streckad ring visar en kopplad essä.</p>
+      <ul class="network-terms" id="essayTerms" aria-label="Valda sökvillkor" hidden></ul>
+      <p id="essaSokHjalp" class="sok-hjalp">Sökrelevans: alla sökord ska finnas i titel, ämne, essä-id eller nyckelord. Heldragen ring visar en direkt träff; streckad ring visar en kopplad essä.</p>
       <p class="sok-hjalp">Sambandstyp och motivering visas när du väljer en essä. En textträff betyder inte ett starkare vetenskapligt samband. Puls och flöde visar sökfokus, inte sambandets styrka eller riktning.</p>
       <p id="essaSokStatus" class="sok-status" role="status" aria-live="polite" aria-atomic="true"></p>
       <ol class="essa-lista" id="essaLista"></ol>
@@ -81,14 +88,17 @@
     <label for="xrChronicleQuery">Sök i Redaktionen
       <input id="xrChronicleQuery" type="search" maxlength="240" placeholder="Titel, ämne eller formulering">
     </label>
+    <div class="sok-kontroller"><button type="button" id="chronicleAddTerm" hidden>Lägg till sökvillkor</button></div>
+    <ul class="network-terms" id="chronicleTerms" aria-label="Valda sökvillkor" hidden></ul>
     <label for="xrChronicleMonth">Månad <select id="xrChronicleMonth"><option value="">Alla månader</option></select></label>
     <div id="xrChronicleTopics" class="xr-topic-group" aria-label="Ämnen i den valda samlingen"></div>
     <div id="xrChronicleMatches"></div>
   </aside>
 </section>
+<script src="../network-conditions.js?v=20261124-ex10-1" defer></script>
 <script src="../search-engine.js?v=20261109-teaching-1" defer></script>
-<script src="../chronicle-discovery.js?v=20261123-redaktionen-1" defer></script>
-<script src="../chronicle-network.js?v=20261123-redaktionen-1" defer></script>
-<script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261123-citations-1" defer></script>
+<script src="../chronicle-discovery.js?v=20261124-ex10-1" defer></script>
+<script src="../chronicle-network.js?v=20261124-ex10-1" defer></script>
+<script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261124-ex10-1" defer></script>
 </body>
 </html>
