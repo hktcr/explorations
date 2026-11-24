@@ -1,6 +1,17 @@
 (() => {
   "use strict";
 
+  const portal = new URL('./', document.currentScript.src);
+  function namePortalLink() {
+    for (const link of document.querySelectorAll('a[href]')) {
+      if (link.href !== portal.href && link.href !== portal.href + 'index.html') continue;
+      if (link.childElementCount || !/^(←\s*)?(Library|Biblioteket)$/i.test(link.textContent.trim())) continue;
+      link.textContent = '← Explorations';
+    }
+  }
+  document.addEventListener('DOMContentLoaded', namePortalLink);
+  if (document.readyState !== 'loading') namePortalLink();
+
   const VERSION = "20261122-theme-1";
   const mediaModuleUrl = new URL("reader-focus-media.mjs?v=20260925-music-timing-1", document.currentScript.src).href;
   let readingMedia = null;

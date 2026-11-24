@@ -75,10 +75,38 @@
       "the-lesson-that-leaves-room-to-think/index.html",
       "utomjordisk-kunskap/index.html",
       "what-is-sex/index.html"
+    ],
+    "briefing": [
+      "vetenskaplig-briefing/bohrs-skalbild/index.html",
+      "vetenskaplig-briefing/elektricitet/index.html"
     ]
   },
   "events": {
     "redaktionen": [
+      {
+        "href": "timkronikan/inlagg/inlagg-2026-11-23-2000.html",
+        "kind": "published",
+        "at": "2026-11-23T19:08:57Z",
+        "commit": "521e4e2e5a97e4db7a486df7dc9a4c9d3f073f45"
+      },
+      {
+        "href": "timkronikan/reportage/2026-11-24-varlden.html",
+        "kind": "published",
+        "at": "2026-11-24T03:31:36Z",
+        "commit": "7337cc80ffba300040daa707ccd53c7406eb1c82"
+      },
+      {
+        "href": "timkronikan/inlagg/inlagg-2026-11-24-0400.html",
+        "kind": "published",
+        "at": "2026-11-24T03:41:55Z",
+        "commit": "00b7f7ce133ca5d0dc55fb172bb06bd65e6f57db"
+      },
+      {
+        "href": "timkronikan/inlagg/inlagg-2026-11-24-0600.html",
+        "kind": "published",
+        "at": "2026-11-24T05:10:17Z",
+        "commit": "1d595447ff0b89f041d84b2813e883c5565de78d"
+      },
       {
         "href": "timkronikan/inlagg/inlagg-2026-11-24-0700.html",
         "kind": "published",
@@ -134,6 +162,27 @@
         "kind": "published",
         "at": "2026-11-24T06:13:00Z",
         "commit": "6a7f10a1f309a9d2c411288a6facbc222b218eed"
+      }
+    ],
+    "briefing": [
+      {
+        "href": "vetenskaplig-briefing/elektricitet/index.html",
+        "kind": "published",
+        "at": "2026-11-24T18:23:14Z",
+        "commit": "f613f32ff5637c96a29bae62b585554f20035a56"
+      },
+      {
+        "href": "vetenskaplig-briefing/elektricitet/index.html",
+        "kind": "updated",
+        "at": "2026-11-24T19:36:08Z",
+        "commit": "3d843c60c3a45ed05413abff39349b6b69723363",
+        "revision": "45c44ec2ba32a62626dc69617326f7c78815b62e0fe229af06786db93278d1a1"
+      },
+      {
+        "href": "vetenskaplig-briefing/bohrs-skalbild/index.html",
+        "kind": "published",
+        "at": "2026-11-24T20:26:36Z",
+        "commit": "cf02bea9bcf1233124bdda7115f2cf97aa603193"
       }
     ]
   }

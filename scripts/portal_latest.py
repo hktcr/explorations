@@ -49,7 +49,21 @@ def source_catalog(root):
         path = root / item['href']
         if not re.fullmatch(r'[A-Za-z0-9_/-]+\.html', item['href']) or not item['title'].strip() or not path.is_file():
             raise ValueError('Länk till publicerad text saknas: ' + str(item['href']))
-    return {'redaktionen': editorial, 'essa': essays}
+    briefings = {}
+    folder = root / 'vetenskaplig-briefing'
+    if (folder / 'index.html').is_file():
+        listing = Read()
+        listing.feed((folder / 'index.html').read_text(encoding='utf-8'))
+        listing.close()
+        for link in reversed(list(listing.root.traverse('a'))):
+            if 'data-briefing' not in link.attrs:
+                continue
+            slug = link.attrs.get('href', '')
+            if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*/', slug) or not (folder / slug / 'index.html').is_file():
+                raise ValueError('Ogiltig briefinglänk: ' + slug)
+            path = 'vetenskaplig-briefing/' + slug + 'index.html'
+            briefings[path] = dict(title=link.text(), href=path, slot='', format='Vetenskaplig briefing', number=len(briefings))
+    return {'redaktionen': editorial, 'essa': essays, 'briefing': briefings}
 
 
 def timestamp(value):
@@ -69,7 +83,8 @@ def display_date(value):
 
 def synchronise(state, catalog):
     for section, items in catalog.items():
-        known = set(state['known'][section])
+        known = set(state['known'].setdefault(section, []))
+        state['events'].setdefault(section, [])
         new = sorted(set(items) - known, key=lambda path: (items[path]['slot'], items[path].get('number', 0), path))
         for path in new:
             state['events'][section].append({'href': path, 'kind': 'published'})
@@ -108,6 +123,42 @@ def rows(state, catalog):
     return '\n'.join(lines)
 
 
+def recent_records(state, catalog):
+    """Only catalogued, published paths can contribute a title. Keep publication and revision separate."""
+    rows = []
+    for section, items in catalog.items():
+        history = {}
+        for order, event in enumerate(state['events'][section]):
+            if event['href'] in items:
+                history.setdefault(event['href'], {})[event['kind']] = (order, event.get('at', ''))
+        for path, events in history.items():
+            pub_order, published = events.get('published', (-1, ''))
+            _, updated = events.get('updated', (-1, ''))
+            item = items[path]
+            href = path.removesuffix('index.html') if section == 'briefing' else path
+            meta = []
+            for kind, label in [('published', 'Publicerad'), ('updated', 'Sakuppdaterad')]:
+                if kind not in events:
+                    continue
+                at = events[kind][1]
+                if at:
+                    meta.append(f'{label} {display_date(at)}')
+                else:
+                    meta.append(f'{label} · tid verifieras')
+            rows.append(dict(href=href, title=item['title'], format=item['format'], order=pub_order,
+                             published=published, updated=updated, metadata=' · '.join(meta)))
+    return rows
+
+
+def recent_rows(records):
+    return '\n'.join(
+        f'<li data-format="{escape(r["format"])}" data-order="{r["order"]}" '
+        f'data-published="{escape(r["published"])}" data-updated="{escape(r["updated"])}">'
+        f'<a href="{escape(r["href"])}">{escape(r["title"])}</a>'
+        f'<small>{escape(r["format"])} · {escape(r["metadata"])}</small></li>'
+        for r in records)
+
+
 def project(root, update=None, receipt=None):
     state_file = root / STATE
     state = json.loads(state_file.read_text(encoding='utf-8'))
@@ -140,6 +191,16 @@ def project(root, update=None, receipt=None):
     prefix, rest = before.split(START)
     _, suffix = rest.split(END)
     html = prefix + START + '\n' + rows(state, catalog) + '\n' + END + suffix
+    start, end = '<!-- portal-recent:start -->', '<!-- portal-recent:end -->'
+    if start in html:
+        prefix, rest = html.split(start)
+        _, suffix = rest.split(end)
+        records = recent_records(state, catalog)
+        feed = root / 'portal-senaste.json'
+        payload = json.dumps({'version': 1, 'titles': records}, ensure_ascii=False, separators=(',', ':')) + '\n'
+        if not feed.exists() or feed.read_text(encoding='utf-8') != payload:
+            feed.write_text(payload, encoding='utf-8')
+        html = prefix + start + '\n' + recent_rows(records) + '\n' + end + suffix
     encoded = json.dumps(state, ensure_ascii=False, indent=2) + '\n'
     if encoded != state_file.read_text(encoding='utf-8'):
         state_file.write_text(encoded, encoding='utf-8')

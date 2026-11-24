@@ -45,7 +45,7 @@ def verify_and_project(section, path, commit):
         public_bytes = live.result()
         if obj['sha'] != commit or len(obj['parents']) != 1 or public_bytes != article.result():
             raise ValueError('Den publika texten eller släppets identitet avviker')
-    previous = json.loads(stored(STATE, obj['parents'][0]['sha']))['events'][section]
+    previous = json.loads(stored(STATE, obj['parents'][0]['sha']))['events'].get(section, [])
     if position >= len(registers) or position < len(previous):
         raise ValueError('Händelsen tillkom inte i denna commit')
     event = registers[position]
@@ -66,10 +66,30 @@ def verify_and_project(section, path, commit):
                       'public_sha256': sha256(public_bytes).hexdigest()}, ensure_ascii=False))
 
 
+def verify_release(commit):
+    """Receipt all new content events in a single release, including backfilled editions."""
+    if not re.fullmatch('[0-9a-f]{40}', commit):
+        raise ValueError('Ange släppets fullständiga commit')
+    obj = json.loads(get(f'{API}/git/commits/{commit}'))
+    if len(obj['parents']) != 1:
+        raise ValueError('Innehållssläppet måste ha exakt en bas')
+    before = json.loads(stored(STATE, obj['parents'][0]['sha']))['events']
+    after = json.loads(stored(STATE, commit))['events']
+    for section, events in after.items():
+        previous = before.get(section, [])
+        if events[:len(previous)] != previous:
+            raise ValueError('Registerhistoriken har ändrats')
+        for event in events[len(previous):]:
+            verify_and_project(section, event['href'], commit)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('section', choices=('redaktionen', 'essa'))
-    parser.add_argument('public_path')
-    parser.add_argument('content_commit')
-    args = parser.parse_args()
-    verify_and_project(args.section, args.public_path, args.content_commit)
+    parser.add_argument('args', nargs='+', metavar='ARG')
+    args = parser.parse_args().args
+    if len(args) == 1:
+        verify_release(args[0])
+    elif len(args) == 3 and args[0] in ('redaktionen', 'essa', 'briefing'):
+        verify_and_project(*args)
+    else:
+        parser.error('Ange COMMIT eller SECTION PUBLIC_PATH COMMIT')

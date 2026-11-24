@@ -21,3 +21,5 @@ Kommentarer och reflektioner hanteras fortsatt separat av `engagement/` och får
 tas bort eller ersättas av läsarlagret.
 
 Publicera hela releasen som en enda atomisk commit mot en verifierat oförändrad `main`. Använd aldrig `force`. Kontrollera därefter den verkliga Pages-adressen. En lokal commit eller en uppdaterad `main` får inte kallas verifierad publicering innan den publika sidan har lästs tillbaka och kärnfunktionerna har provats.
+
+Portalens titellista använder verifierade Pages-tider. Den ordinarie indexbyggaren registrerar nya publicerade titlar från formatens kataloger. Markera en avsiktlig sakrevision med `python3 scripts/portal_latest.py --updated SECTION PUBLIC_PATH` före släppet. Använd sedan `python3 scripts/portal_publication_receipt.py COMMIT` i det ordinarie kvittosteget för att verifiera samtliga nya händelser i släppet och publicera den genererade tidsprojektionen enligt samma rutin. En teknisk malländring är ingen sakrevision.
