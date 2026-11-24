@@ -43,3 +43,26 @@ test('rolling publications, verified five-minute refresh, focus and last good da
     assert.ok(!doc.getElementById('recentCheck').textContent.includes('fördröjd'));
   } finally {w.close();}
 });
+
+test('a verified refresh updates the third row on the same permanent article link', async () => {
+  const dom = new JSDOM(fs.readFileSync('index.html','utf8'), {runScripts:'outside-only',pretendToBeVisual:true});
+  const w = dom.window, doc = w.document;
+  try {
+    const data = JSON.parse(fs.readFileSync('portal-senaste.json','utf8'));
+    const lead = data.latestBriefing;
+    const post = data.titles.find(item => item.href === lead.href);
+    const row = doc.querySelector('dl.portal-latest > [data-latest="briefing"]');
+    const link = row.querySelector('dd a');
+    link.focus();
+    post.updated = lead.at = '2026-11-25T03:10:00Z';
+    lead.kind = 'updated';
+    lead.dateLabel = '25 november 2026 kl. 04.10';
+    w.fetch = async () => ({ok:true,json:async()=>data});
+    w.eval(fs.readFileSync('portal-recent.js','utf8'));
+    await new Promise(resolve=>w.setTimeout(resolve,30));
+    assert.equal(row.querySelector('small').textContent, 'Uppdaterad 25 november 2026 kl. 04.10');
+    assert.equal(row.querySelector('time').dateTime, lead.at);
+    assert.equal(doc.activeElement,link);
+    assert.equal(doc.querySelectorAll('dl.portal-latest > div').length,3);
+  } finally { w.close(); }
+});

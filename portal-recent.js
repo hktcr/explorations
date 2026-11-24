@@ -31,6 +31,12 @@
           ![item.published,item.updated].every(t => t === '' || (typeof t === 'string' && /(?:Z|[+-]\d{2}:\d{2})$/.test(t) && Number.isFinite(Date.parse(t))))) throw Error('Ogiltig titel');
       paths.add(item.href);
     }
+    const lead = data.latestBriefing;
+    const briefing = lead && data.titles.find(item => item.href === lead.href && item.format === 'Vetenskaplig briefing');
+    if (lead != null && (!briefing || !['updated','published'].includes(lead.kind) ||
+        lead.at !== briefing[lead.kind] || typeof lead.dateLabel !== 'string' || Boolean(lead.at) !== Boolean(lead.dateLabel))) {
+      throw Error('Ogiltigt tidskvitto för briefing');
+    }
     for (const item of data.titles) {
       let row = byPath.get(item.href);
       if (!row) {
@@ -52,7 +58,42 @@
       if (row.contains(document.activeElement)) document.getElementById('recentHeading').focus({preventScroll:true});
       row.remove(); byPath.delete(path);
     }
+    if (lead !== undefined) updateBriefingRow(briefing, lead);
     refresh();
+  }
+  function updateBriefingRow(item, lead) {
+    const latest = document.querySelector('dl.portal-latest');
+    let row = latest.querySelector('[data-latest="briefing"]');
+    if (!item) {
+      if (row?.contains(document.activeElement)) document.getElementById('recentHeading').focus({preventScroll:true});
+      row?.remove();
+      return;
+    }
+    if (!row) {
+      row = document.createElement('div');
+      row.className = 'portal-latest-row';
+      row.dataset.latest = 'briefing';
+      const term = document.createElement('dt');
+      term.textContent = 'Senaste briefingen';
+      const value = document.createElement('dd');
+      value.append(document.createElement('a'), document.createElement('small'));
+      row.append(term, value);
+      latest.append(row);
+    }
+    const link = row.querySelector('dd a');
+    if (link.getAttribute('href') !== item.href) link.setAttribute('href', item.href);
+    if (link.textContent !== item.title) link.textContent = item.title;
+    const meta = row.querySelector('small');
+    const label = lead.kind === 'updated' ? 'Uppdaterad' : 'Publicerad';
+    if (lead.at) {
+      if (meta.querySelector('time')?.dateTime === lead.at && meta.textContent === label + ' ' + lead.dateLabel) return;
+      const time = document.createElement('time');
+      time.dateTime = lead.at;
+      time.textContent = lead.dateLabel;
+      meta.replaceChildren(label + ' ', time);
+    } else {
+      meta.textContent = lead.kind === 'updated' ? 'Tid för sakuppdatering verifieras' : 'Publiceringstid verifieras';
+    }
   }
   function schedule() {
     clearTimeout(polling);
@@ -122,19 +163,17 @@
     count.textContent = freshCount ? freshCount + ' senaste dygnet' : 'Senaste per format';
     for (const [selector, formats] of [
       ['[data-latest="redaktionen"]', ['Timmen', 'Halvtimmen', 'Reportage']],
-      ['[data-latest="essa"]', ['Essä']],
-      ['.portal-briefing', ['Vetenskaplig briefing']]
+      ['[data-latest="essa"]', ['Essä']]
     ]) {
       const slot = document.querySelector(selector);
       const entry = visible.find(item => formats.includes(item.format));
       if (!entry || !slot) continue;
-      const link = slot.querySelector('dd a, [data-latest-briefing]');
+      const link = slot.querySelector('dd a');
       if (!link) continue;
       const source = entry.row.querySelector('a');
       const path = source.getAttribute('href');
       const changed = link.getAttribute('href') !== path;
       if (changed) link.setAttribute('href', path);
-      // The briefing link also contains a screen-reader prefix. Keep that span in place.
       const titleText = link.lastChild;
       if (titleText?.nodeType === Node.TEXT_NODE && titleText.data !== source.textContent) titleText.data = source.textContent;
       const meta = slot.querySelector('dd small');

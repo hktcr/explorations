@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Index published essay and briefing prose and bibliographic title lines offline."""
 from __future__ import annotations
-from html import escape
 from html.parser import HTMLParser
 from pathlib import Path
 import hashlib
@@ -176,27 +175,6 @@ def published_briefings(root):
                         'references':references})
     return entries
 
-def project_latest_briefing(home, briefings):
-    """The format catalogue lists published briefings newest first."""
-    start = '<!-- latest-briefing:start -->'
-    end = '<!-- latest-briefing:end -->'
-    before = home.read_text(encoding='utf-8')
-    if before.count(start) != 1 or before.count(end) != 1 or before.index(end) < before.index(start):
-        raise ValueError('Startsidan saknar en entydig plats för senaste briefing')
-    link = ''
-    if briefings:
-        latest = briefings[0]
-        title = escape(latest['title'])
-        href = 'vetenskaplig-briefing/' + latest['slug'] + '/'
-        link = (f'<a data-latest-briefing href="{href}"><span class="visually-hidden">'
-                f'Senaste briefing: </span>{title}</a>\n')
-    prefix, rest = before.split(start)
-    _, suffix = rest.split(end)
-    after = prefix + start + '\n' + link + end + suffix
-    if after != before:
-        home.write_text(after, encoding='utf-8')
-
-
 def load_title_enrichment(path):
     data=json.loads(path.read_text())
     if data.get('schemaVersion')!=1 or data.get('identityReview',{}).get('verdict')!='PASS': raise ValueError('Title metadata requires independent identity review')
@@ -253,7 +231,8 @@ def build():
         audit.append({'slug':card['slug'],'bodyBlocks':sum(b['kind']=='body' for b in blocks),'headings':sum(b['kind']=='heading' for b in blocks),'referenceTitleLines':len(refs),'authoredReferenceTitleLines':authored_count,'enrichedReferenceTitles':enriched,'unresolvedTitles':problems})
     if matched!=set(records): raise ValueError('Stale or unauthorized title mapping: original URL/anchor must still match an unresolved source row')
     briefings=published_briefings(ROOT)
-    project_latest_briefing(ROOT/'index.html',briefings)
+    from portal_latest import project
+    project(ROOT)
     payload={'schemaVersion':1,'releaseId':'20261109-teaching-1','generatorVersion':'1.4.0','scope':'Local essay and briefing prose, headings, authored bibliographic title lines and independently identity-reviewed title metadata. No source annotations or external fulltext. Metadata title identity is not scientific support verification.','articles':articles,'briefings':briefings}
     payload['contentHash']=hashlib.sha256(json.dumps([articles,briefings],ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
     (ROOT/'landing-search-index.json').write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n')

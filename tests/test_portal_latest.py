@@ -105,36 +105,32 @@ class PortalEditions(TestCase):
                 verify_and_project('redaktionen',href,commit)
         self.assertTrue(any('github-pages' in url for url in transport))
 
-
-class LatestBriefing(TestCase):
-    def test_home_uses_catalogue_order_and_preserves_other_formats(self):
-        from build_landing_search import published_briefings, project_latest_briefing
-
-        with TemporaryDirectory() as directory:
-            root = Path(directory)
-            catalog = root / 'vetenskaplig-briefing'
-            catalog.mkdir()
-            home = root / 'index.html'
-            head = ('<div data-latest="redaktionen">Nyhet</div><div data-latest="essa">Essä</div>'
-                    '<h2><a href="vetenskaplig-briefing/">Vetenskaplig briefing</a></h2>')
-            start, end = '<!-- latest-briefing:start -->', '<!-- latest-briefing:end -->'
-            home.write_text(head + start + end)
-            links = []
-            for slug, title in [('alfa','Första'), ('zeta','Volt &amp; ampere')]:
-                (catalog/slug).mkdir()
-                (catalog/slug/'index.html').write_text(
-                    f'<html lang="sv"><article><h1>{title}</h1><p>Brödtext.</p></article></html>')
-                links.insert(0, f'<a data-briefing href="{slug}/">{title}</a>')
-                (catalog/'index.html').write_text('\n'.join(links))
-                briefings = published_briefings(root)
-                project_latest_briefing(home, briefings)
-                markup = home.read_text()
-                self.assertTrue(markup.startswith(head + start))
-                self.assertEqual(markup.count('data-latest-briefing'), 1)
-                self.assertIn(f'href="vetenskaplig-briefing/{slug}/"', markup)
-                self.assertIn(f'{title}</a>', markup)
-                project_latest_briefing(home, briefings)
-                self.assertEqual(markup, home.read_text())
-            (catalog/'index.html').write_text('<h1>Vetenskaplig briefing</h1>')
-            project_latest_briefing(home, published_briefings(root))
-            self.assertEqual(home.read_text(), head + start + '\n' + end)
+    def test_third_row_follows_verified_briefing_events(self):
+        self.put('index.html', '<dl class="portal-latest">' + START + END +
+                 '</dl><!-- portal-recent:start --><!-- portal-recent:end -->')
+        folder = 'vetenskaplig-briefing/'
+        self.put(folder + 'index.html', '')
+        self.assertNotIn('data-latest="briefing"', self.render())
+        cards = []
+        for slug, title in [('alfa', 'Första'), ('zeta', 'Volt &amp; ampere')]:
+            path = folder + slug + '/index.html'
+            self.put(path, '<article>Prov</article>')
+            cards.insert(0, f'<a data-briefing href="{slug}/">{title}</a>')
+            self.put(folder + 'index.html', ''.join(cards))
+            html = self.render()
+            row = html.split('data-latest="briefing">')[1].split('</div>')[0]
+            self.assertIn(f'<dt>Senaste briefingen</dt><dd><a href="{folder}{slug}/">{title}</a>', row)
+            self.assertIn('Publiceringstid verifieras', row)
+            self.assertEqual(html.count('data-latest="briefing"'), 1)
+            self.assertLess(html.index('data-latest="essa"'), html.index('data-latest="briefing"'))
+        self.render(receipt=('briefing', path, '2026-11-24T20:26:36Z', 'a'*40))
+        self.assertIn('24 november 2026 kl. 21.26', self.render())
+        first = folder + 'alfa/index.html'
+        self.put(first, '<article>Sakligt reviderad</article>')
+        self.render(update=('briefing', first))
+        html = self.render(receipt=('briefing', first, '2026-11-25T03:10:00Z', 'b'*40))
+        self.assertIn('Uppdaterad <time', html)
+        self.assertEqual(html, self.render())
+        feed = json.loads((self.root/'portal-senaste.json').read_text())
+        self.assertEqual(feed['latestBriefing']['dateLabel'], '25 november 2026 kl. 04.10')
+        self.assertEqual(feed['latestBriefing']['href'], folder + 'alfa/')

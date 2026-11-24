@@ -97,7 +97,7 @@ def latest(state, section, items):
 
 def rows(state, catalog):
     lines = []
-    for section, label in [('redaktionen', 'Senast från Redaktionen'), ('essa', 'Senaste essän')]:
+    for section, label in [('redaktionen', 'Senast från Redaktionen'), ('essa', 'Senaste essän'), ('briefing', 'Senaste briefingen')]:
         event = latest(state, section, catalog[section])
         if event is None:
             continue
@@ -106,7 +106,8 @@ def rows(state, catalog):
         action = 'Uppdaterad' if event['kind'] == 'updated' else 'Publicerad'
         fmt = item['format'] + ' · ' if section == 'redaktionen' else ''
         title = escape(item['title'])
-        link = escape(item['href'], quote=True)
+        href = item['href'].removesuffix('index.html') if section == 'briefing' else item['href']
+        link = escape(href, quote=True)
         if stamp:
             meta = f'{action} <time datetime="{escape(stamp, quote=True)}">{display_date(stamp)}</time>'
             if item['slot'] and 'T' in item['slot']:
@@ -197,7 +198,13 @@ def project(root, update=None, receipt=None):
         _, suffix = rest.split(end)
         records = recent_records(state, catalog)
         feed = root / 'portal-senaste.json'
-        payload = json.dumps({'version': 1, 'titles': records}, ensure_ascii=False, separators=(',', ':')) + '\n'
+        event = latest(state, 'briefing', catalog['briefing'])
+        briefing = None
+        if event:
+            stamp = event.get('at', '')
+            briefing = dict(href=event['href'].removesuffix('index.html'), kind=event['kind'],
+                            at=stamp, dateLabel=display_date(stamp) if stamp else '')
+        payload = json.dumps({'version': 1, 'titles': records, 'latestBriefing': briefing}, ensure_ascii=False, separators=(',', ':')) + '\n'
         if not feed.exists() or feed.read_text(encoding='utf-8') != payload:
             feed.write_text(payload, encoding='utf-8')
         html = prefix + start + '\n' + recent_rows(records) + '\n' + end + suffix

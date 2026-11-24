@@ -95,7 +95,7 @@ test('result text uses declared essay language, Swedish UI and unknown bibliogra
 test('metadata-enriched title search is labelled as metadata, not verified scientific support',async()=>{
  const h=await harness();try{await h.type('"Radiocarbon dates of two musk ox vertebrae"');assert.match(h.el('traffar').textContent,/Källtitel från bibliografiska metadata/);assert.match(h.el('traffar').querySelector('h2 a').href,/muskoxen-norway/);assert.ok(!h.el('traffar').textContent.includes('Verified'));assert.equal(h.el('traffar').querySelector('.snippet-evidence').getAttribute('lang'),'');}finally{h.close();}
 });
-test('only the search guidance and legend fold, with both latest links and the search field kept outside',async()=>{
+test('only the search guidance and legend fold, with all three latest links and the search field kept outside',async()=>{
  const h=await harness();
  try {
   const d=h.w.document, help=d.querySelector('details.portal-search-help');
@@ -108,10 +108,11 @@ test('only the search guidance and legend fold, with both latest links and the s
    assert.ok(!help.contains(row));
    assert.ok(row.querySelector('a[href]'));
   }
-  assert.deepEqual([...d.querySelectorAll('.portal-latest dt')].map(n=>n.textContent),['Senast från Redaktionen','Senaste essän']);
+  assert.deepEqual([...d.querySelectorAll('.portal-latest dt')].map(n=>n.textContent),['Senast från Redaktionen','Senaste essän','Senaste briefingen']);
   help.querySelector('summary').click();assert.equal(help.open,true);
   help.querySelector('summary').click();assert.equal(help.open,false);
   assert.equal(d.querySelector('.landing-actions a[href="timkronikan/"]').textContent,'Redaktionen');
+  assert.equal(d.querySelector('.landing-actions a[href="vetenskaplig-briefing/"]').textContent,'Vetenskaplig briefing');
  } finally {h.close();}
 });
 

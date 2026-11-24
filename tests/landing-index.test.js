@@ -117,7 +117,7 @@ test('landing legend uses body contrast and home keeps one equivalent network li
  assert.ok(!css.includes('body[data-view=all] #natverkOppna{display:none}'));
  assert.match(html,/<a id="portalNetworkSearch"[^>]*href="natverk\/">Sök i nodnätverket/);
  assert.match(html,/<a id="natverkOppna" href="natverk\/">Visa nätverket<\/a>/);
- assert.match(html,/landing\.css\?v=20261124-briefing-2/);
+ assert.match(html,/landing\.css\?v=20261124-briefing-row/);
 });
 test('all current article language declarations are preserved in the index',()=>{
  const d=JSON.parse(fs.readFileSync(path.join(ROOT,'landing-search-index.json')));
