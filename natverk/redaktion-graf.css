@@ -1,0 +1,32 @@
+body.natverk-sida { height: auto; min-height: 0; overflow: auto; }
+.editorial-frame { min-inline-size: 0; }
+.editorial-frame [hidden] { display: none !important; }
+.editorial-tools { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem; padding: .4rem .65rem; }
+.editorial-tools button, #natverkTopicAction {
+  min-inline-size: 44px; min-block-size: 44px; padding: .45rem .7rem;
+  border: 1px solid var(--network-border); border-radius: .4rem; color: var(--network-text);
+  background: var(--network-card); font: 600 .82rem/1.2 var(--network-ui); cursor: pointer;
+}
+.editorial-frame :is(button, a, input, [tabindex]):focus-visible { outline: 2px solid var(--network-accent); outline-offset: 2px; }
+.editorial-frame .natverk-arbetsyta { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(15rem, 1fr); height: clamp(22rem, 75vh, 38rem); }
+.editorial-frame .natverk-graf { height: auto; min-height: 0; }
+.editorial-frame .natverk-sidebar { overflow: auto; }
+.editorial-frame .essa-väljare, .editorial-frame .relationspanel { padding: .8rem; }
+.editorial-frame .essa-lista { max-height: none; }
+.editorial-frame .sok-status { margin: .4rem .65rem; }
+.editorial-frame .nod[data-node-kind="topic"] .nod-prick {
+  display: grid; place-items: center; background: var(--topic-dark, #e8b665);
+  border-radius: .35rem; color: #151515; font: 700 .86rem var(--network-ui);
+}
+html[data-theme="light"] .editorial-frame .nod[data-node-kind="topic"] .nod-prick { background: var(--topic-light, #785219); color: white; }
+@media (max-width: 639px) {
+  .editorial-frame .natverk-arbetsyta { display: block; height: auto; }
+  .editorial-frame .natverk-graf { height: clamp(15rem, 47vh, 24rem); }
+  .editorial-frame .natverk-sidebar { border: 0; }
+  .editorial-frame .essa-lista { max-height: min(50vh, 18rem); }
+}
+
+.editorial-frame .nod[data-node-kind="topic"][aria-pressed="true"] .nod-prick {
+  outline: 2px dashed var(--network-text);
+  outline-offset: 2px;
+}

@@ -114,7 +114,7 @@
   }
 
   // Network search is metadata relevance, independent of curated relation types.
-  function networkSearch(articles, relations, query) {
+  function networkSearch(articles, relations, query, editorial) {
     var terms = normalize(query).match(/[\p{L}\p{M}\p{N}]+/gu) || [];
     var active = String(query || '').trim().length > 0;
     var matches = new Map(), neighbors = new Set(), links = new Set();
@@ -129,7 +129,7 @@
       }
     });
     relations.forEach(function (edge, index) {
-      if (edge.status === 'reviewed' && (matches.has(edge.a) || matches.has(edge.b))) {
+      if ((edge.status === 'reviewed' || (editorial && edge.kind === 'published-topic')) && (matches.has(edge.a) || matches.has(edge.b))) {
         links.add(index);
         if (!matches.has(edge.a)) neighbors.add(edge.a);
         if (!matches.has(edge.b)) neighbors.add(edge.b);
@@ -158,6 +158,12 @@
     var root = document.body.getAttribute('data-root') || '../';
     var graph = document.getElementById('natverk');
     var sourceMode = document.body.dataset.networkMode === 'sources';
+    var editorialMode = document.body.dataset.networkMode === 'editorial';
+    var embeddedMode = sourceMode || editorialMode;
+    var topicAction = document.getElementById('natverkTopicAction');
+    function signalParent(name, detail) {
+      if (window.frameElement) window.frameElement.dispatchEvent(new CustomEvent('explorations:' + name, {detail: detail}));
+    }
     var scale = 1, panX = 0, panY = 0, pointer = null;
     var sourceHits = new Set(), sourceFiltering = false;
     var sourceAction = document.getElementById('natverkSourceAction');
@@ -183,7 +189,7 @@
     var panelContent = document.getElementById('relationspanelInnehall');
     if (!graph || !nodeLayer || !canvas || !status || !list || !listSearch) return;
 
-    var savedTerms = !sourceMode && window.ExplorationsNetworkConditions ?
+    var savedTerms = !embeddedMode && window.ExplorationsNetworkConditions ?
       window.ExplorationsNetworkConditions(listSearch,document.getElementById('essayAddTerm'),document.getElementById('essayTerms'),'ec') : null;
 
     var networkData = null, relations = [], nodes = [], edges = [];
@@ -215,7 +221,7 @@
       }).filter(function (item) { return item.node; });
     }
     function updateUrl(push) {
-      if (sourceMode || chronicleMode()) return;
+      if (embeddedMode || chronicleMode()) return;
       var url = new URL(location.href);
       if (listSearch.value.trim()) url.searchParams.set('q', listSearch.value);
       else url.searchParams.delete('q');
@@ -223,7 +229,7 @@
       if (url.href !== location.href) history[push ? 'pushState' : 'replaceState'](null, '', url);
     }
     function renderList(filter) {
-      search = networkSearch(nodes, edges, savedTerms ? savedTerms.query() : filter);
+      search = networkSearch(nodes, edges, savedTerms ? savedTerms.query() : filter, editorialMode);
       var visible = 0;
       nodes.forEach(function (node) {
         var show = !search.active || search.matches.has(node.slug);
@@ -236,7 +242,7 @@
       if (savedTerms) savedTerms.refresh(visible>0);
       listCount.textContent = String(visible);
       clearSearch.disabled = !listSearch.value;
-      searchStatus.textContent = sourceMode ? (search.active ? visible + ' träffar bland de visade noderna.' : '') : search.active ? (visible ? visible + ' direkta träffar, ' + search.links.size + ' granskade samband och ' + search.neighbors.size + ' kopplade essäer. Välj en träff för sambandstyp och motivering.' : 'Inga träffar. Prova andra ord eller rensa sökningen.') : '';
+      searchStatus.textContent = embeddedMode ? (search.active ? visible + ' träffar bland de visade noderna.' : '') : search.active ? (visible ? visible + ' direkta träffar, ' + search.links.size + ' granskade samband och ' + search.neighbors.size + ' kopplade essäer. Välj en träff för sambandstyp och motivering.' : 'Inga träffar. Prova andra ord eller rensa sökningen.') : '';
       refreshHighlights();
     }
     function refreshHighlights() {
@@ -245,17 +251,21 @@
         var slug = node.slug, current = slug === selected, direct = search.matches.has(slug);
         var connected = search.neighbors.has(slug);
         var element = nodeElements[slug];
-        var conditionHit = sourceMode && sourceFiltering && !node.source && sourceHits.has(slug);
+        var conditionHit = embeddedMode && sourceFiltering && (sourceHits.has(slug) ||
+          (editorialMode && node.kind === 'topic' && relationsFor(slug).some(function (item) { return sourceHits.has(item.node.slug); })));
         element.classList.toggle('nod-vald', current);
         element.classList.toggle('nod-granne', !search.active && neighbors.has(slug));
         element.classList.toggle('nod-traff', search.active ? direct : conditionHit);
         element.classList.toggle('nod-kopplad', connected);
-        var sourceDim = (sourceFiltering && !node.source && !sourceHits.has(slug)) || (search.active && !direct && !connected);
-        if (sourceMode) element.dataset.dim = String(sourceDim);
-        element.classList.toggle('svag', sourceMode ? sourceDim && !current : search.active ? !direct && !connected && !current : !!selected && !current && !neighbors.has(slug));
-        element.setAttribute('aria-pressed', String(current));
-        element.setAttribute('aria-label', node.titel + (search.active ? direct ? '. Direkt sökträff i ' + search.matches.get(slug).join(' och ') : connected ? '. Granskat samband med sökträff' : '. Ingen direkt sökträff' : ''));
-        if (sourceMode && sourceFiltering && !node.source) element.setAttribute('aria-description',conditionHit ? 'Uppfyller alla valda villkor' : 'Uppfyller inte alla valda villkor');
+        var sourceDim = (sourceFiltering && !node.source && !conditionHit) || (search.active && !direct && !connected);
+        if (embeddedMode) element.dataset.dim = String(sourceDim);
+        element.classList.toggle('svag', embeddedMode ? sourceDim && !current : search.active ? !direct && !connected && !current : !!selected && !current && !neighbors.has(slug));
+        if (element.tagName !== 'A') {
+          var pressed = editorialMode && node.kind === 'topic' ? node.picked : current;
+          element.setAttribute('aria-pressed', String(pressed));
+        }
+        element.setAttribute('aria-label', (editorialMode ? (node.kind === 'article' ? 'Läs artikeln ' : 'Välj ämnesetiketten ') : '') + node.titel + (search.active ? direct ? '. Direkt sökträff i ' + search.matches.get(slug).join(' och ') : connected ? (editorialMode ? '. Etikettkoppling till sökträff' : '. Granskat samband med sökträff') : '. Ingen direkt sökträff' : ''));
+        if (embeddedMode && sourceFiltering && !node.source && node.kind !== 'topic') element.setAttribute('aria-description',conditionHit ? 'Uppfyller alla valda villkor' : 'Uppfyller inte alla valda villkor');
         else element.removeAttribute('aria-description');
         listElements[slug].classList.toggle('essa-vald', current);
         listElements[slug].querySelector('button').setAttribute('aria-pressed', String(current));
@@ -273,7 +283,19 @@
       panelMeta.textContent = [node.id, node.datum, node.lastid].filter(Boolean).join(' · ');
       panelExcerpt.textContent = node.excerpt || '';
       panelKeywords.textContent = node.nyckelord && node.nyckelord.length ? 'Nyckelord: ' + node.nyckelord.join(', ') : '';
-      if (sourceMode) {
+      if (editorialMode) {
+        var isTopic = node.kind === 'topic';
+        topicAction.hidden = !isTopic;
+        if (isTopic) {
+          topicAction.textContent = node.picked ? 'Ta bort ämnesvalet' : 'Välj ämnesetiketten';
+          topicAction.setAttribute('aria-pressed', String(!!node.picked));
+          topicAction.onclick = function () { signalParent('editorialtopic', node.titel); };
+        }
+        panelRead.hidden = isTopic;
+        if (isTopic) panelRead.removeAttribute('href');
+        else panelRead.href = node.href;
+        panelKeywords.textContent = !isTopic && node.nyckelord.length ? 'Publicerade ämnesetiketter: ' + node.nyckelord.join(', ') : '';
+      } else if (sourceMode) {
         panelRead.hidden = !node.href;
         if (node.href) panelRead.href = node.href;
         panelRead.textContent = node.source ? 'Öppna originalkällan' : 'Läs texten';
@@ -293,7 +315,7 @@
         var button = document.createElement('button');
         button.type = 'button';
         button.className = 'relationspanel-valj';
-        button.innerHTML = '<span class="relationspanel-relationstyp">' + escapeHtml(sourceMode ? item.edge.label : TYPE_LABELS[item.edge.type]) + '</span>'
+        button.innerHTML = '<span class="relationspanel-relationstyp">' + escapeHtml(embeddedMode ? item.edge.label : TYPE_LABELS[item.edge.type]) + '</span>'
           + '<span class="relationspanel-relationstitel">' + escapeHtml(item.node.titel) + '</span>'
           + '<span class="relationspanel-orsak">' + escapeHtml(item.edge.reason) + '</span>';
         button.addEventListener('click', function () { selectNode(item.node, true); });
@@ -312,7 +334,7 @@
       renderPanel(node);
       refreshHighlights();
       if (!listElements[node.slug].hidden && !fromHistory) listElements[node.slug].scrollIntoView({block:'nearest', behavior:'auto'});
-      status.textContent = node.titel + ' vald. ' + relationsFor(node.slug).length + (sourceMode ? ' kopplingar i panelen.' : ' granskade samband i panelen.');
+      status.textContent = node.titel + ' vald. ' + relationsFor(node.slug).length + (editorialMode ? ' etikettkopplingar i panelen.' : sourceMode ? ' kopplingar i panelen.' : ' granskade samband i panelen.');
       if (!fromHistory) updateUrl(true);
       if (focusPanel && panelTitle) panelTitle.focus({preventScroll:true});
     }
@@ -323,7 +345,7 @@
       refreshHighlights();
       panelEmpty.hidden = false;
       panelContent.hidden = true;
-      status.textContent = sourceMode ? nodes.length + ' noder: ' + edges.filter(function(e){return !e.reviewed;}).length + ' källkopplingar och ' + edges.filter(function(e){return e.reviewed;}).length + ' granskade samband.' : nodes.length + ' essäer, ' + edges.length + ' granskade samband. Välj en essä eller nod.';
+      status.textContent = editorialMode ? nodes.length + ' noder och ' + edges.length + ' publicerade etikettkopplingar.' : sourceMode ? nodes.length + ' noder: ' + edges.filter(function(e){return !e.reviewed;}).length + ' källkopplingar och ' + edges.filter(function(e){return e.reviewed;}).length + ' granskade samband.' : nodes.length + ' essäer, ' + edges.length + ' granskade samband. Välj en essä eller nod.';
       if (!fromHistory) updateUrl(true);
     }
     function buildInterface() {
@@ -338,10 +360,14 @@
         return Object.assign({}, edge, {from:bySlug[edge.a], to:bySlug[edge.b]});
       });
       nodes.forEach(function (node) {
-        var graphButton = document.createElement('button');
-        graphButton.type = 'button';
+        var articleLink = editorialMode && node.kind === 'article';
+        var graphButton = document.createElement(articleLink ? 'a' : 'button');
+        if (articleLink) {
+          graphButton.href = node.href;
+          graphButton.target = '_top';
+        } else graphButton.type = 'button';
         graphButton.className = 'nod';
-        graphButton.setAttribute('aria-pressed', 'false');
+        if (!articleLink) graphButton.setAttribute('aria-pressed', 'false');
         graphButton.setAttribute('aria-label', node.titel);
         graphButton.innerHTML = '<span class="nod-prick" aria-hidden="true"></span><span class="nod-etikett">' + escapeHtml(node.titel.length > 34 ? node.titel.slice(0, 33) + '…' : node.titel) + '</span>';
         if (sourceMode && node.source) {
@@ -351,7 +377,19 @@
           graphButton.style.setProperty('--source-light', node.light);
           graphButton.querySelector('.nod-prick').textContent = node.glyph;
         }
-        graphButton.addEventListener('click', function (event) { selectNode(node, event.detail === 0); });
+        if (editorialMode) {
+          graphButton.dataset.nodeKind = node.kind;
+          graphButton.dataset.nodeKey = node.slug;
+          if (node.kind === 'topic') {
+            graphButton.querySelector('.nod-prick').textContent = node.glyph;
+            graphButton.style.setProperty('--topic-light', node.light);
+            graphButton.style.setProperty('--topic-dark', node.dark);
+          }
+        }
+        if (!articleLink) graphButton.addEventListener('click', function (event) {
+          selectNode(node, event.detail === 0);
+          if (editorialMode && node.kind === 'topic') signalParent('editorialtopic', node.titel);
+        });
         nodeLayer.appendChild(graphButton);
         nodeElements[node.slug] = graphButton;
 
@@ -435,7 +473,13 @@
       context.lineWidth = 1.2;
       edges.forEach(function (edge, index) {
         var active = search.active ? search.links.has(index) : !selected || edge.a === selected || edge.b === selected;
-        if (sourceMode) {
+        if (editorialMode) {
+          var edgeMatches = (!sourceFiltering || sourceHits.has(edge.b)) && active;
+          context.strokeStyle = document.documentElement.dataset.theme === 'light' ? edge.from.light : edge.from.dark;
+          context.setLineDash(edge.from.dash);
+          context.globalAlpha = edgeMatches ? .8 : .17;
+          context.lineWidth = edgeMatches && selected ? 2.6 : 1.6;
+        } else if (sourceMode) {
           var target = edge.to;
           context.strokeStyle = edge.reviewed ? color() : document.documentElement.dataset.theme === 'light' ? edge.light : edge.dark;
           context.setLineDash(edge.reviewed ? [3,3] : edge.dash);
@@ -447,13 +491,15 @@
         context.moveTo(px(edge.from.x), py(edge.from.y));
         context.lineTo(px(edge.to.x), py(edge.to.y));
         context.stroke();
-        if (sourceMode) context.setLineDash([]);
+        if (embeddedMode) context.setLineDash([]);
         if (active && flowing()) {
           // Reverses smoothly: navigation aid, never a causal arrow or evidence weight.
           var progress = (1 - Math.cos((time || 0) / 8000 * Math.PI * 2)) / 2;
           context.globalAlpha = 0.65;
           context.beginPath();
-          context.arc(edge.from.x + (edge.to.x - edge.from.x) * progress + offsetX, edge.from.y + (edge.to.y - edge.from.y) * progress + offsetY, 2.2, 0, Math.PI * 2);
+          var dotX = edge.from.x + (edge.to.x - edge.from.x) * progress;
+          var dotY = edge.from.y + (edge.to.y - edge.from.y) * progress;
+          context.arc(editorialMode ? px(dotX) : dotX + offsetX, editorialMode ? py(dotY) : dotY + offsetY, 2.2, 0, Math.PI * 2);
           context.fill();
         }
       });
@@ -498,7 +544,7 @@
       listSearch.focus({preventScroll:true});
     }
     function restoreUrl() {
-      if (sourceMode || !networkData || chronicleMode()) return;
+      if (embeddedMode || !networkData || chronicleMode()) return;
       if (savedTerms) savedTerms.sync();
       listSearch.value = new URL(location.href).searchParams.get('q') || '';
       renderList(listSearch.value);
@@ -563,24 +609,90 @@
         event.preventDefault(); panX += arrows[event.key][0]; panY += arrows[event.key][1]; startDrawing();
       });
 
+    function applyNetworkProjection(data, links) {
+      sourceFiltering = !!data.filtering;
+      sourceHits = new Set(data.hits);
+      networkData = {artiklar:data.nodes};
+      relations = links;
+      buildInterface();
+      startLayout();
+      renderList(listSearch.value);
+      if (selected && bySlug[selected]) selectNode(bySlug[selected], false, true);
+      else clearSelection(true);
+    }
+
+    if (editorialMode) {
+      function articleHref(item) {
+        var path = item.href;
+        if (typeof path !== 'string') return '';
+        if (/^timkronikan\/(?:inlagg|reportage)\/[a-z0-9][a-z0-9-]*\.html$/.test(path)) return root + path;
+        // Older chronological records can have only their original anchored month page.
+        var match = /^timkronikan\/(halvtimmen\/)?(20\d\d-(?:0[1-9]|1[0-2]))\.html#(inlagg|halvtimmen)-(20\d\d-\d\d-(?:0[1-9]|[12]\d|3[01]))-([01]\d|2[0-3])[0-5]\d$/.exec(path);
+        if (!match || match[4].slice(0, 7) !== match[2]) return '';
+        var half = !!match[1], series = item.series || ({Timmen:'timkronikan', 'Timkrönikan':'timkronikan', Halvtimmen:'halvtimmen'})[item.amne];
+        if (series !== (half ? 'halvtimmen' : 'timkronikan') || match[3] !== (half ? 'halvtimmen' : 'inlagg')) return '';
+        var date = new Date(match[4] + 'T00:00:00Z');
+        return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === match[4] ? root + path : '';
+      }
+      function topicColor(value, fallback) {
+        return typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value) ? value : fallback;
+      }
+      function applyEditorial(data) {
+        if (!data || !Array.isArray(data.nodes) || !Array.isArray(data.edges)) return;
+        var records = [], byKey = new Map(), links = [], used = new Set();
+        data.nodes.forEach(function (item) {
+          if (!item || typeof item.slug !== 'string' || !item.slug || byKey.has(item.slug) ||
+              typeof item.titel !== 'string' || !item.titel.trim()) return;
+          var record = {slug:item.slug, titel:item.titel, kind:item.kind, datum:'', excerpt:'', nyckelord:[]};
+          if (item.kind === 'topic') {
+            record.id = 'Ämne'; record.amne = 'Publicerad ämnesetikett';
+            record.picked = item.picked === true;
+            record.glyph = typeof item.glyph === 'string' && item.glyph ? Array.from(item.glyph)[0] : '◆';
+            record.dark = topicColor(item.dark, '#e8b665'); record.light = topicColor(item.light, '#785219');
+            record.dash = Array.isArray(item.dash) && item.dash.every(function(n){return Number.isFinite(n) && n >= 0 && n <= 16;}) ? item.dash.slice(0, 6) : [];
+          } else if (item.kind === 'article') {
+            record.href = articleHref(item);
+            if (!record.href) return;
+            record.id = 'Text';
+            record.amne = typeof item.amne === 'string' ? item.amne : 'Redaktionen';
+            record.nyckelord = Array.isArray(item.nyckelord) ? item.nyckelord.filter(function(t){return typeof t === 'string' && !!t;}) : [];
+            record.excerpt = typeof item.excerpt === 'string' ? item.excerpt : '';
+            record.datum = typeof item.datum === 'string' ? item.datum : '';
+          } else return;
+          byKey.set(record.slug, record); records.push(record);
+        });
+        data.edges.forEach(function (edge) {
+          if (!edge) return;
+          var topic = byKey.get(edge.a), article = byKey.get(edge.b);
+          if (!topic || !article || topic.kind !== 'topic' || article.kind !== 'article' || !article.nyckelord.includes(topic.titel)) return;
+          var key = JSON.stringify([topic.slug, article.slug]);
+          if (used.has(key)) return;
+          used.add(key);
+          links.push({a:topic.slug, b:article.slug, kind:'published-topic', label:'Publicerad ämnesetikett',
+            reason:'”' + article.titel + '” har etiketten ”' + topic.titel + '”.'});
+        });
+        if (data.theme === 'light' || data.theme === 'dark') document.documentElement.dataset.theme = data.theme;
+        var active = document.activeElement;
+        var restoreNode = active && active.dataset.nodeKey;
+        var restoreAction = active === topicAction;
+        applyNetworkProjection({nodes:records, hits:Array.isArray(data.hits) ? data.hits : [], filtering:data.filtering}, links);
+        if (restoreNode && nodeElements[restoreNode]) nodeElements[restoreNode].focus({preventScroll:true});
+        else if (restoreAction && !topicAction.hidden) topicAction.focus({preventScroll:true});
+      }
+      graph.addEventListener('explorations:editorialgraph', function(event) { applyEditorial(event.detail); });
+      graph.dataset.editorialReady = 'true';
+      signalParent('editorialready');
+      return;
+    }
     if (sourceMode) {
       var sourcePayload = null, reviewed = [];
       function applySource(data) {
-        sourceFiltering = !!data.filtering;
-        sourceHits = new Set(data.hits);
-        networkData = {artiklar:data.nodes};
         var byHref = new Map(data.nodes.filter(function(node){return !node.source && node.href;}).map(function(node){return [node.href.replace(/#.*$/,''),node.slug];}));
         var reviewedEdges = reviewed.filter(function(edge){return byHref.has(root+edge.a+'/index.html') && byHref.has(root+edge.b+'/index.html');}).map(function(edge){
           return {a:byHref.get(root+edge.a+'/index.html'),b:byHref.get(root+edge.b+'/index.html'),reason:edge.reason,
             reviewed:true,label:'Granskat samband · '+TYPE_LABELS[edge.type]};
         });
-        relations = data.edges.concat(reviewedEdges);
-        buildInterface();
-        startLayout();
-        renderList(listSearch.value);
-        if (selected && bySlug[selected]) {
-          selectNode(bySlug[selected], false, true);
-        } else clearSelection(true);
+        applyNetworkProjection(data, data.edges.concat(reviewedEdges));
         if (sourceAction && !sourceAction.hidden && data.fromAction) sourceAction.focus({preventScroll:true});
       }
       graph.addEventListener('explorations:sourcenetwork', function(event){

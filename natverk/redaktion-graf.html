@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Redaktionens ämnesnätverk · Explorations</title>
+  <link rel="stylesheet" href="../natverk.css?v=7ddc9285e282">
+  <link rel="stylesheet" href="redaktion-graf.css?v=8b1d5bdb3e68">
+  <script defer src="../natverk.js?v=1be1e223c07d"></script>
+</head>
+<body class="natverk-sida" data-network-mode="editorial" data-root="../">
+  <main class="editorial-frame">
+    <div class="editorial-tools" aria-label="Grafvisning">
+      <button id="natverkZoomIn" type="button" aria-label="Zooma in">+</button>
+      <button id="natverkZoomOut" type="button" aria-label="Zooma ut">−</button>
+      <button id="natverkZoomReset" type="button">Centrera</button>
+      <button id="natverkRorelse" type="button">Pausa rörelse</button>
+    </div>
+    <div class="natverk-arbetsyta">
+      <div class="natverk-graf" id="natverk" tabindex="0" aria-label="Ämnesnätverk. Dra i bakgrunden eller flytta med piltangenterna.">
+        <canvas id="natverkKanter" aria-hidden="true"></canvas>
+        <nav id="natverkNoder" aria-label="Ämnen och artikellänkar"></nav>
+      </div>
+      <aside class="natverk-sidebar" aria-label="Nodinformation och sökning">
+        <section class="relationspanel" aria-labelledby="relationspanelTitel">
+          <p id="relationspanelTom">Välj en ämnesnod för att ändra ämnesvalet. En artikelnod öppnar texten.</p>
+          <div id="relationspanelInnehall" hidden>
+            <p class="relationspanel-amne" id="relationspanelAmne"></p>
+            <h2 id="relationspanelTitel" tabindex="-1">Vald nod</h2>
+            <p class="relationspanel-meta" id="relationspanelMeta"></p>
+            <p class="relationspanel-ingress" id="relationspanelIngress"></p>
+            <p class="relationspanel-nyckelord" id="relationspanelNyckelord"></p>
+            <button id="natverkTopicAction" type="button" hidden>Välj ämnesetiketten</button>
+            <a class="relationspanel-las" id="relationspanelLas" target="_top" hidden>Läs artikeln</a>
+            <h3 id="relationspanelRelationerTitel">Publicerade etikettkopplingar</h3>
+            <ol class="relationspanel-lista" id="relationspanelLista" aria-labelledby="relationspanelRelationerTitel"></ol>
+          </div>
+        </section>
+        <section class="essa-väljare" aria-label="Sök och välj nod">
+          <div class="sidebar-rubrik"><h2>Noder</h2><span id="essaAntal">0</span></div>
+          <label class="essa-sok"><span class="visuellt-dold">Sök bland visade noder</span><input id="essaSok" type="search" placeholder="Sök bland visade noder" maxlength="120"></label>
+          <div class="sok-kontroller"><button id="essaSokRensa" type="button" disabled>Rensa sökning</button><button id="natverkAterstall" type="button">Återställ nodval</button></div>
+          <p id="essaSokStatus" class="sok-status" role="status"></p>
+          <ol class="essa-lista" id="essaLista"></ol>
+        </section>
+      </aside>
+    </div>
+    <p id="natverkStatus" class="sok-status" role="status"></p>
+    <noscript><a href="index.html#kronikor" target="_top">Öppna Redaktionen</a></noscript>
+  </main>
+</body>
+</html>

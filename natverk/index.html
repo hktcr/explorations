@@ -15,6 +15,7 @@
 <link rel="shortcut icon" href="../favicon.ico?v=20261025-1" data-explorations-favicon="ico">
 <link rel="stylesheet" href="../explorations-theme.css?v=20261122-theme-1">
 <link rel="stylesheet" href="../chronicle-discovery.css?v=20261122-chronicles-1">
+<link rel="stylesheet" href="../chronicle-topic-graph.css?v=20261124-c4">
 </head>
 <body class="natverk-sida" data-network-release="20261109-teaching-1" data-root="../">
 <header class="natverk-huvud">
@@ -80,8 +81,20 @@
 <section class="xr-chronicle-network" id="kronikor" aria-labelledby="xrChronicleTitle" hidden>
   <section class="xr-collections">
     <h2 id="xrChronicleTitle" tabindex="-1">Redaktionens nätverk</h2>
-    <p>Välj en samling. Grenarna visar var inläggen hör hemma, inte granskade samband mellan texter.</p>
+    <p>Välj en samling. Varje linje i nätverket visar en ämnesetikett som redaktionen har publicerat för just det inlägget.</p>
     <div class="xr-branches" id="xrChronicleBranches" aria-label="Samlingar"></div>
+    <div class="xr-graph-controls">
+      <button type="button" class="xr-chronicle-more" id="xrGraphToggle" aria-controls="xrTopicCanvas" aria-expanded="false">Visa ämnesnätverk</button>
+      <button type="button" class="xr-chronicle-more" id="xrGoChronicleSearch">Sök i inläggen</button>
+    </div>
+    <section id="xrTopicCanvas" aria-label="Ämnesnätverk" hidden>
+      <div class="xr-graph-paging">
+        <button type="button" class="xr-chronicle-more" id="xrTopicPrev">Föregående</button>
+        <span id="xrTopicRange" role="status"></span>
+        <button type="button" class="xr-chronicle-more" id="xrTopicNext">Nästa</button>
+      </div>
+      <iframe title="Redaktionens ämnesnoder och artikellänkar" id="xrChronicleFrame" data-src="redaktion-graf.html?v=20261124-c4"></iframe>
+    </section>
   </section>
   <aside class="xr-chronicle-node-panel" aria-label="Redaktionens inlägg">
     <p id="xrChronicleStatus" role="status">Läser Redaktionens index …</p>
@@ -98,7 +111,8 @@
 <script src="../network-conditions.js?v=20261124-ex10-1" defer></script>
 <script src="../search-engine.js?v=20261109-teaching-1" defer></script>
 <script src="../chronicle-discovery.js?v=20261124-ex10-1" defer></script>
-<script src="../chronicle-network.js?v=20261124-ex10-1" defer></script>
-<script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261124-ex10-1" defer></script>
+<script src="../chronicle-topic-graph.js?v=20261124-c4-amnesfarger" defer></script>
+<script src="../chronicle-network.js?v=20261124-c4" defer></script>
+<script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261124-c4" defer></script>
 </body>
 </html>

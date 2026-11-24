@@ -1,0 +1,7 @@
+.xr-collections:has(#xrTopicCanvas:not([hidden])) { align-content: start; padding: 1rem clamp(.55rem,2vw,1.7rem); }
+.xr-graph-controls, .xr-graph-paging { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .5rem; margin-block: .65rem; }
+.xr-graph-controls a { padding: .6rem; color: var(--network-heading); }
+#xrTopicCanvas[hidden] { display: none; }
+#xrChronicleFrame { display: block; box-sizing: border-box; inline-size: 100%; block-size: clamp(22rem,66dvh,43rem); border: 1px solid var(--network-border); border-radius: .55rem; }
+.xr-graph-paging button:disabled { opacity: .5; cursor: default; }
+.xr-topic-button[aria-pressed="true"] { box-shadow: inset 0 0 0 1px var(--network-heading); }
