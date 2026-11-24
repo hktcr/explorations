@@ -1,0 +1,13 @@
+:root{color-scheme:dark;color:#f2ece4;background:#151416;font:1rem/1.5 Georgia,serif}
+:root[data-theme=light]{color-scheme:light;color:#251e19;background:#faf7f1}
+body{max-width:70rem;margin:auto;padding:clamp(1rem,4vw,3rem)}
+header{display:flex;justify-content:space-between;align-items:center}
+a{color:inherit;text-underline-offset:.2em}
+h1{font-size:clamp(2.4rem,7vw,5rem);font-weight:400;line-height:1.1}
+.bilder{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:2rem}
+figure{margin:0;scroll-margin:1rem}
+figure img{display:block;width:100%;height:auto}
+figure a{display:block}
+a:focus-visible,figure:target{outline:2px solid #cb654e;outline-offset:4px}
+figcaption{padding:.65rem 0;font: .85rem/1.5 system-ui,sans-serif}
+h2{margin:.2rem 0;font:1.4rem/1.3 Georgia,serif}

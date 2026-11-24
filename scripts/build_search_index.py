@@ -185,3 +185,5 @@ if __name__ == "__main__":
     print(f"Källor: {build_sources_index(ROOT)} publicerade identiteter.")
     from portal_latest import project as project_portal
     project_portal(ROOT)
+    from build_skogsvaktaren import project as project_gallery
+    project_gallery()
