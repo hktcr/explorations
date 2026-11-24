@@ -150,8 +150,6 @@ Motorns tidsmarginal och begränsade återhämtning kvarstår. Ingen tyst ljudsl
 eller ändring av webbläsarens energisparinställningar används.
 
 Arbetsspår: WS-368847b1-cde8-4fc9-8886-fbcbe4cd6d58.
-[Projektkrönika](https://drive.google.com/file/d/1Kd89gd9HEtUlXDLY-bTXSR-dWlq_KWkO/view)
-↔ [huvudkrönika](https://drive.google.com/file/d/1c5gcTDT82TCl3pneLupbvMvQ9ZfD1wRW/view).
 
 ### Fasta överlägg på iPad
 
