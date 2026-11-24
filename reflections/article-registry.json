@@ -371,6 +371,16 @@
       "metaSelector": ".meta",
       "loadMode": "static",
       "language": "sv"
+    },
+    {
+      "id": "EXP#37",
+      "slug": "the-lesson-that-leaves-room-to-think",
+      "title": "The Lesson That Leaves Room to Think",
+      "path": "the-lesson-that-leaves-room-to-think/index.html",
+      "rootSelector": "main article",
+      "toolbarSelector": ".toolbar",
+      "metaSelector": ".meta",
+      "loadMode": "static"
     }
   ]
 }

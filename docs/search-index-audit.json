@@ -1,6 +1,15 @@
 {
   "articles": [
     {
+      "slug": "the-lesson-that-leaves-room-to-think",
+      "bodyBlocks": 113,
+      "headings": 16,
+      "referenceTitleLines": 30,
+      "authoredReferenceTitleLines": 30,
+      "enrichedReferenceTitles": [],
+      "unresolvedTitles": []
+    },
+    {
       "slug": "music-ai",
       "bodyBlocks": 123,
       "headings": 25,
@@ -553,9 +562,9 @@
       "unresolvedTitles": []
     }
   ],
-  "totalArticles": 36,
-  "totalReferenceTitleLines": 670,
-  "totalAuthoredReferenceTitleLines": 664,
+  "totalArticles": 37,
+  "totalReferenceTitleLines": 700,
+  "totalAuthoredReferenceTitleLines": 694,
   "totalEnrichedReferenceTitleRows": 6,
   "externalRequests": 0,
   "externalRequestsScope": "Offline index generation only; prior metadata lookups are attributed in reference-title-enrichment.json."

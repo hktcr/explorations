@@ -14,7 +14,7 @@ import unicodedata
 from build_chronicle_index import build as build_chronicle_index
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RELEASE = "20261107-music-ai-1"
+DEFAULT_RELEASE = "20261109-teaching-1"
 ALLOWED_TYPES = {"same-phenomenon", "mechanism", "prerequisite", "method-evidence", "application", "contrast", "analogy"}
 STOPWORDS = set("a an and are as at be been by can could did do does for from had has have how i if in into is it its may more most no not of on one or our should so some than that the their them then there these they this those through to two under up was we were what when where which while who why will with would you your alla allt att av de den denna det detta en ett efter eller från för genom har här i ingen inte kan man med men mer mot när och om på som så till under ur vad var vara vi vid vilka vilken vilket vår våra är även över http https www doi org com source sources references read min exploration explorations".split())
 
@@ -150,7 +150,7 @@ def load_relations(slugs):
         if not all(key) or key[0] not in slugs or key[1] not in slugs or key in seen: raise ValueError(f"Invalid relation endpoints: {key}")
         seen.add(key)
         for slug in key: degrees[slug] = degrees.get(slug, 0) + 1
-        relation = {**relation, "reviewer":data["reviewer"], "reviewedAt":data["reviewedAt"], "vikt":1}
+        relation = {**relation, "reviewer":data["reviewer"], "reviewedAt":relation.get("reviewedAt", data["reviewedAt"]), "vikt":1}
         relations.append(relation)
     if any(value > 5 for value in degrees.values()): raise ValueError("More than five reviewed relations for a node")
     return data, relations

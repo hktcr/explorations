@@ -66,7 +66,24 @@ test('responsivitetskontraktet täcker telefon, surfplatta och desktop', () => {
 test('den publicerade grafen har högst fem samband per nod och inga isolerade noder', () => {
   const network = JSON.parse(fs.readFileSync(path.join(root, 'natverk-index.json'), 'utf8'));
   const degree = {}; network.kanter.forEach(edge => { degree[edge.a]=(degree[edge.a]||0)+1; degree[edge.b]=(degree[edge.b]||0)+1; });
-  assert.equal(network.artiklar.length, 36); assert.equal(network.kanter.length, 51);
+  assert.equal(network.artiklar.length, 37); assert.equal(network.kanter.length, 53);
   network.artiklar.forEach(article => assert.ok(degree[article.slug] >= 1 && degree[article.slug] <= 5));
   assert.deepEqual([...new Set(network.kanter.map(edge => edge.status))], ['reviewed']);
+});
+
+
+test('granskningsdatum bevaras per samband och äldre samband behåller standarddatumet', () => {
+  const network = JSON.parse(fs.readFileSync(path.join(root, 'natverk-index.json'), 'utf8'));
+  const curated = JSON.parse(fs.readFileSync(path.join(root, 'relations-curated.json'), 'utf8'));
+  const lesson = network.kanter.filter(edge => edge.a === 'the-lesson-that-leaves-room-to-think');
+  assert.equal(lesson.length, 2);
+  lesson.forEach(edge => assert.equal(edge.reviewedAt, '2026-11-03'));
+  const older = network.kanter.filter(edge => edge.a !== 'the-lesson-that-leaves-room-to-think');
+  assert.equal(older.length, 51);
+  older.forEach(edge => assert.equal(edge.reviewedAt, '2026-11-07'));
+  for (const relation of curated.relations) {
+    const edge = network.kanter.find(candidate => candidate.a === relation.a && candidate.b === relation.b);
+    assert.ok(edge);
+    assert.equal(edge.reviewedAt, relation.reviewedAt ?? curated.reviewedAt);
+  }
 });

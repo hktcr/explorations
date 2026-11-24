@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var RELEASE = '20261107-music-ai-1';
+  var RELEASE = '20261109-teaching-1';
   var MIN_CHARS = 2;
 
   function normalize(value) {

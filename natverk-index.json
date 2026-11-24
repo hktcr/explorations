@@ -1,9 +1,28 @@
 {
   "schemaVersion": 2,
-  "releaseId": "20261107-music-ai-1",
+  "releaseId": "20261109-teaching-1",
   "generatorVersion": "2.1.0",
-  "contentHash": "1f6bb9e77c270d2c",
+  "contentHash": "2c85adabc3cb49dc",
   "artiklar": [
+    {
+      "slug": "the-lesson-that-leaves-room-to-think",
+      "id": "EXP#37",
+      "titel": "The Lesson That Leaves Room to Think",
+      "amne": "Education Learning Teaching Adolescence Attention Feedback Classroom Evidence",
+      "excerpt": "What classroom research says about explanation, student thinking, feedback and a practical twenty-minute guideline.",
+      "datum": "November 3, 2026",
+      "lastid": "≈ 34 min read",
+      "ord": 4033,
+      "avsnitt": 16,
+      "nyckelord": [
+        "students",
+        "teacher",
+        "lesson",
+        "explanation",
+        "evidence",
+        "question"
+      ]
+    },
     {
       "slug": "music-ai",
       "id": "EXP#36",
@@ -1511,6 +1530,38 @@
       ],
       "reviewer": "gAIa VEP",
       "reviewedAt": "2026-11-07",
+      "vikt": 1
+    },
+    {
+      "a": "the-lesson-that-leaves-room-to-think",
+      "b": "instructional-material-architecture",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-03",
+      "type": "application",
+      "reason": "Lektionsessän planerar när elever använder innehåll och får återkoppling. Läromedelsessän visar hur gemensamma mål, representationer och varierad stöttning kan bära samma undervisningssekvens.",
+      "terms": [
+        "lektionsplanering",
+        "stöttning",
+        "representationer",
+        "elevaktivitet"
+      ],
+      "reviewer": "gAIa VEP",
+      "vikt": 1
+    },
+    {
+      "a": "the-lesson-that-leaves-room-to-think",
+      "b": "assessment-validity-reliability",
+      "status": "reviewed",
+      "reviewedAt": "2026-11-03",
+      "type": "method-evidence",
+      "reason": "Lektionsessän skiljer upplevelse, deltagande och olika kunskapsutfall. Bedömningsessän behandlar varför slutsatser om elevkunnande kräver giltig tolkning av det som faktiskt mäts.",
+      "terms": [
+        "validitet",
+        "kunskapsutfall",
+        "återkoppling",
+        "bedömning"
+      ],
+      "reviewer": "gAIa VEP",
       "vikt": 1
     }
   ]
