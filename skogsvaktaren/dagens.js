@@ -31,13 +31,19 @@
       const figure = doc.getElementById('bild-' + day);
       const src = figure?.querySelector('img[alt]')?.getAttribute('src');
       if (!src || !new RegExp('^bilder/' + day + '-[a-f0-9]{64}\\.webp$').test(src)
-          || figure.querySelector('a')?.getAttribute('href') !== src) return;
+          || figure.querySelector('a')?.getAttribute('href') !== day + '.html') return;
+      const chapter = new URL(day + '.html', gallery);
+      const page = await fetch(chapter, {cache:'no-cache'});
+      if (!page.ok) return;
+      const digest = await crypto.subtle.digest('SHA-256', await page.arrayBuffer());
+      const hex = Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2,'0')).join('');
+      if (hex !== figure.dataset.chapterSha) return;
       const image = new Image();
       image.src = new URL(src, gallery).href;
       await image.decode();
       if (!image.naturalWidth || clock.format(new Date()) !== day) return;
       verified = day;
-      link.href = gallery.href + '#bild-' + day;
+      link.href = chapter.href;
       link.hidden = false;
     } catch { link.hidden = true; }
     finally { running = false; }

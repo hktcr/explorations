@@ -11,3 +11,8 @@ figure a{display:block}
 a:focus-visible,figure:target{outline:2px solid #cb654e;outline-offset:4px}
 figcaption{padding:.65rem 0;font: .85rem/1.5 system-ui,sans-serif}
 h2{margin:.2rem 0;font:1.4rem/1.3 Georgia,serif}
+article,main>nav{max-width:66ch;margin-inline:auto}
+article h1{font-size:clamp(2rem,5vw,3.8rem)}
+article figure{margin-block:1.5rem}
+.prosa{font-size:1.13rem;line-height:1.7;overflow-wrap:anywhere}
+main>nav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;margin-block:2rem}
