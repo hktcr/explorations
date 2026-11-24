@@ -123,7 +123,9 @@
       },
       {
         "href": "timkronikan/reportage/2026-11-24-lunch.html",
-        "kind": "published"
+        "kind": "published",
+        "at": "2026-11-24T13:52:07+00:00",
+        "commit": "6e13becb39f487e51359d51bd7b2a500a1dfcd53"
       }
     ],
     "essa": [
