@@ -1,0 +1,91 @@
+{
+  "known": {
+    "redaktionen": [
+      "timkronikan/inlagg/halvtimmen-2026-11-23-0830.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-0930.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1000.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1130.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1200.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1300.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1400.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1430.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1500.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1530.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1600.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-23-1630.html",
+      "timkronikan/inlagg/inlagg-2026-11-22-2100.html",
+      "timkronikan/inlagg/inlagg-2026-11-22-2200.html",
+      "timkronikan/inlagg/inlagg-2026-11-22-2300.html",
+      "timkronikan/inlagg/inlagg-2026-11-23-0400.html",
+      "timkronikan/inlagg/inlagg-2026-11-23-0500.html",
+      "timkronikan/inlagg/inlagg-2026-11-23-0600.html",
+      "timkronikan/inlagg/inlagg-2026-11-23-0700.html",
+      "timkronikan/inlagg/inlagg-2026-11-23-0800.html",
+      "timkronikan/inlagg/inlagg-2026-11-23-1300.html",
+      "timkronikan/inlagg/inlagg-2026-11-23-1800.html",
+      "timkronikan/inlagg/inlagg-2026-11-23-2000.html",
+      "timkronikan/inlagg/inlagg-2026-11-24-0400.html",
+      "timkronikan/inlagg/inlagg-2026-11-24-0600.html",
+      "timkronikan/inlagg/inlagg-2026-11-24-0700.html",
+      "timkronikan/reportage/2026-11-23-lunch.html",
+      "timkronikan/reportage/2026-11-24-varlden.html"
+    ],
+    "essa": [
+      "adhd-diagnoses/index.html",
+      "adhd-explained/index.html",
+      "agg-naring-och-myter/index.html",
+      "ai-environmental-impact/index.html",
+      "ai-in-education/index.html",
+      "ai-life-consciousness-system/index.html",
+      "assessment-validity-reliability/index.html",
+      "before-particles-quantum-fields/index.html",
+      "caesar-sallad/index.html",
+      "cellular-respiration-demystified/index.html",
+      "climate-borders/index.html",
+      "cranberries/index.html",
+      "dark-matter-dark-energy/index.html",
+      "digestion/index.html",
+      "digital-biome/index.html",
+      "disengaged-teen/index.html",
+      "djur-kloning/index.html",
+      "egg-coagulation-lab/index.html",
+      "fitness-and-possibility/index.html",
+      "hugging-face-incident/index.html",
+      "instructional-material-architecture/index.html",
+      "jotunheimen/index.html",
+      "krebs-cycle/index.html",
+      "music-ai/index.html",
+      "muskoxen-norway/index.html",
+      "nazca-lines/index.html",
+      "nordkalotten-flyttfaglar-radar/index.html",
+      "octopus-intelligence/index.html",
+      "origin-of-life/index.html",
+      "photography-and-reality/index.html",
+      "school-digitalisation/index.html",
+      "steel-cut-oat-porridge/index.html",
+      "support-without-passivity/index.html",
+      "the-frame-that-gives-time-back/index.html",
+      "the-lesson-that-leaves-room-to-think/index.html",
+      "utomjordisk-kunskap/index.html",
+      "what-is-sex/index.html"
+    ]
+  },
+  "events": {
+    "redaktionen": [
+      {
+        "href": "timkronikan/inlagg/inlagg-2026-11-24-0700.html",
+        "kind": "published",
+        "at": "2026-11-24T06:31:49Z",
+        "commit": "2fe1ce2aeca9728a56f284eaba5ac4db6e69ddb3"
+      }
+    ],
+    "essa": [
+      {
+        "href": "the-lesson-that-leaves-room-to-think/index.html",
+        "kind": "published",
+        "at": "2026-11-24T06:13:00Z",
+        "commit": "6a7f10a1f309a9d2c411288a6facbc222b218eed"
+      }
+    ]
+  }
+}

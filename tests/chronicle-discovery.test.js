@@ -48,7 +48,7 @@ test("landing preserves search results and displays separate chronicle group",as
   input.dispatchEvent(new w.Event("input",{bubbles:true}));
   await wait(240);
   const titles=[...w.document.querySelectorAll(".xr-search-group")].map(e=>e.textContent);
-  assert.ok(titles.includes("Krönikor"));
+  assert.ok(titles.includes("Redaktionen"));
   assert.ok(titles.includes("Essäer"));
   assert.ok(w.document.querySelector(".xr-chronicle-hit a"));
  }finally{w.close();}

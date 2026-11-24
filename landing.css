@@ -57,3 +57,24 @@ body[data-view=results] .library-footer{margin-top:3rem}
 @media(max-width:600px){body[data-view=home] .library-header{padding-top:23vh}.landing-actions{gap:.4rem 1rem}.search-note{font-size:.73rem}body[data-search-ready=true] .library-header h1{font-size:1rem;letter-spacing:.2em}#searchInput{font-size:16px}.search-result h2{font-size:1.15rem}}
 @media(max-height:560px){body[data-view=home] .library-header{padding-top:3rem}body[data-view=home] .library-footer{padding-top:2rem}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+.portal-search-line{position:relative}
+.portal-search-line #searchForm{margin-right:48px}
+.portal-search-help{display:block}
+.portal-search-help:not([open]) .portal-search-guide{display:none}
+.portal-search-help summary{position:absolute;top:0;right:0;display:grid;place-items:center;min-width:44px;min-height:44px;color:var(--meta);border:1px solid transparent;border-radius:.4rem;cursor:pointer;list-style:none}
+.portal-search-help summary::-webkit-details-marker{display:none}
+.portal-search-help summary:hover,.portal-search-help summary:focus-visible{color:var(--text);border-color:var(--line)}
+.portal-search-help summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.portal-search-help[open] summary span{transform:rotate(180deg)}
+.portal-search-help[open] .portal-search-guide{margin-top:.5rem;padding:.65rem .85rem;border:1px solid var(--line);border-radius:.4rem;color:var(--text);background:var(--card)}
+.portal-search-guide .search-note,body[data-view] .portal-search-guide .search-note{display:block;margin:.1rem 0 .55rem;text-align:left}
+.portal-search-guide #explorations-status-legend{display:flex;justify-content:flex-start;flex-wrap:wrap;gap:.45rem .9rem;margin:0;padding:0}
+.portal-latest{display:grid;gap:.45rem;margin:.8rem 0 1rem;text-align:left;font-family:var(--ui);line-height:1.4}
+.portal-latest-row{display:grid;grid-template-columns:10.8rem minmax(0,1fr);gap:.4rem;align-items:baseline}
+.portal-latest dt{color:var(--meta);font-size:.8rem}
+.portal-latest dd{margin:0;min-width:0}
+.portal-latest a{color:var(--text);font-size:.9rem;text-decoration:underline;text-underline-offset:.17em}
+.portal-latest a:hover{color:var(--accent)}
+.portal-latest small{display:block;color:var(--meta);font-size:.75rem}
+@media(max-width:600px){.portal-latest-row{display:block}.portal-latest{gap:.6rem}.portal-latest dt{margin-bottom:.06rem}}

@@ -64,3 +64,22 @@ test('result text uses declared essay language, Swedish UI and unknown bibliogra
 test('metadata-enriched title search is labelled as metadata, not verified scientific support',async()=>{
  const h=await harness();try{await h.type('"Radiocarbon dates of two musk ox vertebrae"');assert.match(h.el('traffar').textContent,/Källtitel från bibliografiska metadata/);assert.match(h.el('traffar').querySelector('h2 a').href,/muskoxen-norway/);assert.ok(!h.el('traffar').textContent.includes('Verified'));assert.equal(h.el('traffar').querySelector('.snippet-evidence').getAttribute('lang'),'');}finally{h.close();}
 });
+test('only the search guidance and legend fold, with both latest links and the search field kept outside',async()=>{
+ const h=await harness();
+ try {
+  const d=h.w.document, help=d.querySelector('details.portal-search-help');
+  assert.equal(help.open,false);
+  assert.equal(help.querySelector('summary').getAttribute('aria-label'),'Sökhjälp och statussymboler');
+  assert.ok(help.contains(h.el('searchHelp')) && help.contains(h.el('explorations-status-legend')));
+  assert.equal(d.querySelectorAll('#explorations-status-legend').length,1);
+  assert.ok(!help.contains(h.el('searchInput')));
+  for (const row of d.querySelectorAll('.portal-latest-row')) {
+   assert.ok(!help.contains(row));
+   assert.ok(row.querySelector('a[href]'));
+  }
+  assert.deepEqual([...d.querySelectorAll('.portal-latest dt')].map(n=>n.textContent),['Senast från Redaktionen','Senaste essän']);
+  help.querySelector('summary').click();assert.equal(help.open,true);
+  help.querySelector('summary').click();assert.equal(help.open,false);
+  assert.equal(d.querySelector('.landing-actions a[href="timkronikan/"]').textContent,'Redaktionen');
+ } finally {h.close();}
+});

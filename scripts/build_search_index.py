@@ -183,3 +183,5 @@ if __name__ == "__main__":
     print(f"Krönikor: {build_chronicle_index(ROOT)} publicerade poster.")
     from build_sources_index import build as build_sources_index
     print(f"Källor: {build_sources_index(ROOT)} publicerade identiteter.")
+    from portal_latest import project as project_portal
+    project_portal(ROOT)

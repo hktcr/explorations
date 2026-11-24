@@ -6,7 +6,7 @@
     const results=document.getElementById('traffar'), status=document.getElementById('natverkStatus'), form=document.getElementById('searchForm');
     const all=document.getElementById('showAll'), home=document.getElementById('showSearch'), clear=document.getElementById('clearSearch'), retry=document.getElementById('retrySearch');
     const cards=Array.from(grid.querySelectorAll('.article-card')), slugs=cards.map(c=>c.getAttribute('href').split('/')[0]);
-    input.placeholder=chronicles?'Sök i essäer och krönikor…':'Sök i '+cards.length+' essäer…';
+    input.placeholder=chronicles?'Sök i essäer och Redaktionen…':'Sök i '+cards.length+' essäer…';
     const fallback=engine.prepare({schemaVersion:1,articles:cards.map(c=>({slug:c.getAttribute('href').split('/')[0],id:c.dataset.explorationId,title:c.querySelector('.card-title').textContent,subject:c.dataset.subject,excerpt:c.dataset.excerpt,language:c.closest('[lang]')?.lang||'',blocks:[],references:[]}))});
     let index=null, loading=null, broken=false, timer=null, generation=0, mode='home', relations=null;
     const readState=()=>window.explorationsReadFilter?.getState?.() || {hideRead:false,slugs:[]};
@@ -44,12 +44,12 @@
       retry.hidden=!limited;
       if(archive || chronicleLimited) {
         if(chronicleLimited) {
-          addText(results,'Krönikeindexet kunde inte hämtas. Essäerna kan fortfarande sökas.','p','search-empty');
+          addText(results,'Redaktionens index kunde inte hämtas. Essäerna kan fortfarande sökas.','p','search-empty');
           retry.hidden=false;
-        } else status.textContent+=' '+chronicleFound.length+' krönikor träffade.';
+        } else status.textContent+=' '+chronicleFound.length+' träffar i Redaktionen.';
       }
       if(archive && chronicleFound.length) {
-        addText(results,'Krönikor','h2','xr-search-group');
+        addText(results,'Redaktionen','h2','xr-search-group');
         for(const row of chronicleFound.slice(0,24)) results.appendChild(chronicles.card(row,archive));
         if(chronicleFound.length>24) addText(results,'De första 24 visas. Begränsa sökningen för fler relevanta träffar.','p','result-reason');
       }
