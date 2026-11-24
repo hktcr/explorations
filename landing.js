@@ -12,7 +12,12 @@
     const readState=()=>window.explorationsReadFilter?.getState?.() || {hideRead:false,slugs:[]};
     const isHidden=slug=>readState().hideRead && readState().slugs.includes(slug);
     const show=(el,on)=>{el.hidden=!on;el.classList.toggle('dold',!on);};
-    function setMode(next){mode=next;document.body.dataset.view=next;show(grid,next==='all');show(results,next==='results');home.hidden=next==='home';clear.hidden=!input.value;}
+    const networkLink = document.getElementById('portalNetworkSearch');
+    function syncNetworkLink() {
+      const term = input.value.trim().slice(0, 240);
+      networkLink.setAttribute('href', term ? 'natverk/?' + new URLSearchParams({q:term}) : 'natverk/');
+    }
+    function setMode(next){syncNetworkLink();mode=next;document.body.dataset.view=next;show(grid,next==='all');show(results,next==='results');home.hidden=next==='home';clear.hidden=!input.value;}
     function setURL(view,push=false){
       const url=new URL(location.href); const q=input.value.trim();
       if(q)url.searchParams.set('q',q);else url.searchParams.delete('q');
@@ -114,7 +119,7 @@
       clearTimeout(timer);++generation;input.value='';setMode(view);results.replaceChildren();retry.hidden=true;overview();setURL(view,push);
       if(view==='all')document.getElementById('overviewHeading').focus();else input.focus();
     }
-    input.addEventListener('input',()=>schedule());
+    input.addEventListener('input',()=>{syncNetworkLink();schedule();});
     form.addEventListener('submit',event=>{event.preventDefault();schedule(true);});
     all.addEventListener('click',()=>navigate('all'));
     home.addEventListener('click',()=>navigate('home'));

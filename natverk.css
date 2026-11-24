@@ -172,3 +172,35 @@ body.natverk-sida { height:100dvh; margin:0; overflow:hidden; background:var(--n
 .network-terms{display:flex;flex-wrap:wrap;gap:.45rem;list-style:none;padding:0}.network-terms[hidden]{display:none}.network-terms button{min-height:44px;max-width:100%;overflow-wrap:anywhere;font:inherit;color:var(--network-text);background:var(--network-card);border:1px solid var(--network-border);border-radius:.5rem;padding:.35rem .65rem}
 
 #natverk{touch-action:none} .network-terms li{min-width:0}.sok-kontroller{flex-wrap:wrap}
+
+#networkFormats { grid-column: 1 / -1; margin: 0; padding: .35rem clamp(.8rem, 2vw, 1.6rem) .45rem; border: 0; border-bottom: 1px solid var(--network-border); }
+#networkFormats[hidden], #networkSeriesLabel[hidden] { display: none; }
+#xrEssayNetwork:has(#networkFormats:not([hidden])) { grid-template-rows: auto minmax(0, 1fr); }
+#networkFormats legend { padding: 0; color: var(--network-muted); font: 600 .75rem/1.4 var(--network-ui); }
+.format-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .15rem 1rem; }
+.format-controls label { display: inline-flex; align-items: center; min-height: 44px; gap: .35rem; font: .85rem/1.4 var(--network-ui); }
+.format-controls input { accent-color: var(--network-accent); }
+.format-controls :is(button, select) { background: var(--network-card); color: var(--network-text); border: 1px solid var(--network-border); border-radius: .3rem; padding: .28rem .5rem; min-height: 32px; font: inherit; }
+.format-controls button[aria-pressed=true] { color: var(--network-heading); border-color: currentColor; }
+
+/* Give the archive and theme controls their own row on tablets and phones. */
+@media (max-width: 1100px) {
+  .natverk-sida .natverk-huvud {
+    position: relative;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: .45rem 1rem;
+  }
+  .natverk-sida .natverk-huvud-actions {
+    grid-column: 1 / -1;
+    min-width: 0;
+    justify-content: flex-start;
+  }
+  .natverk-sida .natverk-huvud-actions :is(.natverk-stang, .natverk-aterstall) { width: auto; }
+}
+#networkFormats { min-inline-size: 0; }
+
+/* In a crowded graph the adjacent list names every text. Reveal individual
+   labels on focus, selection and hover without stacking titles over one another. */
+#networkFormats:not([hidden]) ~ .natverk-graf #natverkNoder:has(.nod:nth-child(35)) .nod:not(.nod-vald, :focus-visible, :hover, [data-node-kind="collection"]) .nod-etikett { display: none; }
+#networkFormats:not([hidden]) ~ .natverk-graf #natverkNoder:has(.nod:nth-child(35)) .nod-prick { width: 16px; height: 16px; }

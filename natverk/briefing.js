@@ -1,7 +1,6 @@
 /* The catalogue supplies format membership and explicitly curated reading links. */
 (() => {
   'use strict';
-  if (new URL(location.href).searchParams.get('format') !== 'vetenskaplig-briefing') return;
   const category = 'Vetenskaplig briefing';
   const catalogue = '../vetenskaplig-briefing/';
   const byId = id => document.getElementById(id);
@@ -48,6 +47,8 @@
     return {nodes, edges};
   }
 
+  window.ExplorationsBriefingCatalogue = {load};
+  if (new URL(location.href).searchParams.get('format') !== 'vetenskaplig-briefing') return;
   document.title = category + ' · Nodnätverket · Explorations';
   document.querySelector('.natverk-huvud h1').textContent = category;
   const switchView = byId('xrBriefingNetwork');

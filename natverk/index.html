@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../natverk.css?v=20261109-teaching-1&amp;ui=20261124-ex10-1">
+<link rel="stylesheet" href="../natverk.css?v=20261109-teaching-1&amp;ui=20261124-format-1">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20261025-1" data-explorations-favicon="svg">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png?v=20261025-1" data-explorations-favicon="png">
 <link rel="shortcut icon" href="../favicon.ico?v=20261025-1" data-explorations-favicon="ico">
@@ -27,6 +27,17 @@
   <div class="natverk-huvud-actions"><a class="natverk-stang" href="../kallor/">Källor</a><a id="xrBriefingNetwork" class="natverk-stang" href="?format=vetenskaplig-briefing">Vetenskaplig briefing</a><a id="xrShowChronicles" class="natverk-stang" href="#kronikor">Redaktionen</a><button class="natverk-aterstall" id="natverkAterstall" type="button">Visa hela nätverket</button><span data-xr-theme-slot></span></div>
 </header>
 <main class="natverk-arbetsyta" id="xrEssayNetwork">
+  <fieldset id="networkFormats" hidden>
+    <legend>Visa format</legend>
+    <div class="format-controls">
+      <button type="button" id="networkAll" aria-pressed="true">Alla</button>
+      <label><input type="checkbox" value="essay"> Essäer</label>
+      <label><input type="checkbox" value="editorial"> Redaktionen</label>
+      <label><input type="checkbox" value="briefing"> Vetenskapliga briefingar</label>
+      <label>Månad <select id="networkMonth"><option value="">Alla månader</option></select></label>
+      <label id="networkSeriesLabel" hidden>Serie <select id="networkSeries"><option value="">Alla serier</option></select></label>
+    </div>
+  </fieldset>
   <section class="natverk-graf" id="natverk" tabindex="0" aria-label="Samband mellan Explorations essäer">
     <canvas id="natverkKanter" aria-hidden="true"></canvas>
     <nav id="natverkNoder" aria-label="Noder i sambandsnätverket"></nav>
@@ -113,7 +124,8 @@
 <script src="../chronicle-discovery.js?v=20261124-ex10-1" defer></script>
 <script src="../chronicle-topic-graph.js?v=20261124-c4-amnesfarger" defer></script>
 <script src="../chronicle-network.js?v=20261124-briefing-1" defer></script>
-<script src="briefing.js?v=20261124-2" defer></script>
-<script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261124-briefing-2" defer></script>
+<script src="briefing.js?v=20261124-format-1" defer></script>
+<script src="formatfilter.js?v=1" defer></script>
+<script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261124-format-1" defer></script>
 </body>
 </html>

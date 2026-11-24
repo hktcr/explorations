@@ -5,32 +5,41 @@ const fs=require('node:fs');
 const base='https://example.test/explorations/timkronikan/';
 const load=path=>fs.readFileSync('timkronikan/'+path,'utf8');
 const settle=async()=>{for(let i=0;i<30;i++)await Promise.resolve();};
-test('first click opens dialog and shows progress until matching rendered message; retry supported',()=>{
- const {window:w}=new JSDOM(load('index.html'),{runScripts:'outside-only',url:base});const d=w.document;
- try{
- const box=d.getElementById('kr-cloud'), trigger=d.querySelector('[data-kr-wordcloud]'), frame=d.getElementById('kr-frame');
- box.showModal=()=>box.setAttribute('open','');box.close=()=>{box.removeAttribute('open');box.dispatchEvent(new w.Event('close'));};
- let timers=new Map(), n=0;
- w.setTimeout=fn=>{timers.set(++n,fn);return n;};w.clearTimeout=i=>{timers.delete(i);};
- w.eval(load('kr-grid.js'));trigger.click();
- assert(box.open);assert(!d.getElementById('kr-loading').hidden);assert(frame.hasAttribute('data-loading'));
- w.dispatchEvent(new w.MessageEvent('message',{origin:'https://other.test',source:frame.contentWindow,data:{type:'explorations:wordcloud-ready'}}));
- assert(!d.getElementById('kr-loading').hidden);
- [...timers.values()][0]();
- assert(!d.getElementById('kr-cloud-error').hidden);
- d.getElementById('kr-retry').click();
- assert(!d.getElementById('kr-loading').hidden);
- w.dispatchEvent(new w.MessageEvent('message',{origin:w.location.origin,source:frame.contentWindow,data:{type:'explorations:wordcloud-ready'}}));
- assert(d.getElementById('kr-loading').hidden);assert(!frame.hasAttribute('data-loading'));
- box.close();assert.equal(d.activeElement,trigger);
- }finally{w.close();}
-});
-test('word sizes are native text level; visible words contain no numeric badges; results and slider stay intact',()=>{
- const {window:w}=new JSDOM(load('begrepp.html'));const d=w.document;
- for(const a of d.querySelectorAll('.begrepp-chip a')){
-  assert(!a.querySelector('.begrepp-count'));assert(a.querySelector('.begrepp-sr'));assert(a.parentElement.getAttribute('style').includes('--cloud-size:'));
+test('retired word cloud forwards to the network and remains absent from generated editions',()=>{
+ const redirect=new JSDOM(load('begrepp.html'),{url:base+'begrepp.html'}).window.document;
+ const target=new URL('../natverk/#kronikor',base).href;
+ assert.equal(redirect.querySelector('a').href,target);
+ assert.equal(redirect.querySelector('meta[http-equiv="refresh"]').content,'0; url=../natverk/#kronikor');
+ assert.equal(redirect.querySelector('script,iframe,.begrepp-cloud'),null);
+ const {readdirSync,readFileSync}=fs, path=require('node:path');
+ function check(folder){
+   for(const entry of readdirSync(folder,{withFileTypes:true})){
+     const name=path.join(folder,entry.name);
+     if(entry.isDirectory())check(name);
+     else if(entry.name.endsWith('.html')){
+       const html=readFileSync(name,'utf8');
+       assert.doesNotMatch(html,/data-kr-wordcloud|id="kr-cloud"|(?:src|href)="[^"]*(?:begrepp\.(?:html|js|css)|kr-grid\.js)/,name);
+     }
+   }
  }
- assert(d.querySelector('meter'));assert(d.querySelector('#begrepp-min'));w.close();
+ check('timkronikan');
+ const index=JSON.parse(fs.readFileSync('kronikor-index.json','utf8'));
+ const monthFiles=fs.readdirSync('timkronikan').filter(name=>/^20\d{2}-\d{2}\.html$/.test(name));
+ for(const name of monthFiles){
+   const month=new JSDOM(load(name),{url:base+name}).window.document;
+   for(const article of month.querySelectorAll('article[id^="inlagg-"]')){
+     const row=index.entries.find(entry=>entry.anchor===article.id);
+     assert.ok(row,article.id);
+     const links=[...article.querySelectorAll('[data-editorial-topic]')];
+     assert.deepEqual(links.map(a=>a.textContent).sort(),[...row.terms].sort(),article.id);
+     for(const a of links){
+       const href=new URL(a.href);
+       assert.equal(href.searchParams.get('rt'),a.textContent);
+       assert.equal(href.hash,'#kronikor');
+       assert.equal(href.pathname,'/explorations/natverk/');
+     }
+   }
+ }
 });
 test('manual article preference survives newer record detection and offers exactly one discreet recall',async()=>{
  const latest=JSON.parse(load('senaste.json'));

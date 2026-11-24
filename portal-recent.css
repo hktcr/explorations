@@ -1,20 +1,66 @@
-.recent-editions { margin:1.4rem 0; text-align:left; color:var(--text); }
-.recent-editions h2 { font:700 1.25rem/1.35 var(--body); margin:0 0 .65rem; }
-.recent-editions ul { list-style:none; padding:0; margin:0; }
-.recent-editions li { border-top:1px solid var(--line); padding:.44rem 0; overflow-wrap:anywhere; }
-.recent-editions a { display:inline-block; max-width:100%; position:relative; isolation:isolate; padding:.18em .38em; margin-inline-start:-.38em; font:600 1rem/1.46 var(--body); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.17em; color:inherit; }
-.recent-editions small { display:block; font:.78rem/1.45 var(--ui); color:var(--meta); }
-.recent-editions a:focus-visible { outline:2px solid currentColor; outline-offset:2px; }
-.recent-publication a { color:#ffdfa1; }
-.recent-publication a::before { content:""; position:absolute; inset:0; z-index:-1; border-radius:.18em; background:#483820; }
-html[data-theme="light"] .recent-publication a { color:#573811; }
-html[data-theme="light"] .recent-publication a::before { background:#fae6b7; }
-@media (prefers-reduced-motion:no-preference) {
-  .recent-enter.recent-publication a::before { animation:bronze-reveal 2.6s ease-out both; }
-  @keyframes bronze-reveal { from { clip-path:inset(0 100% 0 0); } to { clip-path:inset(0); } }
+.library-header h1 a { color: inherit; text-decoration: none; }
+
+.recent-editions {
+  max-width: 790px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  color: var(--text);
+  text-align: left;
 }
-.has-recent-editions .portal-latest, .has-recent-editions .portal-briefing [data-latest-briefing] { display:none; }
-body[data-view="results"] .recent-editions, body[data-view="all"] .recent-editions { display:none; }
-.recent-editions .recent-period { margin:0 0 .65rem; font:.84rem/1.45 var(--ui); color:var(--meta); }
-.library-header h1 a { color:inherit; text-decoration:none; }
-body[data-view="home"] .library-header { padding-top:clamp(2rem,8vh,6rem); }
+.recent-archive { border-top: 1px solid var(--line); }
+.recent-archive summary {
+  width: fit-content;
+  max-width: 100%;
+  padding: .8rem 0;
+  color: var(--text);
+  font: 500 .88rem/1.5 var(--ui);
+  cursor: pointer;
+}
+.recent-archive summary::marker { color: var(--meta); font-size: .72em; }
+#recentCount {
+  margin-inline-start: .6rem;
+  color: var(--meta);
+  font: .76rem/1.5 var(--ui);
+  white-space: nowrap;
+}
+.recent-editions ul { list-style: none; padding: 0; margin: .15rem 0 .8rem; }
+.recent-editions li { padding: .45rem 0 .45rem .8rem; overflow-wrap: anywhere; position: relative; }
+.recent-editions .recent-publication::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: .75rem;
+  width: 2px;
+  height: .7rem;
+  background: #ab8565;
+}
+html[data-theme="light"] .recent-publication::before { background: #805d43; }
+.recent-editions li a {
+  color: inherit;
+  font: 400 .98rem/1.5 var(--body);
+  text-decoration-color: transparent;
+  text-underline-offset: .2em;
+}
+.recent-editions li a:hover, .recent-editions li a:focus-visible { text-decoration-color: currentColor; }
+.recent-editions small, .recent-editions .recent-period {
+  display: block;
+  margin: .12rem 0 0;
+  color: var(--meta);
+  font: .75rem/1.5 var(--ui);
+}
+.recent-editions :is(a, summary):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+body[data-view="results"] .recent-editions, body[data-view="all"] .recent-editions { display: none; }
+
+.portal-network-search {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  min-height: 44px;
+  color: var(--text);
+  font: 600 .85rem/1.4 var(--ui);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: .25em;
+}
+.portal-network-search span { color: var(--head); }
+.portal-network-search:hover { text-decoration-color: currentColor; }

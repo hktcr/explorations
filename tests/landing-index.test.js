@@ -115,7 +115,7 @@ test('landing legend uses body contrast and home keeps one equivalent network li
  assert.match(css,/body\[data-search-ready=true\] #explorations-status-legend\{color:var\(--meta\)\}/);
  assert.match(css,/body\[data-view=home\] #natverkOppna\{display:none\}/);
  assert.ok(!css.includes('body[data-view=all] #natverkOppna{display:none}'));
- assert.match(html,/<a href="natverk\/">Utforska sambanden<\/a>/);
+ assert.match(html,/<a id="portalNetworkSearch"[^>]*href="natverk\/">Sök i nodnätverket/);
  assert.match(html,/<a id="natverkOppna" href="natverk\/">Visa nätverket<\/a>/);
  assert.match(html,/landing\.css\?v=20261124-briefing-2/);
 });

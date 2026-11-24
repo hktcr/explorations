@@ -163,6 +163,8 @@
     var editorialMode = document.body.dataset.networkMode === 'editorial';
     var embeddedMode = sourceMode || editorialMode;
     var briefing = !embeddedMode && window.ExplorationsBriefingNetwork;
+    var formats = !embeddedMode && !briefing && window.ExplorationsFormatFilter;
+    var corpus = null, projectionKey = '', textCount = 0;
     var topicAction = document.getElementById('natverkTopicAction');
     function signalParent(name, detail) {
       if (window.frameElement) window.frameElement.dispatchEvent(new CustomEvent('explorations:' + name, {detail: detail}));
@@ -232,7 +234,29 @@
       if (url.href !== location.href) history[push ? 'pushState' : 'replaceState'](null, '', url);
     }
     function renderList(filter) {
-      search = networkSearch(nodes, edges, savedTerms ? savedTerms.query() : filter, briefing ? 'briefing' : editorialMode);
+      var query = savedTerms ? savedTerms.query() : filter;
+      if (corpus) {
+        var metadata = networkSearch(corpus.nodes, [], query).matches;
+        var scope = corpus.projection(query, metadata);
+        textCount = scope.texts;
+        var key = JSON.stringify(scope.nodes.map(function(n){return n.slug;}));
+        if (key !== projectionKey) {
+          projectionKey = key;
+          networkData = {artiklar:scope.nodes};
+          relations = scope.edges;
+          buildInterface();
+          if (selected && !bySlug[selected]) {
+            selected = null; panelEmpty.hidden = false; panelContent.hidden = true;
+          }
+          startLayout();
+          if (selected) renderPanel(bySlug[selected]);
+        }
+      }
+      search = networkSearch(nodes, edges, query, briefing ? 'briefing' : editorialMode);
+      if (corpus && search.active) {
+        nodes.forEach(function(n) { if (n.format && !search.matches.has(n.slug)) search.matches.set(n.slug, ['text eller källtitel']); });
+        edges.forEach(function(e,i){search.links.add(i);});
+      }
       var visible = 0;
       nodes.forEach(function (node) {
         var show = !search.active || search.matches.has(node.slug);
@@ -245,7 +269,11 @@
       if (savedTerms) savedTerms.refresh(visible>0);
       listCount.textContent = String(visible);
       clearSearch.disabled = !listSearch.value;
-      if (briefing) {
+      if (corpus) {
+        searchStatus.textContent = textCount ? textCount + (textCount === 1 ? ' text' : ' texter') + ' i urvalet.' : 'Inga texter matchar. Ändra villkoren eller välj Visa hela nätverket.';
+        status.textContent = textCount + ' texter · ' + edges.length + ' kopplingar';
+        listCount.textContent = String(textCount);
+      } else if (briefing) {
         searchStatus.textContent = search.active ? visible + (visible === 1 ? ' träff i kategorin.' : ' träffar i kategorin.') : '';
       } else searchStatus.textContent = embeddedMode ? (search.active ? visible + ' träffar bland de visade noderna.' : '') : search.active ? (visible ? visible + ' direkta träffar, ' + search.links.size + ' granskade samband och ' + search.neighbors.size + ' kopplade essäer. Välj en träff för sambandstyp och motivering.' : 'Inga träffar. Prova andra ord eller rensa sökningen.') : '';
       refreshHighlights();
@@ -310,6 +338,11 @@
           sourceAction.setAttribute('aria-pressed', String(!!node.picked));
           sourceAction.onclick = function () { graph.dispatchEvent(new CustomEvent('explorations:sourcecondition', {detail:node.slug})); };
         }
+      } else if (corpus) {
+        panelRead.hidden = !node.href;
+        if (node.href) panelRead.href = node.href;
+        else panelRead.removeAttribute('href');
+        panelRead.textContent = node.format ? 'Läs texten' : 'Öppna formatet';
       } else if (briefing) {
         panelRead.href = node.href;
         panelRead.textContent = node.kind === 'category' ? 'Öppna formatkatalogen' : node.kind === 'essay-section' ? 'Läs essäavsnittet' : 'Läs briefingen';
@@ -323,7 +356,7 @@
         var button = document.createElement('button');
         button.type = 'button';
         button.className = 'relationspanel-valj';
-        button.innerHTML = '<span class="relationspanel-relationstyp">' + escapeHtml(embeddedMode || briefing ? item.edge.label : TYPE_LABELS[item.edge.type]) + '</span>'
+        button.innerHTML = '<span class="relationspanel-relationstyp">' + escapeHtml(item.edge.label || TYPE_LABELS[item.edge.type]) + '</span>'
           + '<span class="relationspanel-relationstitel">' + escapeHtml(item.node.titel) + '</span>'
           + '<span class="relationspanel-orsak">' + escapeHtml(item.edge.reason) + '</span>';
         button.addEventListener('click', function () { selectNode(item.node, true); });
@@ -344,7 +377,7 @@
       if (!listElements[node.slug].hidden && !fromHistory) listElements[node.slug].scrollIntoView({block:'nearest', behavior:'auto'});
       var count = relationsFor(node.slug).length;
       var kind = node.kind === 'category' ? 'formatkoppling' : 'koppling';
-      status.textContent = node.titel + ' vald. ' + count + (briefing ? ' ' + kind + (count === 1 ? '' : 'ar') + ' i panelen.' : editorialMode ? ' etikettkopplingar i panelen.' : sourceMode ? ' kopplingar i panelen.' : ' granskade samband i panelen.');
+      status.textContent = node.titel + ' vald. ' + count + (corpus ? ' kopplingar i urvalet.' : briefing ? ' ' + kind + (count === 1 ? '' : 'ar') + ' i panelen.' : editorialMode ? ' etikettkopplingar i panelen.' : sourceMode ? ' kopplingar i panelen.' : ' granskade samband i panelen.');
       if (!fromHistory) updateUrl(true);
       if (focusPanel && panelTitle) panelTitle.focus({preventScroll:true});
     }
@@ -355,7 +388,9 @@
       refreshHighlights();
       panelEmpty.hidden = false;
       panelContent.hidden = true;
-      if (briefing) {
+      if (corpus) {
+        status.textContent = textCount + ' texter · ' + edges.length + ' kopplingar';
+      } else if (briefing) {
         var texts = nodes.filter(function (node) { return node.kind === 'article'; }).length;
         status.textContent = 'Vetenskaplig briefing · ' + texts + (texts === 1 ? ' text' : ' texter');
       } else status.textContent = editorialMode ? nodes.length + ' noder och ' + edges.length + ' publicerade etikettkopplingar.' : sourceMode ? nodes.length + ' noder: ' + edges.filter(function(e){return !e.reviewed;}).length + ' källkopplingar och ' + edges.filter(function(e){return e.reviewed;}).length + ' granskade samband.' : nodes.length + ' essäer, ' + edges.length + ' granskade samband. Välj en essä eller nod.';
@@ -403,6 +438,10 @@
           selectNode(node, event.detail === 0);
           if (editorialMode && node.kind === 'topic') signalParent('editorialtopic', node.titel);
         });
+        if (corpus) {
+          graphButton.dataset.nodeKind = node.format || 'collection';
+          graphButton.dataset.nodeKey = node.slug;
+        }
         if (briefing) graphButton.dataset.nodeKind = node.kind;
         nodeLayer.appendChild(graphButton);
         nodeElements[node.slug] = graphButton;
@@ -430,11 +469,14 @@
       });
     }
     function tick() {
+      // Scale the preferred distance to the area available to a dense mixed-format graph.
+      var spacing = corpus ? Math.min(150, Math.sqrt(size.width * size.height / Math.max(1, nodes.length))) : 150;
+      var repulsion = 7600 * Math.pow(spacing / 150, 3);
       for (var i = 0; i < nodes.length; i += 1) {
         for (var j = i + 1; j < nodes.length; j += 1) {
           var a = nodes[i], b = nodes[j], dx = b.x - a.x, dy = b.y - a.y;
           var distance = Math.sqrt(dx * dx + dy * dy) || 1;
-          var force = 7600 / (distance * distance);
+          var force = repulsion / (distance * distance);
           dx /= distance;
           dy /= distance;
           a.vx -= dx * force;
@@ -446,7 +488,7 @@
       edges.forEach(function (edge) {
         var dx = edge.to.x - edge.from.x, dy = edge.to.y - edge.from.y;
         var distance = Math.sqrt(dx * dx + dy * dy) || 1;
-        var force = (distance - 150) * 0.01;
+        var force = (distance - spacing) * 0.01;
         dx /= distance;
         dy /= distance;
         edge.from.vx += dx * force;
@@ -560,6 +602,7 @@
     function restoreUrl() {
       if (embeddedMode || !networkData || chronicleMode()) return;
       if (savedTerms) savedTerms.sync();
+      if (corpus) corpus.sync();
       listSearch.value = new URL(location.href).searchParams.get('q') || '';
       renderList(listSearch.value);
       var slug = '';
@@ -579,7 +622,7 @@
     });
     window.addEventListener('popstate', restoreUrl);
     window.addEventListener('hashchange', restoreUrl);
-    reset.addEventListener('click', function () { listSearch.value = ''; if (savedTerms) savedTerms.clear(); renderList(''); clearSelection(); startLayout(); });
+    reset.addEventListener('click', function () { listSearch.value = ''; if (corpus) corpus.reset(); if (savedTerms) savedTerms.clear(); renderList(''); clearSelection(); startLayout(); });
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && !chronicleMode() && (!sourceMode || (!graph.closest('[hidden]') && graph.closest('#sourceGraph').contains(event.target)))) {
         if (listSearch.value) {
@@ -743,6 +786,26 @@
       var networkCheck = validateNetwork(data[0], slugs);
       var relationCheck = validateRelations(data[1], networkCheck.slugs || []);
       if (!networkCheck.valid || !relationCheck.valid || relationSignature(data[0]) !== relationSignature(data[1])) throw new Error('Nätverksdata är inte aktuell');
+      if (formats) {
+        return formats.load(data[0].artiklar, data[1].relations).then(function (controller) {
+          corpus = controller;
+          networkData = {artiklar:[]};
+          graph.setAttribute('aria-label', 'Samband mellan publicerade texter');
+          listSearch.placeholder = 'Sök i texter, ämnen och källtitlar…';
+          document.querySelector('label.essa-sok span').textContent = 'Sök i nätverket';
+          document.querySelector('.natverk-sidebar').setAttribute('aria-label', 'Texter och nodinformation');
+          document.getElementById('essaListaTitel').textContent = 'Texter och samlingar';
+          document.getElementById('essaSokHjalp').textContent = 'Alla sökord ska träffa samma text. Du kan också söka på en citerad källtitel.';
+          document.getElementById('essayRelationHelp').textContent = 'Välj en nod för att läsa om dess kopplingar. I Källor kan du filtrera på enskilda källor.';
+          document.getElementById('relationspanelRelationerTitel').textContent = 'Kopplingar i urvalet';
+          panelEmpty.textContent = 'Välj en text eller samling för att se dess kopplingar.';
+          for (var pair of [['legend-nod','Text eller samling'],['legend-kopplad','Kopplad nod'],['legend-linje','Koppling']]) {
+            var icon = document.querySelector('.natverk-legend .' + pair[0]);
+            icon.parentElement.replaceChildren(icon, pair[1]);
+          }
+          restoreUrl();
+        });
+      }
       networkData = data[0];
       relations = data[1].relations;
       buildInterface();

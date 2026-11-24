@@ -84,7 +84,8 @@ def entries(path, month, key, name, prefix):
             if item.tag == "p" and "meta" not in cs:
                 body.append(clean(item.text()))
             elif item.tag == "p" and item.text().lstrip().startswith("Begrepp:"):
-                terms += [clean(a.text()) for a in item.traverse("a") if a.attrs.get("href", "").startswith("begrepp.html#ord-")]
+                terms += [clean(a.text()) for a in item.traverse("a")
+                          if "data-editorial-topic" in a.attrs or a.attrs.get("href", "").startswith("begrepp.html#ord-")]
             elif item.tag == "p" and key == "halvtimmen" and "meta" in cs and "·" in item.text():
                 terms.append(clean(item.text().split("·")[-1]))
             elif item.tag == "aside" and "sources" in cs:

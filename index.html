@@ -44,8 +44,8 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 <link rel="shortcut icon" href="favicon.ico?v=20261025-1" data-explorations-favicon="ico">
 <link rel="stylesheet" href="explorations-theme.css?v=20261122-theme-1">
 <link rel="stylesheet" href="chronicle-discovery.css?v=20261122-chronicles-1">
-<link rel="stylesheet" href="portal-recent.css?v=1">
-<script src="portal-recent.js?v=1" defer></script>
+<link rel="stylesheet" href="portal-recent.css?v=2">
+<script src="portal-recent.js?v=2" defer></script>
 </head>
 <body data-network-release="20261109-teaching-1">
 <a class="skip-link" href="#mainContent" lang="sv">Till innehållet</a>
@@ -57,6 +57,7 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 <div id="explorations-status-legend" class="engagement-status-legend xr-library-legend" aria-label="Statussymboler i biblioteket"></div>
 <noscript><p lang="sv">Läst · Publicerad reflektion · Readwise-källa · Privata kommentarer på denna enhet</p></noscript></div>
 </details></div>
+<a id="portalNetworkSearch" class="portal-network-search" href="natverk/">Sök i nodnätverket <span aria-hidden="true">↗</span></a>
 <dl class="portal-latest" aria-label="Senaste publiceringar">
 <!-- portal-latest:start -->
 <div class="portal-latest-row" data-latest="redaktionen"><dt>Senast från Redaktionen</dt><dd><a href="timkronikan/reportage/2026-11-24-lunch.html">När fåglarna får företräde över Nordsjön</a><small>Reportage · Publicerad <time datetime="2026-11-24T13:52:07+00:00">24 november 2026 kl. 14.52</time></small></dd></div>
@@ -69,10 +70,10 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 <a data-latest-briefing href="vetenskaplig-briefing/bohrs-skalbild/"><span class="visually-hidden">Senaste briefing: </span>Vad visar Bohrs skalbild av en atom?</a>
 <!-- latest-briefing:end -->
 </div>
-<div class="landing-actions"><button type="button" id="showAll">Alla essäer</button><button type="button" id="showSearch" hidden>Till sökningen</button><a href="natverk/">Utforska sambanden</a><a href="kallor/" lang="sv">Källor</a><a href="timkronikan/" lang="sv">Redaktionen</a></div><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
-<section class="recent-editions" id="recentEditions" aria-labelledby="recentHeading" hidden>
-<h2 id="recentHeading" tabindex="-1">Senaste publiceringar</h2>
-<p class="recent-period">Guld markerar senaste dygnets nya titlar. Här finns också den senaste titeln i varje format. Tiderna är svenska.</p>
+<div class="landing-actions"><button type="button" id="showAll">Alla essäer</button><button type="button" id="showSearch" hidden>Till sökningen</button><a href="kallor/" lang="sv">Källor</a><a href="timkronikan/" lang="sv">Redaktionen</a></div><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
+<section class="recent-editions" id="recentEditions" aria-label="Publiceringsöversikt" lang="sv" hidden>
+<details class="recent-archive">
+<summary id="recentHeading">Publiceringsöversikt <span id="recentCount"></span></summary>
 <ul>
 <!-- portal-recent:start -->
 <li data-format="Timmen" data-order="0" data-published="2026-11-23T19:08:57Z" data-updated=""><a href="timkronikan/inlagg/inlagg-2026-11-23-2000.html">Fem togs upp efter nödlarm i Skagerrak</a><small>Timmen · Publicerad 23 november 2026 kl. 20.08</small></li>
@@ -92,6 +93,7 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 <li data-format="Vetenskaplig briefing" data-order="2" data-published="2026-11-24T20:26:36Z" data-updated=""><a href="vetenskaplig-briefing/bohrs-skalbild/">Vad visar Bohrs skalbild av en atom?</a><small>Vetenskaplig briefing · Publicerad 24 november 2026 kl. 21.26</small></li>
 <!-- portal-recent:end -->
 </ul>
+</details>
 <p id="recentCheck" class="recent-period"></p>
 </section>
 <div class="natverk-rad" lang="sv"><span id="natverkStatus" role="status" aria-live="polite" aria-atomic="true">Utforska biblioteket och dess granskade samband.</span><a id="natverkOppna" href="natverk/">Visa nätverket</a></div>
@@ -154,7 +156,7 @@ syncReadCards();
 </script>
 <script src="search-engine.js?v=20261109-teaching-1" defer></script>
 <script src="chronicle-discovery.js?v=20261124-ex10-1" defer></script>
-<script src="landing.js?v=20261124-briefing-2" defer></script>
+<script src="landing.js?v=20261124-network-search" defer></script>
 <script src="bibliotek.js?v=20261109-teaching-1&amp;build=20261025-library-a11y-3" defer></script>
 <script type="module" src="engagement/engagement.js?v=20260810-1" data-engagement-asset="runtime"></script>
 </body>

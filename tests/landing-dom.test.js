@@ -114,3 +114,20 @@ test('only the search guidance and legend fold, with both latest links and the s
   assert.equal(d.querySelector('.landing-actions a[href="timkronikan/"]').textContent,'Redaktionen');
  } finally {h.close();}
 });
+
+test('network search carries the current Swedish query and clears it on return to the portal', async () => {
+  const h = await harness();
+  try {
+    const link = h.el('portalNetworkSearch');
+    assert.equal(link.getAttribute('href'), 'natverk/');
+    await h.type('  fåglar & äldre  ');
+    const url = new URL(link.href);
+    assert.equal(url.origin, h.w.location.origin);
+    assert.equal(url.pathname, '/explorations/natverk/');
+    assert.equal(url.searchParams.get('q'), 'fåglar & äldre');
+    h.click('clearSearch');
+    assert.equal(link.getAttribute('href'), 'natverk/');
+  } finally {
+    h.close();
+  }
+});

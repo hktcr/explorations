@@ -9,7 +9,7 @@
   const interval = 5 * 60 * 1000;
   const clock = new Intl.DateTimeFormat('sv-SE', { timeZone:'Europe/Stockholm', dateStyle:'long', timeStyle:'medium' });
   const byPath = new Map(Array.from(list.children, row => [row.querySelector('a').getAttribute('href'), row]));
-  const seen = new Set();
+  const count = document.getElementById('recentCount');
   let lastGood = 0;
   let lastAttempt = 0;
   let polling;
@@ -105,17 +105,11 @@
       const show = fresh || revised || latest.get(item.format) === item || (!Number.isFinite(item.published) && item.order >= 0) || item.row.contains(focused);
       item.row.hidden = !show;
       item.row.classList.toggle('recent-publication', fresh);
-      const path = item.row.querySelector('a').getAttribute('href');
-      if (fresh && !seen.has(path)) {
-        seen.add(path);
-        item.row.classList.add('recent-enter');
-        item.row.addEventListener('animationend', () => item.row.classList.remove('recent-enter'), {once:true});
-      }
       if (show) visible.push(item);
     }
     const activity = item => Math.max(item.published <= now ? item.published : 0, item.updated <= now ? item.updated : 0);
     visible.sort((a, b) => activity(b) - activity(a) || b.order - a.order);
-    // Preserve focus and avoid replaying the entrance animation on visibility changes.
+    // Keep links and focus stable when the chronological order changes.
     const list = shelf.querySelector('ul');
     let cursor = list.firstElementChild;
     for (const item of visible) {
@@ -124,7 +118,31 @@
     }
     if (focused && focused !== document.activeElement && list.contains(focused)) focused.focus({preventScroll:true});
     shelf.hidden = !visible.length;
-    document.documentElement.classList.toggle('has-recent-editions', visible.length > 0);
+    const freshCount = visible.filter(item => recent(item.published)).length;
+    count.textContent = freshCount ? freshCount + ' senaste dygnet' : 'Senaste per format';
+    for (const [selector, formats] of [
+      ['[data-latest="redaktionen"]', ['Timmen', 'Halvtimmen', 'Reportage']],
+      ['[data-latest="essa"]', ['Essä']],
+      ['.portal-briefing', ['Vetenskaplig briefing']]
+    ]) {
+      const slot = document.querySelector(selector);
+      const entry = visible.find(item => formats.includes(item.format));
+      if (!entry || !slot) continue;
+      const link = slot.querySelector('dd a, [data-latest-briefing]');
+      if (!link) continue;
+      const source = entry.row.querySelector('a');
+      const path = source.getAttribute('href');
+      const changed = link.getAttribute('href') !== path;
+      if (changed) link.setAttribute('href', path);
+      // The briefing link also contains a screen-reader prefix. Keep that span in place.
+      const titleText = link.lastChild;
+      if (titleText?.nodeType === Node.TEXT_NODE && titleText.data !== source.textContent) titleText.data = source.textContent;
+      const meta = slot.querySelector('dd small');
+      if (meta && (changed || meta.dataset.dynamic === 'true')) {
+        meta.dataset.dynamic = 'true';
+        meta.textContent = entry.row.querySelector('small').textContent;
+      }
+    }
     if (Number.isFinite(next)) timer = setTimeout(refresh, Math.min(next - now, 2147483647));
   }
   refresh();
