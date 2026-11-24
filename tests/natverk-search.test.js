@@ -1,5 +1,5 @@
 'use strict';
-// Synthetic data only. DOM tests are not browser or screen-reader verification.
+// DOM interactions use synthetic data. The catalogue integrity test checks the published files.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -211,4 +211,49 @@ test('an invalid briefing catalogue cannot create membership or an external read
     assert.equal(h.el('natverkNoder').children.length, 0);
     assert.match(h.el('natverkStatus').textContent, /kunde inte läsas/);
   } finally {h.close();}
+});
+
+test('briefing reading links label the subject and open the exact essay section', async () => {
+  const related = '<a data-briefing-related="Magnetfält" data-essay-id="EXP#03" href="../falt/index.html#magnet">Fält i ett material</a>';
+  const entry = (id) => '<article><a data-briefing href="test-'+id+'/">Test '+id+'</a>'+related+'</article>';
+  const h = await harness('https://example.test/natverk/?format=vetenskaplig-briefing', entry('ett')+entry('tva'));
+  try {
+    const graph=h.el('natverkNoder');
+    const essay=graph.querySelector('a[data-node-kind="essay-section"]');
+    assert.equal(graph.querySelectorAll('[data-node-kind="essay-section"]').length,1);
+    assert.equal(essay.href,'https://example.test/falt/index.html#magnet');
+    assert.match(h.el('natverkStatus').textContent,/2 texter/);
+    graph.querySelector('[data-node-kind="category"]').click();
+    const buttons=()=>[...h.el('relationspanelLista').querySelectorAll('button')];
+    assert.deepEqual(buttons().map(b=>b.querySelector('.relationspanel-relationstyp').textContent),['Formattillhörighet','Formattillhörighet']);
+    buttons()[0].click();
+    assert.equal(h.el('relationspanelLas').textContent,'Läs briefingen');
+    const extension=buttons().find(b=>b.querySelector('.relationspanel-relationstyp').textContent==='Magnetfält');
+    extension.click();
+    assert.equal(h.el('relationspanelLas').textContent,'Läs essäavsnittet');
+    assert.equal(h.el('relationspanelLas').href,essay.href);
+    assert.equal(h.el('relationspanelMeta').textContent,'EXP#03');
+    h.query('test ett');
+    assert.ok(essay.classList.contains('nod-kopplad'));
+    assert.doesNotMatch(essay.getAttribute('aria-label'),/samma format/);
+  } finally {h.close();}
+});
+
+test('every published briefing subject link points to its named existing essay and a real section', () => {
+  const root=path.join(__dirname,'..');
+  const nodes=JSON.parse(fs.readFileSync(path.join(root,'natverk-index.json'),'utf8')).artiklar;
+  const catalog=new JSDOM(fs.readFileSync(path.join(root,'vetenskaplig-briefing/index.html'),'utf8'));
+  try {
+    const links=[...catalog.window.document.querySelectorAll('a[data-briefing-related]')];
+    assert.ok(links.some(a=>a.dataset.essayId==='EXP#27' && a.closest('article').querySelector('a[data-briefing]').getAttribute('href')==='elektricitet/'));
+    for (const a of links) {
+      const target=/^\.\.\/([a-z0-9-]+)\/index\.html#([a-z0-9-]+)$/.exec(a.getAttribute('href'));
+      assert.ok(target);
+      assert.ok(nodes.some(n=>n.slug===target[1] && n.id===a.dataset.essayId));
+      assert.ok(a.dataset.briefingRelated.trim());
+      const dest=new JSDOM(fs.readFileSync(path.join(root,target[1],'index.html'),'utf8'));
+      try { assert.match(dest.window.document.getElementById(target[2])?.tagName||'',/^H[1-6]$/); }
+      finally {dest.window.close();}
+    }
+  } finally {catalog.window.close();}
 });

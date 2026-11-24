@@ -82,14 +82,17 @@ body[data-view=results] .library-footer{margin-top:3rem}
 .portal-briefing {
   margin: .6rem 0 0;
   text-align: left;
-  font: 600 .9rem/1.4 var(--ui);
+  font: .9rem/1.4 var(--ui);
 }
+.portal-briefing h2 { margin: 0; font: 600 .85rem/1.4 var(--ui); }
 .portal-briefing a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  color: var(--head);
+  color: var(--text);
   text-underline-offset: .2em;
+  overflow-wrap: anywhere;
 }
+.portal-briefing h2 a { color: var(--head); }
 body[data-view="results"] .portal-briefing,
 body[data-view="all"] .portal-briefing { display: none; }

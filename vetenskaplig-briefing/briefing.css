@@ -14,3 +14,8 @@
 .brief-circuits figcaption { background: var(--paper); color: var(--ink); }
 .brief-circuits strong { display: block; }
 .brief-article .sources { font-size: .94em; }
+
+.brief-answer { margin-block: 1rem 1.5rem; border-block: 1px solid var(--line); }
+.brief-answer summary { min-block-size: 44px; padding: .55rem 0; color: var(--accent); cursor: pointer; font-family: var(--ui); }
+.brief-answer[open] summary { margin-block-end: .55rem; }
+.brief-links { display: flex; flex-wrap: wrap; gap: .35rem 1.25rem; }

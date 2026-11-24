@@ -37,7 +37,7 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 .no-results{grid-column:1/-1;text-align:center;padding:3rem;color:var(--meta);font-style:italic}
 @media(max-width:600px){.library-header h1{font-size:2rem}.articles-grid{grid-template-columns:1fr}}
 </style>
-<link rel="stylesheet" href="landing.css?v=20261124-briefing-1">
+<link rel="stylesheet" href="landing.css?v=20261124-briefing-2">
 <link rel="stylesheet" href="engagement/engagement.css" data-engagement-asset="style">
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261025-1" data-explorations-favicon="svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=20261025-1" data-explorations-favicon="png">
@@ -61,7 +61,12 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 <div class="portal-latest-row" data-latest="essa"><dt>Senaste essän</dt><dd><a href="the-lesson-that-leaves-room-to-think/index.html">The Lesson That Leaves Room to Think</a><small>Publicerad <time datetime="2026-11-24T06:13:00Z">24 november 2026 kl. 07.13</time></small></dd></div>
 <!-- portal-latest:end -->
 </dl>
-<h2 class="portal-briefing"><a href="vetenskaplig-briefing/">Vetenskaplig briefing</a></h2>
+<div class="portal-briefing portal-latest-row">
+<h2><a href="vetenskaplig-briefing/">Vetenskaplig briefing</a></h2>
+<!-- latest-briefing:start -->
+<a data-latest-briefing href="vetenskaplig-briefing/elektricitet/"><span class="visually-hidden">Senaste briefing: </span>Från blixt till lampa</a>
+<!-- latest-briefing:end -->
+</div>
 <div class="landing-actions"><button type="button" id="showAll">Alla essäer</button><button type="button" id="showSearch" hidden>Till sökningen</button><a href="natverk/">Utforska sambanden</a><a href="kallor/" lang="sv">Källor</a><a href="timkronikan/" lang="sv">Redaktionen</a></div><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
 <div class="natverk-rad" lang="sv"><span id="natverkStatus" role="status" aria-live="polite" aria-atomic="true">Utforska biblioteket och dess granskade samband.</span><a id="natverkOppna" href="natverk/">Visa nätverket</a></div>
 <button type="button" id="retrySearch" lang="sv" hidden>Försök hämta fulltextsökningen igen</button>
@@ -123,7 +128,7 @@ syncReadCards();
 </script>
 <script src="search-engine.js?v=20261109-teaching-1" defer></script>
 <script src="chronicle-discovery.js?v=20261124-ex10-1" defer></script>
-<script src="landing.js?v=20261124-briefing-1" defer></script>
+<script src="landing.js?v=20261124-briefing-2" defer></script>
 <script src="bibliotek.js?v=20261109-teaching-1&amp;build=20261025-library-a11y-3" defer></script>
 <script type="module" src="engagement/engagement.js?v=20260810-1" data-engagement-asset="runtime"></script>
 </body>

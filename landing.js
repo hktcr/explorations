@@ -30,7 +30,7 @@
     }
     function load(){
       if(index)return Promise.resolve(index);if(loading)return loading;
-      loading=fetch('landing-search-index.json?v=20261124-briefing-1').then(r=>{if(!r.ok)throw new Error('Index '+r.status);return r.json();}).then(data=>{
+      loading=fetch('landing-search-index.json?v=20261124-briefing-2').then(r=>{if(!r.ok)throw new Error('Index '+r.status);return r.json();}).then(data=>{
         if(data.releaseId!=='20261109-teaching-1'||data.articles?.length!==slugs.length||!slugs.every(s=>data.articles.some(a=>a.slug===s)))throw new Error('Index matchar inte biblioteket');
         const essays=engine.prepare(data);
         let briefings=null;

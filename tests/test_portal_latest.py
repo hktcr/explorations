@@ -104,3 +104,37 @@ class PortalEditions(TestCase):
             with self.assertRaisesRegex(ValueError,'tillkom inte'):
                 verify_and_project('redaktionen',href,commit)
         self.assertTrue(any('github-pages' in url for url in transport))
+
+
+class LatestBriefing(TestCase):
+    def test_home_uses_catalogue_order_and_preserves_other_formats(self):
+        from build_landing_search import published_briefings, project_latest_briefing
+
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            catalog = root / 'vetenskaplig-briefing'
+            catalog.mkdir()
+            home = root / 'index.html'
+            head = ('<div data-latest="redaktionen">Nyhet</div><div data-latest="essa">Essä</div>'
+                    '<h2><a href="vetenskaplig-briefing/">Vetenskaplig briefing</a></h2>')
+            start, end = '<!-- latest-briefing:start -->', '<!-- latest-briefing:end -->'
+            home.write_text(head + start + end)
+            links = []
+            for slug, title in [('alfa','Första'), ('zeta','Volt &amp; ampere')]:
+                (catalog/slug).mkdir()
+                (catalog/slug/'index.html').write_text(
+                    f'<html lang="sv"><article><h1>{title}</h1><p>Brödtext.</p></article></html>')
+                links.insert(0, f'<a data-briefing href="{slug}/">{title}</a>')
+                (catalog/'index.html').write_text('\n'.join(links))
+                briefings = published_briefings(root)
+                project_latest_briefing(home, briefings)
+                markup = home.read_text()
+                self.assertTrue(markup.startswith(head + start))
+                self.assertEqual(markup.count('data-latest-briefing'), 1)
+                self.assertIn(f'href="vetenskaplig-briefing/{slug}/"', markup)
+                self.assertIn(f'{title}</a>', markup)
+                project_latest_briefing(home, briefings)
+                self.assertEqual(markup, home.read_text())
+            (catalog/'index.html').write_text('<h1>Vetenskaplig briefing</h1>')
+            project_latest_briefing(home, published_briefings(root))
+            self.assertEqual(home.read_text(), head + start + '\n' + end)
