@@ -16,6 +16,7 @@
       "timkronikan/inlagg/halvtimmen-2026-11-24-0830.html",
       "timkronikan/inlagg/halvtimmen-2026-11-24-0900.html",
       "timkronikan/inlagg/halvtimmen-2026-11-24-0930.html",
+      "timkronikan/inlagg/halvtimmen-2026-11-24-1000.html",
       "timkronikan/inlagg/inlagg-2026-11-22-2100.html",
       "timkronikan/inlagg/inlagg-2026-11-22-2200.html",
       "timkronikan/inlagg/inlagg-2026-11-22-2300.html",
@@ -112,6 +113,10 @@
         "kind": "published",
         "at": "2026-11-24T13:28:43+00:00",
         "commit": "1a4456ed03ad281f7b09c17983baf514bd108ccc"
+      },
+      {
+        "href": "timkronikan/inlagg/halvtimmen-2026-11-24-1000.html",
+        "kind": "published"
       }
     ],
     "essa": [
