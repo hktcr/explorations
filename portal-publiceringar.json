@@ -34,6 +34,7 @@
       "timkronikan/inlagg/inlagg-2026-11-24-0900.html",
       "timkronikan/inlagg/inlagg-2026-11-24-1000.html",
       "timkronikan/reportage/2026-11-23-lunch.html",
+      "timkronikan/reportage/2026-11-24-lunch.html",
       "timkronikan/reportage/2026-11-24-varlden.html"
     ],
     "essa": [
@@ -119,6 +120,10 @@
         "kind": "published",
         "at": "2026-11-24T13:33:57+00:00",
         "commit": "769b961291fc472651729d1352ee28e4a82ed019"
+      },
+      {
+        "href": "timkronikan/reportage/2026-11-24-lunch.html",
+        "kind": "published"
       }
     ],
     "essa": [
