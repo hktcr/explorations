@@ -1,0 +1,24 @@
+.editor-reader { position:relative; margin:1rem 0; font-family:Inter,system-ui,sans-serif }
+.editor-reader [hidden] { display:none!important }
+.editor-steps { display:flex; flex-wrap:wrap; align-items:center; gap:.55rem; }
+.editor-reader a,.editor-reader button,.editor-reader summary { color:inherit; touch-action:manipulation }
+.editor-steps a,.editor-notice a,.editor-notice button,.editor-reader summary,.editor-drawer button {
+  border:1px solid var(--xr-border,#85797a); border-radius:.35rem; background:transparent;
+  padding:.45rem .65rem; font:inherit; cursor:pointer; text-underline-offset:.15em; min-height:2.65rem; box-sizing:border-box;
+}
+.editor-reader summary { width:fit-content; margin:.55rem 0 0; }
+.editor-reader :focus-visible { outline:2px solid currentColor; outline-offset:3px }
+.editor-drawer { position:relative; z-index:2; max-width:30rem; padding:1rem; border:1px solid var(--xr-border,#85797a);
+  border-radius:.55rem; margin-top:.35rem; background:var(--xr-bg,#f7f2eb); color:var(--xr-text,#222); }
+:root[data-theme="dark"] .editor-drawer,:root[data-theme="dark"] .editor-notice { background:#20282e; color:#f4eee3 }
+.editor-drawer label { display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.editor-drawer select { max-width:70%; color:inherit; background:transparent; border:1px solid currentColor; padding:.4rem; font:inherit; }
+.editor-drawer ul { list-style:none; margin:.55rem 0; padding:0; max-height:min(54vh,31rem); overflow:auto; }
+.editor-drawer li a { display:grid; padding:.55rem .25rem; text-decoration:none; border-bottom:1px solid var(--xr-border,#85797a); }
+.editor-drawer li a:is(:hover,:focus-visible) { text-decoration:underline }
+.editor-drawer li small { font-size:.75em; opacity:.82 }
+.editor-drawer a[aria-current="page"] { font-weight:700 }
+.editor-notice { box-sizing:border-box; position:fixed; z-index:300; max-width:26rem; right:max(.75rem,env(safe-area-inset-right)); bottom:max(.75rem,env(safe-area-inset-bottom)); left:auto; width:calc(100% - 1.5rem);
+ border:1px solid var(--xr-border,#85797a); color:var(--xr-text,#222); background:var(--xr-bg,#f7f2eb); box-shadow:0 8px 24px #0003; border-radius:.55rem; padding:.75rem; font-size:.92rem; }
+.editor-notice p { margin:0 0 .5rem }
+.editor-notice div { display:flex; flex-wrap:wrap; gap:.5rem }

@@ -42,3 +42,18 @@
 #begrepp-tema .begrepp-count{border:1px dashed var(--line);background:transparent}
 @media(max-width:400px){.begrepp-cloud .begrepp-chip a{font-size:min(var(--cloud-size),1.6rem)}}
 @media(prefers-reduced-motion:reduce){.begrepp-chip a{transition:none}}
+
+/* Immersive presentation; normal keyword results retain their reading column. */
+.begrepp-focus { margin:0; }
+.begrepp-focus>header,.begrepp-focus>footer,.begrepp-focus main>h1,.begrepp-focus main>.intro {display:none}
+.begrepp-focus #innehall {width:100%;max-width:none;padding:0;margin:0;box-sizing:border-box}
+.begrepp-focus #begrepp-search,.begrepp-focus #begrepp-threshold {margin:.25rem .65rem}
+.begrepp-focus #begrepp-search {display:flex;align-items:center;flex-wrap:wrap;gap:.35rem}
+.begrepp-focus #begrepp-status:empty {display:none}
+.begrepp-focus #begrepp-threshold {padding:.12rem .5rem}
+.begrepp-focus #begrepp-threshold .meta {display:none}
+.begrepp-focus nav[aria-label="Ordmoln med ordagranna träffar"] {margin:0}
+.begrepp-focus .begrepp-cloud {margin:0; min-height:calc(100dvh - 8rem); align-content:center; padding:clamp(.3rem,1.75vw,1.5rem); box-sizing:border-box;}
+.begrepp-focus .begrepp-cloud .begrepp-chip a {font-size:calc(var(--cloud-size,1rem) * 1.5)}
+.begrepp-focus .begrepp-result,.begrepp-focus #begrepp-tema{margin-inline:.7rem}
+@media(max-width:600px){.begrepp-focus .begrepp-cloud .begrepp-chip a{font-size:calc(var(--cloud-size,1rem) * 1.12)}}

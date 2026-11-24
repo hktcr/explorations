@@ -7,11 +7,21 @@ document.addEventListener("DOMContentLoaded",() => {
   const reset=document.getElementById("natverkAterstall"), title=document.getElementById("xrChronicleTitle");
   const branches=document.getElementById("xrChronicleBranches"), status=document.getElementById("xrChronicleStatus");
   const topics=document.getElementById("xrChronicleTopics"), query=document.getElementById("xrChronicleQuery"), results=document.getElementById("xrChronicleMatches");
-  let data, selection=null, term=null, limit=12, loading, wasOpen;
-  const matches=()=>[...data.entries.values()].filter(row=>!selection||row.series===selection);
+  const month=document.getElementById("xrChronicleMonth");
+  let wantedMonth="", data, selection=null, term=null, limit=12, loading, wasOpen;
+  const matchMonth=row=>!wantedMonth || row.date.slice(0,7)===wantedMonth;
+  const matches=()=>[...data.entries.values()].filter(row=>(!selection||row.series===selection)&&matchMonth(row));
+  function months(){
+    if(!month)return;
+    const valid=[...new Set([...data.entries.values()].map(x=>x.date.slice(0,7)))].sort().reverse();
+    const fmt=new Intl.DateTimeFormat('sv-SE',{month:'long',year:'numeric',timeZone:'UTC'});
+    month.replaceChildren(new Option('Alla månader',''),...valid.map(x=>new Option(fmt.format(new Date(x+'-01T00:00:00Z')),x)));
+    if(!valid.includes(wantedMonth))wantedMonth='';
+    month.value=wantedMonth;
+  }
   function renderRows() {
     if(!data)return;
-    const rows=api.search(data,query.value).filter(row=>(!selection||selection===row.series)&&(!term||row.terms.includes(term)));
+    const rows=api.search(data,query.value).filter(row=>(!selection||selection===row.series)&&matchMonth(row)&&(!term||row.terms.includes(term)));
     status.textContent=rows.length===1?"1 publicerat inlägg":rows.length+" publicerade inlägg";
     if(term)status.textContent+=" · "+term;
     results.replaceChildren();
@@ -25,7 +35,7 @@ document.addEventListener("DOMContentLoaded",() => {
   }
   function buttons() {
     branches.replaceChildren();
-    for (const col of [{id:null,title:"Alla krönikor",count:data.entries.size},...data.collections.values()]) {
+    for (const col of [{id:null,title:"Alla inlägg",count:data.entries.size},...data.collections.values()]) {
       const b=api.item("button",col.title+" · "+col.count,{type:"button",class:"xr-collection-button","aria-pressed":String(selection===col.id)});
       b.addEventListener("click",()=>{
         selection=col.id;term=null;limit=12;
@@ -52,19 +62,21 @@ document.addEventListener("DOMContentLoaded",() => {
   }
   function get() {
     if (loading || data) return;
-    loading=api.load("../").then(value=>{ data=value; buttons();renderRows(); })
+    loading=api.load("../").then(value=>{ data=value;months();buttons();renderRows(); })
       .catch(()=>{
-        status.textContent="Krönikeindexet kunde inte hämtas.";
+        status.textContent="Redaktionens index kunde inte hämtas.";
         const b=api.item("button","Försök igen",{type:"button",class:"xr-chronicle-more"});
-        b.addEventListener("click",()=>{ status.textContent="Läser krönikorna …";get(); });
+        b.addEventListener("click",()=>{ status.textContent="Läser inläggen …";get(); });
         results.replaceChildren(b);
       }).finally(()=>{loading=null;});
   }
   const sync=()=>{
     const open=location.hash==="#kronikor";panel.hidden=!open;essay.hidden=open;reset.hidden=open;
-    contrast.textContent=open?"Essäer":"Krönikor";contrast.href=open?"#essaer":"#kronikor";
+    contrast.textContent=open?"Essäer":"Redaktionen";contrast.href=open?"#essaer":"#kronikor";
     if(open){
       query.value=(new URL(location.href).searchParams.get("cq")||"").slice(0,240);
+      wantedMonth=(new URL(location.href).searchParams.get("month")||"").slice(0,7);
+      if(data){months();renderTopics();}
       get();renderRows();
     }
     if(wasOpen!==open)window.dispatchEvent(new CustomEvent("explorations:networkview"));
@@ -76,6 +88,11 @@ document.addEventListener("DOMContentLoaded",() => {
     if(url.href!==location.href)history.replaceState(history.state,"",url);
     limit=12;renderRows();
   }
+  month?.addEventListener("change",()=>{
+    wantedMonth=month.value;term=null;limit=12;
+    const url=new URL(location.href);if(wantedMonth)url.searchParams.set("month",wantedMonth);else url.searchParams.delete("month");
+    history.replaceState(history.state,"",url);renderTopics();renderRows();
+  });
   query.addEventListener("input",updateQuery);
   query.addEventListener("keydown", event=>{
     if(event.key==="Escape" && query.value) { event.preventDefault();query.value="";updateQuery(); }

@@ -28,7 +28,7 @@
   const trimText = (v, n) => typeof v === 'string' && v.trim() && v.length <= n;
   const isoDate = /^\d{4}-\d{2}-\d{2}$/;
   const time = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
-  const media = /^media\/[a-z0-9]+(?:[-_][a-z0-9]+)*\.(?:jpg|png|webp)$/;
+  const media = /^(?:halvtimmen\/)?media\/[a-z0-9]+(?:[-_][a-z0-9]+)*\.(?:jpg|png|webp)$/;
   const el = (tag, value, className) => {
     const n = document.createElement(tag);
     if (typeof value === 'string') n.textContent = value;
@@ -41,12 +41,15 @@
     if (u.origin !== root.origin || !u.pathname.startsWith(root.pathname) || !/^https?:$/.test(u.protocol)) throw new Error('Invalid destination');
     return u;
   }
-  function verify(payload) {
+  function verify(payload, archivedId) {
     if (!payload || payload.schema !== 1 || !payload.entry) throw new Error('No public entry');
     const x = payload.entry;
     if (!isoDate.test(x.date) || typeof x.date !== 'string' || typeof x.time !== 'string' || (x.time && !time.test(x.time))) throw new Error('Invalid slot');
     const expected = 'inlagg-' + x.date + (x.time ? '-' + x.time.replace(':','') : '');
-    if (x.id !== expected || x.href !== x.date.slice(0,7) + '.html#' + expected || typeof x.revision !== 'string' || !/^[a-f0-9]{64}$/.test(x.revision) ||
+    const expectedFile = (archivedId?.startsWith('reportage-') ? 'reportage/' : 'inlagg/') + archivedId + '.html';
+    const slot = x.date + (x.time ? '-' + x.time.replace(':','') : '');
+    const aligned = archivedId && (archivedId === expected || archivedId === 'halvtimmen-'+slot || archivedId === 'reportage-'+slot);
+    if ((archivedId ? !aligned || x.id !== archivedId || x.href !== expectedFile : x.id !== expected || x.href !== x.date.slice(0,7) + '.html#' + expected) || typeof x.revision !== 'string' || !/^[a-f0-9]{64}$/.test(x.revision) ||
         !trimText(x.title, 240) || !trimText(x.displayDate, 40) || !Array.isArray(x.paragraphs) || x.paragraphs.length < 1 ||
         x.paragraphs.length > 100 || x.paragraphs.some(p => !trimText(p, 12_000))) throw new Error('Invalid entry');
     sameSite(x.href);
@@ -54,7 +57,7 @@
     if (x.image) sameSite(x.image.path);
     return x;
   }
-  async function show(x, animate, epoch) {
+  async function show(x, animate, epoch, manual=false) {
     const contents = document.createDocumentFragment();
     const copy = el('div', null, 'skarm-copy');
     const meta = el('p', null, 'meta');
@@ -85,16 +88,18 @@
       figure.append(img,caption);
       contents.append(figure);
     }
-    const current = () => !paused && active && epoch === stageEpoch;
+    const current = () => (manual ? paused : !paused) && active && epoch === stageEpoch;
     if (!current()) return;
     const commit = () => {
       story.replaceChildren(contents);
       key = story.dataset.id = x.id;
       story.dataset.revision = x.revision;
+      if (typeof dispatchEvent === 'function' && typeof CustomEvent === 'function')
+        dispatchEvent(new CustomEvent('redaktionen:status',{detail:{id:key,manual}}));
     };
     // Leave the incoming image fully decoded before altering the current view.
     // Avoid detaching a link that someone is currently using via keyboard.
-    if (story.contains(document.activeElement)) return;
+    if (!manual && story.contains(document.activeElement)) return;
     if (!animate || !canMove()) { commit(); return; }
     try {
       story.setAttribute('aria-busy','true');
@@ -142,11 +147,43 @@
       plan(delay);
     }
   }
+  const validId = /^(?:inlagg|halvtimmen|reportage)-\d{4}-\d{2}-\d{2}(?:-\d{4})?$/;
+  async function select(id) {
+    const manual = validId.test(id || '');
+    endTransition();clearTimeout(timer);paused=manual;
+    pause.textContent=manual?'Till liveläget':'Pausa uppdatering';
+    if(!manual){
+      // Clear the chronological comparison once: we may be reading an archive item from another series.
+      key='';plan(0);return;
+    }
+    status.textContent='Läser från arkivet …';
+    const epoch=stageEpoch, ctl=new AbortController(), timeout=setTimeout(()=>ctl.abort(),15000);
+    try {
+      const resp=await fetch(sameSite('visning/'+id+'.json'),{cache:'no-store',redirect:'error',signal:ctl.signal});
+      if(!resp.ok || !/^application\/json\b/i.test(resp.headers.get('content-type')||''))throw Error();
+      const raw=await resp.text();
+      if(raw.length>1_300_000)throw Error();
+      const x=verify(JSON.parse(raw),id);
+      if(epoch!==stageEpoch)return;
+      await show(x,false,epoch,true);
+      if(epoch===stageEpoch)status.textContent='Läsläge. Inlägget byts inte automatiskt.';
+    }catch(_){if(epoch===stageEpoch)status.textContent='Inlägget gick inte att läsa. Prova igen eller gå till live.';}
+    finally{clearTimeout(timeout);}
+  }
+  const selectedUrl=()=>new URL(location.href).searchParams.get('las');
+  addEventListener('redaktionen:select',event=>select(event.detail?.id));
+  addEventListener('popstate',()=>select(selectedUrl()));
   pause.hidden = false;
   pause.addEventListener('click', () => {
+    if(selectedUrl()){
+      const u=new URL(location.href);u.searchParams.delete('las');
+      if(typeof history!=='undefined')history.pushState(null,'',u);select('');return;
+    }
     paused = !paused;
     pause.textContent = paused ? 'Fortsätt uppdatera' : 'Pausa uppdatering';
     status.textContent = paused ? 'Automatisk uppdatering är pausad.' : 'Kontrollerar om ett nytt inlägg har publicerats.';
+    if (typeof dispatchEvent === 'function' && typeof CustomEvent === 'function')
+      dispatchEvent(new CustomEvent('redaktionen:status',{detail:{id:story.dataset.id,manual:paused}}));
     if (paused) { endTransition(); clearTimeout(timer); }
     else plan(0);
   });
@@ -166,5 +203,6 @@
   addEventListener('pagehide', () => { active = false; endTransition(); clearTimeout(timer); });
   addEventListener('pageshow', event => { if (event.persisted) { active = true; plan(0); } });
   addEventListener('online', () => { delay = period; plan(0); });
-  plan(0);
+  const initial=selectedUrl();
+  if(validId.test(initial||'')) select(initial); else plan(0);
 })();

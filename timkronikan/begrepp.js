@@ -3,6 +3,13 @@
   'use strict';
   const search = document.getElementById('begrepp-search');
   if (!search) return;
+  const focusCloud=new URLSearchParams(location.search).get('visning')==='moln'&&window.parent!==window;
+  if(focusCloud){
+    document.body.classList.add('begrepp-focus');
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape')window.parent.postMessage({type:'explorations:wordcloud-close'},location.origin);
+    });
+  }
   const query = document.getElementById('begrepp-query');
   const status = document.getElementById('begrepp-status');
   const threshold = document.getElementById('begrepp-threshold');
@@ -63,5 +70,6 @@
     }
   });
   render();
+  if(focusCloud)requestAnimationFrame(()=>window.parent.postMessage({type:'explorations:wordcloud-ready'},location.origin));
   if (fromURL()) requestAnimationFrame(() => document.getElementById('ord-' + fromURL()).scrollIntoView({block:'start'}));
 })();

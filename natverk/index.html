@@ -23,7 +23,7 @@
     <h1>Nodnätverket</h1>
     <p id="natverkStatus" role="status" aria-live="polite">Laddar essäer och granskade samband…</p>
   </div>
-  <div class="natverk-huvud-actions"><a class="natverk-stang" href="../kallor/">Källor</a><a id="xrShowChronicles" class="natverk-stang" href="#kronikor">Krönikor</a><button class="natverk-aterstall" id="natverkAterstall" type="button">Visa hela nätverket</button><span data-xr-theme-slot></span></div>
+  <div class="natverk-huvud-actions"><a class="natverk-stang" href="../kallor/">Källor</a><a id="xrShowChronicles" class="natverk-stang" href="#kronikor">Redaktionen</a><button class="natverk-aterstall" id="natverkAterstall" type="button">Visa hela nätverket</button><span data-xr-theme-slot></span></div>
 </header>
 <main class="natverk-arbetsyta" id="xrEssayNetwork">
   <section class="natverk-graf" id="natverk" aria-label="Samband mellan Explorations essäer">
@@ -72,22 +72,23 @@
 </main>
 <section class="xr-chronicle-network" id="kronikor" aria-labelledby="xrChronicleTitle" hidden>
   <section class="xr-collections">
-    <h2 id="xrChronicleTitle" tabindex="-1">Krönikornas nätverk</h2>
+    <h2 id="xrChronicleTitle" tabindex="-1">Redaktionens nätverk</h2>
     <p>Välj en samling. Grenarna visar var inläggen hör hemma, inte granskade samband mellan texter.</p>
     <div class="xr-branches" id="xrChronicleBranches" aria-label="Samlingar"></div>
   </section>
-  <aside class="xr-chronicle-node-panel" aria-label="Krönikans inlägg">
-    <p id="xrChronicleStatus" role="status">Läser det publicerade krönikeindexet …</p>
-    <label for="xrChronicleQuery">Sök i krönikorna
+  <aside class="xr-chronicle-node-panel" aria-label="Redaktionens inlägg">
+    <p id="xrChronicleStatus" role="status">Läser Redaktionens index …</p>
+    <label for="xrChronicleQuery">Sök i Redaktionen
       <input id="xrChronicleQuery" type="search" maxlength="240" placeholder="Titel, ämne eller formulering">
     </label>
+    <label for="xrChronicleMonth">Månad <select id="xrChronicleMonth"><option value="">Alla månader</option></select></label>
     <div id="xrChronicleTopics" class="xr-topic-group" aria-label="Ämnen i den valda samlingen"></div>
     <div id="xrChronicleMatches"></div>
   </aside>
 </section>
 <script src="../search-engine.js?v=20261109-teaching-1" defer></script>
-<script src="../chronicle-discovery.js?v=20261122-chronicles-1" defer></script>
-<script src="../chronicle-network.js?v=20261123-citations-1" defer></script>
+<script src="../chronicle-discovery.js?v=20261123-redaktionen-1" defer></script>
+<script src="../chronicle-network.js?v=20261123-redaktionen-1" defer></script>
 <script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261123-citations-1" defer></script>
 </body>
 </html>
