@@ -78,3 +78,18 @@ body[data-view=results] .library-footer{margin-top:3rem}
 .portal-latest a:hover{color:var(--accent)}
 .portal-latest small{display:block;color:var(--meta);font-size:.75rem}
 @media(max-width:600px){.portal-latest-row{display:block}.portal-latest{gap:.6rem}.portal-latest dt{margin-bottom:.06rem}}
+
+.portal-briefing {
+  margin: .6rem 0 0;
+  text-align: left;
+  font: 600 .9rem/1.4 var(--ui);
+}
+.portal-briefing a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--head);
+  text-underline-offset: .2em;
+}
+body[data-view="results"] .portal-briefing,
+body[data-view="all"] .portal-briefing { display: none; }

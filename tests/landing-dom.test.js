@@ -15,6 +15,37 @@ async function harness(options={}){
  const el=id=>w.document.getElementById(id);
  return{dom,w,el,async type(q){el('searchInput').value=q;el('searchInput').dispatchEvent(new w.Event('input'));await delay();await tick();},click(id){el(id).click();},close(){assert.equal(w.localStorage.getItem('private-comment-sentinel'),'do-not-touch');dom.window.close();}};
 }
+test('main search opens a briefing in its own group and links to the matching passage',async()=>{
+ const data=json('landing-search-index.json');
+ data.briefings=[{slug:'prov',title:'Titel för provet',language:'sv',
+   blocks:[{kind:'body',text:'Ett testord för sökfönstret.',heading:'Avsnitt',anchor:'del'}],references:[]}];
+ const h=await harness({fetch:()=>Promise.resolve(response(data))});
+ try{
+  await h.type('"testord för sökfönstret"');
+  const results=h.el('traffar');
+  assert.deepEqual([...results.querySelectorAll('.xr-search-group')].map(n=>n.textContent),['Vetenskaplig briefing']);
+  assert.equal(results.querySelector('h2 a').getAttribute('href'),'vetenskaplig-briefing/prov/');
+  assert.equal(results.querySelector('.snippet-jump').getAttribute('href'),'vetenskaplig-briefing/prov/#del');
+  assert.match(results.querySelector('mark').textContent,/testord/);
+  assert.doesNotMatch(results.textContent,/Ingen träff|undefined/);
+ }finally{h.close();}
+});
+test('an older essay-only search index retains its full text while retry can recover briefings',async()=>{
+ const data=json('landing-search-index.json'),old={...data};
+ delete old.briefings;
+ let current=old;
+ const h=await harness({fetch:()=>Promise.resolve(response(current))});
+ try{
+  await h.type('"recalibrating global data center"');
+  assert.match(h.el('traffar').querySelector('h2 a').href,/ai-environmental-impact/);
+  assert.match(h.el('natverkStatus').textContent,/Sökuppgifter för Vetenskaplig briefing saknas/);
+  assert.equal(h.el('retrySearch').hidden,false);
+  current={...data,briefings:[]};
+  h.click('retrySearch');await tick();await tick();
+  assert.equal(h.el('retrySearch').hidden,true);
+  assert.match(h.el('natverkStatus').textContent,/0 träffar i Vetenskaplig briefing/);
+ }finally{h.close();}
+});
 test('landing starts with search; all original card nodes survive repeated overview transitions',async()=>{
  const h=await harness();try{const cards=[...h.el('articlesGrid').querySelectorAll('.article-card')];assert.equal(cards.length,37);assert.equal(h.w.document.body.dataset.view,'home');assert.ok(h.el('articlesGrid').hidden);
  for(let i=0;i<3;i++){h.click('showAll');assert.equal(h.w.document.body.dataset.view,'all');assert.ok(!h.el('articlesGrid').hidden);assert.equal(h.w.document.activeElement.id,'overviewHeading');h.click('showSearch');}

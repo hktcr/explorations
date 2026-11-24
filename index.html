@@ -37,7 +37,7 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 .no-results{grid-column:1/-1;text-align:center;padding:3rem;color:var(--meta);font-style:italic}
 @media(max-width:600px){.library-header h1{font-size:2rem}.articles-grid{grid-template-columns:1fr}}
 </style>
-<link rel="stylesheet" href="landing.css?v=20261124-portal-1">
+<link rel="stylesheet" href="landing.css?v=20261124-briefing-1">
 <link rel="stylesheet" href="engagement/engagement.css" data-engagement-asset="style">
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261025-1" data-explorations-favicon="svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=20261025-1" data-explorations-favicon="png">
@@ -49,9 +49,9 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 <a class="skip-link" href="#mainContent" lang="sv">Till innehållet</a>
 <header class="library-header" id="searchFirst"><h1>Explorations</h1><p>A growing library of deep dives into fascinating topics</p><span data-xr-theme-slot></span></header>
 <main id="mainContent" tabindex="-1">
-<div class="search-container" lang="sv"><div class="portal-search-line"><form id="searchForm" role="search"><label for="searchInput" class="visually-hidden">Sök i essäer, Redaktionens inlägg och källtitlar</label><input type="search" class="search-input" id="searchInput" aria-label="Sök i hela biblioteket" aria-describedby="searchHelp" placeholder="Vad vill du utforska?" autocomplete="off" maxlength="240"><button type="button" id="clearSearch" class="search-clear" aria-label="Rensa sökningen" hidden>×</button></form>
+<div class="search-container" lang="sv"><div class="portal-search-line"><form id="searchForm" role="search"><label for="searchInput" class="visually-hidden">Sök i essäer, Vetenskaplig briefing, Redaktionens inlägg och källtitlar</label><input type="search" class="search-input" id="searchInput" aria-label="Sök i hela biblioteket" aria-describedby="searchHelp" placeholder="Vad vill du utforska?" autocomplete="off" maxlength="240"><button type="button" id="clearSearch" class="search-clear" aria-label="Rensa sökningen" hidden>×</button></form>
 <details class="portal-search-help"><summary aria-label="Sökhjälp och statussymboler" title="Sökhjälp och statussymboler"><span aria-hidden="true">▾</span></summary>
-<div class="portal-search-guide"><p id="searchHelp" class="search-note">Sök i essäer, Redaktionens inlägg och tillgängliga källtitlar.<br>Använd ”citattecken” för en exakt fras. Inga externa källors fulltexter hämtas.</p>
+<div class="portal-search-guide"><p id="searchHelp" class="search-note">Sök i essäer, Vetenskaplig briefing, Redaktionens inlägg och tillgängliga källtitlar.<br>Använd ”citattecken” för en exakt fras. Inga externa källors fulltexter hämtas.</p>
 <div id="explorations-status-legend" class="engagement-status-legend xr-library-legend" aria-label="Statussymboler i biblioteket"></div>
 <noscript><p lang="sv">Läst · Publicerad reflektion · Readwise-källa · Privata kommentarer på denna enhet</p></noscript></div>
 </details></div>
@@ -60,7 +60,9 @@ html:not([data-theme="light"]):root{--bg:#121212;--text:#e0e0e0;--head:#e74c3c;-
 <div class="portal-latest-row" data-latest="redaktionen"><dt>Senast från Redaktionen</dt><dd><a href="timkronikan/reportage/2026-11-24-lunch.html">När fåglarna får företräde över Nordsjön</a><small>Reportage · Publicerad <time datetime="2026-11-24T13:52:07+00:00">24 november 2026 kl. 14.52</time></small></dd></div>
 <div class="portal-latest-row" data-latest="essa"><dt>Senaste essän</dt><dd><a href="the-lesson-that-leaves-room-to-think/index.html">The Lesson That Leaves Room to Think</a><small>Publicerad <time datetime="2026-11-24T06:13:00Z">24 november 2026 kl. 07.13</time></small></dd></div>
 <!-- portal-latest:end -->
-</dl><div class="landing-actions"><button type="button" id="showAll">Alla essäer</button><button type="button" id="showSearch" hidden>Till sökningen</button><a href="natverk/">Utforska sambanden</a><a href="kallor/" lang="sv">Källor</a><a href="timkronikan/" lang="sv">Redaktionen</a></div><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
+</dl>
+<h2 class="portal-briefing"><a href="vetenskaplig-briefing/">Vetenskaplig briefing</a></h2>
+<div class="landing-actions"><button type="button" id="showAll">Alla essäer</button><button type="button" id="showSearch" hidden>Till sökningen</button><a href="natverk/">Utforska sambanden</a><a href="kallor/" lang="sv">Källor</a><a href="timkronikan/" lang="sv">Redaktionen</a></div><div class="filter-row"><button type="button" class="read-filter" id="readFilter" aria-pressed="false">Dölj lästa (0)</button></div></div>
 <div class="natverk-rad" lang="sv"><span id="natverkStatus" role="status" aria-live="polite" aria-atomic="true">Utforska biblioteket och dess granskade samband.</span><a id="natverkOppna" href="natverk/">Visa nätverket</a></div>
 <button type="button" id="retrySearch" lang="sv" hidden>Försök hämta fulltextsökningen igen</button>
 <div id="traffar" class="dold" lang="sv" role="region" aria-label="Sökträffar"></div>
@@ -121,7 +123,7 @@ syncReadCards();
 </script>
 <script src="search-engine.js?v=20261109-teaching-1" defer></script>
 <script src="chronicle-discovery.js?v=20261124-ex10-1" defer></script>
-<script src="landing.js?v=20261124-portal-1" defer></script>
+<script src="landing.js?v=20261124-briefing-1" defer></script>
 <script src="bibliotek.js?v=20261109-teaching-1&amp;build=20261025-library-a11y-3" defer></script>
 <script type="module" src="engagement/engagement.js?v=20260810-1" data-engagement-asset="runtime"></script>
 </body>

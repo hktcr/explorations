@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Index local essay prose and bibliographic title lines, never fetched sources."""
+"""Index published essay and briefing prose and bibliographic title lines offline."""
 from __future__ import annotations
 from html.parser import HTMLParser
 from pathlib import Path
@@ -51,7 +51,11 @@ def source_container(n):
     return bool(n.classes & {'sources','sources-section','sources-list','references','reference-list','bibliography'}) or n.attrs.get('id','').lower() in {'sources','sources-and-verification','sources-and-reference-ledger','sources-further-reading','references','bibliography'}
 
 def extract(source, include_urls=False):
-    tree=Tree(); tree.feed(source); nodes=list(tree.root.walk())
+    tree=Tree(); tree.feed(source)
+    return extract_nodes(tree.root,include_urls)
+
+def extract_nodes(scope, include_urls=False, named_source_links=False):
+    nodes=list(scope.walk())
     references=[]; source_nodes=set(); seen=set(); problems=[]
     # Source lists normally have a semantic section/class. Older Frame has a
     # Sources heading followed by a plain list inside the essay itself.
@@ -70,6 +74,18 @@ def extract(source, include_urls=False):
     items=[n for n in items if not any(a in items for a in n.ancestors())]
     for n in items:
         links=[a for a in n.walk() if a.tag=='a' and re.match(r'https?://',a.attrs.get('href',''))]
+        if named_source_links and links:
+            section=next((a for a in n.ancestors() if source_container(a)),None)
+            section_anchor=''
+            if section:
+                section_anchor=section.attrs.get('id') or next((h.attrs['id'] for h in section.walk() if h.tag in {'h2','h3','h4'} and h.attrs.get('id')),'')
+            for link in links:
+                label=link.text(skip_meta=True)
+                anchor=link.attrs.get('id') or n.attrs.get('id') or section_anchor
+                if label and not GENERIC.match(label) and (anchor,label) not in seen:
+                    references.append({'title':label,'anchor':anchor,'kind':'bibliographic-title-line'})
+                    seen.add((anchor,label))
+            continue
         # A .sources section can also contain a related-essay list. Those local
         # navigation links are not bibliography; unlinked book titles are.
         if not links and any(a.tag=='a' for a in n.walk()): continue
@@ -129,8 +145,35 @@ def extract(source, include_urls=False):
             elif c.tag in structural: flush();visit(c,True)
             else: run.append(c.text())
         flush()
-    visit(tree.root)
+    visit(scope)
     return blocks,references,problems
+
+def published_briefings(root):
+    folder=root/'vetenskaplig-briefing'
+    catalog=Tree()
+    catalog.feed((folder/'index.html').read_text(encoding='utf-8'))
+    entries=[]
+    seen=set()
+    for link in catalog.root.walk():
+        if link.tag!='a' or 'data-briefing' not in link.attrs: continue
+        href=link.attrs.get('href','')
+        if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*/',href) or href in seen:
+            raise ValueError('Invalid or duplicate briefing catalog link: '+href)
+        seen.add(href)
+        page=Tree(); page.feed((folder/href/'index.html').read_text(encoding='utf-8'))
+        articles=[node for node in page.root.walk() if node.tag=='article']
+        if len(articles)!=1: raise ValueError('Expected one briefing article: '+href)
+        blocks,references,_=extract_nodes(articles[0],named_source_links=True)
+        headings=[n.text() for n in articles[0].walk() if n.tag=='h1']
+        title=link.text()
+        if not title or headings!=[title]:
+            raise ValueError('Briefing title differs from the catalog: '+href)
+        if not any(b['kind']=='body' for b in blocks): raise ValueError('Briefing has no searchable body: '+href)
+        language=next(n.attrs.get('lang','') for n in page.root.walk() if n.tag=='html')
+        entries.append({'slug':href[:-1],'title':title,'language':language,
+                        'blocks':[b for b in blocks if not (b['kind']=='heading' and b['text']==title)],
+                        'references':references})
+    return entries
 
 def load_title_enrichment(path):
     data=json.loads(path.read_text())
@@ -187,8 +230,9 @@ def build():
         articles.append({'slug':card['slug'],'id':card['id'],'title':card['titel'],'subject':card['amne'],'excerpt':card['excerpt'],'language':language,'blocks':blocks,'references':refs})
         audit.append({'slug':card['slug'],'bodyBlocks':sum(b['kind']=='body' for b in blocks),'headings':sum(b['kind']=='heading' for b in blocks),'referenceTitleLines':len(refs),'authoredReferenceTitleLines':authored_count,'enrichedReferenceTitles':enriched,'unresolvedTitles':problems})
     if matched!=set(records): raise ValueError('Stale or unauthorized title mapping: original URL/anchor must still match an unresolved source row')
-    payload={'schemaVersion':1,'releaseId':'20261109-teaching-1','generatorVersion':'1.3.1','scope':'Local essay prose, headings, authored bibliographic title lines and independently identity-reviewed title metadata. No source annotations or external fulltext. Metadata title identity is not scientific support verification.','articles':articles}
-    payload['contentHash']=hashlib.sha256(json.dumps(articles,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    briefings=published_briefings(ROOT)
+    payload={'schemaVersion':1,'releaseId':'20261109-teaching-1','generatorVersion':'1.4.0','scope':'Local essay and briefing prose, headings, authored bibliographic title lines and independently identity-reviewed title metadata. No source annotations or external fulltext. Metadata title identity is not scientific support verification.','articles':articles,'briefings':briefings}
+    payload['contentHash']=hashlib.sha256(json.dumps([articles,briefings],ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
     (ROOT/'landing-search-index.json').write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'))+'\n')
     (ROOT/'docs/search-index-audit.json').write_text(json.dumps({'articles':audit,'totalArticles':len(articles),'totalReferenceTitleLines':sum(len(a['references']) for a in articles),'totalAuthoredReferenceTitleLines':sum(a['authoredReferenceTitleLines'] for a in audit),'totalEnrichedReferenceTitleRows':sum(len(a['enrichedReferenceTitles']) for a in audit),'externalRequests':0,'externalRequestsScope':'Offline index generation only; prior metadata lookups are attributed in reference-title-enrichment.json.'},ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({'articles':len(articles),'referenceTitleLines':sum(len(a['references']) for a in articles),'unresolvedTitles':[a for a in audit if a['unresolvedTitles']],'bytes':(ROOT/'landing-search-index.json').stat().st_size,'contentHash':payload['contentHash']}))

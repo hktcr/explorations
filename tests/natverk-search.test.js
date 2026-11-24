@@ -38,7 +38,7 @@ test('numeric IDs, Unicode, single letters, empty and punctuation queries are ex
   }
   assert.equal(networkSearch(articles, relations, '  ').active, false);
 });
-async function harness(url='https://example.test/natverk/') {
+async function harness(url='https://example.test/natverk/', catalogue) {
   const dom = new JSDOM(fs.readFileSync(path.join(__dirname, '../natverk/index.html'), 'utf8'), {url, runScripts:'outside-only', pretendToBeVisual:true});
   await new Promise(resolve => setImmediate(resolve));
   const w = dom.window, media = new Map(), frames = new Map();
@@ -54,14 +54,20 @@ async function harness(url='https://example.test/natverk/') {
   w.HTMLElement.prototype.getBoundingClientRect = () => ({width:800, height:600});
   const ctx = {setTransform(){}, clearRect(){paints++;}, beginPath(){}, moveTo(){}, lineTo(){}, stroke(){}, arc(){}, fill(){}};
   w.HTMLCanvasElement.prototype.getContext = () => ctx;
-  w.fetch = async url => ({ok:true, json:async()=> url.includes('natverk-index') ? {schemaVersion:2, releaseId:RELEASE, artiklar:articles, kanter:relations} : {schemaVersion:1, releaseId:RELEASE, relations}});
+  const requested = [];
+  w.fetch = async url => {
+    requested.push(url);
+    if (url === '../vetenskaplig-briefing/') return {ok:true, text:async()=>catalogue};
+    return {ok:true, json:async()=>url.includes('natverk-index') ? {schemaVersion:2, releaseId:RELEASE, artiklar:articles, kanter:relations} : {schemaVersion:1, releaseId:RELEASE, relations}};
+  };
   w.localStorage.setItem('synthetic-private-sentinel', 'unchanged');
+  w.eval(fs.readFileSync(path.join(__dirname, '../natverk/briefing.js'), 'utf8'));
   w.eval(fs.readFileSync(path.join(__dirname, '../natverk.js'), 'utf8'));
   w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
   await new Promise(resolve => setImmediate(resolve));
   const el = id => w.document.getElementById(id);
   const query = text => {el('essaSok').value=text; el('essaSok').dispatchEvent(new w.Event('input'));};
-  return {w, el, query, frames, media, get paints(){return paints;},
+  return {w, el, query, frames, media, requested, get paints(){return paints;},
     visibility(value){hidden=value; w.document.dispatchEvent(new w.Event('visibilitychange'));},
     close(){assert.equal(w.localStorage.getItem('synthetic-private-sentinel'), 'unchanged'); w.close();}};
 }
@@ -163,5 +169,46 @@ test('chronicle Escape does not clear inactive essay search; returning reuses th
     h.w.history.pushState(null,'','?q=vatten&cq=PFAS#essaer');
     h.w.dispatchEvent(new h.w.CustomEvent('explorations:networkview'));
     assert.equal(h.el('natverkNoder').querySelectorAll('.nod-traff').length,2);
+  } finally {h.close();}
+});
+
+test('briefing category connects each catalogue entry to its real destination', async () => {
+  const menu = await harness();
+  const dest = menu.el('xrBriefingNetwork').href;
+  assert.equal(menu.requested.includes('../vetenskaplig-briefing/'), false);
+  menu.close();
+
+  const h = await harness(dest, '<a data-briefing href="test/">Syntetisk provtext</a><a href="arkiv/">Övrig navigering</a>');
+  try {
+    assert.deepEqual(h.requested, ['../vetenskaplig-briefing/']);
+    const graph = h.el('natverkNoder');
+    assert.equal(graph.children.length, 2);
+    const category = graph.querySelector('button[data-node-kind="category"]');
+    const reading = graph.querySelector('a[data-node-kind="article"]');
+    assert.equal(category.getAttribute('aria-label'), 'Vetenskaplig briefing');
+    assert.equal(reading.getAttribute('aria-label'), 'Syntetisk provtext');
+    assert.equal(reading.href, 'https://example.test/vetenskaplig-briefing/test/');
+    category.click();
+    assert.equal(h.el('relationspanelTitel').textContent, category.getAttribute('aria-label'));
+    assert.equal(h.el('relationspanelLas').href, 'https://example.test/vetenskaplig-briefing/');
+    const edge = h.el('relationspanelLista').querySelector('button');
+    assert.equal(edge.querySelector('.relationspanel-relationstyp').textContent, 'Formattillhörighet');
+    edge.click();
+    assert.equal(h.el('relationspanelTitel').textContent, 'Syntetisk provtext');
+    assert.equal(h.el('relationspanelLas').href, reading.href);
+    h.query('provtext');
+    assert.equal(graph.querySelector('.nod-traff'), reading);
+    assert.equal(graph.querySelector('.nod-kopplad'), category);
+    assert.equal(h.w.location.search.includes('format=vetenskaplig-briefing'), true);
+    assert.equal(h.el('xrShowChronicles').href, 'https://example.test/natverk/#kronikor');
+  } finally {h.close();}
+});
+
+test('an invalid briefing catalogue cannot create membership or an external reading link', async () => {
+  const h = await harness('https://example.test/natverk/?format=vetenskaplig-briefing',
+    '<a data-briefing href="https://example.org/private/">Fel källa</a>');
+  try {
+    assert.equal(h.el('natverkNoder').children.length, 0);
+    assert.match(h.el('natverkStatus').textContent, /kunde inte läsas/);
   } finally {h.close();}
 });

@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded",() => {
   "use strict";
   const api=window.ExplorationsChronicles, panel=document.getElementById("kronikor");
-  if (!api || !panel) return;
+  if (!api || !panel || new URL(location.href).searchParams.get("format") === "vetenskaplig-briefing") return;
   const essay=document.getElementById("xrEssayNetwork"), contrast=document.getElementById("xrShowChronicles");
   const reset=document.getElementById("natverkAterstall"), title=document.getElementById("xrChronicleTitle");
   const branches=document.getElementById("xrChronicleBranches"), status=document.getElementById("xrChronicleStatus");

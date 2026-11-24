@@ -114,7 +114,9 @@
   }
 
   // Network search is metadata relevance, independent of curated relation types.
-  function networkSearch(articles, relations, query, editorial) {
+  function networkSearch(articles, relations, query, projection) {
+    // The old boolean selects published editorial labels. Format nodes use catalogue membership.
+    var localEdgeKind = projection === true ? 'published-topic' : projection === 'briefing' ? 'format-member' : null;
     var terms = normalize(query).match(/[\p{L}\p{M}\p{N}]+/gu) || [];
     var active = String(query || '').trim().length > 0;
     var matches = new Map(), neighbors = new Set(), links = new Set();
@@ -129,7 +131,7 @@
       }
     });
     relations.forEach(function (edge, index) {
-      if ((edge.status === 'reviewed' || (editorial && edge.kind === 'published-topic')) && (matches.has(edge.a) || matches.has(edge.b))) {
+      if ((edge.status === 'reviewed' || (localEdgeKind && edge.kind === localEdgeKind)) && (matches.has(edge.a) || matches.has(edge.b))) {
         links.add(index);
         if (!matches.has(edge.a)) neighbors.add(edge.a);
         if (!matches.has(edge.b)) neighbors.add(edge.b);
@@ -160,6 +162,7 @@
     var sourceMode = document.body.dataset.networkMode === 'sources';
     var editorialMode = document.body.dataset.networkMode === 'editorial';
     var embeddedMode = sourceMode || editorialMode;
+    var briefing = !embeddedMode && window.ExplorationsBriefingNetwork;
     var topicAction = document.getElementById('natverkTopicAction');
     function signalParent(name, detail) {
       if (window.frameElement) window.frameElement.dispatchEvent(new CustomEvent('explorations:' + name, {detail: detail}));
@@ -167,7 +170,7 @@
     var scale = 1, panX = 0, panY = 0, pointer = null;
     var sourceHits = new Set(), sourceFiltering = false;
     var sourceAction = document.getElementById('natverkSourceAction');
-    function chronicleMode() { return location.hash === '#kronikor'; }
+    function chronicleMode() { return !briefing && location.hash === '#kronikor'; }
     var nodeLayer = document.getElementById('natverkNoder');
     var canvas = document.getElementById('natverkKanter');
     var status = document.getElementById('natverkStatus');
@@ -229,7 +232,7 @@
       if (url.href !== location.href) history[push ? 'pushState' : 'replaceState'](null, '', url);
     }
     function renderList(filter) {
-      search = networkSearch(nodes, edges, savedTerms ? savedTerms.query() : filter, editorialMode);
+      search = networkSearch(nodes, edges, savedTerms ? savedTerms.query() : filter, briefing ? 'briefing' : editorialMode);
       var visible = 0;
       nodes.forEach(function (node) {
         var show = !search.active || search.matches.has(node.slug);
@@ -242,7 +245,9 @@
       if (savedTerms) savedTerms.refresh(visible>0);
       listCount.textContent = String(visible);
       clearSearch.disabled = !listSearch.value;
-      searchStatus.textContent = embeddedMode ? (search.active ? visible + ' träffar bland de visade noderna.' : '') : search.active ? (visible ? visible + ' direkta träffar, ' + search.links.size + ' granskade samband och ' + search.neighbors.size + ' kopplade essäer. Välj en träff för sambandstyp och motivering.' : 'Inga träffar. Prova andra ord eller rensa sökningen.') : '';
+      if (briefing) {
+        searchStatus.textContent = search.active ? visible + (visible === 1 ? ' träff i kategorin.' : ' träffar i kategorin.') : '';
+      } else searchStatus.textContent = embeddedMode ? (search.active ? visible + ' träffar bland de visade noderna.' : '') : search.active ? (visible ? visible + ' direkta träffar, ' + search.links.size + ' granskade samband och ' + search.neighbors.size + ' kopplade essäer. Välj en träff för sambandstyp och motivering.' : 'Inga träffar. Prova andra ord eller rensa sökningen.') : '';
       refreshHighlights();
     }
     function refreshHighlights() {
@@ -264,7 +269,7 @@
           var pressed = editorialMode && node.kind === 'topic' ? node.picked : current;
           element.setAttribute('aria-pressed', String(pressed));
         }
-        element.setAttribute('aria-label', (editorialMode ? (node.kind === 'article' ? 'Läs artikeln ' : 'Välj ämnesetiketten ') : '') + node.titel + (search.active ? direct ? '. Direkt sökträff i ' + search.matches.get(slug).join(' och ') : connected ? (editorialMode ? '. Etikettkoppling till sökträff' : '. Granskat samband med sökträff') : '. Ingen direkt sökträff' : ''));
+        element.setAttribute('aria-label', (editorialMode ? (node.kind === 'article' ? 'Läs artikeln ' : 'Välj ämnesetiketten ') : '') + node.titel + (search.active ? direct ? '. Direkt sökträff i ' + search.matches.get(slug).join(' och ') : connected ? (briefing ? '. Tillhör samma format' : editorialMode ? '. Etikettkoppling till sökträff' : '. Granskat samband med sökträff') : '. Ingen direkt sökträff' : ''));
         if (embeddedMode && sourceFiltering && !node.source && node.kind !== 'topic') element.setAttribute('aria-description',conditionHit ? 'Uppfyller alla valda villkor' : 'Uppfyller inte alla valda villkor');
         else element.removeAttribute('aria-description');
         listElements[slug].classList.toggle('essa-vald', current);
@@ -305,6 +310,9 @@
           sourceAction.setAttribute('aria-pressed', String(!!node.picked));
           sourceAction.onclick = function () { graph.dispatchEvent(new CustomEvent('explorations:sourcecondition', {detail:node.slug})); };
         }
+      } else if (briefing) {
+        panelRead.href = node.href;
+        panelRead.textContent = node.kind === 'category' ? 'Öppna formatkatalogen' : 'Läs briefingen';
       } else {
         panelRead.href = root + node.slug + '/index.html';
         panelRead.setAttribute('aria-label', 'Läs essän ' + node.titel);
@@ -315,7 +323,7 @@
         var button = document.createElement('button');
         button.type = 'button';
         button.className = 'relationspanel-valj';
-        button.innerHTML = '<span class="relationspanel-relationstyp">' + escapeHtml(embeddedMode ? item.edge.label : TYPE_LABELS[item.edge.type]) + '</span>'
+        button.innerHTML = '<span class="relationspanel-relationstyp">' + escapeHtml(embeddedMode || briefing ? item.edge.label : TYPE_LABELS[item.edge.type]) + '</span>'
           + '<span class="relationspanel-relationstitel">' + escapeHtml(item.node.titel) + '</span>'
           + '<span class="relationspanel-orsak">' + escapeHtml(item.edge.reason) + '</span>';
         button.addEventListener('click', function () { selectNode(item.node, true); });
@@ -334,7 +342,7 @@
       renderPanel(node);
       refreshHighlights();
       if (!listElements[node.slug].hidden && !fromHistory) listElements[node.slug].scrollIntoView({block:'nearest', behavior:'auto'});
-      status.textContent = node.titel + ' vald. ' + relationsFor(node.slug).length + (editorialMode ? ' etikettkopplingar i panelen.' : sourceMode ? ' kopplingar i panelen.' : ' granskade samband i panelen.');
+      status.textContent = node.titel + ' vald. ' + relationsFor(node.slug).length + (briefing ? ' formatkopplingar i panelen.' : editorialMode ? ' etikettkopplingar i panelen.' : sourceMode ? ' kopplingar i panelen.' : ' granskade samband i panelen.');
       if (!fromHistory) updateUrl(true);
       if (focusPanel && panelTitle) panelTitle.focus({preventScroll:true});
     }
@@ -345,7 +353,9 @@
       refreshHighlights();
       panelEmpty.hidden = false;
       panelContent.hidden = true;
-      status.textContent = editorialMode ? nodes.length + ' noder och ' + edges.length + ' publicerade etikettkopplingar.' : sourceMode ? nodes.length + ' noder: ' + edges.filter(function(e){return !e.reviewed;}).length + ' källkopplingar och ' + edges.filter(function(e){return e.reviewed;}).length + ' granskade samband.' : nodes.length + ' essäer, ' + edges.length + ' granskade samband. Välj en essä eller nod.';
+      if (briefing) {
+        status.textContent = 'Vetenskaplig briefing · ' + edges.length + (edges.length === 1 ? ' text' : ' texter');
+      } else status.textContent = editorialMode ? nodes.length + ' noder och ' + edges.length + ' publicerade etikettkopplingar.' : sourceMode ? nodes.length + ' noder: ' + edges.filter(function(e){return !e.reviewed;}).length + ' källkopplingar och ' + edges.filter(function(e){return e.reviewed;}).length + ' granskade samband.' : nodes.length + ' essäer, ' + edges.length + ' granskade samband. Välj en essä eller nod.';
       if (!fromHistory) updateUrl(true);
     }
     function buildInterface() {
@@ -360,7 +370,7 @@
         return Object.assign({}, edge, {from:bySlug[edge.a], to:bySlug[edge.b]});
       });
       nodes.forEach(function (node) {
-        var articleLink = editorialMode && node.kind === 'article';
+        var articleLink = (editorialMode || briefing) && node.kind === 'article';
         var graphButton = document.createElement(articleLink ? 'a' : 'button');
         if (articleLink) {
           graphButton.href = node.href;
@@ -390,6 +400,7 @@
           selectNode(node, event.detail === 0);
           if (editorialMode && node.kind === 'topic') signalParent('editorialtopic', node.titel);
         });
+        if (briefing) graphButton.dataset.nodeKind = node.kind;
         nodeLayer.appendChild(graphButton);
         nodeElements[node.slug] = graphButton;
 
@@ -709,6 +720,19 @@
         reviewed = data[1].relations;
         if(sourcePayload && !graph.closest('[hidden]')) applySource(Object.assign({},sourcePayload,{fromAction:false}));
       }).catch(function(){ /* citation lookup is still available */ });
+      return;
+    }
+    if (briefing) {
+      briefing.load().then(function (data) {
+        networkData = {artiklar:data.nodes};
+        relations = data.edges;
+        buildInterface();
+        startLayout();
+        restoreUrl();
+      }).catch(function () {
+        status.textContent = 'Formatkatalogen kunde inte läsas.';
+        graph.classList.add('natverk-fel');
+      });
       return;
     }
     Promise.all([fetchJson('natverk-index.json'), fetchJson('relations-curated.json')]).then(function (data) {

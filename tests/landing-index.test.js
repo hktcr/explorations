@@ -1,5 +1,25 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),cp=require('node:child_process'),path=require('node:path');
 const ROOT=path.join(__dirname,'..'), E=require('../search-engine.js');
+test('briefings index the catalogued article and source titles, excluding navigation and unlisted drafts',()=>{
+ const tmp=fs.mkdtempSync(path.join(require('node:os').tmpdir(),'briefing-search-'));
+ try{
+  const folder=path.join(tmp,'vetenskaplig-briefing');
+  const write=(file,text)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,text);};
+  const catalog=path.join(folder,'index.html');
+  write(catalog,'<a data-briefing href="prov/">Testtitel</a>');
+  write(path.join(folder,'prov','index.html'),'<html lang="sv"><body><p>Utanför artikeln</p><article><h1>Testtitel</h1><h2 id="del">Avsnitt</h2><p>Unikt provord.</p><section class="sources"><h2 id="kallor">Källor</h2><ol><li><a href="https://example.org/">Provets källtitel</a> och <a id="ref-2" href="https://example.org/2">Andra källtiteln</a></li></ol></section></article></body></html>');
+  write(path.join(folder,'utkast','index.html'),'<article><h1>Utkast</h1></article>');
+  const generate=()=>cp.execFileSync('python3',['-c',"import json,sys;from pathlib import Path;sys.path.insert(0,'scripts');from build_landing_search import published_briefings;print(json.dumps(published_briefings(Path(sys.argv[1]))))",tmp],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','pipe']});
+  const [post]=JSON.parse(generate());
+  assert.equal(post.slug,'prov');assert.equal(post.title,'Testtitel');assert.equal(post.language,'sv');
+  assert.deepEqual(post.references.map(r=>[r.title,r.anchor]),[['Provets källtitel','kallor'],['Andra källtiteln','ref-2']]);
+  assert.ok(post.blocks.some(b=>b.anchor==='del' && b.text==='Unikt provord.'));
+  assert.equal(JSON.parse(generate()).length,1);
+  assert.doesNotMatch(JSON.stringify(post.blocks),/Utanför artikeln|Utkast|källtitel/);
+  write(catalog,'<a data-briefing href="../utkast/">Utkast</a>');
+  assert.throws(generate,/Invalid or duplicate briefing catalog link/);
+ }finally{fs.rmSync(tmp,{recursive:true,force:true});}
+});
 test('index regenerates deterministically and contains all current 37 essays including dynamic fragments',()=>{
  const before=fs.readFileSync(path.join(ROOT,'landing-search-index.json'));cp.execFileSync('python3',['scripts/build_landing_search.py'],{cwd:ROOT});
  assert.deepEqual(fs.readFileSync(path.join(ROOT,'landing-search-index.json')),before);
@@ -97,7 +117,7 @@ test('landing legend uses body contrast and home keeps one equivalent network li
  assert.ok(!css.includes('body[data-view=all] #natverkOppna{display:none}'));
  assert.match(html,/<a href="natverk\/">Utforska sambanden<\/a>/);
  assert.match(html,/<a id="natverkOppna" href="natverk\/">Visa nätverket<\/a>/);
- assert.match(html,/landing\.css\?v=20261124-portal-1/);
+ assert.match(html,/landing\.css\?v=20261124-briefing-1/);
 });
 test('all current article language declarations are preserved in the index',()=>{
  const d=JSON.parse(fs.readFileSync(path.join(ROOT,'landing-search-index.json')));

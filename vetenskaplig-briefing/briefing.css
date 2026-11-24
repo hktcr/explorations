@@ -1,0 +1,16 @@
+.brief-catalog { max-width: 50rem; }
+.brief-entry { padding-block: 1.5rem 2rem; border-block: 1px solid var(--line); }
+.brief-entry h2 { margin: 0 0 .65rem; font-size: clamp(1.4rem, 3.5vw, 2.2rem); }
+.brief-entry h2 a { display: inline-block; padding-block: .35rem; }
+.brief-catalog .anchor-bar { margin-inline: 0; }
+.brief-article { max-width: 43rem; margin-inline: auto; }
+.brief-article .story-body { margin-inline: auto; }
+.brief-article figure { margin-block: 1.6rem; }
+.brief-article img { max-width: 100%; height: auto; object-fit: contain; }
+.brief-article .deck { max-width: none; }
+.brief-article li { margin-block: .6em; }
+.brief-circuits { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1rem; }
+.brief-circuits figure { margin: 0; border: 1px solid var(--line); }
+.brief-circuits figcaption { background: var(--paper); color: var(--ink); }
+.brief-circuits strong { display: block; }
+.brief-article .sources { font-size: .94em; }

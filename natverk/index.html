@@ -24,7 +24,7 @@
     <h1>Nodnätverket</h1>
     <p id="natverkStatus" role="status" aria-live="polite">Laddar essäer och granskade samband…</p>
   </div>
-  <div class="natverk-huvud-actions"><a class="natverk-stang" href="../kallor/">Källor</a><a id="xrShowChronicles" class="natverk-stang" href="#kronikor">Redaktionen</a><button class="natverk-aterstall" id="natverkAterstall" type="button">Visa hela nätverket</button><span data-xr-theme-slot></span></div>
+  <div class="natverk-huvud-actions"><a class="natverk-stang" href="../kallor/">Källor</a><a id="xrBriefingNetwork" class="natverk-stang" href="?format=vetenskaplig-briefing">Vetenskaplig briefing</a><a id="xrShowChronicles" class="natverk-stang" href="#kronikor">Redaktionen</a><button class="natverk-aterstall" id="natverkAterstall" type="button">Visa hela nätverket</button><span data-xr-theme-slot></span></div>
 </header>
 <main class="natverk-arbetsyta" id="xrEssayNetwork">
   <section class="natverk-graf" id="natverk" tabindex="0" aria-label="Samband mellan Explorations essäer">
@@ -59,7 +59,7 @@
       </div>
       <ul class="network-terms" id="essayTerms" aria-label="Valda sökvillkor" hidden></ul>
       <p id="essaSokHjalp" class="sok-hjalp">Sökrelevans: alla sökord ska finnas i titel, ämne, essä-id eller nyckelord. Heldragen ring visar en direkt träff; streckad ring visar en kopplad essä.</p>
-      <p class="sok-hjalp">Sambandstyp och motivering visas när du väljer en essä. En textträff betyder inte ett starkare vetenskapligt samband. Puls och flöde visar sökfokus, inte sambandets styrka eller riktning.</p>
+      <p class="sok-hjalp" id="essayRelationHelp">Sambandstyp och motivering visas när du väljer en essä. En textträff betyder inte ett starkare vetenskapligt samband. Puls och flöde visar sökfokus, inte sambandets styrka eller riktning.</p>
       <p id="essaSokStatus" class="sok-status" role="status" aria-live="polite" aria-atomic="true"></p>
       <ol class="essa-lista" id="essaLista"></ol>
     </section>
@@ -112,7 +112,8 @@
 <script src="../search-engine.js?v=20261109-teaching-1" defer></script>
 <script src="../chronicle-discovery.js?v=20261124-ex10-1" defer></script>
 <script src="../chronicle-topic-graph.js?v=20261124-c4-amnesfarger" defer></script>
-<script src="../chronicle-network.js?v=20261124-c4" defer></script>
-<script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261124-c4" defer></script>
+<script src="../chronicle-network.js?v=20261124-briefing-1" defer></script>
+<script src="briefing.js?v=20261124-1" defer></script>
+<script src="../natverk.js?v=20261109-teaching-1&amp;ui=20261124-briefing-1" defer></script>
 </body>
 </html>

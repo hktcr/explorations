@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 164" role="img" aria-labelledby="title desc">
+  <title id="title">Sluten krets</title><desc id="desc">Batteri och lampa i en enda slinga. Kontakterna möts.</desc>
+  <rect width="260" height="164" fill="#faf7f0"/>
+  <g stroke="#263b43" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M104 127 H48 V45 H112 M148 45 H212 V65 M212 99 V127 H116"/>
+    <path d="M104 109 V145 M116 117 V137"/>
+    <circle cx="212" cy="82" r="17" fill="#f5d674"/>
+    <path d="m200 70 24 24 m-24 0 24 -24"/>
+    <path stroke="#933e21" d="M112 45 L148 45"/>
+    <g fill="#faf7f0"><circle cx="112" cy="45" r="2.8"/><circle cx="148" cy="45" r="2.8"/></g>
+  </g>
+  <g fill="#263b43" font-family="system-ui,sans-serif" font-size="16" text-anchor="middle"><text x="90" y="117">+</text><text x="131" y="117">−</text></g>
+</svg>
