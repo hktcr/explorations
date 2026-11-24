@@ -17,7 +17,12 @@
       const term = input.value.trim().slice(0, 240);
       networkLink.setAttribute('href', term ? 'natverk/?' + new URLSearchParams({q:term}) : 'natverk/');
     }
-    function setMode(next){syncNetworkLink();mode=next;document.body.dataset.view=next;show(grid,next==='all');show(results,next==='results');home.hidden=next==='home';clear.hidden=!input.value;}
+    const filters=document.getElementById('formatFilters');
+    const excluded=new Set();
+    let filterQuery='';
+    function setMode(next){
+      if(next!=='results'){filters.hidden=true;excluded.clear();filterQuery='';}
+syncNetworkLink();mode=next;document.body.dataset.view=next;show(grid,next==='all');show(results,next==='results');home.hidden=next==='home';clear.hidden=!input.value;}
     function setURL(view,push=false){
       const url=new URL(location.href); const q=input.value.trim();
       if(q)url.searchParams.set('q',q);else url.searchParams.delete('q');
@@ -49,6 +54,21 @@
     function addText(parent,text,tag='span',className,language){const n=document.createElement(tag);if(className)n.className=className;if(language!==undefined)n.lang=language;n.textContent=text;parent.appendChild(n);return n;}
     function render(found,briefings,limited,archive,chronicleFound,chronicleLimited){
       results.replaceChildren();const visible=found.filter(r=>!isHidden(r.slug));
+      const query=input.value.trim();
+      if(query!==filterQuery){excluded.clear();filterQuery=query;}
+      const groups=[['Redaktionen',chronicleFound.length],['Vetenskaplig briefing',briefings?.length],['Essäer',visible.length]];
+      const active=document.activeElement?.dataset.format;
+      filters.replaceChildren();
+      const legend=document.createElement('legend');legend.className='visually-hidden';legend.textContent='Visa format';filters.append(legend);
+      filters.hidden=!groups.some(([,count])=>count);
+      for(const [name,count] of groups){
+        if(!count)continue;
+        const label=document.createElement('label'),box=document.createElement('input');
+        box.type='checkbox';box.dataset.format=name;box.checked=!excluded.has(name);
+        label.append(box,' '+name+' ('+count+')');filters.append(label);
+        box.onchange=()=>{if(box.checked)excluded.delete(name);else excluded.add(name);render(found,briefings,limited,archive,chronicleFound,chronicleLimited);};
+        if(active===name)box.focus();
+      }
       const total=found.length;
       status.textContent=(readState().hideRead?visible.length+' av '+total+' träffade essäer visas (lästa dolda).':total===1?'1 essä träffad.':total+' essäer träffade.')+(limited?' Fulltextsökningen kunde inte hämtas; endast essätitlar söks.':' Sorterade efter relevans.');
       if(briefings) status.textContent+=' '+(briefings.length===1?'1 träff':briefings.length+' träffar')+' i Vetenskaplig briefing.';
@@ -60,12 +80,12 @@
           retry.hidden=false;
         } else status.textContent+=' '+chronicleFound.length+' träffar i Redaktionen.';
       }
-      if(archive && chronicleFound.length) {
+      if(archive && chronicleFound.length && !excluded.has('Redaktionen')) {
         addText(results,'Redaktionen','h2','xr-search-group');
         for(const row of chronicleFound.slice(0,24)) results.appendChild(chronicles.card(row,archive));
         if(chronicleFound.length>24) addText(results,'De första 24 visas. Begränsa sökningen för fler relevanta träffar.','p','result-reason');
       }
-      if(briefings?.length){
+      if(briefings?.length && !excluded.has('Vetenskaplig briefing')){
         addText(results,'Vetenskaplig briefing','h2','xr-search-group');
         renderArticles(briefings,true);
       }
@@ -73,6 +93,7 @@
         if(total || (!chronicleFound?.length && !briefings?.length)) addText(results,total?'Essäträffarna är dolda av läsfiltret. Välj Visa lästa.':'Ingen träff. Prova färre ord eller en annan formulering.','p','search-empty');
         return;
       }
+      if(excluded.has('Essäer'))return;
       if(archive || briefings?.length) addText(results,'Essäer','h2','xr-search-group');
       renderArticles(visible,false);
     }

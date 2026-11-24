@@ -29,7 +29,7 @@ body[data-search-ready=true] .library-header>p{display:none}
 html:not([data-theme="light"]) body[data-view=home] #searchInput{background:#151315}
 body[data-view=home] .search-container{max-width:790px}
 body[data-view=home] #searchForm{box-shadow:0 0 45px rgba(192,57,43,.07);border-radius:8px}
-body[data-view=home] #searchInput{border-radius:7px;border-color:rgba(231,76,60,.7);background:var(--card);padding-left:1.6rem;font:400 1.1rem var(--ui);box-shadow:inset 3px 0 0 var(--accent)}
+body[data-view=home] #searchInput{border-radius:7px;background:var(--card);padding-left:1.6rem;font:400 1.1rem var(--ui);box-shadow:inset 3px 0 0 var(--accent)}
 body[data-view=home] .filter-row,body[data-view=home] #overviewHeading,body[data-view=home] #natverkOppna{display:none}
 body[data-view=home] .natverk-rad{min-height:0;margin:0;padding:0}
 body[data-view=home] #natverkStatus{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
@@ -78,3 +78,17 @@ body[data-view=results] .library-footer{margin-top:3rem}
 .portal-latest a:hover{color:var(--accent)}
 .portal-latest small{display:block;color:var(--meta);font-size:.75rem}
 @media(max-width:600px){.portal-latest-row{display:block}.portal-latest{gap:.6rem}.portal-latest dt{margin-bottom:.06rem}}
+
+/* The root portal keeps publication projections available to its builders. */
+body .portal-latest,body #recentEditions,body .landing-actions,body .portal-search-help,
+body .filter-row,body .library-footer,body .library-header>p,body .library-header [data-xr-theme-slot],
+body #natverkOppna,body:not([data-view=all]) #overviewHeading,
+body:not([data-view=all]) #articlesGrid,body:not([data-view=results]) .natverk-rad {display:none!important}
+.portal-search-line{display:grid;grid-template-columns:minmax(0,1fr) 56px;gap:.65rem}
+.portal-search-line #searchForm{margin:0;min-width:0}
+.portal-search-line #searchInput,.portal-search-line #portalNetworkSearch{box-sizing:border-box;height:56px;min-width:0;border:1px solid var(--accent);border-radius:7px;background:var(--card)}
+.portal-search-line #portalNetworkSearch{display:grid;place-items:center;margin:0;padding:8px;color:var(--accent)}
+#portalNetworkSearch svg{width:100%;height:100%}
+#formatFilters{display:flex;flex-wrap:wrap;gap:.3rem 1rem;max-width:790px;margin:0 auto 1rem;padding:0 1.5rem;border:none;color:var(--text);font:.88rem var(--ui)}
+#formatFilters label{display:inline-flex;align-items:center;gap:.3rem;min-height:44px;cursor:pointer}
+#formatFilters input{accent-color:var(--accent)}
