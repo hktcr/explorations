@@ -81,18 +81,33 @@ test('visible published subjects have different, contrasting hues in each theme,
   try {
     w.eval(text('chronicle-topic-graph.js'));
     const project=w.ExplorationsChronicleTopicGraph.project;
+    const publishedPair = new Map();
     for(let p=0;;p++){
       const view=project(index.entries,index.entries,catalog,new Set(),false,p);
       const topics=Array.from(view.detail.nodes).filter(n=>n.kind==='topic');
       const colors=() => topics.map(n=>[n.titel,n.dark,n.light]);
       for(const key of ['dark','light'])assert.equal(new Set(topics.map(n=>n[key])).size,topics.length);
       for(const node of topics) {
+        if (node.titel === 'Norge' || node.titel === 'Ukraina') {
+          if (!publishedPair.has(node.titel)) publishedPair.set(node.titel, []);
+          publishedPair.get(node.titel).push(node);
+        }
         assert.ok(ratio(luminance(node.dark),luminance('#151515'))>=4.5,node.titel+' dark');
         assert.ok(ratio(luminance(node.light),1)>=4.5,node.titel+' light');
       }
       const again=project(index.entries,index.entries,catalog,new Set(),false,p);
       assert.deepEqual(Array.from(again.detail.nodes).filter(n=>n.kind==='topic').map(n=>[n.titel,n.dark,n.light]),colors());
       if(p+1===view.pages)break;
+    }
+    for (const label of ['Norge', 'Ukraina']) {
+      assert.ok(publishedPair.has(label), 'Missing published topic: ' + label);
+    }
+    for (const norway of publishedPair.get('Norge')) {
+      for (const ukraine of publishedPair.get('Ukraina')) {
+        for (const theme of ['dark', 'light']) {
+          assert.notEqual(norway[theme], ukraine[theme], theme + ' published Norge/Ukraina');
+        }
+      }
     }
     // Keep the named collision regression independent of the live archive's pagination.
     const pair = ['Norge', 'Ukraina'].map((label, i) => ({
