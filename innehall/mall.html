@@ -21,15 +21,47 @@
   <h1>Innehållsförteckning</h1>
   <div class="natverk-huvud-actions"><span data-xr-theme-slot></span></div>
 </header>
-<main><label hidden id="filter">Visa format <select id="format"><option value="">Alla delar</option><!-- options --></select></label>
-<!-- sections -->
+<main>
+<form id="filters" role="search" aria-label="Sök i innehållsförteckningen" hidden>
+  <label class="search-label">Sök titel eller ämne<input id="query" type="search"></label>
+  <label>Format<select id="format"><option value="">Alla delar</option><!-- formats --></select></label>
+  <label>Ämne<select id="subject"><option value="">Alla ämnen</option><!-- topics --></select></label>
+  <label>Sortera<select id="sort"><option value="recent">Senast publicerad</option><option value="title">Titel A–Ö</option></select></label>
+</form>
+<p id="count" role="status" aria-live="polite"></p>
+<ul id="entries"><!-- entries --></ul>
 </main><script>
-const format = document.getElementById('format');
-function applyFilter() {
-  for (const section of document.querySelectorAll('main section')) section.hidden = Boolean(format.value && section.id !== format.value);
+const form = document.querySelector('#filters');
+const list = document.querySelector('#entries');
+const count = document.querySelector('#count');
+const byTitle = new Intl.Collator('sv', {sensitivity: 'base', numeric: true});
+const normalize = value => value.toLocaleLowerCase('sv').normalize('NFC');
+const entries = Array.from(list.children, element => {
+  const title = element.querySelector('a').textContent;
+  const topics = JSON.parse(element.dataset.topics);
+  return {element, title, topics, search: normalize([title, ...topics, element.dataset.keywords].join(' '))};
+});
+const alphabetical = [...entries].sort((a, b) => byTitle.compare(a.title, b.title));
+function filter() {
+  const words = normalize(form.elements.query.value.trim()).split(/\s+/).filter(Boolean);
+  let visible = 0;
+  for (const {element, topics, search} of entries) {
+    element.hidden = (form.elements.format.value && element.dataset.format !== form.elements.format.value)
+      || (form.elements.subject.value && !topics.includes(form.elements.subject.value))
+      || !words.every(word => search.includes(word));
+    if (!element.hidden) visible++;
+  }
+  count.textContent = visible ? visible + (visible === 1 ? ' träff' : ' träffar') : 'Inga träffar. Byt ämne eller format, eller ändra sökningen.';
 }
-document.getElementById('filter').hidden = false;
-format.addEventListener('change', applyFilter);
-window.addEventListener('pageshow', applyFilter);
-applyFilter();
+function sortAndFilter() {
+  const rows = form.elements.sort.value === 'title' ? alphabetical : entries;
+  list.replaceChildren(...rows.map(row => row.element));
+  filter();
+}
+form.addEventListener('submit', event => event.preventDefault());
+form.addEventListener('input', filter);
+form.addEventListener('change', event => event.target.id === 'sort' ? sortAndFilter() : filter());
+window.addEventListener('pageshow', sortAndFilter);
+sortAndFilter();
+form.hidden = false;
 </script></body></html>

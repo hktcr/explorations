@@ -9,14 +9,22 @@
   margin: auto;
   padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2.5rem) 5rem;
 }
-#filter {
-  color: var(--network-muted);
-  font: 500 .85rem/1.4 var(--network-ui);
+#filters:not([hidden]) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: .65rem 1rem;
 }
-#format {
-  margin-inline-start: .5rem;
+#filters label, #count, .contents-page li small {
+  color: var(--network-muted);
+  font: 500 .85rem/1.5 var(--network-ui);
+}
+#filters .search-label {grid-column: 1 / -1;}
+#filters input, #filters select {
+  box-sizing: border-box;
+  display: block;
+  margin-top: .25rem;
   min-height: 44px;
-  max-width: 100%;
+  width: 100%;
   padding: .5rem .75rem;
   font: inherit;
   color: var(--network-text);
@@ -24,21 +32,10 @@
   border: 1px solid var(--network-border);
   border-radius: 9px;
 }
-.contents-page section {margin-top: 2rem;}
-.contents-page h2 {
-  margin: 0;
-  color: var(--network-heading);
-  font: 700 1.35rem/1.4 var(--network-body);
-}
 .contents-page ul {list-style: none; margin: .65rem 0 0; padding: 0;}
-.contents-page li {border-top: 1px solid var(--network-border);}
-.contents-page li a {
-  display: block;
-  padding: .7rem 0;
-  color: inherit;
-  text-decoration: none;
-  overflow-wrap: anywhere;
-}
+.contents-page li {padding: .65rem 0; border-top: 1px solid var(--network-border);}
+.contents-page li a {color: inherit; text-decoration: none; overflow-wrap: anywhere;}
+.contents-page li small {display: block; overflow-wrap: anywhere;}
 .contents-page li a:hover {color: var(--network-heading); text-decoration: underline;}
 .contents-page main :focus-visible {outline: 2px solid var(--network-accent); outline-offset: 3px;}
 @media (max-width: 700px) {
