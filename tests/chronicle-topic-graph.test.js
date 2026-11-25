@@ -81,7 +81,6 @@ test('visible published subjects have different, contrasting hues in each theme,
   try {
     w.eval(text('chronicle-topic-graph.js'));
     const project=w.ExplorationsChronicleTopicGraph.project;
-    let checkedPair=false;
     for(let p=0;;p++){
       const view=project(index.entries,index.entries,catalog,new Set(),false,p);
       const topics=Array.from(view.detail.nodes).filter(n=>n.kind==='topic');
@@ -91,12 +90,20 @@ test('visible published subjects have different, contrasting hues in each theme,
         assert.ok(ratio(luminance(node.dark),luminance('#151515'))>=4.5,node.titel+' dark');
         assert.ok(ratio(luminance(node.light),1)>=4.5,node.titel+' light');
       }
-      const norway=topics.find(n=>n.titel==='Norge'),ukraine=topics.find(n=>n.titel==='Ukraina');
-      if(norway && ukraine){assert.notEqual(norway.dark,ukraine.dark);assert.notEqual(norway.light,ukraine.light);checkedPair=true;}
       const again=project(index.entries,index.entries,catalog,new Set(),false,p);
       assert.deepEqual(Array.from(again.detail.nodes).filter(n=>n.kind==='topic').map(n=>[n.titel,n.dark,n.light]),colors());
       if(p+1===view.pages)break;
     }
-    assert.ok(checkedPair);
+    // Keep the named collision regression independent of the live archive's pagination.
+    const pair = ['Norge', 'Ukraina'].map((label, i) => ({
+      slug: 'fixture-' + i, title: label, href: 'fixture-' + i + '.html',
+      series: 'fixture', terms: [label]
+    }));
+    const view = project(pair, pair, new Map([['fixture', {title: 'Fixture'}]]), new Set(), false, 0);
+    const topics = Array.from(view.detail.nodes).filter(node => node.kind === 'topic');
+    assert.deepEqual(topics.map(node => node.titel).sort(), ['Norge', 'Ukraina']);
+    for (const theme of ['dark', 'light']) {
+      assert.notEqual(topics[0][theme], topics[1][theme], theme + ' Norge/Ukraina');
+    }
   } finally {w.close();}
 });
