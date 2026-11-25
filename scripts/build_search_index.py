@@ -187,3 +187,5 @@ if __name__ == "__main__":
     project_portal(ROOT)
     from build_skogsvaktaren import project as project_gallery
     project_gallery()
+    from build_contents import project as project_contents
+    project_contents(ROOT)

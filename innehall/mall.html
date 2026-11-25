@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Innehållsförteckning · Explorations</title><link rel="stylesheet" href="../skogsvaktaren/galleri.css"><style>main{max-width:65ch;margin:auto}h1{font-size:clamp(1.7rem,6vw,3.6rem);overflow-wrap:anywhere}select{font:inherit;padding:.4rem;max-width:100%}li{margin-block:.6rem}section{margin-top:2rem}</style><script src="../explorations-theme.js" defer></script></head>
+<body><header><a href="../">Explorations</a><span data-xr-theme-slot></span></header><main><h1>Innehållsförteckning</h1><label hidden id="filter">Visa <select id="format"><option value="">Alla delar</option><!-- options --></select></label>
+<!-- sections -->
+</main><script>
+const format = document.getElementById('format');
+function applyFilter() {
+  for (const section of document.querySelectorAll('main section')) section.hidden = Boolean(format.value && section.id !== format.value);
+}
+document.getElementById('filter').hidden = false;
+format.addEventListener('change', applyFilter);
+window.addEventListener('pageshow', applyFilter);
+applyFilter();
+</script></body></html>

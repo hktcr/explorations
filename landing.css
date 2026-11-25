@@ -84,11 +84,11 @@ body .portal-latest,body #recentEditions,body .landing-actions,body .portal-sear
 body .filter-row,body .library-footer,body .library-header>p,body .library-header [data-xr-theme-slot],
 body #natverkOppna,body:not([data-view=all]) #overviewHeading,
 body:not([data-view=all]) #articlesGrid,body:not([data-view=results]) .natverk-rad {display:none!important}
-.portal-search-line{display:grid;grid-template-columns:minmax(0,1fr) 56px;gap:.65rem}
+.portal-search-line{display:grid;grid-template-columns:minmax(0,1fr) repeat(2,56px);gap:.65rem}
 .portal-search-line #searchForm{margin:0;min-width:0}
-.portal-search-line #searchInput,.portal-search-line #portalNetworkSearch{box-sizing:border-box;height:56px;min-width:0;border:1px solid var(--accent);border-radius:7px;background:var(--card)}
-.portal-search-line #portalNetworkSearch{display:grid;place-items:center;margin:0;padding:8px;color:var(--accent)}
-#portalNetworkSearch svg{width:100%;height:100%}
+.portal-search-line #searchInput,.portal-search-line :is(#portalNetworkSearch,#portalContents){box-sizing:border-box;height:56px;min-width:0;border:1px solid var(--accent);border-radius:7px;background:var(--card)}
+.portal-search-line :is(#portalNetworkSearch,#portalContents){display:grid;place-items:center;margin:0;padding:8px;color:var(--accent)}
+:is(#portalNetworkSearch,#portalContents) svg{width:100%;height:100%}
 #formatFilters{display:flex;flex-wrap:wrap;gap:.3rem 1rem;max-width:790px;margin:0 auto 1rem;padding:0 1.5rem;border:none;color:var(--text);font:.88rem var(--ui)}
 #formatFilters label{display:inline-flex;align-items:center;gap:.3rem;min-height:44px;cursor:pointer}
 #formatFilters input{accent-color:var(--accent)}
