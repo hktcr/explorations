@@ -41,7 +41,7 @@
     }
     return palette;
   }
-  const exactText=/^(?:[a-z0-9-]+\/index\.html|timkronikan\/(?:reportage\/20\d\d-\d\d-\d\d-(?:lunch|world|varlden)\.html|inlagg\/(?:inlagg|halvtimmen)-20\d\d-\d\d-\d\d-\d{4}\.html|(?:halvtimmen\/)?20\d\d-\d\d\.html))(?:#[\w.:%-]+)?$/;
+  const exactText=/^(?:[a-z0-9-]+\/index\.html|vetenskaplig-briefing\/[a-z0-9-]+\/(?:index\.html)?|skogsvaktaren\/20\d\d-\d\d-\d\d\.html|timkronikan\/(?:reportage\/20\d\d-\d\d-\d\d-(?:lunch|world|varlden)\.html|inlagg\/(?:inlagg|halvtimmen)-20\d\d-\d\d-\d\d-\d{4}\.html|(?:halvtimmen\/)?20\d\d-\d\d\.html))(?:#[\w.:%-]+)?$/;
   function validate(data) {
     if(![1,2].includes(data?.schemaVersion) || !Array.isArray(data.sources) || !data.texts)throw Error("Ogiltigt index");
     const seen=new Set();
@@ -148,8 +148,8 @@
     $(label).textContent=(offset+1)+"–"+Math.min(items.length,offset+size)+" av "+items.length;
     return items.slice(offset,offset+size);
   }
-  function renderGraph(sources,filtering,hits){
-    const linked=[...documentsFor(sources)].sort((a,b)=>Number(hits.has(b))-Number(hits.has(a)));
+  function renderGraph(sources,filtering,hits,titleHits){
+    const linked=[...documentsFor(sources)].sort((a,b)=>Number(hits.has(b))-Number(hits.has(a)) || Number(titleHits.has(b))-Number(titleHits.has(a)));
     const ids=page(linked,state.textOffset,24,"textPages","prevTexts","nextTexts","textPage");
     const show=new Set(ids);
     const nodes=sources.map(rec=>{
@@ -176,11 +176,30 @@
     if(!state.byId.has(e.detail))return;
     state.fromAction=true;toggle(e.detail,"source-network-condition");
   });
+  function search(raw) {
+    const tokens=words(raw);
+    const articles=new Set(Object.keys(state.texts).filter(id=>{
+      const title=fold(state.texts[id].title);
+      return tokens.length && tokens.every(token=>title.includes(token));
+    }));
+    const sources=[],docs=new Set(articles);
+    for(const rec of state.records){
+      if(match(rec,raw)){
+        sources.push(rec);
+        for(const [doc] of rec.uses)docs.add(doc);
+      }else if(rec.uses.some(([doc])=>articles.has(doc))){
+        sources.push(rec);
+      }
+    }
+    return {sources,docs,articles};
+  }
   function render(){
-    const matches=state.records.filter(rec=>match(rec,query.value));
+    const draftResult=search(query.value);
+    const matches=draftResult.sources;
     const conditions=selected();
-    const termMatches=[...state.terms.values()].map(term=>state.records.filter(rec=>match(rec,term)));
-    const hits=sharedTexts([...conditions.map(used),...termMatches.map(documentsFor)]);
+    const saved=[...state.terms.values()].map(search);
+    const termMatches=saved.map(result=>result.sources);
+    const hits=sharedTexts([...conditions.map(used),...saved.map(result=>result.docs)]);
     const filtering=conditions.length+termMatches.length>0;
     const draft=query.value.trim();
     const display=draft || !filtering ? matches : [...new Map([...conditions,...termMatches.flat()].map(rec=>[rec.id,rec])).values()];
@@ -191,8 +210,9 @@
     status.textContent=display.length+" av "+state.records.length+" källor";
     list.hidden=state.mode!=="list";graph.hidden=state.mode!=="graph";
     listView.setAttribute("aria-pressed",String(!list.hidden));graphView.setAttribute("aria-pressed",String(!graph.hidden));
+    $("sourcePortalBack").href=draft?"portal/?"+new URLSearchParams({q:draft}):"portal/";
     renderConditions(conditions,hits);
-    if(list.hidden)renderGraph(sources,filtering,hits);else renderList(display);
+    if(list.hidden)renderGraph(sources,filtering,hits,draftResult.articles);else renderList(display);
   }
   const apply=()=>{state.limit=30;state.sourceOffset=state.textOffset=0;render();const url=new URL(location.href);if(query.value.trim())url.searchParams.set("q",query.value.trim());else url.searchParams.delete("q");history.replaceState(null,"",url);};
   $("sourceForm").addEventListener("submit",event=>{event.preventDefault();apply();});
@@ -215,7 +235,9 @@
   listView.addEventListener("click",()=>{state.mode="list";render();});
   graphView.addEventListener("click",()=>{state.mode="graph";render();});
   window.addEventListener("explorations:themechange",render);
-  query.value=(new URL(location.href).searchParams.get("q")||"").slice(0,240);
+  const params=new URL(location.href).searchParams;
+  query.value=(params.get("q")||"").slice(0,240);
+  if(params.get("vy")==="natverk" || params.get("view")==="graph")state.mode="graph";
   fetch("../kallor-index-v2.json",{cache:"no-cache"}).then(r=>{
     if(!r.ok)throw Error();return r.json();
   }).then(validate).then(d=>{

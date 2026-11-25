@@ -3,12 +3,13 @@ from collections import defaultdict
 from hashlib import sha256
 import json
 from pathlib import Path
+from ipaddress import ip_address
 import re
 import unicodedata
 from urllib.parse import parse_qsl, unquote, urlencode, urlsplit, urlunsplit, quote
 
 from build_chronicle_index import Read
-from build_landing_search import extract
+from build_landing_search import Node, Tree, extract
 
 DOI = re.compile(r"10\.\d{4,9}/[\-._;()/:A-Z0-9+%]+", re.I)
 def clean(s):
@@ -42,6 +43,83 @@ def identity(citation,url,doi):
         return "url:"+urlunsplit(("https",p.netloc.casefold(),p.path.rstrip("/"),query,""))
     return "citation:"+norm(citation)
 
+def public_citation_url(value):
+    url = safe_url(value)
+    if not url or re.search(r"[\s\\]", url):
+        return ""
+    parsed = urlsplit(url)
+    host = parsed.hostname.rstrip(".").lower()
+    private_hosts = ("localhost", "local", "internal", "drive.google.com", "docs.google.com",
+                     "chatgpt.com", "sharepoint.com", "dropbox.com", "app.asana.com")
+    if "." not in host or any(host == part or host.endswith("." + part) for part in private_hosts):
+        return ""
+    try:
+        if not ip_address(host).is_global:
+            return ""
+    except ValueError:
+        if re.fullmatch(r"[0-9.]+", host):
+            return ""
+    private_keys = {"access_token", "token", "auth", "authkey", "api_key", "signature",
+                    "x-amz-signature", "x-goog-signature", "key", "sig"}
+    if any(key.casefold() in private_keys for key, _ in parse_qsl(parsed.query)):
+        return ""
+    return url
+
+
+def catalog_sources(root, texts, add):
+    def parse(path):
+        tree = Tree()
+        tree.feed(path.read_text(encoding="utf-8"))
+        tree.close()
+        return tree.root
+
+    def register(doc, href, title, series, path, container_class):
+        nodes = list(parse(path).walk())
+        if [n.text() for n in nodes if n.tag == "h1"] != [title]:
+            raise ValueError("Källindexets titel avviker från publicerad sida")
+        texts[doc] = dict(title=title, href=href, series=series)
+        for heading in nodes:
+            if heading.tag != "h2" or container_class not in heading.parent.classes:
+                continue
+            if not re.match(r"^Källor(?:\s|$)", heading.text(), re.I):
+                continue
+            anchor = heading.attrs.get("id", "")
+            dest = href + ("#" + anchor if re.fullmatch(r"[\w.-]+", anchor) else "")
+            siblings = heading.parent.children
+            for block in siblings[siblings.index(heading)+1:]:
+                if not isinstance(block, Node):
+                    continue
+                if block.tag in {"h2", "h3"}:
+                    break
+                if block.tag not in {"ol","ul"}:
+                    continue
+                for item in (n for n in block.children if isinstance(n, Node) and n.tag == "li"):
+                    links = [n for n in item.walk() if n.tag == "a"]
+                    for link in links:
+                        url = public_citation_url(link.attrs.get("href", ""))
+                        if not url:
+                            continue
+                        note = ""
+                        if len(links) == 1 and link in item.children:
+                            tail = item.children[item.children.index(link)+1:]
+                            note = clean("".join(part if isinstance(part,str) else part.text() for part in tail)).lstrip(" .–—:")
+                        add(doc, dest, link.text(), url, note)
+
+    for link in parse(root/"vetenskaplig-briefing/index.html").walk():
+        if link.tag == "a" and "data-briefing" in link.attrs:
+            slug = link.attrs.get("href", "")
+            if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*/", slug):
+                raise ValueError("Ogiltig briefingadress")
+            href = "vetenskaplig-briefing/" + slug
+            register("b:"+slug[:-1], href, link.text(), "Vetenskaplig briefing", root/href/"index.html", "sources")
+    for row in json.loads((root/"skogsvaktaren/bilder.json").read_text(encoding="utf-8")):
+        day = row["date"]
+        if not re.fullmatch(r"20\d\d-\d\d-\d\d", day):
+            raise ValueError("Ogiltigt kapiteldatum")
+        href = f"skogsvaktaren/{day}.html"
+        register("c:"+day, href, row["title"], "Där kartan tar slut", root/href, "prosa")
+
+
 def build_projection(root, version):
     suffix = '' if version == 1 else '-v2'
     essay=json.loads((root/"landing-search-index.json").read_text(encoding="utf-8"))
@@ -49,7 +127,7 @@ def build_projection(root, version):
     use_by_text={}
     groups={}
     texts={}
-    def add(doc,href,citation,url):
+    def add(doc,href,citation,url,note=""):
         citation=clean(citation)
         if not citation:return
         url=safe_url(url); doi=identified_doi(url,citation)
@@ -58,6 +136,8 @@ def build_projection(root, version):
         group=groups.setdefault(key,dict(id="src-"+sha256(key.encode()).hexdigest()[:16],labels=set(),urls=set(),doi=doi,uses=[]))
         group["labels"].add(citation)
         if url:group["urls"].add(url)
+        if note:
+            group.setdefault("notes",set()).add((doc,note))
         rec=[doc,href]
         if rec not in group["uses"]:group["uses"].append(rec)
     for row in essay["articles"]:
@@ -96,12 +176,16 @@ def build_projection(root, version):
             for n in entry.traverse("aside"):
                 if "sources" in n.attrs.get("class","").split():
                     for l in n.traverse("a"):add(doc,row["anchorUrl"],l.text(),l.attrs.get("href",""))
+    if version == 2:
+        catalog_sources(root, texts, add)
     sources=[]
     for data in groups.values():
         labels=sorted(data["labels"],key=lambda x:(-len(x),norm(x),x))
         urls=sorted(data["urls"],key=lambda u:(not u.startswith("https://"),len(u),u))
         sources.append(dict(id=data["id"],title=labels[0],aliases=labels[1:],doi=data["doi"],
             url=urls[0] if urls else "",uses=sorted(data["uses"]),count=len({x[0] for x in data["uses"]})))
+        if data.get("notes"):
+            sources[-1]["notes"] = [dict(doc=doc, text=text) for doc,text in sorted(data["notes"])]
     sources.sort(key=lambda x:(-x["count"],norm(x["title"]),x["id"]))
     output=dict(schemaVersion=version,sources=sources,texts=texts)
     (root/f"kallor-index{suffix}.json").write_text(json.dumps(output,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8")

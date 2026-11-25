@@ -5,17 +5,17 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap">
 <link rel="stylesheet" href="../explorations-theme.css?v=20261122-theme-1">
 <link rel="stylesheet" href="../natverk.css?v=20261124-ex10-1">
-<link rel="stylesheet" href="../kallor.css?v=20261124-ex10-2"></head>
+<link rel="stylesheet" href="../kallor.css?v=20261125-brandgul"></head>
 <body class="natverk-sida source-network-page" data-network-mode="sources" data-root="../">
 <a class="skip-source" href="#innehall">Till innehållet</a>
-<header class="source-head"><nav aria-label="Brödsmulor"><a href="../">Explorations</a><span aria-hidden="true">/</span><strong>Källor</strong></nav><span data-xr-theme-slot></span></header>
+<header class="source-head"><nav aria-label="Brödsmulor"><a href="../">Explorations</a><span aria-hidden="true">/</span><a href="portal/" id="sourcePortalBack">Källportalen</a><span aria-hidden="true">/</span><strong>Källregistret</strong></nav><span data-xr-theme-slot></span></header>
 <main id="innehall">
  <section class="source-intro"><span class="eyebrow">EXPLORATIONS · REGISTER</span><h1>Källor</h1><p>Sök i källhänvisningarna och se vilka essäer och texter från Redaktionen som använder samma källa.</p></section>
  <section class="source-controls" aria-label="Källsökning">
-  <form id="sourceForm" role="search"><label for="sourceQuery">Sök i källor</label><div><input id="sourceQuery" type="search" maxlength="240" placeholder="Författare, titel, publikation eller DOI"><button type="submit">Sök</button></div><button type="button" id="addSourceTerm" hidden>Lägg till sökvillkor</button></form>
+  <form id="sourceForm" role="search"><label for="sourceQuery">Sök efter källa eller artikel</label><div><input id="sourceQuery" type="search" maxlength="240" placeholder="Källtitel, artikeltitel, författare eller DOI"><button type="submit">Sök</button></div><button type="button" id="addSourceTerm" hidden>Lägg till sökvillkor</button></form>
   <div class="view-switch" role="group" aria-label="Visning"><button type="button" id="viewList" aria-pressed="true">Lista</button><button type="button" id="viewGraph" aria-pressed="false">Nätverk</button></div>
  </section>
- <section id="activeConditions" class="conditions" aria-labelledby="conditionHeading" hidden><h2 id="conditionHeading">Valda villkor</h2><p>En text behöver använda varje vald källa och minst en källa från varje sparad sökning.</p><ul id="sourceConditions"></ul><button type="button" id="clearConditions" hidden>Rensa urvalet</button><div id="conditionAnswer" role="status"></div></section>
+ <section id="activeConditions" class="conditions" aria-labelledby="conditionHeading" hidden><h2 id="conditionHeading">Valda villkor</h2><p>En text behöver använda varje vald källa och matcha varje sparad sökning via sin titel eller en egen källhänvisning.</p><ul id="sourceConditions"></ul><button type="button" id="clearConditions" hidden>Rensa urvalet</button><div id="conditionAnswer" role="status"></div></section>
  <p id="sourceStatus" role="status">Läser källregistret …</p>
  <section id="sourceList" aria-label="Källista"></section>
  <section id="sourceGraph" aria-label="Källnätverk" hidden>
@@ -61,7 +61,7 @@
   <p id="natverkStatus" class="source-hint" role="status"></p>
  </section>
  <noscript><p>Källregistret kräver JavaScript. Källhänvisningarna går fortfarande att läsa i varje essä och text från Redaktionen.</p></noscript>
- <details class="source-method"><summary>Så läser du registret</summary><p>Registret bygger på de publicerade texternas källhänvisningar. Sökorden matchas mot källraden så som författare, titel och publikation anges i den. Lika DOI eller samma artikeladress räknas som samma källa. Böcker utan länk slås ihop endast när den dokumenterade källraden är identisk. En koppling visar användning, inte att källan ensam räcker som belägg.</p></details>
+ <details class="source-method"><summary>Så läser du registret</summary><p>Registret bygger på de publicerade texternas källhänvisningar. Sökorden matchas mot källraden eller titeln på en text som använder källan. En träff på en artikeltitel visar artikelns källor. Lika DOI eller samma artikeladress räknas som samma källa. Böcker utan länk slås ihop endast när den dokumenterade källraden är identisk. En koppling visar användning, inte att källan ensam räcker som belägg.</p></details>
 </main>
 <script defer src="../natverk.js?v=20261124-c4"></script>
-<script defer src="../kallor.js?v=20261124-ex10-2"></script></body></html>
+<script defer src="../kallor.js?v=20261125-artikelsok"></script></body></html>
