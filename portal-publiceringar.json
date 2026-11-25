@@ -77,6 +77,7 @@
       "what-is-sex/index.html"
     ],
     "briefing": [
+      "vetenskaplig-briefing/batteri/index.html",
       "vetenskaplig-briefing/bohrs-skalbild/index.html",
       "vetenskaplig-briefing/elektricitet/index.html",
       "vetenskaplig-briefing/lampor/index.html",
@@ -197,6 +198,10 @@
         "kind": "published",
         "at": "2026-11-25T08:41:02+00:00",
         "commit": "e5777a8bff6a98ab4c473f09588ea55ce2e9fc7b"
+      },
+      {
+        "href": "vetenskaplig-briefing/batteri/index.html",
+        "kind": "published"
       }
     ]
   }

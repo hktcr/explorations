@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="430" viewBox="0 0 440 430" role="img" aria-labelledby="titel beskrivning" lang="sv">
+  <title id="titel">En alkalisk AA-cell driver en lampa</title>
+  <desc id="beskrivning">Elektroner går genom ledningen och lampan från zinkanoden vid minuspolen till katoden med mangandioxid vid pluspolen. Inne i cellen går nettotransporten av hydroxidjoner åt andra hållet genom elektrolyten och den porösa separatorn. Skissen visar samband, inte cellens fysiska form.</desc>
+  <style>
+    text { font: 19px Arial, Helvetica, sans-serif; fill: #171717; }
+    .head { font-size: 24px; font-weight: bold; }
+    .bold { font-weight: bold; }
+    .electron { fill: #174c86; }
+    .ion { fill: #17603b; }
+    .wire { fill: none; stroke: #171717; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+  <rect width="440" height="430" fill="white"/>
+  <text x="16" y="33" class="head">Alkalisk AA-cell under urladdning</text>
+  <g text-anchor="middle">
+    <text x="220" y="76">Lampa</text>
+    <path class="wire" d="M77 204 V112 H197 M243 112 H363 V204"/>
+    <circle cx="220" cy="112" r="23" class="wire"/>
+    <path class="wire" d="M204 96 L236 128 M236 96 L204 128"/>
+    <path d="M125 112 H164 M155 105 L165 112 L155 119 M275 112 H314 M305 105 L315 112 L305 119" fill="none" stroke="#174c86" stroke-width="4"/>
+    <text x="220" y="163" class="electron bold">Elektroner i ledningen</text>
+    <rect x="18" y="195" width="404" height="181" rx="9" fill="white" stroke="#171717" stroke-width="2"/>
+    <circle cx="77" cy="195" r="4" fill="#171717"/><circle cx="363" cy="195" r="4" fill="#171717"/>
+    <text x="77" y="223" class="bold">− Anod</text>
+    <text x="363" y="223" class="bold">+ Katod</text>
+    <text x="77" y="250">Zink</text><text x="355" y="250">Mangandioxid</text>
+    <text x="77" y="274">Zn</text><text x="355" y="274">MnO₂</text>
+    <path d="M215 242 V331 M225 242 V331" stroke="#333" stroke-width="2" stroke-dasharray="4 4"/>
+    <text x="220" y="225">Separator</text>
+    <path d="M354 302 H86 M98 294 L86 302 L98 310" fill="none" stroke="#17603b" stroke-width="4"/>
+    <text x="220" y="358" class="ion bold">OH⁻ i elektrolyten (netto)</text>
+    <text x="220" y="410">Förenklad modell av en sluten krets.</text>
+  </g>
+</svg>
