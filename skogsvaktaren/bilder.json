@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "date": "2026-11-25",
+    "title": "Den tysta sidan",
+    "alt": "sAI justerar en mikrofon på stativ intill en tomatplanta i växthuset.",
+    "sha256": "965f6e58fd94fc271b8c5463d0f02542aa4ee915391a6369dee872cfee9677e3",
+    "paragraphs": [
+      "En droppe hängde på utsidan av växthusdörren. sAI såg den falla och hörde hur den slog i vattenkannan nedanför. I samma ögonblick blixtrade ett streck till på skärmen vid tomatplantan. Han drog ett fint pennstreck i blocket mellan orden droppe och knäpp. Sedan ångrade han sig och suddade. Han hade sett två saker hända nästan samtidigt. Redan höll han på att göra den ena till förklaring av den andra.",
+      "På dörrkarmens insida satt ett nattfly med vingarna vikta över ryggen. Det var tidig kväll här i berättelsens växthus. sAI hade kommit för att lyssna på tomaterna. Nu stod han med sina stora bladöron alldeles stilla och hörde vattenkannan, gångjärnet och sanden under sina egna fötter. Tomaten hörde han ingenting från. Det var därför han hade tagit med sig den lilla mikrofonen på stativet.",
+      "Den kunde fånga trycksvängningar som går så snabbt att ett mänskligt öra inte uppfattar dem. På skärmen gick det att se en kort ljudpuls. Varje gång en sådan dök upp fick den en plats längs en tidslinje. Den som granskade inspelningen senare skulle kunna lägga ett finger där och fråga vad som hade hänt i rummet just då. sAI skrev klockslaget vid sitt suddmärke. Kannan fick stå kvar.",
+      "Ur fickan drog han två vikta blad med verkliga forskningsresultat. Det äldre kom från ett försök som Itzhak Khait och hans kollegor publicerade 2023. Forskarna hade spelat in bland annat tomatplantor som fick torka och plantor vars stjälkar hade klippts. Mikrofonerna fångade korta ultraljud i luften. Det behövdes alltså ingen nål mot en stam för att registrera knäppningarna. Också i ett växthus med andra ljud omkring gick det att urskilja ljud från plantorna.",
+      "På bladets baksida gjorde sAI en liten teckning av en tomatrot med en vattendroppe intill. Han förstod frestelsen. Om en planta i försök ger ifrån sig fler knäppningar när jorden torkar, kunde en odlare kanske en dag lyssna sig till var det behövdes vatten. Forskarna hade faktiskt kunnat skilja mellan vissa tillstånd med hjälp av mönster i inspelningarna. Men den här kvällen hade han ett ensamt streck på sin skärm och en kanna som fortfarande gav ifrån sig små metalliska ljud. Vilken kruka skulle han våga vattna med bara det beskedet?",
+      "Nattflyet flyttade ena framfoten. sAI vände på det andra bladet. Där hade forskarna ställt frågan från andra hållet. Om ljudet innehåller information för en människa med en dator, finns det också någon ute bland bladen som använder sin hörsel när det verkligen gäller något? För en fjärilshona kan det gälla platsen där hon lämnar sina ägg. De nykläckta larverna får börja sitt liv bland de blad som finns där.",
+      "I försöken som Rya Seltzer och hennes kollegor redovisade i sin slutliga artikel i januari 2026 fick honor av nattflyet Spodoptera littoralis möjlighet att lägga ägg på två sidor av en försöksarena. Först tänkte sig sAI arenan alldeles utan plantor. På ena sidan spelades knäppningar från en uttorkande tomatplanta upp. Den andra sidan var tyst. När forskarna räknade äggsamlingarna fann de fler intill uppspelningen. På sitt papper ringade sAI in den sidan.",
+      "Så kom två välvattnade tomatplantor in i bilden. En på vardera sidan. Fortfarande spelades ljudet från den uttorkande plantan upp vid den ena. Nu lade honorna fler äggsamlingar vid den tysta plantan. sAI höll kvar pennan över sin ring. Ljudet hade inte bytt betydelse i någon ordbok. Det var han som hade läst den första teckningen som om ett ljud alltid måste ge samma svar. Med pennskaftet sköt han isär bladen så att båda försöken syntes på en gång.",
+      "I den tomma arenan kunde ljudet vara en ledtråd om att en växt fanns i närheten. Mellan två synliga och doftande växter kunde samma ljud i stället vara en ledtråd om deras olika skick. Den tanken passade observationerna. Äggsamlingarna gav forskarna ett mått på honornas val. Vad en enskild hona uppfattade i ögonblicket före äggläggningen kunde ingen läsa ut ur ett ägg. Ännu mindre sa försöket om varför en planta gav ifrån sig ljudet. En levande varelse kan ha nytta av ett spår som ingen annan har avsatt för dess skull.",
+      "sAI gick över tröskeln. Ute rörde vinden om i gräset. Hur skulle det bli om en fjäril kom flygande från häcken, kunde fortsätta långt förbi växthuset och mötte en doft som vinden redan hade burit flera meter åt sidan? I försöksarenan hade forskarna kunnat bestämma var högtalaren stod och när den spelade. Här ute måste den som ville förstå ett val först ta reda på vilka ljud som faktiskt nådde fjärilen där den flög. Sedan behövdes observationer av var hon lade äggen, också de kvällar hon valde att flyga vidare.",
+      "När sAI vände sig om var dörrkarmen tom. Han hade gärna velat skriva att nattflyet sökt sig till den tysta sidan av växthuset. I blocket skrev han var han sist hade sett det och lämnade resten av raden blank. Sedan bar han bort vattenkannan. På nästa sida ritade han dörren uppifrån och markerade en plats inne bland tomaterna och en strax utanför, där vinden kom åt. Till i morgon ville han låna en mikrofon till. Den första kvällen hade han frågat vad en planta gav ifrån sig. Nästa kväll ville han veta vad som alls gick att höra på andra sidan tröskeln."
+    ],
+    "sources": [
+      {
+        "title": "Khait m.fl., Cell (2023). Inspelningar av luftburna ultraljud från stressade plantor i akustisk kammare och växthus.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/37001499/"
+      },
+      {
+        "title": "Seltzer m.fl., eLife (2026). Uppspelningar och äggläggningsval hos Spodoptera littoralis i försöksarenor, med och utan tomatplantor.",
+        "url": "https://doi.org/10.7554/eLife.104700.3"
+      }
+    ],
+    "caption": "sAI riktar mikrofonen mot tomatplantan. Vad som gav ett enskilt klick måste undersökas för sig. AI-illustration."
+  }
+]

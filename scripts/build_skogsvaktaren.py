@@ -16,6 +16,8 @@ MANIFEST = ROOT / 'bilder.json'
 def validate_story(story):
     paragraphs = story['paragraphs']
     sources = story['sources']
+    if 'caption' in story and not (isinstance(story['caption'], str) and story['caption'].strip()):
+        raise ValueError('Bildtexten behöver innehålla text')
     if not isinstance(paragraphs, list) or not all(isinstance(p, str) and p.strip() for p in paragraphs):
         raise ValueError('Brödtext ska vara en lista med stycken')
     if sum(len(re.findall(r"[^\W_]+(?:[-’'][^\W_]+)*", p)) for p in paragraphs) < 700:
@@ -31,6 +33,7 @@ def validate_story(story):
 
 def chapter(row, image, previous, following):
     title = escape(row['title'])
+    caption = escape(row['caption']) if row.get('caption') else 'AI-illustration'
     day = row['date']
     body = ''.join(f'<p>{escape(p)}</p>' for p in row['paragraphs'])
     sources = ''.join('<li><a href="{}">{}</a></li>'.format(escape(s['url']), escape(s['title'])) for s in row['sources'])
@@ -41,7 +44,7 @@ def chapter(row, image, previous, following):
     return f'''<!doctype html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} · Där kartan tar slut</title><link rel="stylesheet" href="galleri.css"><script src="../explorations-theme.js" defer></script></head>
 <body><header><a href="../">Explorations</a><a href="./">Där kartan tar slut</a></header><main><article data-date="{day}">
-<h1>{title}</h1><time datetime="{day}">{day}</time><figure><a href="{image}" aria-label="Förstora illustrationen"><img src="{image}" alt="{escape(row['alt'])}"></a><figcaption>AI-illustration</figcaption></figure>
+<h1>{title}</h1><time datetime="{day}">{day}</time><figure><a href="{image}" aria-label="Förstora illustrationen"><img src="{image}" alt="{escape(row['alt'])}"></a><figcaption>{caption}</figcaption></figure>
 <div class="prosa">{body}<h2>Källor</h2><ul>{sources}</ul></div></article><nav aria-label="Kapitel">{' '.join(links)}</nav></main></body></html>'''
 
 
@@ -100,6 +103,8 @@ def main():
         data = buf.getvalue()
         digest = sha256(data).hexdigest()
         row = dict(date=day, title=args.title.strip(), alt=args.alt.strip(), sha256=digest, paragraphs=story['paragraphs'], sources=[{k:s[k] for k in ('title','url')} for s in story['sources']])
+        if 'caption' in story:
+            row['caption'] = story['caption'].strip()
         existing = next((r for r in rows if r['date'] == day), None)
         if existing and existing != row:
             parser.error('Datumet har redan en annan publiceringspost')
