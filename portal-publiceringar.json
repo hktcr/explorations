@@ -78,7 +78,8 @@
     ],
     "briefing": [
       "vetenskaplig-briefing/bohrs-skalbild/index.html",
-      "vetenskaplig-briefing/elektricitet/index.html"
+      "vetenskaplig-briefing/elektricitet/index.html",
+      "vetenskaplig-briefing/orbitaler/index.html"
     ]
   },
   "events": {
@@ -183,6 +184,10 @@
         "kind": "published",
         "at": "2026-11-24T20:26:36Z",
         "commit": "cf02bea9bcf1233124bdda7115f2cf97aa603193"
+      },
+      {
+        "href": "vetenskaplig-briefing/orbitaler/index.html",
+        "kind": "published"
       }
     ]
   }
