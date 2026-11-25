@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap">
 <link rel="stylesheet" href="../explorations-theme.css?v=20261122-theme-1">
 <link rel="stylesheet" href="../natverk.css?v=20261124-ex10-1">
-<link rel="stylesheet" href="../kallor.css?v=20261125-kallbibliotek"></head>
+<link rel="stylesheet" href="../kallor.css?v=20261125-helskarm"></head>
 <body class="natverk-sida source-network-page" data-network-mode="sources" data-root="../">
 <a class="skip-source" href="#innehall">Till innehållet</a>
 <header class="source-head"><nav aria-label="Brödsmulor"><a href="../">Explorations</a><span aria-hidden="true">/</span><a href="portal/" id="sourcePortalBack">Källportalen</a><span aria-hidden="true">/</span><strong>Källregistret</strong></nav><span data-xr-theme-slot></span></header>
@@ -20,7 +20,7 @@
  <p id="sourceStatus" role="status">Läser källregistret …</p>
  <section id="sourceList" aria-label="Källista"></section>
  <section id="sourceGraph" aria-label="Källnätverk" hidden>
-  <div class="overview-actions"><button type="button" id="showSourceOverview" aria-expanded="false" aria-controls="sourceOverview">Visa hela nätet</button> <span role="group" aria-label="Nätverkets dimensioner"><button type="button" id="overview2D" aria-pressed="true">2D</button> <button type="button" id="overview3D" aria-pressed="false">3D</button></span> <span id="graphScope"></span></div>
+  <div class="overview-actions"><button type="button" id="showSourceOverview" aria-expanded="false" aria-controls="sourceOverview">Visa hela nätet</button> <span role="group" aria-label="Nätverkets dimensioner"><button type="button" id="overview2D" aria-pressed="true">2D</button> <button type="button" id="overview3D" aria-pressed="false">3D</button></span> <button type="button" id="sourceFullscreen" aria-controls="sourceGraph" aria-pressed="false">Helskärm</button> <span id="graphScope"></span></div>
   <section id="sourceOverview" aria-label="Översikt över källnätet" hidden>
    <p class="source-hint">Ringarna visar texter, prickarna källor och linjerna publicerade hänvisningar. Välj en text för att se dess källor eller en källa för att öppna dess uppgifter. Fristående källor visas utan linjer.</p>
    <label for="overviewArticle">Fördjupa en text</label>
@@ -28,12 +28,14 @@
    <label for="overviewSource">Välj källa</label>
    <select id="overviewSource"><option value="">Välj källa …</option></select>
    <div id="overviewSelection" role="status"></div>
-   <div id="rotationTools" role="group" aria-label="Rotera 3D-vyn" hidden>
+   <div id="rotationTools" role="group" aria-label="Rotera och zooma i 3D-vyn" hidden>
     <button type="button" id="rotateLeft" aria-label="Rotera åt vänster">←</button>
     <button type="button" id="rotateRight" aria-label="Rotera åt höger">→</button>
     <button type="button" id="rotateUp" aria-label="Rotera uppåt">↑</button>
     <button type="button" id="rotateDown" aria-label="Rotera nedåt">↓</button>
-    <button type="button" id="resetRotation">Återställ vinkel</button>
+    <button type="button" id="overviewZoomIn">Zooma in</button>
+    <button type="button" id="overviewZoomOut">Zooma ut</button>
+    <button type="button" id="resetRotation">Återställ 3D-vyn</button>
    </div>
    <div id="overviewMap"></div>
   </section>
@@ -86,4 +88,5 @@
 </main>
 <script defer src="../natverk.js?v=20261125-passavy"></script>
 <script defer src="taggfilter.js"></script>
-<script defer src="../kallor.js?v=20261125-kallbibliotek"></script></body></html>
+<script defer src="../kallor.js?v=20261125-helskarm"></script>
+<script defer src="helskarm.js?v=20261125"></script></body></html>

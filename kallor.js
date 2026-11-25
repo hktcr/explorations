@@ -153,7 +153,8 @@
   }
   // The flat atlas and its rotatable projection share the same nodes and citation
   // pairs. Depth is only a layout coordinate; it is never a property of a source.
-  let drawRotation = null;
+  let drawRotation = null, zoomOverview = null, resetCamera = null;
+  const camera = {zoom:1, x:.5, y:.5};
   function renderOverview(sources,filtering,hits){
     const host=$("overviewMap"), select=$("overviewArticle"), sourceSelect=$("overviewSource");
     const docs=[...documentsFor(sources)].sort((a,b)=>state.texts[a].title.localeCompare(state.texts[b].title,"sv"));
@@ -162,7 +163,7 @@
     select.disabled=!docs.length;
     sourceSelect.disabled=!sources.length;
     host.replaceChildren();
-    drawRotation=null;
+    drawRotation=null;zoomOverview=null;resetCamera=null;
     const count=sources.reduce((sum,record)=>sum+used(record).size,0);
     $("graphScope").textContent=sources.length+" av "+state.records.length+" källor · "+docs.length+" av "+Object.keys(state.texts).length+" texter · "+count+" källkopplingar";
     $("overviewSelection").replaceChildren();
@@ -176,7 +177,7 @@
       for(const [k,v] of Object.entries(attrs))node.setAttribute(k,v);
       return node;
     };
-    const svg=make("svg",{viewBox:"0 0 "+width+" "+height,role:"img","aria-label":state.three?"Källnät i tre dimensioner. Dra eller använd piltangenterna för att rotera.":"Karta över samtliga källor och källkopplingar i urvalet"});
+    const svg=make("svg",{viewBox:"0 0 "+width+" "+height,role:"img","aria-label":state.three?"Källnät i tre dimensioner. Dra eller använd piltangenterna för att rotera. Rulla eller använd plus och minus för att zooma.":"Karta över samtliga källor och källkopplingar i urvalet"});
     const coords=new Map(),clusters=new Map(),points=make("g",{class:"atlas-sources"});
     const centers=make("g",{}),targets=make("g",{}),lines=make("path",{class:"atlas-links"});
     const positions=[],edges=[];
@@ -239,6 +240,38 @@
     });
     if(!state.three)return;
     drawRotation=draw;svg.classList.add("rotatable");svg.setAttribute("tabindex","0");
+    function applyCamera(){
+      const w=width/camera.zoom, h=height/camera.zoom;
+      svg.setAttribute("viewBox",[camera.x*width-w/2,camera.y*height-h/2,w,h].join(" "));
+    }
+    applyCamera();
+    resetCamera=()=>{camera.x=.5;camera.y=.5;camera.zoom=1;applyCamera();};
+    zoomOverview=(factor,anchorX=camera.x,anchorY=camera.y)=>{
+      const next=Math.min(8,Math.max(.5,camera.zoom*factor));
+      if(next===camera.zoom)return;
+      const ratio=camera.zoom/next;
+      const half=.5/next;
+      const bounded=value=>half>=.5 ? .5 : Math.max(half,Math.min(1-half,value));
+      camera.x=bounded(anchorX+(camera.x-anchorX)*ratio);
+      camera.y=bounded(anchorY+(camera.y-anchorY)*ratio);
+      camera.zoom=next;
+      applyCamera();
+    };
+    svg.addEventListener("wheel",event=>{
+      const mode=event.deltaMode;
+      if(!event.deltaY || !event.cancelable)return;
+      event.preventDefault();
+      const unit=mode===1 ? 16 : mode===2 ? svg.clientHeight||400 : 1;
+      const pixels=Math.max(-240,Math.min(240,event.deltaY*unit));
+      const factor=Math.exp(-pixels*.0025);
+      const matrix=svg.getScreenCTM?.();
+      if(matrix){
+        const cursor=svg.createSVGPoint();
+        cursor.x=event.clientX;cursor.y=event.clientY;
+        const local=cursor.matrixTransform(matrix.inverse());
+        zoomOverview(factor,local.x/width,local.y/height);
+      }else zoomOverview(factor);
+    },{passive:false});
     let start=null,frame=0;
     svg.addEventListener("pointerdown",e=>{
       if(!e.isPrimary||e.button!==0)return;
@@ -257,13 +290,19 @@
       svg.addEventListener(type,e=>{if(start?.id===e.pointerId && (type!=="pointerleave"||!dragged))start=null;});
     }
     svg.addEventListener("keydown",e=>{
+      if(!e.ctrlKey && !e.metaKey && ["+","=","-"].includes(e.key)){
+        e.preventDefault();zoomOverview(e.key==="-" ? .8 : 1.25);return;
+      }
       const key={ArrowLeft:"rotateLeft",ArrowRight:"rotateRight",ArrowUp:"rotateUp",ArrowDown:"rotateDown",Home:"resetRotation"}[e.key];
       if(key){e.preventDefault();rotate(key);}
     });
   }
   function rotate(id){
     if(!drawRotation)return;
-    if(id==="resetRotation"){state.yaw=.42;state.pitch=-.24;}
+    if(id==="resetRotation"){
+      state.yaw=.42;state.pitch=-.24;
+      resetCamera();
+    }
     else {
       state.yaw+=({rotateLeft:-.22,rotateRight:.22}[id]||0);
       state.pitch+=({rotateUp:-.22,rotateDown:.22}[id]||0);
@@ -386,6 +425,9 @@
   });
   for(const [id,three] of [["overview2D",false],["overview3D",true]]){
     $(id).addEventListener("click",()=>{state.overview=true;state.three=three;render();});
+  }
+  for(const [id,factor] of [["overviewZoomIn",1.25],["overviewZoomOut",.8]]){
+    $(id)?.addEventListener("click",()=>zoomOverview?.(factor));
   }
   for(const id of ["rotateLeft","rotateRight","rotateUp","rotateDown","resetRotation"]){
     $(id).addEventListener("click",()=>rotate(id));

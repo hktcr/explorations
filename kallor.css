@@ -45,3 +45,49 @@ html[data-theme=light] .source-network-workspace .source-canonical-node{--networ
 #overviewMap svg.rotatable:active{cursor:grabbing}
 #rotationTools button{min-width:44px;min-height:44px}
 #overviewSelection{overflow-wrap:anywhere}
+
+/* Both fullscreen modes keep the current graph and its selection in place. */
+#sourceGraph.source-fullscreen {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: max(.5rem, env(safe-area-inset-top)) max(.75rem, env(safe-area-inset-right)) max(.5rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left));
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+#sourceGraph.source-fullscreen-fallback { position: fixed; inset: 0; z-index: 10000; height: 100dvh; }
+html.source-fullscreen-open, html.source-fullscreen-open body { overflow: hidden; }
+.source-fullscreen > .overview-actions {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  flex: none;
+  background: var(--bg);
+  margin: 0;
+  padding-block: .35rem;
+  border-bottom: 1px solid var(--line);
+}
+.source-fullscreen #sourceOverview {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto minmax(0,1fr);
+  grid-template-rows: auto auto auto minmax(15rem,1fr);
+  gap: .3rem .6rem;
+  align-items: center;
+}
+.source-fullscreen #sourceOverview > .source-hint { display: none; }
+.source-fullscreen #overviewSelection, .source-fullscreen #rotationTools, .source-fullscreen #overviewMap { grid-column: 1 / -1; }
+.source-fullscreen #overviewSelection { max-height: 20dvh; overflow: auto; }
+.source-fullscreen #overviewMap { grid-row: 4; height: 100%; }
+.source-fullscreen #overviewMap svg { height: 100%; margin: 0; }
+.source-fullscreen .source-network-workspace { height: max(22rem, 75dvh); }
+@media (max-width: 700px) {
+  .source-fullscreen #sourceOverview { grid-template-columns: auto minmax(0,1fr); grid-template-rows: auto auto auto auto minmax(15rem,1fr); }
+  .source-fullscreen #overviewMap { grid-row: 5; }
+  .source-fullscreen .source-network-workspace { height: auto; }
+}
