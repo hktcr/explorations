@@ -79,6 +79,7 @@
     "briefing": [
       "vetenskaplig-briefing/bohrs-skalbild/index.html",
       "vetenskaplig-briefing/elektricitet/index.html",
+      "vetenskaplig-briefing/lampor/index.html",
       "vetenskaplig-briefing/orbitaler/index.html"
     ]
   },
@@ -190,6 +191,10 @@
         "kind": "published",
         "at": "2026-11-25T05:02:26+00:00",
         "commit": "fb684c23786b5af37e18121fff04bc8d53f3377b"
+      },
+      {
+        "href": "vetenskaplig-briefing/lampor/index.html",
+        "kind": "published"
       }
     ]
   }

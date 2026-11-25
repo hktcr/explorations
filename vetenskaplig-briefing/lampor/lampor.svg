@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="608" viewBox="0 0 440 608" role="img" aria-labelledby="titel beskrivning" lang="sv">
+  <title id="titel">Från sluten krets till ljus</title>
+  <desc id="beskrivning">Överst syns ett batteri, en sluten brytare och en glödlampa kopplade i en slinga. Därunder jämförs tre sätt att avge ljus. En het volframtråd strålar synligt ljus och infraröd strålning. I lysröret ger kvicksilveratomer ultraviolett strålning som får lyspulvret att lysa. I lysdioden kan en elektron och ett hål rekombinera och sända ut en foton. Gröna vågor står för synligt ljus av valfri färg.</desc>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #171717; font-size: 21px; }
+    .heading { font-weight: bold; font-size: 26px; }
+    .wire, .red, .blue, .green { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .wire { stroke: #171717; }
+    .red { stroke: #b12828; }
+    .blue { stroke: #175b9b; }
+    .green { stroke: #14603e; }
+    .rule { stroke: #171717; stroke-width: 1; }
+  </style>
+  <defs>
+    <path id="ljus" class="green" d="M0 0 q4 -6 8 0 t8 0 t8 0"/>
+  </defs>
+  <rect width="440" height="608" fill="white"/>
+  <text x="22" y="38" class="heading">En sluten krets</text>
+  <g class="wire">
+    <path d="M135 171 H43 V87 H147 M197 87 H329 V110 M329 150 V171 H151"/>
+    <path d="M135 153 V189 M151 162 V180 M151 87 H193"/>
+    <circle cx="147" cy="87" r="4" fill="white"/>
+    <circle cx="197" cy="87" r="4" fill="white"/>
+    <circle cx="329" cy="130" r="20"/>
+    <path d="M315 116 L343 144 M343 116 L315 144"/>
+  </g>
+  <use href="#ljus" x="362" y="125"/><use href="#ljus" x="370" y="139"/>
+  <text x="97" y="70">Sluten brytare</text>
+  <text x="116" y="151">+</text><text x="155" y="151">−</text>
+  <text x="106" y="215">Batteri</text><text x="269" y="215">Glödlampa</text>
+  <path class="rule" d="M22 235 H418"/>
+  <text x="22" y="271" class="heading">Glödtråd</text>
+  <g class="wire"><path d="M23 313 H35 M89 313 H101"/></g>
+  <path class="red" d="M35 313 l5 -10 7 20 7 -20 7 20 7 -20 7 20 7 -20 7 10"/>
+  <use href="#ljus" x="82" y="289"/>
+  <text x="122" y="307">Het volframtråd avger</text>
+  <text x="122" y="335">synligt ljus och infrarött.</text>
+  <path class="rule" d="M22 354 H418"/>
+  <text x="22" y="390" class="heading">Lysrör</text>
+  <circle cx="34" cy="431" r="9" class="wire"/>
+  <path class="blue" d="M46 431 q3 -7 6 0 t6 0 t6 0 M66 427 l5 4 -5 4"/>
+  <path class="wire" d="M75 410 V450 M80 410 V450"/>
+  <use href="#ljus" x="85" y="431"/>
+  <text x="122" y="426">Kvicksilveratomer avger UV.</text>
+  <text x="122" y="454">Lyspulvret ger synligt ljus.</text>
+  <path class="rule" d="M22 474 H418"/>
+  <text x="22" y="510" class="heading">Lysdiod (LED)</text>
+  <circle cx="34" cy="550" r="9" class="blue"/>
+  <path class="blue" d="M30 550 h8"/>
+  <path class="wire" d="M47 550 h14 m-5 -4 5 4 -5 4"/>
+  <circle cx="74" cy="550" r="9" class="wire"/>
+  <use href="#ljus" x="86" y="536"/>
+  <text x="122" y="547">En elektron möter ett hål.</text>
+  <text x="122" y="575">Då kan en foton avges.</text>
+</svg>
