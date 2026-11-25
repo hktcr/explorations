@@ -49,7 +49,7 @@
     for(const rec of data.sources) {
       if(!/^src-[a-f0-9]{16}$/.test(rec.id)||seen.has(rec.id)||typeof rec.title!=="string"||!Array.isArray(rec.aliases)||
         !Array.isArray(rec.uses)||rec.uses.some(x=>!Array.isArray(x)||!Object.hasOwn(data.texts,x[0])||!exactText.test(x[1]))||
-        rec.count!==used(rec).size||!rec.count)throw Error("Ogiltig källrad");
+        rec.count!==used(rec).size||(!rec.count&&rec.library!==true))throw Error("Ogiltig källrad");
       if(rec.url){const url=new URL(rec.url);if(!["http:","https:"].includes(url.protocol)||url.username||url.password)throw Error("Ogiltig källadress");}
       seen.add(rec.id);
     }
@@ -66,6 +66,9 @@
   const status=$("sourceStatus"),choice=$("sourceConditions"),answer=$("conditionAnswer");
   const clear=$("clearConditions"),listView=$("viewList"),graphView=$("viewGraph");
   const state={selected:new Set(),mode:"list",overview:false,overviewDoc:null,limit:30,terms:new Map(),sourceOffset:0,textOffset:0,records:[],byId:new Map(),texts:{},palette:new Map()};
+  const tags=window.ExplorationsSourceTags;
+  state.tags=tags ? tags.read(new URLSearchParams(location.search)) : new Set();
+  state.taxonomy=[];state.overviewSource="";state.three=false;state.yaw=.42;state.pitch=-.24;
   const selected=()=>[...state.selected].map(id=>state.byId.get(id));
   const light=()=>document.documentElement.dataset.theme==="light";
   function makeSourceButton(rec,label,kind){
@@ -148,54 +151,135 @@
     $(label).textContent=(offset+1)+"–"+Math.min(items.length,offset+size)+" av "+items.length;
     return items.slice(offset,offset+size);
   }
-  // Place each source near one of its citing texts. Shared sources remain single
-  // points and keep a line to every citing text represented in this overview.
+  // The flat atlas and its rotatable projection share the same nodes and citation
+  // pairs. Depth is only a layout coordinate; it is never a property of a source.
+  let drawRotation = null;
   function renderOverview(sources,filtering,hits){
-    const host=$("overviewMap"), select=$("overviewArticle");
+    const host=$("overviewMap"), select=$("overviewArticle"), sourceSelect=$("overviewSource");
     const docs=[...documentsFor(sources)].sort((a,b)=>state.texts[a].title.localeCompare(state.texts[b].title,"sv"));
     select.replaceChildren(element("option","Välj text …",{value:""}));
+    sourceSelect.replaceChildren(element("option","Välj källa …",{value:""}));
     select.disabled=!docs.length;
+    sourceSelect.disabled=!sources.length;
     host.replaceChildren();
+    drawRotation=null;
     const count=sources.reduce((sum,record)=>sum+used(record).size,0);
     $("graphScope").textContent=sources.length+" av "+state.records.length+" källor · "+docs.length+" av "+Object.keys(state.texts).length+" texter · "+count+" källkopplingar";
-    if(!docs.length){host.append(element("p","Inga källkopplingar i urvalet."));return;}
-    const cols=Math.ceil(Math.sqrt(docs.length*1.4)), rows=Math.ceil(docs.length/cols);
+    $("overviewSelection").replaceChildren();
+    if(!sources.length){host.append(element("p","Inga källor i urvalet."));return;}
+    const loose=sources.filter(rec=>!rec.uses.length);
+    const cells=docs.length+Math.ceil(loose.length/12);
+    const cols=Math.ceil(Math.sqrt(cells*1.4)), rows=Math.ceil(cells/cols);
+    const width=cols*100,height=rows*100;
     const make=(tag,attrs)=>{
       const node=document.createElementNS("http://www.w3.org/2000/svg",tag);
       for(const [k,v] of Object.entries(attrs))node.setAttribute(k,v);
       return node;
     };
-    const svg=make("svg",{viewBox:"0 0 "+cols*100+" "+rows*100,role:"img","aria-label":"Karta över samtliga källkopplingar i urvalet"});
+    const svg=make("svg",{viewBox:"0 0 "+width+" "+height,role:"img","aria-label":state.three?"Källnät i tre dimensioner. Dra eller använd piltangenterna för att rotera.":"Karta över samtliga källor och källkopplingar i urvalet"});
     const coords=new Map(),clusters=new Map(),points=make("g",{class:"atlas-sources"});
-    const centers=make("g",{}),targets=make("g",{}),lines=[];
-    docs.forEach((doc,i)=>{
-      const x=50+(i%cols)*100,y=50+Math.floor(i/cols)*100;
-      coords.set(doc,{x,y});clusters.set(doc,[]);
-      select.append(element("option",state.texts[doc].title,{value:doc}));
-      centers.append(make("circle",{cx:x,cy:y,r:6,class:"atlas-text",opacity:filtering&&!hits.has(doc)?.48:1}));
-      const target=make("circle",{cx:x,cy:y,r:17,class:"atlas-target","data-doc":doc});
-      const title=make("title",{});title.textContent=state.texts[doc].title;
-      target.append(title);targets.append(target);
-    });
-    for(const rec of sources)clusters.get(rec.uses[0][0]).push(rec);
-    for(const [doc,records] of clusters){
-      const center=coords.get(doc);
-      records.forEach((rec,i)=>{
-        const angle=i*2.39996323, radius=13+28*Math.sqrt((i+.5)/records.length);
-        const x=(center.x+Math.cos(angle)*radius).toFixed(2),y=(center.y+Math.sin(angle)*radius).toFixed(2);
-        points.append(make("circle",{cx:x,cy:y,r:2.4}));
-        for(const linked of used(rec)){
-          const p=coords.get(linked);
-          lines.push("M"+x+","+y+"L"+p.x+","+p.y);
-        }
-      });
+    const centers=make("g",{}),targets=make("g",{}),lines=make("path",{class:"atlas-links"});
+    const positions=[],edges=[];
+    function cell(i){
+      return {x:50+(i%cols)*100,y:50+Math.floor(i/cols)*100,z:Math.sin(i*2.39996)*Math.max(width,height)*.18};
     }
-    targets.addEventListener("click",event=>{
-      const doc=event.target.closest("[data-doc]")?.getAttribute("data-doc");
-      if(doc)openOverviewArticle(doc);
+    docs.forEach((doc,i)=>{
+      const point=cell(i);
+      coords.set(doc,point);clusters.set(doc,[]);
+      select.append(element("option",state.texts[doc].title,{value:doc}));
+      const center=make("circle",{r:6,class:"atlas-text",opacity:filtering&&!hits.has(doc)?.48:1});
+      const target=make("circle",{r:17,class:"atlas-target","data-doc":doc});
+      const title=make("title",{});title.textContent=state.texts[doc].title;
+      target.append(title);targets.append(target);centers.append(center);
+      positions.push({point,nodes:[center,target]});
     });
-    svg.append(make("path",{d:lines.join(" "),class:"atlas-links"}),points,centers,targets);
-    host.append(svg);
+    for(const rec of sources){
+      if(rec.uses.length)clusters.get(rec.uses[0][0]).push(rec);
+      sourceSelect.append(element("option",rec.title,{value:rec.id}));
+    }
+    function addSource(rec,i,total,center){
+      const angle=i*2.39996323, radius=13+28*Math.sqrt((i+.5)/total);
+      const point={x:center.x+Math.cos(angle)*radius,y:center.y+Math.sin(angle)*radius,z:center.z+Math.sin(angle+.8)*radius};
+      const circle=make("circle",{r:2.8,"data-source":rec.id});
+      const tip=make("title",{});tip.textContent=rec.title;circle.append(tip);
+      points.append(circle);positions.push({point,nodes:[circle]});
+      for(const doc of used(rec))edges.push([point,coords.get(doc)]);
+    }
+    for(const [doc,records] of clusters){
+      records.forEach((rec,i)=>addSource(rec,i,records.length,coords.get(doc)));
+    }
+    loose.forEach((rec,i)=>addSource(rec,i%12,Math.min(12,loose.length-12*Math.floor(i/12)),cell(docs.length+Math.floor(i/12))));
+    const rad=Math.hypot(width/2,height/2,Math.max(width,height)*.24);
+    function draw(){
+      const cy=Math.cos(state.yaw),sy=Math.sin(state.yaw),cp=Math.cos(state.pitch),sp=Math.sin(state.pitch);
+      for(const {point,nodes} of positions){
+        let x=point.x,y=point.y;
+        if(state.three){
+          const dx=x-width/2,dy=y-height/2,rx=cy*dx+sy*point.z,rz=cy*point.z-sy*dx;
+          const ry=cp*dy-sp*rz,depth=sp*dy+cp*rz;
+          const scale=Math.min(width,height)*.46/rad * (3*rad)/(3*rad-depth);
+          x=width/2+rx*scale;y=height/2+ry*scale;
+        }
+        point.u=x.toFixed(2);point.v=y.toFixed(2);
+        for(const node of nodes){node.setAttribute("cx",point.u);node.setAttribute("cy",point.v);}
+      }
+      lines.setAttribute("d",edges.map(([a,b])=>"M"+a.u+","+a.v+"L"+b.u+","+b.v).join(" "));
+    }
+    draw();svg.append(lines,points,centers,targets);host.append(svg);
+    if(sourceSelect.options.length && [...sourceSelect.options].some(o=>o.value===state.overviewSource)){
+      sourceSelect.value=state.overviewSource;inspectSource();
+    }
+    let dragged=false;
+    svg.addEventListener("click",event=>{
+      if(dragged)return;
+      const doc=event.target.closest("[data-doc]")?.dataset.doc;
+      const source=event.target.closest("[data-source]")?.dataset.source;
+      if(doc)openOverviewArticle(doc);
+      else if(source){sourceSelect.value=source;inspectSource();}
+    });
+    if(!state.three)return;
+    drawRotation=draw;svg.classList.add("rotatable");svg.setAttribute("tabindex","0");
+    let start=null,frame=0;
+    svg.addEventListener("pointerdown",e=>{
+      if(!e.isPrimary||e.button!==0)return;
+      start={id:e.pointerId,x:e.clientX,y:e.clientY,yaw:state.yaw,pitch:state.pitch};
+      dragged=false;
+    });
+    svg.addEventListener("pointermove",e=>{
+      if(!start||e.pointerId!==start.id)return;
+      const dx=e.clientX-start.x,dy=e.clientY-start.y;
+      if(!dragged && Math.hypot(dx,dy)<5)return;
+      if(!dragged)svg.setPointerCapture(e.pointerId);
+      dragged=true;state.yaw=start.yaw+dx*.012;state.pitch=start.pitch-dy*.012;
+      if(!frame)frame=requestAnimationFrame(()=>{frame=0;draw();});
+    });
+    for(const type of ["pointerup","pointercancel","lostpointercapture","pointerleave"]){
+      svg.addEventListener(type,e=>{if(start?.id===e.pointerId && (type!=="pointerleave"||!dragged))start=null;});
+    }
+    svg.addEventListener("keydown",e=>{
+      const key={ArrowLeft:"rotateLeft",ArrowRight:"rotateRight",ArrowUp:"rotateUp",ArrowDown:"rotateDown",Home:"resetRotation"}[e.key];
+      if(key){e.preventDefault();rotate(key);}
+    });
+  }
+  function rotate(id){
+    if(!drawRotation)return;
+    if(id==="resetRotation"){state.yaw=.42;state.pitch=-.24;}
+    else {
+      state.yaw+=({rotateLeft:-.22,rotateRight:.22}[id]||0);
+      state.pitch+=({rotateUp:-.22,rotateDown:.22}[id]||0);
+    }
+    drawRotation();
+  }
+  function inspectSource(){
+    const id=$("overviewSource").value, rec=state.byId.get(id);
+    state.overviewSource=id;
+    const panel=$("overviewSelection");panel.replaceChildren();
+    $("overviewMap").querySelector(".chosen")?.classList.remove("chosen");
+    if(!rec)return;
+    $("overviewMap").querySelector('[data-source="'+id+'"]')?.classList.add("chosen");
+    panel.append(element("strong",rec.title),element("p",rec.count?rec.count+" kopplade texter":"Fristående källa"));
+    if(rec.url)panel.append(element("a","Öppna originalkällan",{href:rec.url,rel:"noreferrer noopener"}));
+    for(const [doc,href] of uniqueUses(rec)){const p=element("p",null);p.append(formatTextLink(doc,href));panel.append(p);}
   }
   function openOverviewArticle(doc){
     if(!Object.hasOwn(state.texts,doc))return;
@@ -230,19 +314,23 @@
     if(!state.byId.has(e.detail))return;
     state.fromAction=true;toggle(e.detail,"source-network-condition");
   });
-  function search(raw) {
+  function search(raw,filterTags=true) {
     const tokens=words(raw);
     const articles=new Set(Object.keys(state.texts).filter(id=>{
       const title=fold(state.texts[id].title);
       return tokens.length && tokens.every(token=>title.includes(token));
     }));
-    const sources=[],docs=new Set(articles);
+    const sources=[],docs=new Set();
     for(const rec of state.records){
-      if(match(rec,raw)){
+      if(filterTags && tags && !tags.matches(rec,state.tags))continue;
+      const tagTerms=tags ? fold(tags.queryText(rec,state.taxonomy)) : "";
+      if(match(rec,raw)||(tokens.length&&tokens.every(t=>tagTerms.includes(t)))){
+
         sources.push(rec);
         for(const [doc] of rec.uses)docs.add(doc);
       }else if(rec.uses.some(([doc])=>articles.has(doc))){
         sources.push(rec);
+        for(const [doc] of rec.uses)if(articles.has(doc))docs.add(doc);
       }
     }
     return {sources,docs,articles};
@@ -251,13 +339,22 @@
     const draftResult=search(query.value);
     const matches=draftResult.sources;
     const conditions=selected();
+    if(tags){
+      const available=state.tags.size ? search(query.value,false).sources : matches;
+      tags.cloud($("networkTags"),available,state.taxonomy,state.tags,id=>{
+        if(state.tags.has(id))state.tags.delete(id);else state.tags.add(id);
+        apply();
+        [...$("networkTags").querySelectorAll("[data-tag-id]")].find(b=>b.dataset.tagId===id)?.focus();
+      });
+    }
     const saved=[...state.terms.values()].map(search);
     const termMatches=saved.map(result=>result.sources);
-    const hits=sharedTexts([...conditions.map(used),...saved.map(result=>result.docs)]);
+    const permitted=rec=>!tags || tags.matches(rec,state.tags);
+    const hits=sharedTexts([...conditions.map(rec=>permitted(rec)?used(rec):new Set()),...saved.map(result=>result.docs)]);
     const filtering=conditions.length+termMatches.length>0;
     const draft=query.value.trim();
-    const display=draft || !filtering ? matches : [...new Map([...conditions,...termMatches.flat()].map(rec=>[rec.id,rec])).values()];
-    const graphSources=[...new Map([...conditions,...termMatches.flat(),...display].map(rec=>[rec.id,rec])).values()];
+    const display=draft || !filtering ? matches : [...new Map([...conditions.filter(permitted),...termMatches.flat()].map(rec=>[rec.id,rec])).values()];
+    const graphSources=[...new Map([...conditions.filter(permitted),...termMatches.flat(),...display].map(rec=>[rec.id,rec])).values()];
     const detailSources=state.overviewDoc ? graphSources.filter(rec=>used(rec).has(state.overviewDoc)) : graphSources;
     const sources=page(detailSources,state.sourceOffset,8,"sourcePages","prevSources","nextSources","sourcePage");
     state.palette=distinguish(sources);
@@ -265,13 +362,18 @@
     status.textContent=display.length+" av "+state.records.length+" källor";
     list.hidden=state.mode!=="list";graph.hidden=state.mode!=="graph";
     listView.setAttribute("aria-pressed",String(!list.hidden));graphView.setAttribute("aria-pressed",String(!graph.hidden));
-    $("sourcePortalBack").href=draft?"portal/?"+new URLSearchParams({q:draft}):"portal/";
+    const backParams=new URLSearchParams();if(draft)backParams.set("q",draft);
+    if(tags)tags.write(backParams,state.tags);
+    $("sourcePortalBack").href="portal/"+(backParams.size?"?"+backParams:"");
     renderConditions(conditions,hits);
     const showOverview=state.mode==="graph" && state.overview;
+    $("rotationTools").hidden=!showOverview||!state.three;
+    $("overview3D").setAttribute("aria-pressed",String(showOverview&&state.three));
+    $("overview2D").setAttribute("aria-pressed",String(!showOverview||!state.three));
     $("sourceOverview").hidden=!showOverview;$("sourceDetail").hidden=showOverview;
     const overviewButton=$("showSourceOverview");
     overviewButton.setAttribute("aria-expanded",String(showOverview));
-    overviewButton.textContent=showOverview ? "Till detaljvyn" : (draft||filtering ? "Översikt över urvalet" : "Visa hela nätet");
+    overviewButton.textContent=showOverview ? "Till detaljvyn" : (draft||filtering||state.tags.size ? "Översikt över urvalet" : "Visa hela nätet");
     if(!list.hidden){renderList(display);return;}
     if(showOverview){renderOverview(graphSources,filtering,hits);return;}
     renderGraph(sources,filtering,hits,draftResult.articles);
@@ -282,8 +384,15 @@
   $("showSourceOverview").addEventListener("click",()=>{
     state.overview=!state.overview;state.overviewDoc=null;state.sourceOffset=state.textOffset=0;render();
   });
+  for(const [id,three] of [["overview2D",false],["overview3D",true]]){
+    $(id).addEventListener("click",()=>{state.overview=true;state.three=three;render();});
+  }
+  for(const id of ["rotateLeft","rotateRight","rotateUp","rotateDown","resetRotation"]){
+    $(id).addEventListener("click",()=>rotate(id));
+  }
+  $("overviewSource").addEventListener("change",inspectSource);
   $("overviewArticle").addEventListener("change",event=>openOverviewArticle(event.target.value));
-  const apply=()=>{state.overviewDoc=null;state.limit=30;state.sourceOffset=state.textOffset=0;render();const url=new URL(location.href);if(query.value.trim())url.searchParams.set("q",query.value.trim());else url.searchParams.delete("q");history.replaceState(null,"",url);};
+  const apply=()=>{state.overviewDoc=null;state.limit=30;state.sourceOffset=state.textOffset=0;render();const url=new URL(location.href);if(query.value.trim())url.searchParams.set("q",query.value.trim());else url.searchParams.delete("q");if(tags)tags.write(url.searchParams,state.tags);history.replaceState(null,"",url);};
   $("sourceForm").addEventListener("submit",event=>{event.preventDefault();apply();});
   query.addEventListener("input",apply);
   $("addSourceTerm").addEventListener("click",()=>{
@@ -310,6 +419,6 @@
   fetch("../kallor-index-v2.json",{cache:"no-cache"}).then(r=>{
     if(!r.ok)throw Error();return r.json();
   }).then(validate).then(d=>{
-    state.records=d.sources;state.texts=d.texts;state.byId=new Map(d.sources.map(rec=>[rec.id,rec]));render();
+    state.records=d.sources;state.texts=d.texts;state.taxonomy=d.tags||[];state.byId=new Map(d.sources.map(rec=>[rec.id,rec]));render();
   }).catch(()=>{status.textContent="Källregistret kunde inte öppnas. Ladda om sidan och försök igen.";});
 })();

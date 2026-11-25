@@ -16,3 +16,7 @@ input::placeholder,#sourceCount{color:var(--muted)}
 #sourceCount{font-size:.88rem}details{border-top:1px solid var(--line);overflow-wrap:anywhere}
 summary{padding:.85rem 0;cursor:pointer;font:1rem/1.55 Merriweather,Georgia,serif}summary::marker{color:var(--accent)}
 details p,details ul{margin:.3rem 0 1rem}details a{color:var(--accent);text-underline-offset:.18em}
+#sourceTags:not([hidden]){display:flex;flex-wrap:wrap;gap:.35rem .55rem;align-items:center}
+#sourceTags button{border:1px solid transparent;border-radius:.35rem;background:transparent;color:var(--accent);padding:.35rem .55rem;min-height:2.25rem;font:inherit;font-size:.92rem;cursor:pointer}
+#sourceTags button:hover,#sourceTags button[aria-pressed=true]{border-color:var(--line);background:color-mix(in srgb,var(--accent) 12%,var(--surface))}
+#sourceTags button[aria-pressed=true]{border-color:var(--accent);font-weight:600}

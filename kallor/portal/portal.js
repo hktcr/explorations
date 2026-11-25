@@ -4,6 +4,9 @@
   const list = document.querySelector('#sourceList');
   const status = document.querySelector('#sourceCount');
   const network = document.querySelector('#sourceNetwork');
+  const cloud = document.querySelector('#sourceTags');
+  const tags = window.ExplorationsSourceTags;
+  const selected = tags.read(new URLSearchParams(location.search));
   const collator = new Intl.Collator('sv', {sensitivity:'base', numeric:true, ignorePunctuation:true});
   const fold = s => s.normalize('NFKC').toLocaleLowerCase('sv');
   const root = new URL('../../', location.href);
@@ -14,7 +17,7 @@
     a.href = href;
     parent.append(a);
   }
-  function details(row, texts) {
+  function details(row, texts, taxonomy) {
     const block = document.createElement('details');
     const title = document.createElement('summary');
     title.textContent = row.title;
@@ -37,7 +40,9 @@
         block.append(citation);
       }
       if (row.doi) info.append('DOI ' + row.doi + '. ');
-      info.append('Hänvisning i ' + records.size + (records.size===1 ? ' publicerad text.' : ' publicerade texter.'));
+      info.append(records.size ? 'Hänvisning i ' + records.size + (records.size===1 ? ' publicerad text.' : ' publicerade texter.') : 'Fristående källa i samlingen.');
+      const subjects = taxonomy.filter(tag => row.tags?.includes(tag.id));
+      if (subjects.length) info.append(' Ämnen: ' + subjects.map(tag => tag.sv).join(', ') + '.');
       block.append(info);
       if (row.url) {
         const target = new URL(row.url);
@@ -54,7 +59,7 @@
         link(li,text.series + ' · ' + text.title,target.href);
         uses.append(li);
       }
-      block.append(uses);
+      if (uses.children.length) block.append(uses);
     });
     return block;
   }
@@ -64,32 +69,46 @@
       if (!response.ok) throw Error('index');
       const data = await response.json();
       if (data.schemaVersion!==2 || !Array.isArray(data.sources) || !data.texts) throw Error('index');
-      catalog = {texts:data.texts, sources:data.sources.sort((a,b)=>collator.compare(a.title,b.title))};
+      catalog = {texts:data.texts, taxonomy:data.tags || [], sources:data.sources.sort((a,b)=>collator.compare(a.title,b.title))};
       return catalog;
     }).finally(()=>{request=null;});
     return request;
   }
   async function render() {
     const sequence = ++version, query = input.value.trim();
-    const params = new URLSearchParams({vy:'natverk'});
+    const params = tags.write(new URLSearchParams({vy:'natverk'}), selected);
     if (query) params.set('q',query);
     network.href = '../?' + params;
-    list.hidden = !(showAll || query);
+    const url = new URL(location.href);
+    tags.write(url.searchParams,selected);
+    if (query) url.searchParams.set('q',query);
+    else url.searchParams.delete('q');
+    if (url.href !== location.href) history.replaceState(history.state,'',url);
+    list.hidden = !(showAll || query || selected.size);
     toggle.setAttribute('aria-expanded',String(!list.hidden));
     list.replaceChildren();
-    status.textContent = '';
-    if (list.hidden) return;
-    status.textContent = 'Hämtar källor…';
+    status.textContent = list.hidden ? '' : 'Hämtar källor…';
     try {
-      const {sources,texts} = await load();
+      const {sources,texts,taxonomy} = await load();
       if (sequence!==version) return;
       const terms = fold(query).split(/\s+/).filter(Boolean);
-      const rows = sources.filter(row=>{
-        const haystack=fold([row.title,...row.aliases,row.doi,row.url].join(' '));
-        return terms.every(term=>haystack.includes(term));
+      const base = sources.filter(row=>{
+        if (!terms.length) return true;
+        const haystack=fold([row.title,...row.aliases,row.doi,row.url,tags.queryText(row,taxonomy)].join(' '));
+        return terms.every(term=>haystack.includes(term)) || row.uses.some(([id])=>{
+          const title=fold(texts[id]?.title || '');
+          return terms.every(term=>title.includes(term));
+        });
       });
+      tags.cloud(cloud,base,taxonomy,selected,id=>{
+        if (selected.has(id)) selected.delete(id);
+        else selected.add(id);
+        render();
+      });
+      if (list.hidden) return;
+      const rows = base.filter(row=>tags.matches(row,selected));
       const entries = document.createDocumentFragment();
-      for (const row of rows) entries.append(details(row,texts));
+      for (const row of rows) entries.append(details(row,texts,taxonomy));
       list.append(entries);
       status.textContent = rows.length ? rows.length + (rows.length===1?' källa':' källor') : 'Inga källor matchar sökningen.';
     } catch {
@@ -100,7 +119,7 @@
   input.addEventListener('input',()=>{showAll=false;render();});
   document.querySelector('#sourceForm').addEventListener('submit',e=>{e.preventDefault();render();});
   toggle.addEventListener('click',()=>{
-    if (input.value) {input.value='';showAll=true;} else showAll=!showAll;
+    if (input.value || selected.size) {input.value='';selected.clear();showAll=true;} else showAll=!showAll;
     render();
   });
   render();

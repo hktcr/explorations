@@ -39,3 +39,9 @@ html[data-theme=light] .source-network-workspace .source-canonical-node{--networ
 #overviewMap .atlas-sources{fill:var(--text)}
 #overviewMap .atlas-text{stroke:var(--accent);fill:var(--card);stroke-width:2}
 #overviewMap .atlas-target{fill:transparent;cursor:pointer}
+#overviewMap .atlas-sources circle{cursor:pointer}
+#overviewMap .atlas-sources circle.chosen{stroke:var(--accent);stroke-width:2}
+#overviewMap svg.rotatable{touch-action:none;cursor:grab}
+#overviewMap svg.rotatable:active{cursor:grabbing}
+#rotationTools button{min-width:44px;min-height:44px}
+#overviewSelection{overflow-wrap:anywhere}

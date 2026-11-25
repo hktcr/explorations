@@ -5,8 +5,9 @@
 <title>Källportalen · Explorations</title>
 <script src="../../explorations-theme.js"></script>
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="portal.css">
-<script src="portal.js" defer></script>
+<link rel="stylesheet" href="portal.css?v=20261125-taggar">
+<script src="../taggfilter.js?v=20261125" defer></script>
+<script src="portal.js?v=20261125-taggar" defer></script>
 </head>
 <body><main>
 <header><h1>Källportalen</h1></header>
@@ -16,6 +17,7 @@
 <button id="sourceContents" class="square" aria-label="Visa alfabetisk källförteckning" title="Alfabetisk källförteckning" aria-controls="sourceList" aria-expanded="false" type="button"><svg aria-hidden="true" viewBox="0 0 44 44"><path d="M17 12h19M17 22h16M17 32h19"/><circle cx="9" cy="12" r="2"/><circle cx="9" cy="22" r="2"/><circle cx="9" cy="32" r="2"/></svg></button>
 <a id="backPortal" class="square" href="../../" aria-label="Till Explorations" title="Till Explorations"><svg aria-hidden="true" viewBox="0 0 44 44"><path d="M33 22H10m10-10L10 22l10 10"/></svg></a>
 </form>
+<div id="sourceTags" role="group" aria-label="Filtrera källor efter ämne" hidden></div>
 <p id="sourceCount" role="status"></p><div id="sourceList" hidden></div>
 <noscript><p>För att söka i källorna behöver du aktivera JavaScript.</p></noscript>
 </main></body></html>

@@ -1,0 +1,1074 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "title": "\"I am here for you\": How relational conversational AI appeals to adolescents, especially those who are socially and emotionally vulnerable",
+      "url": "https://arxiv.org/abs/2512.15117v2",
+      "tags": [
+        "artificial-intelligence",
+        "digital-competence"
+      ]
+    },
+    {
+      "title": "Understanding by Design Framework",
+      "url": "https://ascd.org/ASCD/pdf/siteASCD/publications/UbD_WhitePaper0312.pdf",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Rapid literature review on assistive technology in education",
+      "url": "https://assets.publishing.service.gov.uk/media/5fbb9e83d3bf7f573228a3b2/UKAT_FinalReport_082520.pdf",
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "title": "Implementation of education technology in schools and colleges",
+      "url": "https://assets.publishing.service.gov.uk/media/63355d2ee90e0772dc965174/Implementation_of_education_technology_in_schools__and_colleges.pdf",
+      "tags": [
+        "digital-education",
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "Using digital technology to improve learning: Guidance report",
+      "url": "https://d2tic4wvo1iusb.cloudfront.net/production/eef-guidance-reports/digital/EEF_Digital_Technology_Guidance_Report.pdf",
+      "tags": [
+        "digital-education",
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "Embedding Formative Assessment: Evaluation report and executive summary",
+      "url": "https://discovery.ucl.ac.uk/id/eprint/10052334/",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Learner Response System Evaluation report and executive summary",
+      "url": "https://discovery.ucl.ac.uk/id/eprint/10118540/",
+      "tags": [
+        "digital-education",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "The impact of feedback on student attainment: a systematic review",
+      "url": "https://discovery.ucl.ac.uk/id/eprint/10138571/",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "The misallocation of students to academic sets in maths: A study of secondary schools in England",
+      "url": "https://doi.org/10.1002/berj.3530",
+      "tags": [
+        "mathematics",
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "The achievement gap: The impact of between‐class attainment grouping on pupil attainment and educational equity over time",
+      "url": "https://doi.org/10.1002/berj.3838",
+      "tags": [
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "Targeted school-based interventions for improving reading and mathematics for students with, or at risk of, academic difficulties in Grades 7–12: A systematic review",
+      "url": "https://doi.org/10.1002/cl2.1081",
+      "tags": [
+        "mathematics",
+        "reading"
+      ]
+    },
+    {
+      "title": "VALIDITY OF PSYCHOLOGICAL ASSESSMENT: VALIDATION OF INFERENCES FROM PERSONS' RESPONSES AND PERFORMANCES AS SCIENTIFIC INQUIRY INTO SCORE MEANING",
+      "url": "https://doi.org/10.1002/j.2333-8504.1994.tb01618.x",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "The Effect of Mentoring on School Attendance and Academic Outcomes: A Randomized Evaluation of the Check & Connect Program",
+      "url": "https://doi.org/10.1002/pam.22264",
+      "tags": [
+        "attendance",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Detracking Swedish compulsory schools: any losers, any winners?",
+      "url": "https://doi.org/10.1007/s00181-011-0532-6",
+      "tags": [
+        "education-policy"
+      ]
+    },
+    {
+      "title": "In service of school digitalisation in Sweden – a study on ICT coordinators’ conditions for work in a local municipal context framed by national educational policy",
+      "url": "https://doi.org/10.1007/s10639-024-12581-7",
+      "tags": [
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "What Works for Teaching Word Reading to Adolescents? A Meta-Analytic Investigation",
+      "url": "https://doi.org/10.1007/s10648-026-10124-9",
+      "tags": [
+        "reading"
+      ]
+    },
+    {
+      "title": "Enhancing School Students’ Self-Regulated Learning through Generative AI Support: A Randomized Controlled Trial",
+      "url": "https://doi.org/10.1007/s10648-026-10133-8",
+      "tags": [
+        "artificial-intelligence"
+      ]
+    },
+    {
+      "title": "A Meta-Analysis of the Effectiveness and Boundary Conditions of Retrieval Practice, Distributed Practice, and Interleaved Practice in Authentic School Classrooms",
+      "url": "https://doi.org/10.1007/s10648-026-10225-5",
+      "tags": [
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Relationships Between Opportunity to Learn and Class Prior Attainment in Mathematics",
+      "url": "https://doi.org/10.1007/s10763-026-10687-7",
+      "tags": [
+        "mathematics"
+      ]
+    },
+    {
+      "title": "Early tracking and different types of inequalities in achievement: difference-in-differences evidence from 20 years of large-scale assessments",
+      "url": "https://doi.org/10.1007/s11092-020-09346-4",
+      "tags": [
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "Writing evaluation: rater and task effects on the reliability of writing scores for children in Grades 3 and 4",
+      "url": "https://doi.org/10.1007/s11145-017-9724-6",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Middle school matters: examining the effects of a schoolwide professional development model to improve reading comprehension",
+      "url": "https://doi.org/10.1007/s11145-022-10271-9",
+      "tags": [
+        "reading",
+        "professional-learning"
+      ]
+    },
+    {
+      "title": "The Impact of item flaws, testing at low cognitive level, and low distractor functioning on multiple-choice question quality",
+      "url": "https://doi.org/10.1007/s40037-015-0212-x",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Piloting Systematic Implementation of Educational Technology in Swedish K-12 Schools – Two-Years-In Report",
+      "url": "https://doi.org/10.1007/s43477-024-00130-w",
+      "tags": [
+        "digital-education",
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "The potential of digital tools to enhance mathematics and science learning in secondary schools: A context-specific meta-analysis",
+      "url": "https://doi.org/10.1016/j.compedu.2020.103897",
+      "tags": [
+        "digital-education",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Explicit video-based instruction enhanced students’ online credibility evaluation skills: Did storifying instruction matter?",
+      "url": "https://doi.org/10.1016/j.compedu.2025.105252",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Effects of LLM use and note-taking on reading comprehension and memory: A randomised experiment in secondary schools",
+      "url": "https://doi.org/10.1016/j.compedu.2025.105514",
+      "tags": [
+        "artificial-intelligence",
+        "learning-outcomes",
+        "reading"
+      ]
+    },
+    {
+      "title": "Estimating peer effects in Swedish high school using school, teacher, and student fixed effects",
+      "url": "https://doi.org/10.1016/j.econedurev.2008.04.003",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "The impact of peer achievement and peer heterogeneity on own achievement growth: Evidence from school transitions",
+      "url": "https://doi.org/10.1016/j.econedurev.2013.08.002",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Through the looking glass: Can classroom observation and coaching improve teacher performance in Brazil?",
+      "url": "https://doi.org/10.1016/j.econedurev.2018.03.003",
+      "tags": [
+        "professional-learning"
+      ]
+    },
+    {
+      "title": "The use of scoring rubrics: Reliability, validity and educational consequences",
+      "url": "https://doi.org/10.1016/j.edurev.2007.05.002",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Don't throw away your printed books: A meta-analysis on the effects of reading media on reading comprehension",
+      "url": "https://doi.org/10.1016/j.edurev.2018.09.003",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "No learning loss in Sweden during the pandemic: Evidence from primary school reading assessments",
+      "url": "https://doi.org/10.1016/j.ijer.2022.102011",
+      "tags": [
+        "assessment",
+        "reading"
+      ]
+    },
+    {
+      "title": "The effect of low-achieving peers",
+      "url": "https://doi.org/10.1016/j.labeco.2018.10.004",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Discrimination in grading: A scoping review of studies on teachers’ discrimination in school",
+      "url": "https://doi.org/10.1016/j.stueduc.2023.101284",
+      "tags": [
+        "assessment",
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "Teacher ‘quality’ and attainment grouping: The role of within-school teacher deployment in social and educational inequality",
+      "url": "https://doi.org/10.1016/j.tate.2018.10.001",
+      "tags": [
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "Global trends in adolescent school loneliness from 2000 to 2022: An analysis of gender and socioeconomic inequalities across 87 countries",
+      "url": "https://doi.org/10.1017/s0033291726105510",
+      "tags": [
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "Promoting adolescents’ comprehension of text: A randomized control trial of its effectiveness.",
+      "url": "https://doi.org/10.1037/edu0000794",
+      "tags": [
+        "reading"
+      ]
+    },
+    {
+      "title": "A tailored small group instruction intervention in mathematics benefits low achievers",
+      "url": "https://doi.org/10.1038/s41539-025-00310-9",
+      "tags": [
+        "mathematics",
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Fabrication and errors in the bibliographic citations generated by ChatGPT",
+      "url": "https://doi.org/10.1038/s41598-023-41032-5",
+      "tags": [
+        "artificial-intelligence",
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "AI tutoring outperforms in-class active learning: an RCT introducing a novel research-based design in an authentic educational setting",
+      "url": "https://doi.org/10.1038/s41598-025-97652-6",
+      "tags": [
+        "artificial-intelligence",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Learning loss due to school closures during the COVID-19 pandemic",
+      "url": "https://doi.org/10.1073/pnas.2022376118",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Algorithmic amplification of politics on Twitter",
+      "url": "https://doi.org/10.1073/pnas.2025334119",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Generative AI without guardrails can harm learning: Evidence from high school mathematics",
+      "url": "https://doi.org/10.1073/pnas.2422633122",
+      "tags": [
+        "artificial-intelligence",
+        "learning-outcomes",
+        "mathematics"
+      ]
+    },
+    {
+      "title": "Computer-assisted learning in the real world: How Khan Academy influences student math learning",
+      "url": "https://doi.org/10.1073/pnas.2507708123",
+      "tags": [
+        "digital-education",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "What's in a name? Experiments with blind marking in A‐level examinations",
+      "url": "https://doi.org/10.1080/0013188980400207",
+      "tags": [
+        "assessment",
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "Effects of an early warning system on student absence and completion in Norwegian upper secondary schools: a cluster-randomised study",
+      "url": "https://doi.org/10.1080/00313831.2022.2116481",
+      "tags": [
+        "attendance"
+      ]
+    },
+    {
+      "title": "Trends in low school satisfaction among adolescents in Denmark according to sex, grade, and socioeconomic background, 1994–2022",
+      "url": "https://doi.org/10.1080/00313831.2025.2468180",
+      "tags": []
+    },
+    {
+      "title": "Whom to believe? Fostering source evaluation skills with interleaved presentation of untrustworthy and trustworthy social media sources",
+      "url": "https://doi.org/10.1080/0163853X.2024.2339733",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Trusting teachers’ judgement: research evidence of the reliability and validity of teachers’ assessment used for summative purposes",
+      "url": "https://doi.org/10.1080/02671520500193744",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Effects of between-class ability grouping on secondary students’ academic achievement: quasi-experimental evidence from Chile",
+      "url": "https://doi.org/10.1080/09243453.2024.2349542",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Analytic or holistic? A study about how to increase the agreement in teachers’ grading",
+      "url": "https://doi.org/10.1080/0969594x.2021.1884041",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Bringing Disability Into the Discussion: Examining Technology Accessibility as An Equity Concern in the Field of Instructional Technology",
+      "url": "https://doi.org/10.1080/15391523.2019.1566037",
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "title": "Digital platform work reinforcing performativity: teacher responses to work intensification explored through trace ethnography",
+      "url": "https://doi.org/10.1080/17508487.2024.2409661",
+      "tags": [
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "The Effect of Embedding Formative Assessment on Pupil Attainment",
+      "url": "https://doi.org/10.1080/19345747.2021.2018746",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Can Personalized Attendance Information Mitigate Student Absenteeism? Evidence from Six Randomized Field Trials",
+      "url": "https://doi.org/10.1080/19345747.2025.2537112",
+      "tags": [
+        "attendance"
+      ]
+    },
+    {
+      "title": "Longer-Term Effects of Low-Dosage Tutoring in Mathematics",
+      "url": "https://doi.org/10.1080/19345747.2026.2744641",
+      "tags": [
+        "mathematics"
+      ]
+    },
+    {
+      "title": "Technology and school–home communication",
+      "url": "https://doi.org/10.1080/22040552.2016.1227252",
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "title": "Leading the digitalization in K–12 education at the municipality level",
+      "url": "https://doi.org/10.1080/2331186X.2024.2368997",
+      "tags": [
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "School Tracking and Development of Cognitive Skills",
+      "url": "https://doi.org/10.1086/669493",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Long‐term effects of an online math tool on U.S. adolescents' achievement",
+      "url": "https://doi.org/10.1111/bjet.13579",
+      "tags": [
+        "digital-education",
+        "learning-outcomes",
+        "mathematics"
+      ]
+    },
+    {
+      "title": "Sampling Variability of Performance Assessments",
+      "url": "https://doi.org/10.1111/j.1745-3984.1993.tb00424.x",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Three Options Are Optimal for Multiple‐Choice Items: A Meta‐Analysis of 80 Years of Research",
+      "url": "https://doi.org/10.1111/j.1745-3992.2005.00006.x",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Examining the structure of credibility evaluation when sixth graders read online texts",
+      "url": "https://doi.org/10.1111/jcal.12779",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Validating the Interpretations and Uses of Test Scores",
+      "url": "https://doi.org/10.1111/jedm.12000",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Small‐ and large‐group instruction and a didactic method in mathematics for low‐performing adolescents: results from a randomized field experiment",
+      "url": "https://doi.org/10.1111/sjoe.12581",
+      "tags": [
+        "mathematics",
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Deep Neural Networks for YouTube Recommendations",
+      "url": "https://doi.org/10.1145/2959100.2959190",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "A Large Scale Randomized Control Trial Showing LLM Generated Feedback Helps Low-Knowledge Middle School Math Students with Short-Term Learning",
+      "url": "https://doi.org/10.1145/3774398.3811594",
+      "tags": [
+        "mathematics",
+        "artificial-intelligence"
+      ]
+    },
+    {
+      "title": "Bias in grading: A meta-analysis of experimental research findings",
+      "url": "https://doi.org/10.1177/0004944116664618",
+      "tags": [
+        "assessment",
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "Ability Grouping’s Effects on Grades and the Attainment of Higher Education",
+      "url": "https://doi.org/10.1177/0038040716642498",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Comparing Use of Human-Created to AI-Generated Instructional Materials to Teach Science Vocabulary: A Randomized Controlled Trial",
+      "url": "https://doi.org/10.1177/01626434261506259",
+      "tags": [
+        "artificial-intelligence",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Classroom Discussions of Social Issues in the Age of Generative AI: Epistemic Vigilance Against Bias and Bullshit",
+      "url": "https://doi.org/10.1177/0885985X251382072",
+      "tags": [
+        "artificial-intelligence",
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Online Mathematics Homework Increases Student Achievement",
+      "url": "https://doi.org/10.1177/2332858416673968",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Instruction Increases Canadian Students’ Preference for and Use of Lateral Reading Strategies to Fact-Check Online Information",
+      "url": "https://doi.org/10.1177/23328584231192106",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "The Language Factor in Mathematics Tests",
+      "url": "https://doi.org/10.1207/s15324818ame1403_2",
+      "tags": [
+        "assessment",
+        "mathematics"
+      ]
+    },
+    {
+      "title": "A Review of Multiple-Choice Item-Writing Guidelines for Classroom Assessment",
+      "url": "https://doi.org/10.1207/s15324818ame1503_5",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Peer Effects, Teacher Incentives, and the Impact of Tracking: Evidence from a Randomized Evaluation in Kenya",
+      "url": "https://doi.org/10.1257/aer.101.5.1739",
+      "tags": [
+        "education-policy"
+      ]
+    },
+    {
+      "title": "Not Too Late: Improving Academic Outcomes among Adolescents",
+      "url": "https://doi.org/10.1257/aer.20210434",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "From Proof of Concept to Scalable Policies: Challenges and Solutions, with an Application",
+      "url": "https://doi.org/10.1257/jep.31.4.73",
+      "tags": [
+        "education-policy"
+      ]
+    },
+    {
+      "title": "Does the “Boost for Mathematics” Boost Mathematics? A Large-Scale Evaluation of the “Lesson Study” Methodology on Student Performance",
+      "url": "https://doi.org/10.1257/pol.20220009",
+      "tags": [
+        "mathematics",
+        "professional-learning",
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Competence Assessment of Students With Special Educational Needs—Identification of Appropriate Testing Accommodations",
+      "url": "https://doi.org/10.14786/flr.v3i2.130",
+      "tags": [
+        "accessibility",
+        "assessment"
+      ]
+    },
+    {
+      "title": "Examining the impact of specific types of item-writing flaws on student performance and psychometric properties of the multiple choice question",
+      "url": "https://doi.org/10.15694/mep.2018.0000225.1",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Better Incentives, Better Marks: A Synthetic Control Evaluation of the Educational Policies in Ceará, Brazil",
+      "url": "https://doi.org/10.1590/1981-3821202300010005",
+      "tags": [
+        "education-policy"
+      ]
+    },
+    {
+      "title": "From Chalkboards to Chatbots: Evaluating the Impact of Generative AI on Learning Outcomes in Nigeria",
+      "url": "https://doi.org/10.1596/1813-9450-11125",
+      "tags": [
+        "artificial-intelligence"
+      ]
+    },
+    {
+      "title": "Incentives for Mayors to Improve Learning: Evidence from State Reforms in Ceará, Brazil",
+      "url": "https://doi.org/10.1596/1813-9450-9509",
+      "tags": [
+        "education-policy"
+      ]
+    },
+    {
+      "title": "Knowing What Students Know",
+      "url": "https://doi.org/10.17226/10019",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Improving students’ narrative comprehension through a multiple strategy approach. Effects of Dialogic Strategy Instruction in secondary school.",
+      "url": "https://doi.org/10.17239/l1esll-2015.15.01.01",
+      "tags": [
+        "reading",
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Empowering Learners for the Age of AI",
+      "url": "https://doi.org/10.1787/65cd27d4-en",
+      "tags": [
+        "artificial-intelligence",
+        "digital-competence"
+      ]
+    },
+    {
+      "title": "Sambedömning för ökad likvärdighet?",
+      "url": "https://doi.org/10.24834/educare.2015.2.1137",
+      "tags": [
+        "assessment",
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "Effects of Ability Grouping on Secondary School Students: A Meta-analysis of Evaluation Findings",
+      "url": "https://doi.org/10.3102/00028312019003415",
+      "tags": [
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Effects of a University-Led High-Impact Tutoring Program on Low-Achieving High School Students: A 3-Year Randomized Controlled Trial",
+      "url": "https://doi.org/10.3102/00028312261450125",
+      "tags": [
+        "teaching-methods",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Teachers’ Bias Against the Mathematical Ability of Female, Black, and Hispanic Students",
+      "url": "https://doi.org/10.3102/0013189x19890577",
+      "tags": [
+        "educational-equity",
+        "mathematics"
+      ]
+    },
+    {
+      "title": "Achievement Effects of Ability Grouping in Secondary Schools: A Best-Evidence Synthesis",
+      "url": "https://doi.org/10.3102/00346543060003471",
+      "tags": [
+        "learning-outcomes",
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Within-Class Grouping: A Meta-Analysis",
+      "url": "https://doi.org/10.3102/00346543066004423",
+      "tags": [
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Test Accommodations for Students With Disabilities: An Analysis of the Interaction Hypothesis",
+      "url": "https://doi.org/10.3102/00346543075004457",
+      "tags": [
+        "assessment",
+        "accessibility"
+      ]
+    },
+    {
+      "title": "What One Hundred Years of Research Says About the Effects of Ability Grouping and Acceleration on K–12 Students’ Academic Achievement",
+      "url": "https://doi.org/10.3102/0034654316675417",
+      "tags": [
+        "learning-outcomes",
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "The Effect of Teacher Coaching on Instruction and Achievement: A Meta-Analysis of the Causal Evidence",
+      "url": "https://doi.org/10.3102/0034654318759268",
+      "tags": [
+        "professional-learning"
+      ]
+    },
+    {
+      "title": "The Effect of School Tracking on Student Achievement and Inequality: A Meta-Analysis",
+      "url": "https://doi.org/10.3102/00346543221100850",
+      "tags": [
+        "learning-outcomes",
+        "educational-equity"
+      ]
+    },
+    {
+      "title": "High dosage tutoring in pre-vocational secondary education: Experimental evidence from Amsterdam",
+      "url": "https://doi.org/10.31235/osf.io/r56um",
+      "tags": [
+        "teaching-methods",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Intensive Math Instruction and Educational Attainment",
+      "url": "https://doi.org/10.3368/jhr.50.1.108",
+      "tags": [
+        "mathematics"
+      ]
+    },
+    {
+      "title": "One Click Away: AI Tutoring with Khanmigo in a Two-Year School Experiment",
+      "url": "https://doi.org/10.3386/w35620",
+      "tags": [
+        "artificial-intelligence"
+      ]
+    },
+    {
+      "title": "The effect of a formative assessment practice on student achievement in mathematics",
+      "url": "https://doi.org/10.3389/feduc.2023.1101192",
+      "tags": [
+        "assessment",
+        "mathematics"
+      ]
+    },
+    {
+      "title": "Large language models as grading assistants in public health education: a method-comparison study of essay-style exam assessment",
+      "url": "https://doi.org/10.3389/feduc.2026.1904452",
+      "tags": [
+        "artificial-intelligence",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Differentiated Instruction in Secondary Education: A Systematic Review of Research Evidence",
+      "url": "https://doi.org/10.3389/fpsyg.2019.02366",
+      "tags": [
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "The Power of Feedback Revisited: A Meta-Analysis of Educational Feedback Research",
+      "url": "https://doi.org/10.3389/fpsyg.2019.03087",
+      "tags": [
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Comparing human-AI collaboration and teacher-student collaboration in developing pre-service teachers' instructional design competence: an experimental study",
+      "url": "https://doi.org/10.3389/fpsyg.2026.1869502",
+      "tags": [
+        "artificial-intelligence",
+        "professional-learning"
+      ]
+    },
+    {
+      "title": "Teacher-regulated generative AI in structured group tasks: independent performance and metacognitive judgements in higher education",
+      "url": "https://doi.org/10.3389/fpsyg.2026.2007654",
+      "tags": [
+        "artificial-intelligence",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Perspectives on the Validity of Classroom Assessments",
+      "url": "https://doi.org/10.4324/9780429507533-2",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Exploring the Readability of Assessment Tasks: The Influence of Text and Reader Factors",
+      "url": "https://doi.org/10.4471/remie.2013.04",
+      "tags": [
+        "assessment",
+        "accessibility"
+      ]
+    },
+    {
+      "title": "Understanding Quality Characteristics of EdTech Interventions and Implementation for Disadvantaged Pupils - Systematic Review with Meta-Analysis",
+      "url": "https://doi.org/10.53832/opendeved.1170",
+      "tags": [
+        "digital-education",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "2023 GEM Report Summary: Technology in education: A tool on whose terms?",
+      "url": "https://doi.org/10.54676/habj1624",
+      "tags": [
+        "digital-education",
+        "education-policy"
+      ]
+    },
+    {
+      "title": "An Exploratory Evaluation of GPT-4’s Consistency as an English Essay Rater: A Many-Facet Rasch Model Analysis of AI versus Human Rating Patterns",
+      "url": "https://doi.org/10.58304/ijts.2560213",
+      "tags": [
+        "artificial-intelligence",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "How Principals Affect Students and Schools: A Systematic Synthesis of Two Decades of Research",
+      "url": "https://doi.org/10.59656/el-sb1065.001",
+      "tags": [
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "Digitally Competent School Organizations – Developing Supportive Organizational Infrastructures",
+      "url": "https://doi.org/10.7577/seminar.2976",
+      "tags": [
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "Digital technology (2019)",
+      "url": "https://educationendowmentfoundation.org.uk/education-evidence/evidence-reviews/digital-technology-2019",
+      "tags": [
+        "digital-education",
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "Tutor CoPilot: A Human-AI Approach for Scaling Real-Time Expertise",
+      "url": "https://edworkingpapers.com/sites/default/files/ai24_1054_v2.pdf",
+      "tags": [
+        "artificial-intelligence",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Elevers digitala arbetsmiljö: Förutsättningar för en likvärdig, jämlik och jämställd skola",
+      "url": "https://elevernasriksforbund.se/wp-content/uploads/2025/08/Elevers-digitala-arbetsmiljo-20250815.pdf",
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "title": "Let’s Think Secondary Science: Evaluation report and executive summary",
+      "url": "https://eprints.hud.ac.uk/id/eprint/29811/",
+      "tags": [
+        "teaching-methods"
+      ]
+    },
+    {
+      "title": "Switch-on Reading: Evaluation Report and Executive Summary",
+      "url": "https://files.eric.ed.gov/fulltext/ED581466.pdf",
+      "tags": [
+        "reading"
+      ]
+    },
+    {
+      "title": "Sökkritik: En utvidgad källkritik i skolan",
+      "url": "https://lucris.lub.lu.se/ws/portalfiles/portal/67794689/M22_04_1a_so_kkritik.pdf",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Ungar & medier 2025: En statistisk undersökning av ungas medievanor och attityder till medieanvändning",
+      "url": "https://mediemyndigheten.se/globalassets/rapporter-och-analyser/ungar-och-medier/mediemyndigheten-rapport-ungar-och-medier.pdf",
+      "tags": [
+        "digital-competence"
+      ]
+    },
+    {
+      "title": "Texting Parents: Evaluation Report and Executive Summary",
+      "url": "https://pure.ulster.ac.uk/en/publications/texting-parents-evaluation-report-and-executive-summary/",
+      "tags": [
+        "attendance"
+      ]
+    },
+    {
+      "title": "Digitala lärresurser i matematikundervisningen, delrapport skola",
+      "url": "https://skolforskningsportalen.se/digital-publikation/digitala-larresurser-i-matematikundervisningen-delrapport-skola/",
+      "tags": [
+        "digital-education",
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Barnen och internet 2025",
+      "url": "https://svenskarnaochinternet.se/rapporter/barnen-och-internet-2025/",
+      "tags": [
+        "digital-competence"
+      ]
+    },
+    {
+      "title": "Classroom Peer Effects and Student Achievement",
+      "url": "https://www.bostonfed.org/publications/research-department-working-paper/2008/classroom-peer-effects-and-student-achievement.aspx",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "A laptop for every child? The impact of ICT on educational outcomes",
+      "url": "https://www.ifau.se/globalassets/pdf/se/2019/wp-2019-26-a-laptop-for-every-child-the-impact-of-ict-on-educational-outcomes.pdf",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "GDPR vid användning av generativ AI",
+      "url": "https://www.imy.se/globalassets/dokument/rapporter/gdpr-vid-anvandning-av-generativ-ai_imy-2024-9162.pdf",
+      "tags": [
+        "artificial-intelligence",
+        "data-protection"
+      ]
+    },
+    {
+      "title": "För personuppgiftsansvariga inom skola och förskola",
+      "url": "https://www.imy.se/verksamhet/dataskydd/dataskydd-pa-olika-omraden/skola-och-forskola/for-personuppgiftsansvariga-inom-skola-och-forskola",
+      "tags": [
+        "data-protection"
+      ]
+    },
+    {
+      "title": "Kontinuitetshantering",
+      "url": "https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/informationssakerhet/kontinuitetshantering/",
+      "tags": [
+        "data-protection"
+      ]
+    },
+    {
+      "title": "Konsekvensbedömning enligt GDPR",
+      "url": "https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/konsekvensbedomning/",
+      "tags": [
+        "data-protection"
+      ]
+    },
+    {
+      "title": "Interoperability: unifying and maximising data reuse within digital education ecosystems",
+      "url": "https://www.oecd.org/en/publications/oecd-digital-education-outlook-2023_c74f03de-en/full-report/interoperability-unifying-and-maximising-data-reuse-within-digital-education-ecosystems_660f8da1.html",
+      "tags": [
+        "school-leadership"
+      ]
+    },
+    {
+      "title": "Skollag (2010:800)",
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/skollag-2010800_sfs-2010-800/",
+      "tags": [
+        "data-protection"
+      ]
+    },
+    {
+      "title": "Kommentarmaterial till kursplanen i svenska: Grundskolan",
+      "url": "https://www.skolverket.se/download/18.3770ea921807432e6c71464/1653295321140/pdf9864.pdf",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Råd om AI, chattbottar och liknande verktyg",
+      "url": "https://www.skolverket.se/kompetensutveckling/stod-i-arbetet/rad-om-ai-chattbottar-och-liknande-verktyg",
+      "tags": [
+        "artificial-intelligence",
+        "digital-competence"
+      ]
+    },
+    {
+      "title": "Medie- och informationskunnighet och digital kompetens",
+      "url": "https://www.skolverket.se/larande-och-trygghet/skolbibliotek-och-lasning/genomfora-skolbiblioteksverksamhet/medie--och-informationskunnighet-och-digital-kompetens",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Skapa förutsättningar och struktur för skolbibliotek",
+      "url": "https://www.skolverket.se/larande-och-trygghet/skolbibliotek-och-lasning/skapa-forutsattningar-och-struktur",
+      "tags": [
+        "information-literacy"
+      ]
+    },
+    {
+      "title": "Bedömning i formativt syfte",
+      "url": "https://www.skolverket.se/prov-och-bedomning/bedomning/bedomning-i-formativt-syfte",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Från bedömningar till betyg",
+      "url": "https://www.skolverket.se/prov-och-bedomning/betyg/fran-bedomningar-till-betyg",
+      "tags": [
+        "learning-outcomes"
+      ]
+    },
+    {
+      "title": "Genomförande och bedömning av nationella prov",
+      "url": "https://www.skolverket.se/prov-och-bedomning/nationella-prov/genomforande-och-anpassningar",
+      "tags": [
+        "data-protection"
+      ]
+    },
+    {
+      "title": "ICILS 2023",
+      "url": "https://www.skolverket.se/sok-publikationer/publikationsserier/rapporter/2024/icils-2023",
+      "tags": [
+        "digital-competence"
+      ]
+    },
+    {
+      "title": "Läroplan för grundskolan, förskoleklassen och fritidshemmet – Lgr22",
+      "url": "https://www.skolverket.se/sok-publikationer/publikationsserier/styrdokument/2025/laroplan-for-grundskolan-forskoleklassen-och-fritidshemmet---lgr22",
+      "tags": [
+        "data-protection"
+      ]
+    },
+    {
+      "title": "Lärverktyg på undervisningsnivå",
+      "url": "https://www.spsm.se/laromedel/valja-anvanda-och-utvardera-larverktyg/larverktyg-pa-undervisningsniva/",
+      "tags": [
+        "accessibility"
+      ]
+    },
+    {
+      "title": "A Systematic Review of the Evidence of Reliability and Validity of Assessment by Teachers Used for Summative Purposes",
+      "url": "https://www.stir.ac.uk/research/hub/publication/640525",
+      "tags": [
+        "assessment"
+      ]
+    },
+    {
+      "title": "Guidance on AI and Children, version 3.0",
+      "url": "https://www.unicef.org/innocenti/media/11991/file/UNICEF-Innocenti-Guidance-on-AI-and-Children-3-2025.pdf",
+      "tags": [
+        "artificial-intelligence",
+        "digital-competence"
+      ]
+    },
+    {
+      "title": "LCC i inköpsprocessen",
+      "url": "https://www.upphandlingsmyndigheten.se/om-hallbar-upphandling/ekonomiskt-hallbar-upphandling/lcc-for-langsiktigt-hallbara-inkop/lcc-i-inkopsprocessen/",
+      "tags": [
+        "school-leadership"
+      ]
+    }
+  ]
+}

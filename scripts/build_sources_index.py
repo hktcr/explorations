@@ -8,6 +8,7 @@ import re
 import unicodedata
 from urllib.parse import parse_qsl, unquote, urlencode, urlsplit, urlunsplit, quote
 
+from source_library import merge_library, read_manifest
 from build_chronicle_index import Read
 from build_landing_search import Node, Tree, extract
 
@@ -221,16 +222,24 @@ def build_projection(root, version):
                 add(doc, row["anchorUrl"], link.text(), link.attrs.get("href",""), notes.get(norm(link.text()), ""))
     if version == 2:
         catalog_sources(root, texts, add)
+        taxonomy = read_manifest(root/"kallor/taggar.json")
+        merge_library(groups, read_manifest(root/"kallor/bibliografi.json"), taxonomy, identity)
     sources=[]
     for data in groups.values():
         labels=sorted(data["labels"],key=lambda x:(-len(x),norm(x),x))
         urls=sorted(data["urls"],key=lambda u:(not u.startswith("https://"),len(u),u))
         sources.append(dict(id=data["id"],title=labels[0],aliases=labels[1:],doi=data["doi"],
             url=urls[0] if urls else "",uses=sorted(data["uses"]),count=len({x[0] for x in data["uses"]})))
+        if data.get("library"):
+            sources[-1]["library"] = True
+        if data.get("tags"):
+            sources[-1]["tags"] = data["tags"]
         if data.get("notes"):
             sources[-1]["notes"] = [dict(doc=doc, text=text) for doc,text in sorted(data["notes"])]
     sources.sort(key=lambda x:(-x["count"],norm(x["title"]),x["id"]))
     output=dict(schemaVersion=version,sources=sources,texts=texts)
+    if version == 2:
+        output["tags"] = taxonomy["tags"]
     (root/f"kallor-index{suffix}.json").write_text(json.dumps(output,ensure_ascii=False,sort_keys=True,separators=(",",":"))+"\n",encoding="utf-8")
     return len(sources)
 

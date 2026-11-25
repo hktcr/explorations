@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "tags": [
+    {
+      "id": "digital-education",
+      "sv": "Digitalt lärande",
+      "en": "Digital education",
+      "aliases": [
+        "utbildningsteknik",
+        "EdTech",
+        "educational technology"
+      ]
+    },
+    {
+      "id": "artificial-intelligence",
+      "sv": "Artificiell intelligens",
+      "en": "Artificial intelligence",
+      "aliases": [
+        "AI",
+        "generativ AI",
+        "generative AI"
+      ]
+    },
+    {
+      "id": "information-literacy",
+      "sv": "Informationskompetens",
+      "en": "Information literacy",
+      "aliases": [
+        "informationskunnighet",
+        "källkritik"
+      ]
+    },
+    {
+      "id": "school-leadership",
+      "sv": "Skolledning",
+      "en": "School leadership",
+      "aliases": [
+        "skolledarskap",
+        "educational leadership"
+      ]
+    },
+    {
+      "id": "data-protection",
+      "sv": "Dataskydd",
+      "en": "Data protection",
+      "aliases": [
+        "GDPR",
+        "personlig integritet",
+        "privacy"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "sv": "Tillgänglighet",
+      "en": "Accessibility",
+      "aliases": [
+        "digital tillgänglighet",
+        "digital accessibility"
+      ]
+    },
+    {
+      "id": "professional-learning",
+      "sv": "Kompetensutveckling",
+      "en": "Professional learning",
+      "aliases": [
+        "fortbildning",
+        "professional development"
+      ]
+    },
+    {
+      "id": "learning-outcomes",
+      "sv": "Läranderesultat",
+      "en": "Learning outcomes",
+      "aliases": [
+        "kunskapsresultat",
+        "student achievement"
+      ]
+    },
+    {
+      "id": "education-policy",
+      "sv": "Utbildningspolitik",
+      "en": "Education policy",
+      "aliases": [
+        "skolpolitik",
+        "utbildningsstyrning"
+      ]
+    },
+    {
+      "id": "digital-competence",
+      "sv": "Digital kompetens",
+      "en": "Digital competence",
+      "aliases": [
+        "digitala färdigheter",
+        "digital skills"
+      ]
+    },
+    {
+      "id": "assessment",
+      "sv": "Bedömning",
+      "en": "Assessment",
+      "aliases": [
+        "kunskapsbedömning",
+        "formative assessment"
+      ]
+    },
+    {
+      "id": "mathematics",
+      "sv": "Matematik",
+      "en": "Mathematics",
+      "aliases": [
+        "matematikundervisning",
+        "mathematics education"
+      ]
+    },
+    {
+      "id": "reading",
+      "sv": "Läsning",
+      "en": "Reading",
+      "aliases": [
+        "läsförståelse",
+        "reading comprehension"
+      ]
+    },
+    {
+      "id": "attendance",
+      "sv": "Skolnärvaro",
+      "en": "School attendance",
+      "aliases": [
+        "skolfrånvaro",
+        "absenteeism"
+      ]
+    },
+    {
+      "id": "teaching-methods",
+      "sv": "Undervisningsmetoder",
+      "en": "Teaching methods",
+      "aliases": [
+        "undervisningsstrategier",
+        "instructional strategies"
+      ]
+    },
+    {
+      "id": "educational-equity",
+      "sv": "Likvärdighet i utbildning",
+      "en": "Educational equity",
+      "aliases": [
+        "likvärdig skola",
+        "equity in education"
+      ]
+    }
+  ]
+}
