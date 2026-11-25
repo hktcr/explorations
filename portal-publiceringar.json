@@ -187,7 +187,9 @@
       },
       {
         "href": "vetenskaplig-briefing/orbitaler/index.html",
-        "kind": "published"
+        "kind": "published",
+        "at": "2026-11-25T05:02:26+00:00",
+        "commit": "fb684c23786b5af37e18121fff04bc8d53f3377b"
       }
     ]
   }
