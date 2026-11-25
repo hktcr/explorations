@@ -1,5 +1,5 @@
 """Build the public citation index from authored source lines, never guessed references."""
-from collections import defaultdict
+from collections import Counter, defaultdict
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -120,6 +120,46 @@ def catalog_sources(root, texts, add):
         register("c:"+day, href, row["title"], "Där kartan tar slut", root/href, "prosa")
 
 
+def essay_source_notes(source, references):
+    """Bind a note only through a unique reference and a unique authored item ID."""
+    if "source-note" not in source:
+        return {}
+    tree = Tree()
+    tree.feed(source)
+    tree.close()
+    nodes = list(tree.root.walk())
+    ids = Counter(n.attrs.get("id") for n in nodes if n.attrs.get("id"))
+    anchors = Counter(r["anchor"] for r in references)
+    notes = {}
+    for item in nodes:
+        anchor = item.attrs.get("id")
+        if "source-item" not in item.classes or ids[anchor] != 1 or anchors[anchor] != 1:
+            continue
+        parts = [n.text() for n in item.walk() if "source-note" in n.classes
+                 and next((a for a in n.ancestors() if "source-item" in a.classes), None) is item]
+        if parts:
+            notes[anchor] = clean(" ".join(parts))
+    return notes
+
+
+def editorial_source_notes(entry, links):
+    """Accept an exact, unique citation label explicitly heading the paragraph."""
+    labels = [norm(link.text()) for link in links]
+    notes = defaultdict(list)
+    for tag in ("details", "section", "aside", "div"):
+        for review in entry.traverse(tag):
+            if "edition-review" not in review.attrs.get("class", "").split():
+                continue
+            for paragraph in review.traverse("p"):
+                text = clean(paragraph.text())
+                line = norm(text)
+                hits = [label for label in labels if label and any(
+                    line.startswith(label + delimiter) for delimiter in (". ", ": ", " – ", " — "))]
+                if len(hits) == 1:
+                    notes[hits[0]].append(text)
+    return {label: " ".join(parts) for label, parts in notes.items()}
+
+
 def build_projection(root, version):
     suffix = '' if version == 1 else '-v2'
     essay=json.loads((root/"landing-search-index.json").read_text(encoding="utf-8"))
@@ -152,11 +192,12 @@ def build_projection(root, version):
         raw={(x["anchor"],x["title"]):x.get("originalUrl","") for x in authored}
         doc="e:"+slug
         texts[doc]=dict(title=row["title"],href=f"{slug}/index.html",series="Essä")
+        notes = essay_source_notes(source, row["references"]) if version == 2 else {}
         for ref in row["references"]:
             if ref["kind"] not in {"metadata-title","bibliographic-title-line"}:continue
             title,anchor=ref["title"],ref["anchor"]
             href=texts[doc]["href"]+("#"+quote(anchor,safe="-_.:") if anchor else "")
-            add(doc,href,title,ref.get("provenance",{}).get("originalUrl") or raw.get((anchor,title),""))
+            add(doc,href,title,ref.get("provenance",{}).get("originalUrl") or raw.get((anchor,title),""), notes.get(anchor,""))
     chron_paths=defaultdict(list)
     for row in chrono["entries"]:
         rel,anchor=row["anchorUrl"].split("#",1)
@@ -173,9 +214,11 @@ def build_projection(root, version):
             texts[doc]=dict(title=row["title"],href=row["href"],series={"timkronikan":"Timkrönikan" if version == 1 else "Timmen","halvtimmen":"Halvtimmen","reportage":"Reportage"}[row["series"]])
             entry=lookup.get(row["anchor"])
             if entry is None: raise ValueError("Publikt krönikeankare saknas")
-            for n in entry.traverse("aside"):
-                if "sources" in n.attrs.get("class","").split():
-                    for l in n.traverse("a"):add(doc,row["anchorUrl"],l.text(),l.attrs.get("href",""))
+            links = [link for aside in entry.traverse("aside") if "sources" in aside.attrs.get("class","").split()
+                     for link in aside.traverse("a")]
+            notes = editorial_source_notes(entry, links) if version == 2 else {}
+            for link in links:
+                add(doc, row["anchorUrl"], link.text(), link.attrs.get("href",""), notes.get(norm(link.text()), ""))
     if version == 2:
         catalog_sources(root, texts, add)
     sources=[]
