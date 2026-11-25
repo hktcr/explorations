@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap">
 <link rel="stylesheet" href="../explorations-theme.css?v=20261122-theme-1">
 <link rel="stylesheet" href="../natverk.css?v=20261124-ex10-1">
-<link rel="stylesheet" href="../kallor.css?v=20261125-brandgul"></head>
+<link rel="stylesheet" href="../kallor.css?v=20261125-oversikt"></head>
 <body class="natverk-sida source-network-page" data-network-mode="sources" data-root="../">
 <a class="skip-source" href="#innehall">Till innehållet</a>
 <header class="source-head"><nav aria-label="Brödsmulor"><a href="../">Explorations</a><span aria-hidden="true">/</span><a href="portal/" id="sourcePortalBack">Källportalen</a><span aria-hidden="true">/</span><strong>Källregistret</strong></nav><span data-xr-theme-slot></span></header>
@@ -19,12 +19,21 @@
  <p id="sourceStatus" role="status">Läser källregistret …</p>
  <section id="sourceList" aria-label="Källista"></section>
  <section id="sourceGraph" aria-label="Källnätverk" hidden>
+  <div class="overview-actions"><button type="button" id="showSourceOverview" aria-expanded="false" aria-controls="sourceOverview">Visa hela nätet</button> <span id="graphScope"></span></div>
+  <section id="sourceOverview" aria-label="Översikt över källnätet" hidden>
+   <p class="source-hint">Ringarna visar texter, prickarna källor och linjerna publicerade hänvisningar. Välj en ring eller en titel för att se textens källor.</p>
+   <label for="overviewArticle">Fördjupa en text</label>
+   <select id="overviewArticle"><option value="">Välj text …</option></select>
+   <div id="overviewMap"></div>
+  </section>
+  <div id="sourceDetail">
   <p class="source-hint">Välj en nod för detaljer. Lägg till flera källor som villkor för att hitta texter som använder dem alla; övriga tonas ned. Tunn streckad linje mellan två texter visar ett tidigare granskat samband. Listläget visar alla sökträffar.</p>
   <nav id="sourcePages" aria-label="Bläddra bland källnoder" hidden><button id="prevSources" type="button">Föregående källor</button> <span id="sourcePage"></span> <button id="nextSources" type="button">Nästa källor</button></nav>
   <nav id="textPages" aria-label="Bläddra bland kopplade texter" hidden><button id="prevTexts" type="button">Föregående texter</button> <span id="textPage"></span> <button id="nextTexts" type="button">Nästa texter</button></nav>
   <div class="source-network-toolbar" aria-label="Navigera källnätverket">
    <button id="natverkZoomIn" type="button" aria-label="Zooma in">+</button>
    <button id="natverkZoomOut" type="button" aria-label="Zooma ut">−</button>
+   <button id="natverkFit" type="button">Passa vyn</button>
    <button id="natverkZoomReset" type="button">Centrera</button>
    <button id="natverkAterstall" type="button" hidden>Återställ</button>
    <button id="natverkRorelse" type="button" hidden>Pausa rörelse</button>
@@ -59,9 +68,10 @@
    </aside>
   </div>
   <p id="natverkStatus" class="source-hint" role="status"></p>
+  </div>
  </section>
  <noscript><p>Källregistret kräver JavaScript. Källhänvisningarna går fortfarande att läsa i varje essä och text från Redaktionen.</p></noscript>
  <details class="source-method"><summary>Så läser du registret</summary><p>Registret bygger på de publicerade texternas källhänvisningar. Sökorden matchas mot källraden eller titeln på en text som använder källan. En träff på en artikeltitel visar artikelns källor. Lika DOI eller samma artikeladress räknas som samma källa. Böcker utan länk slås ihop endast när den dokumenterade källraden är identisk. En koppling visar användning, inte att källan ensam räcker som belägg.</p></details>
 </main>
-<script defer src="../natverk.js?v=20261124-c4"></script>
-<script defer src="../kallor.js?v=20261125-artikelsok"></script></body></html>
+<script defer src="../natverk.js?v=20261125-passavy"></script>
+<script defer src="../kallor.js?v=20261125-oversikt"></script></body></html>

@@ -65,7 +65,7 @@
   const canonical=$("natverk");
   const status=$("sourceStatus"),choice=$("sourceConditions"),answer=$("conditionAnswer");
   const clear=$("clearConditions"),listView=$("viewList"),graphView=$("viewGraph");
-  const state={selected:new Set(),mode:"list",limit:30,terms:new Map(),sourceOffset:0,textOffset:0,records:[],byId:new Map(),texts:{},palette:new Map()};
+  const state={selected:new Set(),mode:"list",overview:false,overviewDoc:null,limit:30,terms:new Map(),sourceOffset:0,textOffset:0,records:[],byId:new Map(),texts:{},palette:new Map()};
   const selected=()=>[...state.selected].map(id=>state.byId.get(id));
   const light=()=>document.documentElement.dataset.theme==="light";
   function makeSourceButton(rec,label,kind){
@@ -148,8 +148,62 @@
     $(label).textContent=(offset+1)+"–"+Math.min(items.length,offset+size)+" av "+items.length;
     return items.slice(offset,offset+size);
   }
+  // Place each source near one of its citing texts. Shared sources remain single
+  // points and keep a line to every citing text represented in this overview.
+  function renderOverview(sources,filtering,hits){
+    const host=$("overviewMap"), select=$("overviewArticle");
+    const docs=[...documentsFor(sources)].sort((a,b)=>state.texts[a].title.localeCompare(state.texts[b].title,"sv"));
+    select.replaceChildren(element("option","Välj text …",{value:""}));
+    select.disabled=!docs.length;
+    host.replaceChildren();
+    const count=sources.reduce((sum,record)=>sum+used(record).size,0);
+    $("graphScope").textContent=sources.length+" av "+state.records.length+" källor · "+docs.length+" av "+Object.keys(state.texts).length+" texter · "+count+" källkopplingar";
+    if(!docs.length){host.append(element("p","Inga källkopplingar i urvalet."));return;}
+    const cols=Math.ceil(Math.sqrt(docs.length*1.4)), rows=Math.ceil(docs.length/cols);
+    const make=(tag,attrs)=>{
+      const node=document.createElementNS("http://www.w3.org/2000/svg",tag);
+      for(const [k,v] of Object.entries(attrs))node.setAttribute(k,v);
+      return node;
+    };
+    const svg=make("svg",{viewBox:"0 0 "+cols*100+" "+rows*100,role:"img","aria-label":"Karta över samtliga källkopplingar i urvalet"});
+    const coords=new Map(),clusters=new Map(),points=make("g",{class:"atlas-sources"});
+    const centers=make("g",{}),targets=make("g",{}),lines=[];
+    docs.forEach((doc,i)=>{
+      const x=50+(i%cols)*100,y=50+Math.floor(i/cols)*100;
+      coords.set(doc,{x,y});clusters.set(doc,[]);
+      select.append(element("option",state.texts[doc].title,{value:doc}));
+      centers.append(make("circle",{cx:x,cy:y,r:6,class:"atlas-text",opacity:filtering&&!hits.has(doc)?.48:1}));
+      const target=make("circle",{cx:x,cy:y,r:17,class:"atlas-target","data-doc":doc});
+      const title=make("title",{});title.textContent=state.texts[doc].title;
+      target.append(title);targets.append(target);
+    });
+    for(const rec of sources)clusters.get(rec.uses[0][0]).push(rec);
+    for(const [doc,records] of clusters){
+      const center=coords.get(doc);
+      records.forEach((rec,i)=>{
+        const angle=i*2.39996323, radius=13+28*Math.sqrt((i+.5)/records.length);
+        const x=(center.x+Math.cos(angle)*radius).toFixed(2),y=(center.y+Math.sin(angle)*radius).toFixed(2);
+        points.append(make("circle",{cx:x,cy:y,r:2.4}));
+        for(const linked of used(rec)){
+          const p=coords.get(linked);
+          lines.push("M"+x+","+y+"L"+p.x+","+p.y);
+        }
+      });
+    }
+    targets.addEventListener("click",event=>{
+      const doc=event.target.closest("[data-doc]")?.getAttribute("data-doc");
+      if(doc)openOverviewArticle(doc);
+    });
+    svg.append(make("path",{d:lines.join(" "),class:"atlas-links"}),points,centers,targets);
+    host.append(svg);
+  }
+  function openOverviewArticle(doc){
+    if(!Object.hasOwn(state.texts,doc))return;
+    state.overview=false;state.overviewDoc=doc;state.sourceOffset=state.textOffset=0;
+    render();$("showSourceOverview").focus();
+  }
   function renderGraph(sources,filtering,hits,titleHits){
-    const linked=[...documentsFor(sources)].sort((a,b)=>Number(hits.has(b))-Number(hits.has(a)) || Number(titleHits.has(b))-Number(titleHits.has(a)));
+    const linked=[...documentsFor(sources)].sort((a,b)=>Number(b===state.overviewDoc)-Number(a===state.overviewDoc) || Number(hits.has(b))-Number(hits.has(a)) || Number(titleHits.has(b))-Number(titleHits.has(a)));
     const ids=page(linked,state.textOffset,24,"textPages","prevTexts","nextTexts","textPage");
     const show=new Set(ids);
     const nodes=sources.map(rec=>{
@@ -204,7 +258,8 @@
     const draft=query.value.trim();
     const display=draft || !filtering ? matches : [...new Map([...conditions,...termMatches.flat()].map(rec=>[rec.id,rec])).values()];
     const graphSources=[...new Map([...conditions,...termMatches.flat(),...display].map(rec=>[rec.id,rec])).values()];
-    const sources=page(graphSources,state.sourceOffset,8,"sourcePages","prevSources","nextSources","sourcePage");
+    const detailSources=state.overviewDoc ? graphSources.filter(rec=>used(rec).has(state.overviewDoc)) : graphSources;
+    const sources=page(detailSources,state.sourceOffset,8,"sourcePages","prevSources","nextSources","sourcePage");
     state.palette=distinguish(sources);
     $("addSourceTerm").hidden=!draft || !matches.length || state.terms.has(fold(draft));
     status.textContent=display.length+" av "+state.records.length+" källor";
@@ -212,9 +267,23 @@
     listView.setAttribute("aria-pressed",String(!list.hidden));graphView.setAttribute("aria-pressed",String(!graph.hidden));
     $("sourcePortalBack").href=draft?"portal/?"+new URLSearchParams({q:draft}):"portal/";
     renderConditions(conditions,hits);
-    if(list.hidden)renderGraph(sources,filtering,hits,draftResult.articles);else renderList(display);
+    const showOverview=state.mode==="graph" && state.overview;
+    $("sourceOverview").hidden=!showOverview;$("sourceDetail").hidden=showOverview;
+    const overviewButton=$("showSourceOverview");
+    overviewButton.setAttribute("aria-expanded",String(showOverview));
+    overviewButton.textContent=showOverview ? "Till detaljvyn" : (draft||filtering ? "Översikt över urvalet" : "Visa hela nätet");
+    if(!list.hidden){renderList(display);return;}
+    if(showOverview){renderOverview(graphSources,filtering,hits);return;}
+    renderGraph(sources,filtering,hits,draftResult.articles);
+    const linked=documentsFor(sources).size;
+    const scope=state.overviewDoc ? state.texts[state.overviewDoc].title+" · " : "";
+    $("graphScope").textContent=scope+"Detaljvyn visar "+sources.length+" av "+detailSources.length+" källor och "+Math.min(linked,24)+" av "+linked+" texter kopplade till dessa källor.";
   }
-  const apply=()=>{state.limit=30;state.sourceOffset=state.textOffset=0;render();const url=new URL(location.href);if(query.value.trim())url.searchParams.set("q",query.value.trim());else url.searchParams.delete("q");history.replaceState(null,"",url);};
+  $("showSourceOverview").addEventListener("click",()=>{
+    state.overview=!state.overview;state.overviewDoc=null;state.sourceOffset=state.textOffset=0;render();
+  });
+  $("overviewArticle").addEventListener("change",event=>openOverviewArticle(event.target.value));
+  const apply=()=>{state.overviewDoc=null;state.limit=30;state.sourceOffset=state.textOffset=0;render();const url=new URL(location.href);if(query.value.trim())url.searchParams.set("q",query.value.trim());else url.searchParams.delete("q");history.replaceState(null,"",url);};
   $("sourceForm").addEventListener("submit",event=>{event.preventDefault();apply();});
   query.addEventListener("input",apply);
   $("addSourceTerm").addEventListener("click",()=>{

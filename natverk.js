@@ -639,6 +639,28 @@
       resizeTimer = setTimeout(startLayout, 180);
     });
 
+    function fitSourceView() {
+      if (!size || !nodes.length || graph.closest('[hidden]')) return;
+      var left = Infinity, right = -Infinity, top = Infinity, bottom = -Infinity;
+      // Markers and labels retain their CSS size as the distance between nodes scales.
+      var side = 28, below = 28;
+      nodes.forEach(function (node) {
+        left = Math.min(left, node.x); right = Math.max(right, node.x);
+        top = Math.min(top, node.y); bottom = Math.max(bottom, node.y);
+        var label = nodeElements[node.slug].querySelector('.nod-etikett');
+        side = Math.max(side, label.offsetWidth / 2 + 4);
+        below = Math.max(below, 28 + label.offsetHeight);
+      });
+      var above = 28;
+      scale = Math.min(2.5, Math.max(1, size.width - 2 * side) / Math.max(1, right - left),
+        Math.max(1, size.height - above - below) / Math.max(1, bottom - top));
+      offsetX = targetOffsetX = offsetY = targetOffsetY = 0;
+      panX = (size.width - left - right) * scale / 2;
+      panY = (size.height - top - bottom) * scale / 2 + (above - below) / 2;
+      startDrawing();
+    }
+    var fitButton = sourceMode && document.getElementById('natverkFit');
+    if (fitButton) fitButton.addEventListener('click', fitSourceView);
     function zoom(delta) { scale = Math.max(.6, Math.min(2.5, scale * delta)); startDrawing(); }
       document.getElementById('natverkZoomIn').addEventListener('click', function(){zoom(1.25);});
       document.getElementById('natverkZoomOut').addEventListener('click', function(){zoom(.8);});

@@ -30,3 +30,12 @@ html[data-theme=light] .source-network-workspace .source-canonical-node{--networ
 @media(max-width:1023px){.source-network-page .source-network-workspace{height:auto;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows: minmax(390px,60dvh) auto}.source-network-page .source-network-workspace .natverk-sidebar{border-left:0;border-top:1px solid var(--line);max-height:none;overflow:visible}}
 @media(max-width:600px){.source-intro{padding-top:1.3rem}.source-record h2{font-size:.93rem}.source-head{gap:.35rem}}
 @media(print){.source-head button,.source-controls,.conditions button,#sourceGraph{display:none!important}body{background:white;color:black}}
+.overview-actions{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem 1rem;margin:.75rem 0}
+#graphScope{font-size:.88rem;color:var(--muted)}
+#sourceOverview select{max-width:100%;min-height:44px;margin:.2rem 0;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:.45rem;font:inherit}
+#sourceOverview label{display:block;font-weight:600}
+#overviewMap svg{display:block;width:100%;height:min(62vh,38rem);margin:1rem 0;background:var(--card);border:1px solid var(--line);border-radius:.6rem}
+#overviewMap .atlas-links{fill:none;stroke:var(--accent);stroke-width:.65;opacity:.48}
+#overviewMap .atlas-sources{fill:var(--text)}
+#overviewMap .atlas-text{stroke:var(--accent);fill:var(--card);stroke-width:2}
+#overviewMap .atlas-target{fill:transparent;cursor:pointer}
