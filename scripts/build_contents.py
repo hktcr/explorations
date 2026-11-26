@@ -62,7 +62,12 @@ def project(root):
     for series in editorial['collections']:
         groups.append((series['title'], [(r['title'], r['href']) for r in editorial['entries'] if r['series'] == series['id']]))
     chapters = data('skogsvaktaren/bilder.json')
-    groups.append(('Där kartan tar slut', [(r['title'], 'skogsvaktaren/' + r['date'] + '.html') for r in reversed(chapters)]))
+    groups.append(('Tidigare kapitel', [(r['title'], 'skogsvaktaren/' + r['date'] + '.html') for r in reversed(chapters)]))
+    if (root / 'noveller/index.json').is_file():
+        novels = data('noveller/index.json')
+        for row in novels:
+            topics['noveller/' + row['slug'] + '.html'] = row['tags']
+        groups.append(('Noveller', [(r['title'], 'noveller/' + r['slug'] + '.html') for r in novels]))
     dates = receipted_dates(data('portal-publiceringar.json'))
     formats, items, all_topics = [], [], {}
     for i, (label, entries) in enumerate(groups):

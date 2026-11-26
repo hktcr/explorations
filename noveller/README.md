@@ -1,0 +1,5 @@
+# Där kartan tar slut
+
+Fristående, illustrerade vetenskapsnoveller. `python scripts/build_noveller.py --story PRIVATE.json --image PRIVATE.png` skapar en daterad novell, en metadatafri WebP och uppdaterar det publika indexet. `python scripts/build_noveller.py` gör en deterministisk omprojektion. Inget källmanus eller privat bildoriginal ska kopieras till repot. Godkänt manusformat: date (ISO), slug, title, deck, alt, caption, research, 2–8 tags, paragraphs (min. 700 ord, enkel *kursiv* eller **fetstil**) och sources (title, url, note). Samma datum eller slug får inte ge en ny version av misstag. Kör även `python scripts/build_contents.py` och `npm test`. Sajten är offentlig; noindex på novellsidorna är inte åtkomstkontroll.
+
+Taggmolnets ordstorlek stiger när ett tema återkommer. Nätverket visar direkt vilka noveller som har vilka taggar. När två noveller delar tema syns den gemensamma noden, inte ett antaget semantiskt samband. Novellernas egna taggar är redaktionella och bör återanvändas när sakligt motiverat. Arkivsidorna för gamla kapitel förblir orörda.
