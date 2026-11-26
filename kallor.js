@@ -41,7 +41,7 @@
     }
     return palette;
   }
-  const exactText=/^(?:[a-z0-9-]+\/index\.html|vetenskaplig-briefing\/[a-z0-9-]+\/(?:index\.html)?|skogsvaktaren\/20\d\d-\d\d-\d\d\.html|timkronikan\/(?:reportage\/20\d\d-\d\d-\d\d-(?:lunch|world|varlden)\.html|inlagg\/(?:inlagg|halvtimmen)-20\d\d-\d\d-\d\d-\d{4}\.html|(?:halvtimmen\/)?20\d\d-\d\d\.html))(?:#[\w.:%-]+)?$/;
+  const exactText=/^(?:[a-z0-9-]+\/index\.html|vetenskaplig-briefing\/[a-z0-9-]+\/(?:index\.html)?|noveller\/[a-z0-9]+(?:-[a-z0-9]+)*\.html|skogsvaktaren\/20\d\d-\d\d-\d\d\.html|timkronikan\/(?:reportage\/20\d\d-\d\d-\d\d-(?:lunch|world|varlden)\.html|inlagg\/(?:inlagg|halvtimmen)-20\d\d-\d\d-\d\d-\d{4}\.html|(?:halvtimmen\/)?20\d\d-\d\d\.html))(?:#[\w.:%-]+)?$/;
   function validate(data) {
     if(![1,2].includes(data?.schemaVersion) || !Array.isArray(data.sources) || !data.texts)throw Error("Ogiltigt index");
     const seen=new Set();

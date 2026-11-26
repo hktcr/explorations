@@ -13,6 +13,13 @@ from build_chronicle_index import Read
 from build_landing_search import Node, Tree, extract
 
 DOI = re.compile(r"10\.\d{4,9}/[\-._;()/:A-Z0-9+%]+", re.I)
+# Verified equivalents preserve existing public source IDs when the novel cites a DOI.
+PUBLIC_DOI_ALIASES = {
+    "10.1016/j.cell.2023.03.009": "https://pubmed.ncbi.nlm.nih.gov/37001499/",
+    "10.1002/ece3.4088": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5980448/",
+}
+PUBLIC_URL_DOIS = {url.rstrip("/"): doi for doi, url in PUBLIC_DOI_ALIASES.items()}
+
 def clean(s):
     return " ".join(s.split())
 
@@ -120,6 +127,15 @@ def catalog_sources(root, texts, add):
         href = f"skogsvaktaren/{day}.html"
         register("c:"+day, href, row["title"], "Där kartan tar slut", root/href, "prosa")
 
+    collection = root/"noveller/index.json"
+    if collection.exists():
+        for row in json.loads(collection.read_text(encoding="utf-8")):
+            slug = row["slug"]
+            if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+                raise ValueError("Ogiltig novelladress")
+            href = f"noveller/{slug}.html"
+            register("n:"+slug, href, row["title"], "Novell", root/href, "sources")
+
 
 def essay_source_notes(source, references):
     """Bind a note only through a unique reference and a unique authored item ID."""
@@ -172,8 +188,11 @@ def build_projection(root, version):
         citation=clean(citation)
         if not citation:return
         url=safe_url(url); doi=identified_doi(url,citation)
+        if version == 2 and not doi:
+            doi=PUBLIC_URL_DOIS.get(url.rstrip("/"),"")
         if doi: url="https://doi.org/"+quote(doi,safe="/-._;():+")
-        key=identity(citation,url,doi)
+        prior_url=PUBLIC_DOI_ALIASES.get(doi) if version == 2 else None
+        key=identity(citation,prior_url,"") if prior_url else identity(citation,url,doi)
         group=groups.setdefault(key,dict(id="src-"+sha256(key.encode()).hexdigest()[:16],labels=set(),urls=set(),doi=doi,uses=[]))
         group["labels"].add(citation)
         if url:group["urls"].add(url)

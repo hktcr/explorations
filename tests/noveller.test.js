@@ -41,3 +41,23 @@ test('shared themes actually connect stories and combine with search',async()=>{
  original.focus();
  d.window.close();
 });
+
+test('novel citations are discoverable by DOI and point back to matching authored relevance',()=>{
+ const fs=require('node:fs'),path=require('node:path');
+ const root=path.resolve(__dirname,'..');
+ const rows=JSON.parse(fs.readFileSync(path.join(root,'noveller/index.json'),'utf8'));
+ const index=require('../kallor.js').validate(JSON.parse(fs.readFileSync(path.join(root,'kallor-index-v2.json'),'utf8')));
+ for(const r of rows) {
+  const id='n:'+r.slug, href='noveller/'+r.slug+'.html#kallor';
+  assert.equal(index.texts[id].title,r.title);
+  const actual=index.sources.filter(s=>s.uses.some(([x])=>x===id));
+  assert.equal(actual.length,r.sources.length);
+  for(const item of r.sources) {
+   const key=item.url.toLowerCase();
+   const row=actual.find(s=>s.url.toLowerCase()===key || (s.doi&&key==='https://doi.org/'+s.doi));
+   assert.ok(row,item.url);
+   assert.ok(row.uses.some(([x,target])=>x===id&&target===href));
+   assert.ok(row.notes.find(n=>n.doc===id&&n.text===item.note.replace(/\*+/g,'')));
+  }
+ }
+});

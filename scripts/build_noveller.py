@@ -9,7 +9,7 @@ from io import BytesIO
 import json
 from pathlib import Path
 import re
-from urllib.parse import urlsplit
+from urllib.parse import quote, urlsplit
 
 REPO = Path(__file__).resolve().parents[1]
 ROOT = REPO / "noveller"
@@ -36,6 +36,7 @@ def validate(r):
     assert 2 <= len(r["tags"]) <= 8 and len(set(t.casefold() for t in r["tags"])) == len(r["tags"])
     assert all(isinstance(t,str) and t == t.strip() and 2 <= len(t) <= 40 for t in r["tags"])
     assert len(r["sources"]) >= 2
+    assert len({s["url"].casefold() for s in r["sources"]}) == len(r["sources"])
     for s in r["sources"]:
         assert s["title"].strip() and s["note"].strip()
         url(s["url"])
@@ -48,7 +49,7 @@ def page(title, inner, attrs="", extra=""):
 '''
 
 def article(r):
-    tags=''.join(f'<li><a href="./?tag={escape(__import__("urllib.parse",fromlist=["quote"]).quote(t),quote=True)}">{escape(t)}</a></li>' for t in r['tags'])
+    tags=''.join(f'<li><a href="./?tag={escape(quote(t),quote=True)}">{escape(t)}</a></li>' for t in r['tags'])
     src=''.join(f'<li><a href="{url(s["url"])}">{inline(s["title"])}</a><p>{inline(s["note"])}</p></li>' for s in r['sources'])
     body="\n".join(f"<p>{inline(p)}</p>" for p in r["paragraphs"])
     pic=escape(r['image'],quote=True)
@@ -56,7 +57,7 @@ def article(r):
 <article><header class="intro"><p class="eyebrow">Novell · <time datetime="{r['date']}">{r['date']}</time></p><h1>{escape(r['title'])}</h1><p class="deck">{escape(r['deck'])}</p></header>
 <figure class="hero"><img src="{pic}" width="{r['width']}" height="{r['height']}" alt="{escape(r['alt'],quote=True)}"><figcaption>{inline(r['caption'])} · AI-illustration</figcaption></figure>
 <div class="prose">{body}</div>
-<section class="research sources" id="kallor"><p class="eyebrow">Efter berättelsen</p><h2>Vad vet vi?</h2><p>{inline(r['research'])}</p><ul>{src}</ul></section>
+<section class="research sources"><p class="eyebrow">Efter berättelsen</p><h2>Vad vet vi?</h2><p>{inline(r['research'])}</p><h2 id="kallor">Källor och deras relevans</h2><ul>{src}</ul><p><a href="../kallor/portal/?q={quote(r['title'])}">Hitta novellens källor i Explorations källdel</a></p></section>
 <ul class="tags" aria-label="Teman">{tags}</ul><p class="back"><a href="./">Till alla noveller</a></p></article>''')
 
 def render(rows):
@@ -83,7 +84,9 @@ def render(rows):
     return pages
 
 def main():
-    parser=ArgumentParser(description=__doc__);parser.add_argument("--story",type=Path);parser.add_argument("--image",type=Path);a=parser.parse_args()
+    parser=ArgumentParser(description=__doc__);parser.add_argument("--story",type=Path);parser.add_argument("--image",type=Path);parser.add_argument("--replace-sha256", help="Revision: SHA-256 för föregående publicerad HTML med samma datum och slug");a=parser.parse_args()
+    if a.replace_sha256 and (not a.story or not a.image or not re.fullmatch(r"[0-9a-f]{64}",a.replace_sha256)):
+        parser.error("Revision kräver --story, --image och tidigare HTML:s SHA-256")
     rows=json.loads(CATALOG.read_text()) if CATALOG.exists() else []
     if a.story or a.image:
         if not a.story or not a.image: parser.error("Både --story och --image krävs")
@@ -95,8 +98,16 @@ def main():
         digest=sha256(data).hexdigest(); image=f"bilder/{story['slug']}-{digest}.webp"
         story.update(image=image,imageSha256=digest,width=im.width,height=im.height)
         old=next((r for r in rows if r["date"]==story["date"] or r["slug"]==story["slug"]), None)
-        if old is not None and old!=story: parser.error("Datum eller slug är redan upptaget")
-        if not old:
+        if a.replace_sha256:
+            if old is None or (old["date"],old["slug"]) != (story["date"],story["slug"]):
+                parser.error("Revision kräver samma datum och slug")
+            previous=(ROOT/(old["slug"]+".html")).read_bytes()
+            if sha256(previous).hexdigest() != a.replace_sha256:
+                parser.error("Tidigare HTML matchar inte revisionskvittot")
+            rows.remove(old)
+        elif old is not None and old!=story:
+            parser.error("Datum eller slug är redan upptaget")
+        if not old or a.replace_sha256:
             (ROOT/"bilder").mkdir(exist_ok=True);(ROOT/image).write_bytes(data);rows.append(story)
     pages=render(rows)
     for name,p in pages.items(): (ROOT/name).write_text(p)
