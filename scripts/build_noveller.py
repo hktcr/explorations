@@ -32,7 +32,8 @@ def validate(r):
     for k in ("title","deck","alt","caption","research"):
         assert isinstance(r[k],str) and r[k].strip()
     assert isinstance(r["paragraphs"],list) and all(isinstance(s,str) and s.strip() for s in r["paragraphs"])
-    assert sum(len(WORDS.findall(p)) for p in r["paragraphs"]) >= 700
+    assert sum(len(WORDS.findall(p)) for p in r["paragraphs"]) >= 700  # safety floor, not the editorial target
+    assert not any(re.search(r"https?://|\[\d+\]", p) for p in r["paragraphs"]), "Källmarkörer hör hemma efter slutscenen"
     assert 2 <= len(r["tags"]) <= 8 and len(set(t.casefold() for t in r["tags"])) == len(r["tags"])
     assert all(isinstance(t,str) and t == t.strip() and 2 <= len(t) <= 40 for t in r["tags"])
     assert len(r["sources"]) >= 2
