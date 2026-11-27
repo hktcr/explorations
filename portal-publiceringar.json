@@ -208,7 +208,9 @@
       },
       {
         "href": "vetenskaplig-briefing/lararsamarbete/index.html",
-        "kind": "published"
+        "kind": "published",
+        "at": "2026-11-27T08:27:02+00:00",
+        "commit": "c9e2cd69eebe06ddb4a45f36fbb0aba6aeff535e"
       }
     ]
   }
