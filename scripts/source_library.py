@@ -110,7 +110,7 @@ def merge_library(groups, library, taxonomy, identity):
         raise ValueError("Okänt format på den publika bibliografin")
     seen = set()
     for rec in library["sources"]:
-        strict_fields(rec, {"title", "url", "tags"})
+        strict_fields(rec, {"title", "url", "tags", "summary"} if "summary" in rec else {"title", "url", "tags"})
         title = public_label(rec["title"], 600)
         url = rec["url"]
         doi = public_address(url)
@@ -126,5 +126,7 @@ def merge_library(groups, library, taxonomy, identity):
                                             labels=set(), urls=set(), doi=doi, uses=[]))
         group["labels"].add(title)
         group["urls"].add(url)
+        if "summary" in rec:
+            group["summary"] = public_label(rec["summary"], 600)
         group["library"] = True
         group["tags"] = sorted(tags)

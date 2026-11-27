@@ -100,6 +100,7 @@
       const article=element("article",null,{class:"source-record"}),info=element("details",null),head=element("h2",rec.title);
       const summary=element("summary",null);
       summary.append(head,element("span",rec.count+(rec.count===1?" text":" texter"),{class:"usage-group"}));info.append(summary);
+      if(rec.summary)info.append(element("p",rec.summary));
       if(rec.aliases.length)info.append(element("p","Andra källrader: "+rec.aliases.join(" · "),{class:"usage-group"}));
       if(rec.url){const p=element("p",null);p.append(element("a",rec.doi?"DOI "+rec.doi:"Öppna originalkällan",{href:rec.url,rel:"noreferrer noopener"}));info.append(p);}
       const ul=element("ul",null);

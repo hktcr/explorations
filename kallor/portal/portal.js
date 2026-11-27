@@ -25,6 +25,11 @@
     block.addEventListener('toggle', () => {
       if (!block.open || block.children.length > 1) return;
       const info = document.createElement('p');
+      if (row.summary) {
+        const paragraph = document.createElement('p');
+        paragraph.textContent = row.summary;
+        block.append(paragraph);
+      }
       const records = new Map(row.uses.map(([id, path]) => [id, path]));
       for (const note of row.notes || []) {
         if (!records.has(note.doc) || !texts[note.doc] || !note.text) continue;
