@@ -179,6 +179,13 @@
       ]
     },
     {
+      "title": "Can AI help teachers? Experimental evidence on the effects of generative AI use and AI training on teachers’ lesson preparation",
+      "url": "https://doi.org/10.1016/j.caeo.2026.100427",
+      "tags": [
+        "artificial-intelligence"
+      ]
+    },
+    {
       "title": "The potential of digital tools to enhance mathematics and science learning in secondary schools: A context-specific meta-analysis",
       "url": "https://doi.org/10.1016/j.compedu.2020.103897",
       "tags": [
@@ -450,6 +457,13 @@
       ]
     },
     {
+      "title": "Embedding, Copilot, or Agent? L2 Teachers Modes of Collaboration With Generative AI in Providing Feedback on Writing Assignments: Rubric Influences, Workload Dynamics, and Barriers to Integration",
+      "url": "https://doi.org/10.1111/ejed.70795",
+      "tags": [
+        "artificial-intelligence"
+      ]
+    },
+    {
       "title": "Sampling Variability of Performance Assessments",
       "url": "https://doi.org/10.1111/j.1745-3984.1993.tb00424.x",
       "tags": [
@@ -493,10 +507,24 @@
       ]
     },
     {
+      "title": "AI-Mediated Feedback Improves Student Revisions: A Randomized Trial with FeedbackWriter in a Large Undergraduate Course",
+      "url": "https://doi.org/10.1145/3772318.3791121",
+      "tags": [
+        "artificial-intelligence"
+      ]
+    },
+    {
       "title": "A Large Scale Randomized Control Trial Showing LLM Generated Feedback Helps Low-Knowledge Middle School Math Students with Short-Term Learning",
       "url": "https://doi.org/10.1145/3774398.3811594",
       "tags": [
         "mathematics",
+        "artificial-intelligence"
+      ]
+    },
+    {
+      "title": "LLM-Generated Summaries for Teachers: A Randomized Field Experiment in a Digital Learning Platform",
+      "url": "https://doi.org/10.1145/3774398.3811606",
+      "tags": [
         "artificial-intelligence"
       ]
     },
@@ -615,6 +643,13 @@
     {
       "title": "From Chalkboards to Chatbots: Evaluating the Impact of Generative AI on Learning Outcomes in Nigeria",
       "url": "https://doi.org/10.1596/1813-9450-11125",
+      "tags": [
+        "artificial-intelligence"
+      ]
+    },
+    {
+      "title": "Not Faster, but Better: Generative AI and Teacher Skill in Peru",
+      "url": "https://doi.org/10.1596/1813-9450-11476",
       "tags": [
         "artificial-intelligence"
       ]
@@ -784,6 +819,13 @@
       "tags": [
         "artificial-intelligence",
         "professional-learning"
+      ]
+    },
+    {
+      "title": "Independent judgment before viewing generative AI recommendations reduces susceptibility to misleading advice: a randomized scenario-based experiment with preservice teachers",
+      "url": "https://doi.org/10.3389/fpsyg.2026.1936522",
+      "tags": [
+        "artificial-intelligence"
       ]
     },
     {
@@ -1068,41 +1110,6 @@
       "url": "https://www.upphandlingsmyndigheten.se/om-hallbar-upphandling/ekonomiskt-hallbar-upphandling/lcc-for-langsiktigt-hallbara-inkop/lcc-i-inkopsprocessen/",
       "tags": [
         "school-leadership"
-      ]
-    },
-    {
-      "title": "Not Faster, but Better: Generative AI and Teacher Skill in Peru",
-      "url": "https://doi.org/10.1596/1813-9450-11476",
-      "tags": [
-        "artificial-intelligence"
-      ]
-    },
-    {
-      "title": "Independent judgment before viewing generative AI recommendations reduces susceptibility to misleading advice: a randomized scenario-based experiment with preservice teachers",
-      "url": "https://doi.org/10.3389/fpsyg.2026.1936522",
-      "tags": [
-        "artificial-intelligence"
-      ]
-    },
-    {
-      "title": "LLM-Generated Summaries for Teachers: A Randomized Field Experiment in a Digital Learning Platform",
-      "url": "https://doi.org/10.1145/3774398.3811606",
-      "tags": [
-        "artificial-intelligence"
-      ]
-    },
-    {
-      "title": "AI-Mediated Feedback Improves Student Revisions: A Randomized Trial with FeedbackWriter in a Large Undergraduate Course",
-      "url": "https://doi.org/10.1145/3772318.3791121",
-      "tags": [
-        "artificial-intelligence"
-      ]
-    },
-    {
-      "title": "Can AI help teachers? Experimental evidence on the effects of generative AI use and AI training on teachers’ lesson preparation",
-      "url": "https://doi.org/10.1016/j.caeo.2026.100427",
-      "tags": [
-        "artificial-intelligence"
       ]
     }
   ]
