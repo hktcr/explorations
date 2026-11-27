@@ -17,8 +17,9 @@
     try {
       const res=await fetch(root,{cache:'no-cache'});if(!res.ok)return;
       const card=new DOMParser().parseFromString(await res.text(),'text/html').getElementById('novell-'+day);
-      const target=card?.querySelector('a[href]')?.getAttribute('href'), img=card?.querySelector('img[alt]')?.getAttribute('src');
-      if(!/^[a-z0-9]+(?:-[a-z0-9]+)*\.html$/.test(target||'') || !/^bilder\/[a-z0-9-]+-[a-f0-9]{64}\.webp$/.test(img||'')) return;
+      const titleLink=card?.querySelector('h2 a[href]'), title=titleLink?.textContent.trim();
+      const target=titleLink?.getAttribute('href'), img=card?.querySelector('img[alt]')?.getAttribute('src');
+      if(!title || !/^[a-z0-9]+(?:-[a-z0-9]+)*\.html$/.test(target||'') || !/^bilder\/[a-z0-9-]+-[a-f0-9]{64}\.webp$/.test(img||'')) return;
       if(!img.endsWith('-'+card.dataset.imageSha+'.webp'))return;
       const [article,picture]=await Promise.all([fetch(new URL(target,root),{cache:'no-cache'}),fetch(new URL(img,root),{cache:'no-cache'})]);
       if(!article.ok||!picture.ok)return;
@@ -27,6 +28,7 @@
       const src=URL.createObjectURL(bytes);
       try{const image=new Image();image.src=src;await image.decode();if(!image.naturalWidth||clock.format(Date.now())!==day)return;}
       finally{URL.revokeObjectURL(src);}
+      link.textContent='Ny novell: '+title;
       verified=day;link.href=new URL(target,root).href;toggle(true);
     }catch{toggle(false);}finally{active=false;}
   }
