@@ -215,7 +215,9 @@
       },
       {
         "href": "vetenskaplig-briefing/lararguide/index.html",
-        "kind": "published"
+        "kind": "published",
+        "at": "2026-11-27T15:10:25+00:00",
+        "commit": "d625126d890b5bd9c7b5cd01d9217f18b3c5e400"
       }
     ]
   }
