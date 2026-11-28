@@ -1424,6 +1424,16 @@
       "summary": "I ett randomiserat försök med engelska 16–18-åringar gav mänsklig matematikhandledning lägst upplevd svårighet och flest påbörjade uppgifter. AI-gruppen rapporterade mer ansträngning än gruppen med mänsklig handledare i den andra delen. Studien mätte reaktioner på en kort uppgift, inte varaktigt lärande.",
       "citation": "Ennion, M., & McLellan, R. (2026). Human tutoring, generative AI tutoring and independent internet search: A randomised between-subjects experiment on students’ responses to academic challenge. British Journal of Educational Technology. Advance online publication.",
       "evidence": "Utgivarens abstract: försöksvillkor och resultat"
+    },
+    {
+      "title": "Migration counts of raptors at Hawk Mountain, Pennsylvania, as indicators of population trends, 1934–1986",
+      "url": "https://doi.org/10.1093/auk/107.1.96",
+      "tags": [
+        "ornithology"
+      ],
+      "summary": "Hösträkningar av rovfåglar mellan 1934 och 1986 jämfördes med standardiserade perioder för varje art. Serien fångade nedgång och senare återhämtning hos flera arter som är känsliga för klorerade bekämpningsmedel. Den visar värdet av jämförbar mätinsats, men är inte en direkt räkning av hela häckningsbeståndet.",
+      "citation": "Bednarz, J. C., Klem, D., Jr., Goodrich, L. J., & Senner, S. E. (1990). Migration counts of raptors at Hawk Mountain, Pennsylvania, as indicators of population trends, 1934–1986. The Auk, 107(1), 96–109.",
+      "evidence": "Original-PDF: metod och resultat; identitet bekräftad hos Oxford Academic"
     }
   ]
 }
