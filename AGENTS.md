@@ -26,6 +26,10 @@ Portalens titellista använder verifierade Pages-tider. Den ordinarie indexbygga
 
 ## Underhåll av källbiblioteket
 
+**Bibliotekets täckning.** Allt avsiktligt sparat referensmaterial ska, efter deduplicering och verifiering, ha en sökbar post på en yta som respekterar källans åtkomst. Det är inte ett tematiskt urval. Registrering av en ny källa i vilket projekt som helst köar samma källidentitet, inte en separat kopia. Den öppna sajten får aldrig läsa privata index eller lagra privata referenser, fulltexter eller projektkopplingar i det offentliga repot. Håll sådana poster i godkänd privat sökväg eller registrera kvarstående åtkomstlucka utan publik exponering.
+
+Sökning omfattar bibliografiska metadata och verifierade sammanfattningar, med ordsökning och citerad exakt fras. Verifiera båda i serverad version när sökningen ändras. Semantisk sökning är ett tillval enbart om den kan göras utan kostnad och utan att privata data lämnar tillåten miljö. Saknad sammanfattning eller sökförmåga är en dokumenterad rest, inte ett skäl att räkna en post som fullständigt behandlad.
+
 Vid registrering eller rättelse köas källan för nästa ordinarie underhåll. Registrera stabil identitet (DOI eller verifierad kanonisk adress), senast belagda ändring, åtkomstklass, kategori, ämnestaggar, språkalias och en kort verifierad beskrivning. Registrera endast belagda användningar och deras returlänkar. Saknade datum eller beskrivningar får stå som okända. Den publika projektionen använder endast fält som stöds av det godkända schemat och offentliga bibliografiska metadata.
 
 Stäm av alla registrerade inflöden minst tre gånger per vecka. Jämför varje samlings ändringsmarkör och varje berörd posts version med senaste verifierade genomgång. Granska nya och ändrade poster samt fel där förutsättningarna har ändrats. Matcha på stabil identitet före införande. Vid rättelse, indragning eller ändrad åtkomst spåras berörda användningar och korrigeras i samma projektion. Ett återkommande fel behåller sin undantagspost tills ny evidens finns. Flytta kontrollmarkören först efter verifierad behandling eller dokumenterat undantag.
