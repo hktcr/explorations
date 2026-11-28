@@ -1356,6 +1356,43 @@
       "summary": "Intervjuer och planeringsmaterial från sex lärarstudenter i Kina visade att de bedömde AI-förslag mot bland annat läroplan, genomförbarhet och förväntade elevreaktioner. Ibland granskades detaljer noga medan AI-förslagets grundstruktur blev kvar. Studien mätte inte undervisningseffekter eller elevresultat.",
       "citation": "Peng, Y., Yip, S. Y., & Xie, W. (2026). Preservice teachers’ professional judgement in GenAI-supported lesson planning. Asia Pacific Education Review. Advance online publication.",
       "evidence": "Öppen originalartikel: abstract och resultat om planeringsval"
+    },
+    {
+      "title": "Pre-service teachers’ pedagogical decision-making with generative AI in lesson planning",
+      "url": "https://doi.org/10.1007/s13384-026-01039-z",
+      "tags": [
+        "artificial-intelligence",
+        "digital-education",
+        "digital-competence"
+      ],
+      "summary": "Arton lärarstudenter i Australien gjorde en egen lektionsplan, jämförde den med en AI-genererad plan och reviderade. Intervjuerna visade tre sätt att förhålla sig till AI-förslagen. Studien saknar jämförelsegrupp och visar inte om upplägget förbättrade pedagogiskt omdöme eller elevlärande.",
+      "citation": "Yip, S. Y., Ji, J., Pretorius, L., & Won, M. (2027). Pre-service teachers’ pedagogical decision-making with generative AI in lesson planning. The Australian Educational Researcher, 54, Article 16.",
+      "evidence": "Utgivarens abstract och studiedesign; publicerad online 2026, placerad i 2027 års volym"
+    },
+    {
+      "title": "Generative AI-enhanced STEM-education: Investigating teachers’ experiences from implementation in primary school settings",
+      "url": "https://doi.org/10.1007/s10763-026-10747-y",
+      "tags": [
+        "artificial-intelligence",
+        "digital-education",
+        "digital-competence",
+        "mathematics"
+      ],
+      "summary": "Elva svenska grundskollärare prövade AI-stöd under sex månader med workshoppar och klassrumsarbete. De beskrev stöd för idéer och anpassning, men också matematiska fel och material som behövde göras om. Studien visar erfarenheter, inte att AI sparade tid eller förbättrade elevernas lärande.",
+      "citation": "Walan, S., & Vinerean-Bernhoff, M. (2026). Generative AI-enhanced STEM-education: Investigating teachers’ experiences from implementation in primary school settings. International Journal of Science and Mathematics Education, 24, Article 123.",
+      "evidence": "Öppen originalartikel: abstract, metod och diskussion"
+    },
+    {
+      "title": "General responsibility orientations and situated professional judgment in generative artificial intelligence–supported teaching: A repeated-vignette study",
+      "url": "https://doi.org/10.3389/fpsyg.2026.1992619",
+      "tags": [
+        "artificial-intelligence",
+        "digital-education",
+        "digital-competence"
+      ],
+      "summary": "I en enkät tog 487 kinesiska lärare ställning till fyra AI-scenarier i fast ordning. Bedömningarna varierade både mellan lärare och mellan scenarier för samma lärare. Studien mätte ställningstaganden och avsikter, inte faktisk undervisning eller effekten av att använda AI.",
+      "citation": "Sun, X. (2026). General responsibility orientations and situated professional judgment in generative artificial intelligence–supported teaching: A repeated-vignette study. Frontiers in Psychology, 17, Article 1992619.",
+      "evidence": "Utgivarens abstract: accepterad artikel; slutligt formaterad fulltext inte tillgänglig"
     }
   ]
 }
