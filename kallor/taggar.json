@@ -147,6 +147,36 @@
         "likvärdig skola",
         "equity in education"
       ]
+    },
+    {
+      "id": "ornithology",
+      "sv": "Ornitologi",
+      "en": "Ornithology",
+      "aliases": [
+        "fåglar",
+        "fågelekologi",
+        "bird ecology"
+      ]
+    },
+    {
+      "id": "climate-change",
+      "sv": "Klimatförändringar",
+      "en": "Climate change",
+      "aliases": [
+        "klimatforskning",
+        "global uppvärmning",
+        "global warming"
+      ]
+    },
+    {
+      "id": "disturbance-ecology",
+      "sv": "Störningsekologi",
+      "en": "Disturbance ecology",
+      "aliases": [
+        "fritidsstörning",
+        "friluftsliv och fåglar",
+        "recreational disturbance"
+      ]
     }
   ]
 }
