@@ -678,7 +678,10 @@
       "url": "https://doi.org/10.1596/1813-9450-11476",
       "tags": [
         "artificial-intelligence"
-      ]
+      ],
+      "citation": "Glave, C. Z., Lopez, C., Molina, E., & Zárate, R. A. (2026). Not faster, but better: Generative AI and teacher skill in Peru (Policy Research Working Paper No. 11476). World Bank.",
+      "evidence": "Världsbankens arbetsrapport: publicerat abstract och resultat",
+      "summary": "Ett randomiserat program för 1 269 sjätteklasslärare vid 390 offentliga skolor i Lima ökade AI-användningen utan påvisad tidsbesparing i kärnuppgifterna. Lärare skrev bättre instruktioner till AI och upptäckte fler svaga svar. Utfallet gäller den studerade utbildningen och arbetsmiljön."
     },
     {
       "title": "Incentives for Mayors to Improve Learning: Evidence from State Reforms in Ceará, Brazil",
@@ -724,7 +727,9 @@
       "tags": [
         "artificial-intelligence"
       ],
-      "summary": "Stanfords forskningsöversikt från november 2026 omfattar 52 arbeten om AI i skolan. Resultaten för elevers lärande var mer lovande när de använde AI för att förstå nytt stoff än när verktyget gjorde uppgiften åt dem. Effekterna varierade mellan studierna, och elevernas positiva upplevelser motsvarades inte alltid av bättre kunskapsresultat."
+      "summary": "Stanfords forskningsöversikt från november 2026 omfattar 52 arbeten om AI i skolan. Resultaten för elevers lärande var mer lovande när de använde AI för att förstå nytt stoff än när verktyget gjorde uppgiften åt dem. Effekterna varierade mellan studierna, och elevernas positiva upplevelser motsvarades inte alltid av bättre kunskapsresultat.",
+      "citation": "Walker, S., Fesler, L., Martinez Claeys, J. P., Agnew, C., & Loeb, S. (2026). The evidence base on AI in K–12: A November 2026 review. SCALE Initiative, Stanford University.",
+      "evidence": "Originalöversikt: metod och avgränsningar hos Stanford SCALE"
     },
     {
       "title": "Effects of Ability Grouping on Secondary School Students: A Meta-analysis of Evaluation Findings",
@@ -863,7 +868,10 @@
       "url": "https://doi.org/10.3389/fpsyg.2026.1936522",
       "tags": [
         "artificial-intelligence"
-      ]
+      ],
+      "citation": "Yan, D. (2026). Independent judgment before viewing generative AI recommendations reduces susceptibility to misleading advice: A randomized scenario-based experiment with preservice teachers. Frontiers in Psychology, 17, Article 1936522.",
+      "evidence": "Öppen originalartikel: randomisering och resultat i abstract",
+      "summary": "Lärarstudenter som gjorde en egen bedömning innan de såg missvisande AI-råd svarade oftare i linje med expertbedömningen än de som fick rådet först. Försöket gällde simulerade situationer vid ett universitet, inte verklig undervisning eller elevutfall."
     },
     {
       "title": "Teacher-regulated generative AI in structured group tasks: independent performance and metacognitive judgements in higher education",
