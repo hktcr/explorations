@@ -255,6 +255,9 @@ def build_projection(root, version):
             sources[-1]["tags"] = data["tags"]
         if data.get("summary"):
             sources[-1]["summary"] = data["summary"]
+        for field in ("citation", "evidence"):
+            if data.get(field):
+                sources[-1][field] = data[field]
         if data.get("notes"):
             sources[-1]["notes"] = [dict(doc=doc, text=text) for doc,text in sorted(data["notes"])]
     sources.sort(key=lambda x:(-x["count"],norm(x["title"]),x["id"]))

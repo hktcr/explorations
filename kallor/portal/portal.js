@@ -29,8 +29,22 @@
         const paragraph = document.createElement('p');
         paragraph.textContent = row.summary;
         block.append(paragraph);
+        if (row.evidence) {
+          const basis = document.createElement('p');
+          basis.textContent = 'Läsunderlag: ' + row.evidence + '.';
+          block.append(basis);
+        }
       }
       const records = new Map(row.uses.map(([id, path]) => [id, path]));
+      if (row.citation) {
+        const ref = document.createElement('p');
+        ref.textContent = 'APA: ' + row.citation + (row.doi ? ' ' : '');
+        if (row.doi && /^10\.\d{4,9}\/[-._;()/:a-z0-9+]+$/i.test(row.doi)) {
+          const doiURL = new URL('https://doi.org/' + row.doi);
+          link(ref, doiURL.href, doiURL.href);
+        }
+        block.append(ref);
+      }
       for (const note of row.notes || []) {
         if (!records.has(note.doc) || !texts[note.doc] || !note.text) continue;
         const paragraph = document.createElement('p');
@@ -96,14 +110,19 @@
     try {
       const {sources,texts,taxonomy} = await load();
       if (sequence!==version) return;
-      const terms = fold(query).split(/\s+/).filter(Boolean);
+      const engine = window.ExplorationsSearch;
+      const clauses = [...fold(query).replace(/[“”„]/g, '"').matchAll(/"([^"]+)"|([^"\s]+)/g)]
+        .map(m=>m[1] ? {phrase:engine.words(m[1])} : {term:m[2]})
+        .filter(c=>c.term || c.phrase?.length);
       const base = sources.filter(row=>{
-        if (!terms.length) return true;
-        const haystack=fold([row.title,...row.aliases,row.doi,row.url,tags.queryText(row,taxonomy)].join(' '));
-        return terms.every(term=>haystack.includes(term)) || row.uses.some(([id])=>{
-          const title=fold(texts[id]?.title || '');
-          return terms.every(term=>title.includes(term));
-        });
+        if (!clauses.length) return !query;
+        const fields = [row.title,...row.aliases,row.doi,row.url,row.summary,row.citation,tags.queryText(row,taxonomy),
+          ...(row.notes || []).map(n=>n.text), ...row.uses.map(([id])=>texts[id]?.title)]
+          .filter(value=>typeof value === 'string' && value).map(fold);
+        const matches = c => c.term
+          ? fields.some(field=>field.includes(c.term))
+          : fields.some(field=>engine.phraseCount(engine.words(field), c.phrase)>0);
+        return clauses.every(matches);
       });
       tags.cloud(cloud,base,taxonomy,selected,id=>{
         if (selected.has(id)) selected.delete(id);

@@ -191,8 +191,12 @@
       "url": "https://doi.org/10.1016/j.compedu.2020.103897",
       "tags": [
         "digital-education",
-        "learning-outcomes"
-      ]
+        "learning-outcomes",
+        "mathematics"
+      ],
+      "summary": "En metaanalys av 92 studier jämförde digitalt stödd undervisning med undervisning utan digitala verktyg i matematik och naturvetenskap i årskurs 5–13. Det sammanvägda resultatet var positivt (g = 0,65) och lärarfortbildning var en moderator. Det är inte belägg för likvärdig effekt av varje verktyg.",
+      "citation": "Hillmayr, D., Ziernwald, L., Reinhold, F., Hofer, S. I., & Reiss, K. M. (2020). The potential of digital tools to enhance mathematics and science learning in secondary schools: A context-specific meta-analysis. Computers & Education, 153, Article 103897.",
+      "evidence": "Abstract i lärosätets publikationsregister"
     },
     {
       "title": "Explicit video-based instruction enhanced students’ online credibility evaluation skills: Did storifying instruction matter?",
@@ -439,8 +443,12 @@
       "title": "Leading the digitalization in K–12 education at the municipality level",
       "url": "https://doi.org/10.1080/2331186X.2024.2368997",
       "tags": [
-        "school-leadership"
-      ]
+        "school-leadership",
+        "digital-education"
+      ],
+      "summary": "Genom deltagande observation i ett nätverk med tre svenska kommuner undersöks hur huvudmän leder digitalisering. Studien pekar på samverkan, en gemensam bild av villkoren och stöd till skolledare och lärare. Den är inte en effektmätning av elevers lärande.",
+      "citation": "Reis-Andersson, J. (2024). Leading the digitalization in K–12 education at the municipality level. Cogent Education, 11(1), Article 2368997.",
+      "evidence": "Abstract och inledning"
     },
     {
       "title": "School Tracking and Development of Cognitive Skills",
@@ -1202,6 +1210,30 @@
         "professional-learning"
       ],
       "summary": "Tolv lärare i två gymnasielag arbetade med planeringsverktyget CoRe för hållbar utveckling. Studien beskriver hur lärarna planerade och resonerade; den jämför inte elevresultat eller olika sätt att sätta samman arbetslag."
+    },
+    {
+      "title": "The effects of using exploratory computerized environments in grades 1 to 8 mathematics: a meta-analysis of research",
+      "url": "https://doi.org/10.1186/s40594-015-0022-z",
+      "tags": [
+        "digital-education",
+        "mathematics",
+        "learning-outcomes"
+      ],
+      "summary": "En metaanalys av 24 studier om utforskande datormiljöer i matematik i årskurs 1–8 fann en genomsnittlig effektstorlek på 0,60 (95 procents konfidensintervall 0,53–0,66). Värdet 0,65 i originalet gäller årskurs 6–8. Resultatet avser undervisningsmiljöerna i studierna, inte all skärmanvändning.",
+      "citation": "Sokolowski, A., Li, Y., & Willson, V. (2015). The effects of using exploratory computerized environments in grades 1 to 8 mathematics: A meta-analysis of research. International Journal of STEM Education, 2, Article 8.",
+      "evidence": "Fulltext: resultat och tabell 3"
+    },
+    {
+      "title": "An Efficacy Study of a Digital Core Curriculum for Grade 5 Mathematics",
+      "url": "https://doi.org/10.1177/2332858419850482",
+      "tags": [
+        "digital-education",
+        "mathematics",
+        "learning-outcomes"
+      ],
+      "summary": "En randomiserad skolstudie prövade ett digitalt huvudläromedel i matematik i årskurs 5 i amerikanska West Virginia. På delstatens årsslutsprov påvisades ingen statistiskt säker fördel. Resultatet gäller ett specifikt läromedel och införande; det visar inte att alla digitala arbetssätt är likvärdiga.",
+      "citation": "Shechtman, N., Roschelle, J., Feng, M., & Singleton, C. (2019). An efficacy study of a digital core curriculum for grade 5 mathematics. AERA Open, 5(2).",
+      "evidence": "Fulltext: metod och huvudsakliga resultat i tabell 2"
     }
   ]
 }

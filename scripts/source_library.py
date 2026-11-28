@@ -110,7 +110,12 @@ def merge_library(groups, library, taxonomy, identity):
         raise ValueError("Okänt format på den publika bibliografin")
     seen = set()
     for rec in library["sources"]:
-        strict_fields(rec, {"title", "url", "tags", "summary"} if "summary" in rec else {"title", "url", "tags"})
+        required = {"title", "url", "tags"}
+        optional = {"summary", "citation", "evidence"}
+        if not isinstance(rec, dict) or not required <= rec.keys() or set(rec) - required - optional:
+            raise ValueError("Oväntade eller saknade fält i källbiblioteket")
+        if "evidence" in rec and "summary" not in rec:
+            raise ValueError("Läsunderlag utan sammanfattning")
         title = public_label(rec["title"], 600)
         url = rec["url"]
         doi = public_address(url)
@@ -128,5 +133,8 @@ def merge_library(groups, library, taxonomy, identity):
         group["urls"].add(url)
         if "summary" in rec:
             group["summary"] = public_label(rec["summary"], 600)
+        for field, limit in (("citation", 600), ("evidence", 160)):
+            if field in rec:
+                group[field] = public_label(rec[field], limit)
         group["library"] = True
         group["tags"] = sorted(tags)
