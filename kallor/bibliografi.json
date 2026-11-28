@@ -853,7 +853,10 @@
       "tags": [
         "artificial-intelligence",
         "professional-learning"
-      ]
+      ],
+      "summary": "Lärarstudenter förbättrade sina uppgifter i undervisningsdesign efter åtta veckor. Forskarna såg ingen statistiskt säker skillnad i totalpoäng mellan AI-samarbete och lärarsamarbete, men skilda mönster i delmått och upplevelse. Det är inte ett belägg för att arbetssätten är likvärdiga eller ger samma elevresultat.",
+      "citation": "Wang, B., Zhang, Q., Zheng, W., Jiang, Y., Gao, J., & Li, M. (2026). Comparing human-AI collaboration and teacher-student collaboration in developing pre-service teachers’ instructional design competence: An experimental study. Frontiers in Psychology, 17, Article 1869502.",
+      "evidence": "Öppen originalartikel: metod och resultat i abstract"
     },
     {
       "title": "Independent judgment before viewing generative AI recommendations reduces susceptibility to misleading advice: a randomized scenario-based experiment with preservice teachers",
@@ -868,7 +871,10 @@
       "tags": [
         "artificial-intelligence",
         "learning-outcomes"
-      ]
+      ],
+      "summary": "Efter en kort randomiserad gruppaktivitet fick högskolestudenterna med AI-stöd något högre resultat på ett omedelbart enskilt eftertest (126 deltagare; beskrivande d = 0,20). Forskarna såg inga statistiskt säkra skillnader i tilltro eller träffsäkerhet i självbedömningen. Varaktigt lärande undersöktes inte.",
+      "citation": "Zhang, W., Yang, M., Bai, L., Liu, Y., & Dong, X. (2026). Teacher-regulated generative AI in structured group tasks: Independent performance and metacognitive judgements in higher education. Frontiers in Psychology, 17, Article 2007654.",
+      "evidence": "Öppen originalartikel: metod och resultat i abstract"
     },
     {
       "title": "Perspectives on the Validity of Classroom Assessments",
@@ -1393,6 +1399,18 @@
       "summary": "I en enkät tog 487 kinesiska lärare ställning till fyra AI-scenarier i fast ordning. Bedömningarna varierade både mellan lärare och mellan scenarier för samma lärare. Studien mätte ställningstaganden och avsikter, inte faktisk undervisning eller effekten av att använda AI.",
       "citation": "Sun, X. (2026). General responsibility orientations and situated professional judgment in generative artificial intelligence–supported teaching: A repeated-vignette study. Frontiers in Psychology, 17, Article 1992619.",
       "evidence": "Utgivarens abstract: accepterad artikel; slutligt formaterad fulltext inte tillgänglig"
+    },
+    {
+      "title": "Human tutoring, generative AI tutoring and independent internet search: A randomised between-subjects experiment on students’ responses to academic challenge",
+      "url": "https://doi.org/10.1111/bjet.70100",
+      "tags": [
+        "artificial-intelligence",
+        "digital-education",
+        "mathematics"
+      ],
+      "summary": "I ett randomiserat försök med engelska 16–18-åringar gav mänsklig matematikhandledning lägst upplevd svårighet och flest påbörjade uppgifter. AI-gruppen rapporterade mer ansträngning än gruppen med mänsklig handledare i den andra delen. Studien mätte reaktioner på en kort uppgift, inte varaktigt lärande.",
+      "citation": "Ennion, M., & McLellan, R. (2026). Human tutoring, generative AI tutoring and independent internet search: A randomised between-subjects experiment on students’ responses to academic challenge. British Journal of Educational Technology. Advance online publication.",
+      "evidence": "Utgivarens abstract: försöksvillkor och resultat"
     }
   ]
 }
