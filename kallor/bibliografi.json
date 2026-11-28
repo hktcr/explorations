@@ -59,7 +59,8 @@
       "url": "https://discovery.ucl.ac.uk/id/eprint/10138571/",
       "tags": [
         "learning-outcomes"
-      ]
+      ],
+      "summary": "En systematisk översikt om återkoppling och elevers prestationer som skiljer mellan återkopplingstyper och granskar studiernas kvalitet. Den uppmärksammar att tidigare synteser har blandat olika typer av återkoppling och flerledade insatser."
     },
     {
       "title": "The misallocation of students to academic sets in maths: A study of secondary schools in England",
@@ -333,7 +334,8 @@
         "artificial-intelligence",
         "learning-outcomes",
         "mathematics"
-      ]
+      ],
+      "summary": "I ett fältexperiment i gymnasiematematik jämfördes en öppen AI-chatt, en version med pedagogiska begränsningar och undervisning utan AI. Studien skiljer prestation under övning från vad eleverna kunde visa när stödet sedan togs bort."
     },
     {
       "title": "Computer-assisted learning in the real world: How Khan Academy influences student math learning",
@@ -550,7 +552,8 @@
       "tags": [
         "artificial-intelligence",
         "learning-outcomes"
-      ]
+      ],
+      "summary": "En randomiserad studie med 116 elever i årskurs 5 och 6 jämförde forskarskapade och AI-genererade multimediainslag för naturvetenskapliga begrepp. Den prövade också om kognitiv belastning hängde ihop med resultaten."
     },
     {
       "title": "Classroom Discussions of Social Issues in the Age of Generative AI: Epistemic Vigilance Against Bias and Bullshit",
@@ -882,21 +885,24 @@
       "tags": [
         "artificial-intelligence",
         "learning-outcomes"
-      ]
+      ],
+      "summary": "En jämförelse av GPT-4 och fyra utbildade bedömare på 40 engelska uppsatser. Studien undersöker bland annat hur strängt de olika bedömarna använder skalan och hur ofta GPT-4 undviker skalans ytterlägen."
     },
     {
       "title": "How Principals Affect Students and Schools: A Systematic Synthesis of Two Decades of Research",
       "url": "https://doi.org/10.59656/el-sb1065.001",
       "tags": [
         "school-leadership"
-      ]
+      ],
+      "summary": "En systematisk forskningssyntes om rektorers betydelse för skolor, lärare och elever. Den sammanfattar forskning över två årtionden och skiljer resultat om ledarskap från frågor där forskningsunderlaget är svagare."
     },
     {
       "title": "Digitally Competent School Organizations – Developing Supportive Organizational Infrastructures",
       "url": "https://doi.org/10.7577/seminar.2976",
       "tags": [
         "school-leadership"
-      ]
+      ],
+      "summary": "Intervjuer med skolledare och teknikstöd vid fem gymnasieskolor belyser hur organisation, kompetensutveckling och stöd påverkar arbetet med digitalisering. Studien undersöker organisatoriska villkor snarare än effekter på elevresultat."
     },
     {
       "title": "Digital technology (2019)",
@@ -904,7 +910,8 @@
       "tags": [
         "digital-education",
         "school-leadership"
-      ]
+      ],
+      "summary": "En forskningsöversikt beställd av Education Endowment Foundation för deras vägledning om digital teknik i undervisningen. Den ger bakgrunden till vägledningen och är inte en utvärdering av en viss produkt."
     },
     {
       "title": "Tutor CoPilot: A Human-AI Approach for Scaling Real-Time Expertise",
@@ -976,7 +983,8 @@
       "url": "https://www.bostonfed.org/publications/research-department-working-paper/2008/classroom-peer-effects-and-student-achievement.aspx",
       "tags": [
         "learning-outcomes"
-      ]
+      ],
+      "summary": "Arbetsrapporten använder amerikanska klass- och lärardata för att pröva kamrateffekter. Sambanden är små i flera modeller men varierar med elevens och klasskamraternas tidigare prestation i andra modeller. Resultaten beror på hur modellen specificeras."
     },
     {
       "title": "A laptop for every child? The impact of ICT on educational outcomes",
@@ -1005,7 +1013,8 @@
       "url": "https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/informationssakerhet/kontinuitetshantering/",
       "tags": [
         "data-protection"
-      ]
+      ],
+      "summary": "IMY beskriver hur verksamheter kan förbereda sig för avbrott i behandling av personuppgifter: kartlägga risker, fördela ansvar, prova reservrutiner och följa upp incidenter."
     },
     {
       "title": "Konsekvensbedömning enligt GDPR",
@@ -1033,7 +1042,8 @@
       "url": "https://www.skolverket.se/download/18.3770ea921807432e6c71464/1653295321140/pdf9864.pdf",
       "tags": [
         "information-literacy"
-      ]
+      ],
+      "summary": "Skolverket förklarar hur svenskämnets syfte, långsiktiga mål, centrala innehåll och bedömningskriterier hänger ihop. Materialet är ett planerings- och tolkningsstöd till kursplanen, inte en studie av en undervisningsmetod."
     },
     {
       "title": "Råd om AI, chattbottar och liknande verktyg",
@@ -1041,7 +1051,8 @@
       "tags": [
         "artificial-intelligence",
         "digital-competence"
-      ]
+      ],
+      "summary": "Skolverket tar upp källkritik, personuppgifter, tillgång och pedagogiskt syfte när skolan bedömer AI-verktyg. Vägledningen skiljer AI som stöd från lärarens ansvar för undervisning och betyg."
     },
     {
       "title": "Medie- och informationskunnighet och digital kompetens",
@@ -1090,7 +1101,8 @@
       "url": "https://www.skolverket.se/sok-publikationer/publikationsserier/styrdokument/2025/laroplan-for-grundskolan-forskoleklassen-och-fritidshemmet---lgr22",
       "tags": [
         "data-protection"
-      ]
+      ],
+      "summary": "Skolverkets läroplan anger skolans värdegrund, övergripande mål och riktlinjer och innehåller kursplaner för grundskolan. Används som styrdokument, inte som forskningsbelägg för en viss metod."
     },
     {
       "title": "Lärverktyg på undervisningsnivå",
@@ -1120,6 +1132,76 @@
       "tags": [
         "school-leadership"
       ]
+    },
+    {
+      "title": "Tendencies in technology use in initial reading and writing education",
+      "url": "https://doi.org/10.3389/feduc.2026.1738414",
+      "tags": [
+        "digital-education",
+        "reading"
+      ],
+      "summary": "Kartlägger tio tidigare forskningsöversikter om digitala verktyg i tidig läs- och skrivundervisning. Beskriver olika arbetssätt och blandade utfall; skattar inte en ny samlad effekt."
+    },
+    {
+      "title": "Mobile device use in the primary school classroom and impact on pupil literacy and numeracy attainment: A systematic review",
+      "url": "https://doi.org/10.1002/cl2.1417",
+      "tags": [
+        "digital-education",
+        "reading",
+        "mathematics",
+        "learning-outcomes"
+      ],
+      "summary": "Översikt av 18 randomiserade studier med barn i åldrarna 4–12 år. De studerade insatserna gav i genomsnitt bättre kortsiktiga resultat, men jämförelserna varierade och alla studier hade förhöjd eller oklar risk för bias."
+    },
+    {
+      "title": "Does subjective task value mediate the effect of digital simulation-based explorations on fraction learning? A randomized-controlled trial",
+      "url": "https://doi.org/10.1007/s11858-026-01793-5",
+      "tags": [
+        "digital-education",
+        "mathematics",
+        "learning-outcomes"
+      ],
+      "summary": "En randomiserad studie prövar digitala simuleringsövningar om bråk och undersöker om elevernas upplevda uppgiftsvärde kan förklara en del av sambandet med lärandet."
+    },
+    {
+      "title": "Determining an Evidence Base for Particular Fields of Educational Practice: A Systematic Review of Meta-Analyses on Effective Mathematics and Science Teaching",
+      "url": "https://doi.org/10.3389/fpsyg.2022.873995",
+      "tags": [
+        "teaching-methods",
+        "mathematics"
+      ],
+      "summary": "Jämför 41 metaanalyser om matematik- och naturvetenskapsundervisning och undersöker hur väl resultaten kan vägleda beslut i ett bestämt ämne och sammanhang."
+    },
+    {
+      "title": "Following the Impact Chain of the LA Cockpit: An Intervention Study Investigating a Teacher Dashboard’s Effect on Student Learning",
+      "url": "https://doi.org/10.18608/jla.2024.8399",
+      "tags": [
+        "digital-education",
+        "assessment",
+        "learning-outcomes"
+      ],
+      "summary": "En kvasiexperimentell klassrumsstudie jämförde 22 klasser med eller utan stöd från en lärarpanel. Den undersöker stegen från lärarens användning av panelen och återkoppling till elevresultat."
+    },
+    {
+      "title": "Bomb-radiocarbon validated otoliths reveal 130-year lifespans and declining recruitment for blue sucker Cycleptus elongatus of the Upper Missouri River, Montana, USA",
+      "url": "https://doi.org/10.1038/s42003-026-11219-3",
+      "tags": [],
+      "summary": "Forskarna kombinerade årsband i fiskarnas hörselstenar med en regional kol-14-kurva. Metoderna stödjer mycket höga åldersskattningar, men individen som skattades till 130 år saknar eget kol-14-värde i tabell 1."
+    },
+    {
+      "title": "A complete otolith-based bomb radiocarbon chronology for the Baltic Sea and its use in the age validation of regional fishes",
+      "url": "https://doi.org/10.1093/icesjms/fsaf220",
+      "tags": [],
+      "summary": "En kol-14-kurva för Östersjön 1938–2018 användes för att pröva åldersskattningar från hörselstenar. Kurvan gav stöd för skattningar upp till 22 år för sill och 18 år för skarpsill."
+    },
+    {
+      "title": "Collective pedagogical content knowledge for teaching sustainable development",
+      "url": "https://doi.org/10.1007/s10763-023-10421-7",
+      "tags": [
+        "teaching-methods",
+        "professional-learning"
+      ],
+      "summary": "Tolv lärare i två gymnasielag arbetade med planeringsverktyget CoRe för hållbar utveckling. Studien beskriver hur lärarna planerade och resonerade; den jämför inte elevresultat eller olika sätt att sätta samman arbetslag."
     }
   ]
 }
