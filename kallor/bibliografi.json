@@ -176,8 +176,12 @@
       "url": "https://doi.org/10.1007/s43477-024-00130-w",
       "tags": [
         "digital-education",
-        "school-leadership"
-      ]
+        "school-leadership",
+        "professional-learning"
+      ],
+      "summary": "En tvåårsrapport från en svensk pilot i fem skolor i fyra kommuner beskriver hur skolteam förbereddes för och började använda digitala läromedel och analysverktyg. Rapporten handlar om hur införandet organiserades och vilka hinder som märktes; den fastställer inte effekter på elevernas resultat.",
+      "citation": "Nordmark, S., Augustsson, H., Davidsson, M., Andersson-Gidlund, T., Holmberg, K., Mohseni, Z., Rack, J., & Masiello, I. (2024). Piloting systematic implementation of educational technology in Swedish K-12 schools: Two-years-in report. Global Implementation Research and Applications, 4, 309–323.",
+      "evidence": "Fulltext: inledning och pilotens genomförande"
     },
     {
       "title": "Can AI help teachers? Experimental evidence on the effects of generative AI use and AI training on teachers’ lesson preparation",
@@ -401,8 +405,13 @@
       "title": "Bringing Disability Into the Discussion: Examining Technology Accessibility as An Equity Concern in the Field of Instructional Technology",
       "url": "https://doi.org/10.1080/15391523.2019.1566037",
       "tags": [
-        "accessibility"
-      ]
+        "accessibility",
+        "educational-equity",
+        "digital-education"
+      ],
+      "summary": "En litteraturöversikt om teknik i amerikanska K–12-skolor lyfter bristande tillgänglighet som ett likvärdighetsproblem: elever med funktionsnedsättning ska kunna ta del av samma digitalt stödda lärande. Underlaget visar inte storleken på effekten av en specifik anpassning.",
+      "citation": "Shaheen, N. L., & Lohnes Watulak, S. (2019). Bringing disability into the discussion: Examining technology accessibility as an equity concern in the field of instructional technology. Journal of Research on Technology in Education, 51(2), 187–201.",
+      "evidence": "Publicerat abstract; inte helartikelgranskad"
     },
     {
       "title": "Digital platform work reinforcing performativity: teacher responses to work intensification explored through trace ethnography",
@@ -582,8 +591,13 @@
       "title": "Instruction Increases Canadian Students’ Preference for and Use of Lateral Reading Strategies to Fact-Check Online Information",
       "url": "https://doi.org/10.1177/23328584231192106",
       "tags": [
-        "information-literacy"
-      ]
+        "information-literacy",
+        "digital-competence",
+        "teaching-methods"
+      ],
+      "summary": "Kanadensiska elever som undervisades i lateral läsning slog oftare upp vem som stod bakom en uppgift och jämförde källor. Elevbeteendet förbättrades även jämfört med lärarmatchade kontrollklasser. Jämförelsen var inte randomiserad; uppföljningen omfattade bara en del av eleverna.",
+      "citation": "Brodsky, J. E., Brooks, P. J., Pavlounis, D., & Johnston, J. L. (2023). Instruction increases Canadian students’ preference for and use of lateral reading strategies to fact-check online information. AERA Open, 9, Article 23328584231192106.",
+      "evidence": "Fulltext: metod och resultat"
     },
     {
       "title": "The Language Factor in Mathematics Tests",
@@ -908,9 +922,12 @@
       "title": "Digitally Competent School Organizations – Developing Supportive Organizational Infrastructures",
       "url": "https://doi.org/10.7577/seminar.2976",
       "tags": [
-        "school-leadership"
+        "school-leadership",
+        "digital-competence"
       ],
-      "summary": "Intervjuer med skolledare och teknikstöd vid fem gymnasieskolor belyser hur organisation, kompetensutveckling och stöd påverkar arbetet med digitalisering. Studien undersöker organisatoriska villkor snarare än effekter på elevresultat."
+      "summary": "Intervjuer med skolledare och teknikstöd vid fem gymnasieskolor belyser hur organisation, kompetensutveckling och stöd påverkar arbetet med digitalisering. Studien undersöker organisatoriska villkor snarare än effekter på elevresultat.",
+      "citation": "Pettersson, F. (2018). Digitally competent school organizations: Developing supportive organizational infrastructures. Seminar.net, 14(2), 132–143.",
+      "evidence": "Publicerat abstract, bibliografisk identitet och metodbeskrivning"
     },
     {
       "title": "Digital technology (2019)",
