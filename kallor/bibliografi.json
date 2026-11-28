@@ -1234,6 +1234,43 @@
       "summary": "En randomiserad skolstudie prövade ett digitalt huvudläromedel i matematik i årskurs 5 i amerikanska West Virginia. På delstatens årsslutsprov påvisades ingen statistiskt säker fördel. Resultatet gäller ett specifikt läromedel och införande; det visar inte att alla digitala arbetssätt är likvärdiga.",
       "citation": "Shechtman, N., Roschelle, J., Feng, M., & Singleton, C. (2019). An efficacy study of a digital core curriculum for grade 5 mathematics. AERA Open, 5(2).",
       "evidence": "Fulltext: metod och huvudsakliga resultat i tabell 2"
+    },
+    {
+      "title": "Measures matter: A meta-analysis of the effects of educational apps on preschool to Grade 3 children’s literacy and math skills",
+      "url": "https://doi.org/10.1177/23328584211004183",
+      "tags": [
+        "digital-education",
+        "mathematics",
+        "reading",
+        "learning-outcomes"
+      ],
+      "summary": "En metaanalys av 36 interventionsstudier om utbildningsappar från förskola till årskurs 3 gav i snitt g = 0,31 (95 procents konfidensintervall 0,20–0,42). Resultaten varierade mycket och var större med forskarutvecklade än standardiserade mått. Studien ger inte stöd för att överföra den siffran till högstadiet.",
+      "citation": "Kim, J., Gilbert, J., Yu, Q., & Gale, C. (2021). Measures matter: A meta-analysis of the effects of educational apps on preschool to Grade 3 children’s literacy and math skills. AERA Open, 7, Article 23328584211004183.",
+      "evidence": "Fulltext: resultat och tabell 4"
+    },
+    {
+      "title": "Measuring digital literacy across ages and over time: Development and validation of a performance-based assessment",
+      "url": "https://doi.org/10.1007/s10639-025-13592-8",
+      "tags": [
+        "digital-competence",
+        "assessment",
+        "educational-equity"
+      ],
+      "summary": "Forskarna prövade ett DigComp-baserat prov för digital kompetens i Hongkong. Gemensamma uppgifter band ihop tre åldersgrupper och två mättillfällen; uppgifter som fungerade olika mellan grupper användes inte för att länka skalorna. Det är en valideringsstudie, inte ett försök som visar effekten av ett undervisningsprogram.",
+      "citation": "Pan, Q., Reichert, F., Liang, Q., de la Torre, J., & Law, N. (2025). Measuring digital literacy across ages and over time: Development and validation of a performance-based assessment. Education and Information Technologies, 30(15), 22065–22100.",
+      "evidence": "Fulltext: metod och resultat, avsnitt 3 och 4"
+    },
+    {
+      "title": "Is technology always helpful?: A critical review of the impact on learning outcomes of education technology in supporting formative assessment in schools",
+      "url": "https://doi.org/10.1080/02671522.2021.1907778",
+      "tags": [
+        "digital-education",
+        "assessment",
+        "learning-outcomes"
+      ],
+      "summary": "En systematisk översikt av 55 studier fann visst stöd för digital formativ bedömning i yngre barns matematik och läsning. Underlaget räckte inte för att visa att den fungerar bättre än formativ bedömning utan teknik, eller för generella slutsatser om äldre elever.",
+      "citation": "See, B. H., Gorard, S., Lu, B., Dong, L., & Siddiqui, N. (2022). Is technology always helpful?: A critical review of the impact on learning outcomes of education technology in supporting formative assessment in schools. Research Papers in Education, 37(6), 1064–1096.",
+      "evidence": "Publicerat abstract och fulltextens metod"
     }
   ]
 }
