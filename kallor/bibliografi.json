@@ -1320,6 +1320,42 @@
       "summary": "Inledning till ett temanummer om hur friluftsliv kan störa fåglar. Drewitt beskriver brittiska förändringar i tillträdesrätt som skäl att undersöka när störning påverkar fågelpopulationer och vilka förvaltningsåtgärder som fungerar. Texten redovisar inga egna effektskattningar.",
       "citation": "Drewitt, A. L. (2007). Birds and recreational disturbance. Ibis, 149(Suppl. 1), 1–2.",
       "evidence": "Original-PDF: inledning till temanummer"
+    },
+    {
+      "title": "AI assistance for discretionary work: Increasing feedback provision in higher education",
+      "url": "https://doi.org/10.48550/arXiv.2606.03095",
+      "tags": [
+        "artificial-intelligence",
+        "assessment",
+        "digital-education"
+      ],
+      "summary": "I ett randomiserat försök i en amerikansk universitetskurs ökade AI-utkast sannolikheten att 11 lärarassistenter gav frivillig återkoppling med 10,8 procentenheter. Den totala tiden i återkopplingssteget ökade med 10,55 sekunder per frågesvar. Ingen elevkunskap mättes. Förtryck.",
+      "citation": "Mahinpei, R., Dean, V., Fong, R., Liu, L. T., & Horta Ribeiro, M. (2026). AI assistance for discretionary work: Increasing feedback provision in higher education [Preprint]. arXiv.",
+      "evidence": "Förtryck v2, publicerat abstract: design och resultat"
+    },
+    {
+      "title": "Standard-anchored delegation in teachers’ use of generative AI",
+      "url": "https://arxiv.org/abs/2611.27533",
+      "tags": [
+        "artificial-intelligence",
+        "digital-competence",
+        "digital-education"
+      ],
+      "summary": "I en liten intervjustudie i Punjab beskrev lärare att de lättare tog hjälp av AI när de kunde kontrollera resultatet mot exempelvis en lärobok eller matris. Ämneskunskap, tid och organisatoriskt stöd påverkade möjligheten att granska. Studien mätte inte effekter på undervisning eller elever. Förtryck.",
+      "citation": "Farooq, M. S., Khan, M. A., & Raza, M. J. (2026). Standard-anchored delegation in teachers’ use of generative AI [Preprint]. arXiv.",
+      "evidence": "Förtryck v1, publicerat abstract: intervjuer och tolkning"
+    },
+    {
+      "title": "Preservice teachers’ professional judgement in GenAI-supported lesson planning",
+      "url": "https://doi.org/10.1007/s12564-026-10172-4",
+      "tags": [
+        "artificial-intelligence",
+        "digital-education",
+        "digital-competence"
+      ],
+      "summary": "Intervjuer och planeringsmaterial från sex lärarstudenter i Kina visade att de bedömde AI-förslag mot bland annat läroplan, genomförbarhet och förväntade elevreaktioner. Ibland granskades detaljer noga medan AI-förslagets grundstruktur blev kvar. Studien mätte inte undervisningseffekter eller elevresultat.",
+      "citation": "Peng, Y., Yip, S. Y., & Xie, W. (2026). Preservice teachers’ professional judgement in GenAI-supported lesson planning. Asia Pacific Education Review. Advance online publication.",
+      "evidence": "Öppen originalartikel: abstract och resultat om planeringsval"
     }
   ]
 }
