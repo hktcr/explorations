@@ -531,7 +531,10 @@
       "url": "https://doi.org/10.1145/3772318.3791121",
       "tags": [
         "artificial-intelligence"
-      ]
+      ],
+      "summary": "I en randomiserad högskolestudie med 354 ekonomistudenter blev uppsatsernas revideringar bättre när lärarassistenter fick AI-förslag som de kunde redigera eller avvisa. Författarna såg ingen statistiskt säker skillnad på det frivilliga eftertestet. Bättre uppsatser var inte samma sak som visad kunskapsvinst.",
+      "citation": "Lu, X., Ju, K. P., Dudley, M., Sano, L., & Wang, X. (2026). AI-mediated feedback improves student revisions: A randomized trial with FeedbackWriter in a large undergraduate course. In Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems. Association for Computing Machinery.",
+      "evidence": "Författarnas öppna arXiv-version 2602.16820v1: metod och tabell 4"
     },
     {
       "title": "A Large Scale Randomized Control Trial Showing LLM Generated Feedback Helps Low-Knowledge Middle School Math Students with Short-Term Learning",
@@ -570,7 +573,9 @@
         "artificial-intelligence",
         "learning-outcomes"
       ],
-      "summary": "En randomiserad studie med 116 elever i årskurs 5 och 6 jämförde forskarskapade och AI-genererade multimediainslag för naturvetenskapliga begrepp. Den prövade också om kognitiv belastning hängde ihop med resultaten."
+      "summary": "En randomiserad studie med 116 elever i årskurs 5 och 6 jämförde forskarskapade och AI-genererade multimediainslag för naturvetenskapliga begrepp. Den prövade också om kognitiv belastning hängde ihop med resultaten.",
+      "citation": "Waterfield, D. A., Kunemund, R., Xie, E., Welker, N. P., McClain, S., Aigotti, S., Bellamkonda, V. A., Rhodes, R. T., Brinkley, C., McMahon, E., & Kennedy, M. J. (2026). Comparing use of human-created to AI-generated instructional materials to teach science vocabulary: A randomized controlled trial. Journal of Special Education Technology. Advance online publication.",
+      "evidence": "Utgivarens publicerade abstract: randomisering, urval och ordförrådsresultat"
     },
     {
       "title": "Classroom Discussions of Social Issues in the Age of Generative AI: Epistemic Vigilance Against Bias and Bullshit",
